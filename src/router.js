@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import home from './views/home.vue'
-import chat from './views/chat.vue'
-import carApp from './views/car-app.vue'
-import reviewApp from './views/review-app.vue'
+import boardDetails from './views/board-details.vue'
+import boardList from './views/board-list.vue'
+import taskDetails from './views/task-details.vue'
 import loginSignup from './views/login-signup.vue'
 import userDetails from './views/user-details.vue'
 
@@ -14,19 +14,19 @@ const routes = [
     component: home
   },
   {
-    path: '/car',
-    name: 'car-app',
-    component: carApp
+    path: '/board',
+    name: 'board-list',
+    component: boardList
   },
   {
-    path: '/review',
-    name: 'review',
-    component: reviewApp
+    path: '/board/:id',
+    name: 'board-details',
+    component: boardDetails
   },
   {
-    path: '/chat',
-    name: 'chat',
-    component: chat
+    path: '/task/:id',
+    name: 'task-deatils',
+    component: taskDetails
   },
   {
     path: '/login',
