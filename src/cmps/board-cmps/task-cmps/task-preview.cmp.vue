@@ -6,7 +6,9 @@
 <script>
 export default {
     props: {
-        task: Object
+        task: Object,
+        boardId: String,
+        groupId: String,
     },
     name: 'task-preview',
     components: {},
@@ -16,7 +18,8 @@ export default {
     created() { },
     methods: {
         goToDetails() {
-            this.$router.push('/task/' + this.task.id)
+            const taskId = this.task.id
+            this.$router.push('/task/' + this.boardId + '/' + this.groupId + '/' + taskId)
         }
     },
     computed: {},

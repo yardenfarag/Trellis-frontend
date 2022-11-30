@@ -1,7 +1,10 @@
 <template>
     <section v-if="board" class="board-details">
         <ul>
-            <li v-for="group in board.groups" :key="group._id"><group-details :group="group" /></li>
+            <li v-for="group in board.groups" 
+            :key="group.id"><group-details 
+            :group="group"
+            :boardId="board._id" /></li>
         </ul>
     </section>
 </template>
