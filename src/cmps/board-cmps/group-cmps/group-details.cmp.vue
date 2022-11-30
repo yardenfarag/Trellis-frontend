@@ -1,14 +1,19 @@
 <template>
     <section class="group-details">
         <h5>{{ group.title }}</h5>
-        <ul>
+        <button class="btn-group-actions">...</button>
+        <ul class="clean-list task-list">
             <li v-for="task in 
                 group.tasks" :key="task">
-                <task-preview :task="task"
-                              :boardId="boardId"
-                              :groupId="group.id"/>
+                <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
             </li>
         </ul>
+        <!-- <button @click="" class="btn-open-add-task">+ Add a card</button> -->
+        <form @submit.prevent="addTask()" class="add-task-form">
+            <input type="text" placeholder="Enter a title for this card...">
+            <button>Add card</button>
+            <button type="button">X</button>
+        </form>
     </section>
 </template>
 <script>
@@ -21,13 +26,21 @@ export default {
     },
     name: 'group-details',
     components: {
-        taskPreview
+        taskPreview,
     },
     data() {
-        return {};
+        return {
+            taskToEdit: {
+
+            }
+        }
     },
     created() { },
-    methods: {},
+    methods: {
+        addTask() {
+            console.log('ss')
+        }
+    },
     computed: {},
     unmounted() { },
 };

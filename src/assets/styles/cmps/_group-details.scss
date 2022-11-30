@@ -1,0 +1,16 @@
+.group-details {
+    position: relative;
+}
+
+.btn-group-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.task-list>* {
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    padding-inline: 8px;
+    margin-block: 5px;
+}
