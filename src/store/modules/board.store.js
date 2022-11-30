@@ -60,8 +60,6 @@ export const boardStore = {
             }
         },
         async setCurrBoard({ commit }, { boardId }) {
-            console.log('from store', boardId);
-
             try {
                 const board = await boardService.getById(boardId)
                 commit({ type: 'setCurrBoard', board })
@@ -151,6 +149,16 @@ export const boardStore = {
             }
             catch (err) {
                 console.log('there was a problem saving that group in the store')
+                throw err
+            }
+        },
+        async updateBoard(context, {board}) {
+            try {
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch (err) {
+                console.log('there was a problem updating this board in the store')
                 throw err
             }
         }

@@ -36,7 +36,7 @@ export default {
             const newTitle = ev.target.innerText
             const board = JSON.parse(JSON.stringify(this.board))
             board.title = newTitle
-            this.$store({ type: 'updateBoard', board })
+            this.$store.dispatch({ type: 'updateBoard', board })
         },
         setStarred() {
             console.log('set starred');
