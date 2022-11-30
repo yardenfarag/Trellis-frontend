@@ -6,7 +6,7 @@
       <button class="cover-btn">Cover</button>
     </div>
     <div class="task-header">
-      <h5 contenteditable="true" @blur="updateTitle(event)">{{ task.title }}</h5>
+      <h5 contenteditable="true" @blur="updateTaskTitle($event)">{{ task.title }}</h5>
       <p v-if="group">in list: {{ group.title }}</p>
     </div>
     <section class="task-info flex">
@@ -17,7 +17,7 @@
           Due date: {{ task.dueDate }}
         </div>
         <section>Members: {{ task.memberIds }} Labels: {{ task.labelIds }}</section>
-        <task-description :task="task" />
+        <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
         <task-attachment :task="task" />
         <task-checklist :task="task" />
         <task-map :task="task" />
@@ -75,8 +75,12 @@ export default {
   },
 
   async created() {
+
+    const boardId  = this.$route.params.boardId
+    this.boardId = boardId
+    if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+
     const board = JSON.parse(JSON.stringify(this.board))
-    this.boardId = board._id
 
     const groupId = this.$route.params.groupId
     this.group = board.groups.find(group => group.id === groupId)
@@ -93,13 +97,27 @@ export default {
       this.$router.push('/board/' + this.boardId)
     },
     closeDetails() {
+      console.log(this.boardId)
       this.$router.push('/board/' + this.boardId)
-
     },
+    async updateTaskTitle(ev) {
+      const newTitle = ev.target.innerText
+      const taskToEdit = JSON.parse(JSON.stringify(this.task))
+      taskToEdit.title = newTitle
+      const boardToSave = JSON.parse(JSON.stringify(this.board))
+      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+    },
+    async updateTaskDesc(desc){
+      // console.log(desc)
+      const taskToEdit = JSON.parse(JSON.stringify(this.task))
+      taskToEdit.description = desc
+      const boardToSave = JSON.parse(JSON.stringify(this.board))
+      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+    }
   },
   computed: {
     board() {
-      return this.$store.getters.board
+      return this.$store.getters.board 
     }
   },
   directives: {

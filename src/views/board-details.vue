@@ -42,8 +42,8 @@ export default {
         };
     },
     async created() {
-        const { id } = this.$route.params
-        if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId: id })
+        const { boardId } = this.$route.params
+        if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     },
     methods: {
         async addGroup() {

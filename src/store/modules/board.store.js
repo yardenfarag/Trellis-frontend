@@ -102,7 +102,7 @@ export const boardStore = {
                 const group = board.groups.find(group => group.id === groupId)
                 const groupIdx = board.groups.findIndex(group => group.id === groupId)
                 if (taskToSave.id) {
-                    const taskIdx = group.tasks.findIndex(task => task.id === task.id)
+                    const taskIdx = group.tasks.findIndex(task => task.id === taskToSave.id)
                     group.tasks.splice(taskIdx, 1, taskToSave)
                     board.groups.splice(groupIdx, 1, group)
                 } else {

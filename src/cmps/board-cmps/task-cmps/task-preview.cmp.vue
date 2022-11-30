@@ -19,7 +19,7 @@ export default {
     methods: {
         goToDetails() {
             const taskId = this.task.id
-            this.$router.push('/task/' + this.boardId + '/' + this.groupId + '/' + taskId)
+            this.$router.push('/board/' + this.boardId + '/' + this.groupId + '/' + taskId)
         }
     },
     computed: {},
