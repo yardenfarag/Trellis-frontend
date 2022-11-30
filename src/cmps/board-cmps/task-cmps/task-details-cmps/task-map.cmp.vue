@@ -19,7 +19,9 @@ import { GoogleMap, Marker } from "vue3-google-map"
 export default {
   props: ['task'],
   name: 'task-map',
-  components: {},
+  components: {
+    GoogleMap, Marker
+  },
   data() {
     return {
       center: { lat: 32.085300, lng: 34.781769 },
