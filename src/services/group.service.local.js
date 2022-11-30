@@ -1,4 +1,4 @@
-import { boardService } from './group.service.local'
+import { boardService } from './board.service.local' // change
 import { utilService } from './util.service.js'
 
 export const groupService = {
@@ -11,7 +11,7 @@ export const groupService = {
 async function getById(boardId, groupId) {
     try {
         const board = await boardService.getById(boardId)
-        return await board.groups.find(group => group._id === groupId) 
+        return board.groups.find(group => group._id === groupId) // change
     }
     catch {
         throw err
@@ -21,7 +21,7 @@ async function getById(boardId, groupId) {
 async function remove(boardId, groupId) {
     try {
         const board = await boardService.getById(boardId)
-        const groupIdx = board.groups.findInedx(group => group.id === groupId)
+        const groupIdx = board.groups.findInedx(group => group._id === groupId)
         board.groups.splice(groupIdx, 1)
         return await boardService.save(board)
     }
@@ -30,15 +30,15 @@ async function remove(boardId, groupId) {
     }
 }
 
-async function save(boardId, group) {
+async function save(boardId, groupToEdit) { // change
     try {
         const board = await boardService.getById(boardId)
-        if (group.id) {
-            const groupIdx = board.groups.findInedx(group => group.id === group.id)
-            board.groups.splice(groupIdx, 1, group)
+        if (groupToEdit._id) {
+            const groupIdx = board.groups.findInedx(group => group._id === groupToEdit._id)
+            board.groups.splice(groupIdx, 1, groupToEdit)
         } else {
-            group.id = utilService.makeId()
-            board.groups.push(group)
+            groupToEdit._id = utilService.makeId()
+            board.groups.push(groupToEdit)
         }
         return await boardService.save(board)
     }
