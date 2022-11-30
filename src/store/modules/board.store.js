@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board.service.local.js'
+import { utilService } from '../../services/util.service.js'
 
 export function getActionRemoveBoard(boardId) {
     return {
@@ -98,5 +99,26 @@ export const boardStore = {
                 throw err
             }
         },
+        async saveTask(context, { board, groupId, taskToSave }) {
+            try {
+                const group = board.groups.find(group => group.id === groupId)
+                const groupIdx = board.groups.findIndex(group => group.id === groupId)
+                if (taskToSave.id) {
+                    const taskIdx = group.tasks.findIndex(task => task.id === task.id)
+                    group.tasks.splice(taskIdx, 1, taskToSave)
+                    board.groups.splice(groupIdx, 1, group)
+                } else {
+                    taskToSave.id = utilService.makeId()
+                    group.tasks.push(taskToSave)
+                    board.groups.splice(groupIdx, 1, group)
+                }
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch (err) {
+                console.log('there was a problem saving that task in the store')
+                throw err
+            }
+        }
     }
 }

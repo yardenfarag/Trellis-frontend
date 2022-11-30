@@ -8,11 +8,11 @@
                 <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
             </li>
         </ul>
-        <!-- <button @click="" class="btn-open-add-task">+ Add a card</button> -->
-        <form @submit.prevent="addTask()" class="add-task-form">
+        <button v-if="!isAddTask" @click="isAddTask = true" class="btn-open-add-task">+ Add a card</button>
+        <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
             <input v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
             <button class="call-to-action">Add card</button>
-            <button type="button">X</button>
+            <button @click="isAddTask = false" type="button">X</button>
             <button class="add-task-options">...</button>
         </form>
     </section>
@@ -32,6 +32,7 @@ export default {
     },
     data() {
         return {
+            isAddTask: false,
             taskToEdit: {
                 title: '',
                 members: [],
@@ -40,14 +41,25 @@ export default {
             }
         }
     },
-    created() { },
+    created() {
+    },
     methods: {
         async addTask() {
-            const updatedBoard = await taskService.save(this.boardId, this.group.id, this.taskToEdit)
-            console.log(updatedBoard)
+            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: this.taskToEdit })
+            this.taskToEdit = {
+                title: '',
+                members: [],
+                labels: [],
+                position: null
+            }
         }
     },
-    computed: {},
+    computed: {
+        board() {
+            return this.$store.getters.board
+        }
+    },
     unmounted() { },
 };
 </script>

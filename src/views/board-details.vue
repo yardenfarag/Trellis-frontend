@@ -21,17 +21,18 @@ export default {
     },
     data() {
         return {
-            board: null
+            // board: null
         };
     },
     async created() {
         const { id } = this.$route.params
         if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId: id })
-        this.board = this.$store.getters.board
-        console.log(this.board)
     },
     methods: {},
     computed: {
+        board() {
+            return this.$store.getters.board
+        }
     },
     unmounted() { },
 }
