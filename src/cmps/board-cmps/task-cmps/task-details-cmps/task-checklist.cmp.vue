@@ -6,8 +6,8 @@
         <button>Hide checked items</button>
         <button>Delete</button>
       </div>
-      <div v-for="todo in checklist.todos" class="chechlist-todos">
-        <input:Checkbox>{{ todo.title }}</input:Checkbox>
+      <div v-for="todo in checklist.todos" class="checklist-todos">
+        <input type="checkBox" /> {{ todo.title }} 
       </div>
       <button v-if="!addItem" @click="addItem = true">Add an item</button>
       <div v-if="addItem" class="add-todo">

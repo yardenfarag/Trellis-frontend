@@ -1,5 +1,5 @@
 <template>
-  <section class="main-task-details">
+  <section v-if="task" class="main-task-details">
     <div class="task-cover">
       Cover
       <button>Cover</button>
@@ -8,7 +8,7 @@
       <h5>{{ task.title }}</h5>
       <small v-if="group">in list: {{ group.title }}</small>
     </div>
-    <section v-if="task" class="task-info flex">
+    <section class="task-info flex">
       <section class="task-content">
 
         <div v-if="task.dueDate">
