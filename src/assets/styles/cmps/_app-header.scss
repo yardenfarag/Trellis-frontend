@@ -36,7 +36,6 @@
                 & button {
                     height: 33px;
                     padding-block: 8px;
-                    background-color: transparent;
                 }
             }
 
@@ -45,7 +44,15 @@
                 margin-inline-end: 20px;
 
                 & input {
+                    height: 33px;
                     background-color: var(--clr5);
+                    border-radius: 3px;
+                    padding: 0px 12px 0px 12px;
+                }
+
+                & button {
+                    height: 33px;
+                    padding-block: 8px;
                 }
             }
         }
