@@ -94,7 +94,9 @@ function saveLocalUser(user) {
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    if (user) return user
+    else return {fullname: 'Guest', imgUrl: '../assets/deafult-avatar.png'}
 }
 
 
