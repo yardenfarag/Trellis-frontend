@@ -1,4 +1,5 @@
 .app-header {
+    position: relative;
     min-height: 44px;
     max-height: 44px;
     overflow: hidden;
@@ -32,6 +33,7 @@
 
             .start-section {
                 gap: 25px;
+                position: relative;
 
                 & button {
                     height: 33px;

@@ -11,7 +11,7 @@
         <div class="start-section flex align-center">
           <button>Recent</button>
           <button>Starred</button>
-          <button>Create</button>
+          <button @click="isCreateBoard = !isCreateBoard">Create</button>
         </div>
 
         <div class="end-section flex align-center">
@@ -23,13 +23,19 @@
       </div>
     </section>
   </header>
+  <boardCreateModal @closeModal="isCreateBoard = false" v-if="isCreateBoard" />
 </template>
 <script>
+import boardCreateModal from '../board-cmps/board-header-cmps/board-create-modal.cmp.vue';
 export default {
   name: 'app-header',
-  components: {},
+  components: {
+    boardCreateModal
+  },
   data() {
-    return {};
+    return {
+      isCreateBoard: false
+    };
   },
   created() { },
   methods: {},
