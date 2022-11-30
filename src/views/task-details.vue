@@ -18,9 +18,14 @@
         </div>
         <section>Members: {{ task.memberIds }} Labels: {{ task.labels }}</section>
         <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
+        <hr>
         <task-attachment :task="task" />
-        <task-checklist :task="task" />
+        <hr>
+        <task-checklist :isChecklistModal="isChecklistModal" :task="task" @updateTask="updateTask"
+          @closeCheckListModal="toggleChecklistModal" />
+        <hr>
         <task-map :task="task" />
+        <hr>
         <task-comments :task="task" />
       </section>
 
@@ -29,7 +34,7 @@
         <button class="task-detail-btn">join</button>
         <button class="task-detail-btn">Members</button>
         <button @click="isLabelsModalOpen = !isLabelsModalOpen" class="task-detail-btn">Labels</button>
-        <button class="task-detail-btn">Checklist</button>
+        <button @click="toggleChecklistModal" class="task-detail-btn">Checklist</button>
         <button class="task-detail-btn">Dates</button>
         <button class="task-detail-btn">Attachment</button>
         <button class="task-detail-btn">Location</button>
@@ -75,6 +80,7 @@ export default {
       group: null,
       boardId: null,
       isLabelsModalOpen: false,
+      isChecklistModal: false,
     }
   },
 
@@ -112,11 +118,17 @@ export default {
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
     },
     async updateTaskDesc(desc) {
-      // console.log(desc)
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.description = desc
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+    },
+    async updateTask(UpdatedTask) {
+      const boardToSave = JSON.parse(JSON.stringify(this.board))
+      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: UpdatedTask })
+    },
+    toggleChecklistModal() {
+      this.isChecklistModal = !this.isChecklistModal
     }
   },
   computed: {
