@@ -26,10 +26,13 @@ export default {
     },
     async created() {
         const { id } = this.$route.params
-        this.board = await boardService.getById(id)
+        if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId: id })
+        this.board = this.$store.getters.board
+        console.log(this.board)
     },
     methods: {},
-    computed: {},
+    computed: {
+    },
     unmounted() { },
 }
 </script>

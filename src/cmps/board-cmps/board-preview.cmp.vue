@@ -13,7 +13,8 @@ export default {
     },
     created() { },
     methods: {
-        goToDetails() {
+        async goToDetails() {
+            await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
             this.$router.push('/board/' + this.board._id)
         }
     },

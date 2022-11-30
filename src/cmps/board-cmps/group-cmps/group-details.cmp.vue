@@ -44,7 +44,7 @@ export default {
     methods: {
         async addTask() {
             const updatedBoard = await taskService.save(this.boardId, this.group.id, this.taskToEdit)
-            this.$
+            console.log(updatedBoard)
         }
     },
     computed: {},

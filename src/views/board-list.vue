@@ -24,7 +24,8 @@ export default {
         this.boards = await this.$store.dispatch({ type: 'loadBoards' })
         this.boards = this.$store.getters.boards
     },
-    methods: {},
+    methods: {
+    },
     computed: {},
     unmounted() { },
 };
