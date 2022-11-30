@@ -135,13 +135,15 @@ export const boardStore = {
                 throw err
             }
         },
-        async saveGroup(context, {board, groupToSave}) {
+        async saveGroup(context, {board, groupToEdit}) {
+            console.log(groupToEdit);
             try {
-                if (groupToSave.id) {
-                    const groupIdx = board.groups.findIndex(group => group.id === groupToSave.id)
-                    board.groups.splice(groupIdx, 1, groupToSave)
+                if (groupToEdit.id) {
+                    const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
+                    board.groups.splice(groupIdx, 1, groupToEdit)
                 } else {
-                    groupToSave.id = utilService.makeId()
+                    console.log(board);
+                    groupToEdit.id = utilService.makeId()
                     board.groups.push(groupToEdit)
                 }
                 await boardService.save(board)
