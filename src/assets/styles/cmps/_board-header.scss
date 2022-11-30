@@ -1,31 +1,40 @@
 .board-header {
     width: 100%;
-    height: auto;
-    // padding: 8px 4px 4px 12px;
+    height: 49px;
     position: relative;
     z-index: 0;
+
+    & * {
+        height: 33px;
+        padding-block: 8px;
+    }
+
+    & .start-section h3 {
+        margin: auto;
+        color: red;
+    }
 
     .board-header-actions {
         width: 100%;
 
         .start-section {
             margin-inline-start: 30px;
-            gap:16px;
+            gap: 16px;
         }
 
         .end-section {
-            gap:8px;
+            gap: 8px;
             margin-inline-end: 20px;
 
             button {
                 border: none;
                 margin-inline-end: -5px;
-                &.member{
+
+                &.member {
                     border-radius: 50%;
                 }
             }
-            
+
         }
     }
-
 }

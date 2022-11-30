@@ -19,7 +19,7 @@
             h2 {
                 padding: 0;
             }
-            
+
             img {
                 width: 17px;
                 height: 17px;
@@ -27,26 +27,26 @@
             }
         }
 
-        select {
-            background-color: transparent;
-            height: 32px;
-            line-height: 32px;
-            margin-right: 4px;
-            padding-right: 10px;
-            white-space: nowrap;
-            border: none;
-        }
-
         .header-actions {
             width: 100%;
 
             .start-section {
                 gap: 25px;
+
+                & button {
+                    height: 33px;
+                    padding-block: 8px;
+                    background-color: transparent;
+                }
             }
 
             .end-section {
                 gap: 25px;
                 margin-inline-end: 20px;
+
+                & input {
+                    background-color: var(--clr5);
+                }
             }
         }
     }

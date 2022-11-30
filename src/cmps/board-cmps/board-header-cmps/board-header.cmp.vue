@@ -3,10 +3,10 @@
         <div class="board-header-actions flex align-center space-between">
 
             <section class="start-section flex align-center">
-                <section class="board-title flex align-center">
-                    <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
-                </section>
-                <button>⭐</button>
+                <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
+                <button @click="setStarred()">⭐</button>
+                <button>Board</button>
+                <button>Table</button>
             </section>
 
             <section class="end-section flex align-center">
@@ -37,6 +37,9 @@ export default {
             const board = JSON.parse(JSON.stringify(this.board))
             board.title = newTitle
             this.$store({ type: 'updateBoard', board })
+        },
+        setStarred() {
+            console.log('set starred');
         }
     },
     computed: {},

@@ -9,18 +9,9 @@
       <div class="header-actions flex align-center space-between">
 
         <div class="start-section flex align-center">
-          <select>
-            <option value="">Recent</option>
-            <option value="">Board1</option>
-            <option value="">Board2</option>
-            <option value="">Board3</option>
-          </select>
-          <select>
-            <option value="">Starred</option>
-            <option value="">board1</option>
-            <option value="">board2</option>>
-          </select>
-          <button>+</button>
+          <button>Recent</button>
+          <button>Starred</button>
+          <button>Create</button>
         </div>
 
         <div class="end-section flex align-center">

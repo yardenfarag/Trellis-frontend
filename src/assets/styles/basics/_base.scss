@@ -8,6 +8,7 @@
 
 html {
     -webkit-text-size-adjust: 100%;
+    background-color: var(--t-pink)
 }
 
 body,
@@ -47,11 +48,13 @@ button {
     transition-duration: 85ms;
     transition-timing-function: ease;
 
-    
+
     &.call-to-action {
         background-color: var(--t-blue);
         color: whitesmoke;
+        padding: 6px 12px;
     }
+
     &:hover {
         background-color: var(--clr6);
     }
