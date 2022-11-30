@@ -4,16 +4,20 @@
         <ul>
             <li v-for="task in 
                 group.tasks" :key="task">
-                <task-preview :task="task" />
+                <task-preview :task="task"
+                              :boardId="boardId"
+                              :groupId="group.id"/>
             </li>
         </ul>
     </section>
 </template>
 <script>
+
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
 export default {
     props: {
-        group: Object
+        group: Object,
+        boardId: String,
     },
     name: 'group-details',
     components: {

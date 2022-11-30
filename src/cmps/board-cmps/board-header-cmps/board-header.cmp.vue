@@ -3,20 +3,20 @@
         <div class="board-header-actions flex align-center space-between">
 
             <section class="start-section flex align-center">
-                <section class="board-title" contenteditable="true">
-                    <h3>Board Title</h3>
+                <section class="board-title flex align-center">
+                    <h3 contenteditable="true">Board Title</h3>
                 </section>
                 <button>⭐</button>
             </section>
 
-            <section class="end-section flex-align-center">
-                <button>Filter</button>
+            <section class="end-section flex align-center">
+                <button>Filter</button> |
                 <section class="members flex align-center">
-                    <button>🦊</button>
-                    <button>🦝</button>
-                    <button>🐻</button>
-                </section>
-                <button>Share</button>
+                    <button class="member">🦊</button>
+                    <button class="member">🦝</button>
+                    <button class="member">🐻</button>
+                </section> |
+                <button>Share</button> |
                 <button>...</button>
             </section>
         </div>
