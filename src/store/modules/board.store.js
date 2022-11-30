@@ -1,107 +1,84 @@
-import { carService } from '../services/board.service.local'
+import { boardService } from '../../services/board.service.local.js'
 
-export function getActionRemoveCar(carId) {
+export function getActionRemoveBoard(boardId) {
     return {
-        type: 'removeCar',
-        carId
+        type: 'removeBoard',
+        boardId
     }
 }
-export function getActionAddCar(car) {
+export function getActionAddBoard(board) {
     return {
-        type: 'addCar',
-        car
+        type: 'addBoard',
+        board
     }
 }
-export function getActionUpdateCar(car) {
+export function getActionUpdateBoard(board) {
     return {
-        type: 'updateCar',
-        car
-    }
-}
-
-export function getActionAddCarMsg(carId) {
-    return {
-        type: 'addCarMsg',
-        carId,
-        txt: 'Stam txt'
+        type: 'updateBoard',
+        board
     }
 }
 
-export const carStore = {
+export const boardStore = {
     state: {
-        cars: []
+        boards: []
     },
     getters: {
-        cars({cars}) { return cars },
+        boards({ boards }) { return boards },
     },
     mutations: {
-        setCars(state, { cars }) {
-            state.cars = cars
+        setBoards(state, { boards }) {
+            state.boards = boards
         },
-        addCar(state, { car }) {
-            state.cars.push(car)
+        addBoard(state, { board }) {
+            state.boards.push(board)
         },
-        updateCar(state, { car }) {
-            const idx = state.cars.findIndex(c => c.id === car._id)
-            state.cars.splice(idx, 1, car)
+        updateBoard(state, { board }) {
+            const idx = state.boards.findIndex(c => c.id === board._id)
+            state.boards.splice(idx, 1, board)
         },
-        removeCar(state, { carId }) {
-            state.cars = state.cars.filter(car => car._id !== carId)
-        },
-        addCarMsg(state, { carId , msg}) {
-            const car = state.cars.find(car => car._id === carId)
-            if (!car.msgs) car.msgs = []
-            car.msgs.push(msg)
+        removeBoard(state, { boardId }) {
+            state.boards = state.boards.filter(board => board._id !== boardId)
         },
     },
     actions: {
-        async addCar(context, { car }) {
+        async addBoard(context, { board }) {
             try {
-                car = await carService.save(car)
-                context.commit(getActionAddCar(car))
-                return car
+                board = await boardService.save(board)
+                context.commit(getActionAddBoard(board))
+                return board
             } catch (err) {
-                console.log('carStore: Error in addCar', err)
+                console.log('boardStore: Error in addBoard', err)
                 throw err
             }
         },
-        async updateCar(context, { car }) {
+        async updateBoard(context, { board }) {
             try {
-                car = await carService.save(car)
-                context.commit(getActionUpdateCar(car))
-                return car
+                board = await boardService.save(board)
+                context.commit(getActionUpdateBoard(board))
+                return board
             } catch (err) {
-                console.log('carStore: Error in updateCar', err)
+                console.log('boardStore: Error in updateBoard', err)
                 throw err
             }
         },
-        async loadCars(context) {
+        async loadBoards(context) {
             try {
-                const cars = await carService.query()
-                context.commit({ type: 'setCars', cars })
+                const boards = await boardService.query()
+                context.commit({ type: 'setBoards', boards })
             } catch (err) {
-                console.log('carStore: Error in loadCars', err)
+                console.log('boardStore: Error in loadBoards', err)
                 throw err
             }
         },
-        async removeCar(context, { carId }) {
+        async removeBoard(context, { boardId }) {
             try {
-                await carService.remove(carId)
-                context.commit(getActionRemoveCar(carId))
+                await boardService.remove(boardId)
+                context.commit(getActionRemoveBoard(boardId))
             } catch (err) {
-                console.log('carStore: Error in removeCar', err)
+                console.log('boardStore: Error in removeBoard', err)
                 throw err
             }
         },
-        async addCarMsg(context, { carId, txt }) {
-            try {
-                const msg = await carService.addCarMsg(carId, txt)
-                context.commit({type: 'addCarMsg', carId, msg })
-            } catch (err) {
-                console.log('carStore: Error in addCarMsg', err)
-                throw err
-            }
-        },
-
     }
 }
