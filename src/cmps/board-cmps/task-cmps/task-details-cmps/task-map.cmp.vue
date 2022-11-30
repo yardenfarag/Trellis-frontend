@@ -13,6 +13,7 @@
   </section>
 </template>
 <script>
+import { GoogleMap, Marker } from "vue3-google-map";
 export default {
   props: ['task'],
   name: 'task-map',
