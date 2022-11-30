@@ -7,6 +7,7 @@
             </li>
         </ul>
     </section>
+    <router-view />
 </template>
 
 <script>

@@ -21,14 +21,14 @@ const routes = [
   {
     path: '/board/:id',
     name: 'board-details',
-    component: boardDetails
+    component: boardDetails,
+    children: [{
+      path: '/task/:boardId/:groupId/:taskId',
+      name: 'task-details',
+      component: taskDetails
+    },]
   },
-  {
-    path: '/task/:boardId/:groupId/:taskId',
-    name: 'task-details',
-    component: taskDetails
-  },
-  {
+ {
     path: '/login',
     name: 'loginSignup',
     component: loginSignup

@@ -24,7 +24,7 @@ async function remove(boardId, groupId, taskId) {
     try {
         const group = await groupService.getById(boardId, groupId)
         const taskIdx = group.tasks.findIndex(task => task.id === taskId)
-        group.splice(taskIdx, 1)
+        group.tasks.splice(taskIdx, 1)
         return await groupService.save(boardId, group)
     }
     catch (err) {
