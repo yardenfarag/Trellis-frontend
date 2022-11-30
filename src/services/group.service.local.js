@@ -13,7 +13,7 @@ async function getById(boardId, groupId) {
         const board = await boardService.getById(boardId)
         return board.groups.find(group => group.id === groupId) // change
     }
-    catch {
+    catch (err) {
         throw err
     }
 }
@@ -21,11 +21,11 @@ async function getById(boardId, groupId) {
 async function remove(boardId, groupId) {
     try {
         const board = await boardService.getById(boardId)
-        const groupIdx = board.groups.findInedx(group => group.id === groupId)
+        const groupIdx = board.groups.findIndex(group => group.id === groupId)
         board.groups.splice(groupIdx, 1)
         return await boardService.save(board)
     }
-    catch {
+    catch (err) {
         throw err
     }
 }
@@ -34,7 +34,7 @@ async function save(boardId, groupToEdit) { // change
     try {
         const board = await boardService.getById(boardId)
         if (groupToEdit.id) {
-            const groupIdx = board.groups.findInedx(group => group.id === groupToEdit.id)
+            const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
             board.groups.splice(groupIdx, 1, groupToEdit)
         } else {
             groupToEdit._id = utilService.makeId()
@@ -42,7 +42,7 @@ async function save(boardId, groupToEdit) { // change
         }
         return await boardService.save(board)
     }
-    catch {
+    catch (err) {
         throw err
     }
 }

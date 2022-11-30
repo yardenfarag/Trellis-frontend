@@ -49,6 +49,11 @@ button {
     transition-timing-function: ease;
 
     button:hover {
-        background-color: var(--clr6)
+        background-color: var(--clr6);
+    }
+
+    &.call-to-action {
+        background-color: var(--t-blue);
+        color: whitesmoke;
     }
 }

@@ -10,14 +10,16 @@
         </ul>
         <!-- <button @click="" class="btn-open-add-task">+ Add a card</button> -->
         <form @submit.prevent="addTask()" class="add-task-form">
-            <input type="text" placeholder="Enter a title for this card...">
-            <button>Add card</button>
+            <input v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
+            <button class="call-to-action">Add card</button>
             <button type="button">X</button>
+            <button class="add-task-options">...</button>
         </form>
     </section>
 </template>
 <script>
 
+import { taskService } from '../../../services/task.service.local'
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
 export default {
     props: {
@@ -31,14 +33,18 @@ export default {
     data() {
         return {
             taskToEdit: {
-
+                title: '',
+                members: [],
+                labels: [],
+                position: null
             }
         }
     },
     created() { },
     methods: {
-        addTask() {
-            console.log('ss')
+        async addTask() {
+            const updatedBoard = await taskService.save(this.boardId, this.group.id, this.taskToEdit)
+            this.$
         }
     },
     computed: {},

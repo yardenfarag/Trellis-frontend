@@ -131,5 +131,5 @@ function getEmptyBoard() {
 //         }]
 //     })
 
-// //     // await storageService.post(STORAGE_KEY, { title: 'Subali Rahok 2', price: 240 })
+//     // await storageService.post(STORAGE_KEY, { title: 'Subali Rahok 2', price: 240 })
 // })()

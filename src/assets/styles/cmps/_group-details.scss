@@ -9,8 +9,23 @@
 }
 
 .task-list>* {
-    background-color: whitesmoke;
+    background-color: white;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
     padding-inline: 8px;
     margin-block: 5px;
+}
+
+.add-task-form {
+    position: relative;
+
+    input {
+        width: 100%;
+    }
+
+    button:nth-child(4) {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: red;
+    }
 }
