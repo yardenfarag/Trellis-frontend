@@ -1,6 +1,6 @@
 <template>
     <section class="group-details">
-        <h5 contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
+        <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
         <button class="btn-group-actions">...</button>
         <ul class="clean-list task-list">
             <li v-for="task in 

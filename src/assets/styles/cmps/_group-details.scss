@@ -1,5 +1,12 @@
 .group-details {
     position: relative;
+
+    & .group-title {
+        margin-inline: 8px;
+        padding-bottom: 8px;
+        padding-top: 10px;
+        font-weight: 600;
+    }
 }
 
 .btn-group-actions {
@@ -10,9 +17,10 @@
 
 .task-list>* {
     background-color: white;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
     padding-inline: 8px;
-    margin-block: 5px;
+    margin-block-end: 5px;
+    border-radius: 3px;
 }
 
 .add-task-form {

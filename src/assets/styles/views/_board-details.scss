@@ -1,8 +1,9 @@
 .group-list>* {
     background-color: var(--t-light-gray);
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.45);
     padding-inline: 8px;
-    margin-inline: 5px;
+    margin-inline: 4px;
     min-width: 272px;
     height: fit-content;
+    border-radius: 3px;
 }
