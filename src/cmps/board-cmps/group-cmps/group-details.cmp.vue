@@ -1,7 +1,8 @@
 <template>
     <section class="group-details">
         <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
-        <button class="btn-group-actions">...</button>
+        <button @click="removeGroup" class="btn-group-actions">X</button>
+        <!-- <button class="btn-group-actions">...</button> -->
         <ul class="clean-list task-list">
             <li v-for="task in 
                 group.tasks" :key="task">
@@ -59,6 +60,11 @@ export default {
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: groupToEdit })
 
+        },
+        async removeGroup() {
+            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            const groupId = this.group.id
+            await this.$store.dispatch({ type: 'removeGroup', board: boardToSave, groupId })
         }
     },
     computed: {

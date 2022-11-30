@@ -49,16 +49,6 @@ export const boardStore = {
         },
     },
     actions: {
-        async addBoard(context, { board }) {
-            try {
-                board = await boardService.save(board)
-                context.commit(getActionAddBoard(board))
-                return board
-            } catch (err) {
-                console.log('boardStore: Error in addBoard', err)
-                throw err
-            }
-        },
         async setCurrBoard({ commit }, { boardId }) {
             try {
                 const board = await boardService.getById(boardId)
@@ -128,12 +118,12 @@ export const boardStore = {
                 await boardService.save(board)
                 context.commit({ type: 'setCurrBoard', board })
             }
-            catch(err) {
+            catch (err) {
                 console.log('there was a problem removing that task in the store')
                 throw err
             }
         },
-        async saveGroup(context, {board, groupToEdit}) {
+        async saveGroup(context, { board, groupToEdit }) {
             console.log(groupToEdit);
             try {
                 if (groupToEdit.id) {
@@ -152,13 +142,25 @@ export const boardStore = {
                 throw err
             }
         },
-        async updateBoard(context, {board}) {
+        async saveBoard(context, { board }) {
             try {
                 await boardService.save(board)
                 context.commit({ type: 'setCurrBoard', board })
             }
             catch (err) {
                 console.log('there was a problem updating this board in the store')
+                throw err
+            }
+        },
+        async removeGroup(context, { board, groupId }) {
+            try {
+                const groupIdx = board.groups.findIndex(group => group.id === groupId)
+                board.groups.splice(groupIdx, 1)
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch (err) {
+                console.log('there was a promblen rmoving this group in the store')
                 throw err
             }
         }
