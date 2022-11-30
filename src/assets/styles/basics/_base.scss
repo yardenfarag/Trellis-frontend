@@ -47,12 +47,12 @@ button {
     transition-duration: 85ms;
     transition-timing-function: ease;
 
-    button:hover {
-        background-color: var(--clr6);
-    }
-
+    
     &.call-to-action {
         background-color: var(--t-blue);
         color: whitesmoke;
+    }
+    &:hover {
+        background-color: var(--clr6);
     }
 }

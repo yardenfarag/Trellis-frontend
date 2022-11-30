@@ -1,7 +1,6 @@
 <template>
   <section v-if="task" class="main-task-details">
     <div class="task-cover">
-      Cover
       <button>Cover</button>
     </div>
     <div class="task-header">
@@ -25,22 +24,22 @@
 
       <section class="task-sidebar">
         <h6>Add to card</h6>
-        <button class="button task-detail-btn">join</button>
-        <button class="button task-detail-btn">Members</button>
-        <button class="button task-detail-btn">Labels</button>
-        <button class="button task-detail-btn">Checklist</button>
-        <button class="button task-detail-btn">Dates</button>
-        <button class="button task-detail-btn">Attachment</button>
-        <button class="button task-detail-btn">Location</button>
-        <button class="button task-detail-btn">Custom Fields</button>
+        <button class="task-detail-btn">join</button>
+        <button class="task-detail-btn">Members</button>
+        <button class="task-detail-btn">Labels</button>
+        <button class="task-detail-btn">Checklist</button>
+        <button class="task-detail-btn">Dates</button>
+        <button class="task-detail-btn">Attachment</button>
+        <button class="task-detail-btn">Location</button>
+        <button class="task-detail-btn">Custom Fields</button>
         <h6>Actions</h6>
-        <button class="button task-detail-btn">Move</button>
-        <button class="button task-detail-btn">Copy</button>
-        <button class="button task-detail-btn">Make template</button>
-        <button class="button task-detail-btn">Watch</button>
+        <button class="task-detail-btn">Move</button>
+        <button class="task-detail-btn">Copy</button>
+        <button class="task-detail-btn">Make template</button>
+        <button class="task-detail-btn">Watch</button>
         <hr>
-        <button class="button task-detail-btn">Archive</button>
-        <button class="button task-detail-btn">Share</button>
+        <button class="task-detail-btn">Archive</button>
+        <button class="task-detail-btn">Share</button>
 
       </section>
 

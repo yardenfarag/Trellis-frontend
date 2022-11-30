@@ -7,6 +7,13 @@
     background-color: red;
     width: 100%;
     min-height: 116px;
+    position: relative;
+
+    & button{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
 }
 .task-content{
     width: 576px;
