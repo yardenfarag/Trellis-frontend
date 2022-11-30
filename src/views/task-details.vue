@@ -6,7 +6,7 @@
       <button class="cover-btn">Cover</button>
     </div>
     <div class="task-header">
-      <h5 contenteditable="true">{{ task.title }}</h5>
+      <h5 contenteditable="true" @blur="updateTitle(event)">{{ task.title }}</h5>
       <p v-if="group">in list: {{ group.title }}</p>
     </div>
     <section class="task-info flex">
