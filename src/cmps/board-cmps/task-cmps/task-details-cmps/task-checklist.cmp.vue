@@ -1,5 +1,5 @@
 <template>
-  <section v-if="card.checklists" class="checklists-container">
+  <section v-if="task.checklists" class="checklists-container">
     <div v-for="checklist in task.checklists" class="checklists">
       <div class="title">
         <h3><span class="task-details-icon">🗹</span>{{ checklist.title }}</h3>

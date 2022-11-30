@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             isDescriptionSelected: false,
-            description: task.description
+            description: this.task.description
         };
     },
     created() { },
