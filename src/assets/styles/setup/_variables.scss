@@ -1,10 +1,20 @@
 // Colors
-$clr1: #ce2e6c;
-$clr2: #4f3a65;
-$clr3: #574f7d;
-$clr4: #95adbe;
-$clr5: #dff0ea;
-$clr6: #fff;
+:root {
+    --clr1: #172b4d; // text color
+    --clr2: rgb(149 158 174); //color of little icons in task
+    --clr3: #0079bf; //color of share btn
+
+    --t-blue: #0079bf;
+    --t-green: #70b500;
+    --t-orange: #ff9f1a;
+    --t-red: #eb5a46;
+    --t-yellow: #f2d600;
+    --t-purple: #c377e0;
+    --t-pink: #ff78cb;
+    --t-light-blue: #00c2e0;
+    --t-light-green: #51e898;
+    --t-gray: #c4c9cc;
+}
 
 // Breakpoints
 $mobile-breakpoint: 460px;
