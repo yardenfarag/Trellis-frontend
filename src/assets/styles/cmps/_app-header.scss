@@ -1,38 +1,53 @@
-header {
-    background-color: $clr5;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
+.app-header {
+    min-height: 44px;
+    max-height: 44px;
+    overflow: hidden;
+    width: 100%;
 
-    .loggedin-user {
-        background-color: $clr1;
-        padding: 2px 8px;
-        border-radius: 1em;
-        align-self: flex-end;
-        color: whitesmoke;
-        span{
-            background-color: $clr2;
-            padding: 4px;
-            margin: 10px;
-            border-radius: 50%;
+    .header-nav {
+        border-bottom: 1px solid var(--clr2);
+        overflow: hidden;
+        backdrop-filter: blur(6px);
+        max-height: 44px;
+        padding: 6px 4px;
+        width: 100%;
+
+        .logo {
+            margin-inline: 20px;
+            gap: 3px;
+
+            h2 {
+                padding: 0;
+            }
+            
+            img {
+                width: 17px;
+                height: 17px;
+                border-radius: 2px;
+            }
         }
-        img {
-            width: 2em;
-            height: 2em;
-            border-radius: 50%;
+
+        select {
+            background-color: transparent;
+            height: 32px;
+            line-height: 32px;
+            margin-right: 4px;
+            padding-right: 10px;
+            white-space: nowrap;
+            border: none;
+        }
+
+        .header-actions {
+            width: 100%;
+
+            .start-section {
+                gap: 25px;
+            }
+
+            .end-section {
+                gap: 25px;
+                margin-inline-end: 20px;
+            }
         }
     }
-    nav {
-        background-color: $clr4;
-        padding: 5px 0;
-    }
-    nav a:not(:first-child) {
-        border-top: 1px solid $clr1;
-        padding: 0 5px;
-        margin: 10px;
-    }
-    nav .active {
-        color: $clr1;
-    }
-    
 }
