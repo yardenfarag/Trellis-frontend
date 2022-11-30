@@ -1,4 +1,4 @@
-import { boardService } from './board.service.local'
+import { boardService } from './board.service.local' // no need?
 import { groupService } from './group.service.local'
 import { userService } from './user.service'
 import { utilService } from './util.service.js'
@@ -12,9 +12,8 @@ export const taskService = {
 
 async function getById(boardId, groupId, taskId) {
     try {
-        const board = await boardService.getById(boardId)
-        const group = await board.groups.find(group => group._id === groupId) 
-        return task = group.tasks.find(task => task.id === taskId) 
+        const group = await groupService.getById(boardId, groupId)
+        return group.tasks.find(task => task._id === taskId) // change
     }
     catch {
         throw err
@@ -23,9 +22,8 @@ async function getById(boardId, groupId, taskId) {
 
 async function remove(boardId, groupId, taskId) {
     try {
-        const board = await boardService.getById(boardId)
-        const group = board.groups.find(group => group.id === groupId)
-        const taskIdx = group.tasks.findIndex(task => task.id === taskId)
+        const group = await groupService.getById(boardId, groupId)
+        const taskIdx = group.tasks.findIndex(task => task._id === taskId)
         group.splice(taskIdx, 1)
         return await groupService.save(group)
     }
@@ -36,13 +34,12 @@ async function remove(boardId, groupId, taskId) {
 
 async function save(boardId, groupId, task) {
     try {
-        const board = await boardService.getById(boardId)
-        const group = board.groups.find(group => group.id === groupId)
-        if (task.id) {
-            const taskIdx = group.tasks.findIndex(task => task.id === task.id)
+        const group = await groupService.getById(boardId, groupId) // change
+        if (task._id) {
+            const taskIdx = group.tasks.findIndex(task => task._id === task._id)
             group.tasks.splice(taskIdx, 1, task)
         } else {
-            task.id = utilService.makeId()
+            task._id = utilService.makeId()
             group.tasks.push(task)
         }
         return await groupService.save(group)

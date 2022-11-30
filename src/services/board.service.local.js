@@ -12,9 +12,8 @@ export const boardService = {
     remove,
     getEmptyBoard,
 }
-window.cs = boardService
+// window.cs = boardService // (just for test)
 
-// board service functions
 async function query() {
     var boards = await storageService.query(STORAGE_KEY)
     return boards
