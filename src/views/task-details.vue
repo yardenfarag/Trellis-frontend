@@ -1,13 +1,49 @@
 <template>
-  <section v-if="task" class="task-details">
+  <div class="task-cover">
+    Cover
+    <button>Cover</button>
+  </div>
+  <div class="task-header">
     <h5>{{ task.title }}</h5>
     <small v-if="group">in list: {{group.title}}</small>
-     <section>Members: {{task.memberIds}} Labels: {{ task.labelIds }}</section> 
-     <task-description />
-     <task-attachment />
-     <task-checklist />
-     <task-map />
-     <task-comments />
+  </div>
+  <section v-if="task" class="task-details flex">
+    <section class="main-task-details">
+    
+    <div v-if="task.dueDate">
+        <input type="checkBox">
+        Due date: {{ task.dueDate }}
+      </div>
+      <section>Members: {{task.memberIds}} Labels: {{ task.labelIds }}</section> 
+      <task-description />
+      <task-attachment />
+      <task-checklist />
+      <task-map />
+      <task-comments />
+    </section>
+
+    <section class="task-sidebar">
+      <h6>Add to card</h6>
+      <button>join</button>
+      <button>Members</button>
+      <button>Labels</button>
+      <button>Checklist</button>
+      <button>Dates</button>
+      <button>Attachment</button>
+      <button>Location</button>
+      <button>Custom Fields</button>
+      <h6>Actions</h6>
+      <button>Move</button>
+      <button>Copy</button>
+      <button>Make template</button>
+      <button>Watch</button>
+      <hr>
+      <button>Archive</button>
+      <button>Share</button>
+
+    </section>
+
+
   </section>
 </template>
 
