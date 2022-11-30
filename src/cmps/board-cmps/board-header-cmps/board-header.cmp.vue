@@ -4,7 +4,7 @@
 
             <section class="start-section flex align-center">
                 <section class="board-title flex align-center">
-                    <h3 contenteditable="true">Board Title</h3>
+                    <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
                 </section>
                 <button>⭐</button>
             </section>
@@ -24,13 +24,21 @@
 </template>
 <script>
 export default {
+    props: ['board'],
     name: 'board-header',
     components: {},
     data() {
         return {};
     },
     created() { },
-    methods: {},
+    methods: {
+        ChangeBoardTitle(ev) {
+            const newTitle = ev.target.innerText
+            const board = JSON.parse(JSON.stringify(this.board))
+            board.title = newTitle
+            this.$store({ type: 'updateBoard', board })
+        }
+    },
     computed: {},
     unmounted() { },
 };

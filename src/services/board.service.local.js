@@ -47,7 +47,53 @@ function getEmptyBoard() {
         groups: [],
         activities: [],
         members: [],
+        labels: _getLabels()
     }
+}
+
+function _getLabels() {
+    return [
+        {
+            id: 'l101',
+            title: '',
+            class: 'label1'
+        },
+        {
+            id: 'l102',
+            title: '',
+            class: 'label2'
+        },
+        {
+            id: 'l103',
+            title: '',
+            class: 'label3'
+        },
+        {
+            id: 'l104',
+            title: '',
+            class: 'label4'
+        },
+        {
+            id: 'l105',
+            title: '',
+            class: 'label5'
+        },
+        {
+            id: 'l106',
+            title: '',
+            class: 'label6'
+        },
+        {
+            id: 'l107',
+            title: '',
+            class: 'label7'
+        },
+        {
+            id: 'l108',
+            title: '',
+            class: 'label8'
+        },
+    ]
 }
 
 
@@ -131,5 +177,5 @@ function getEmptyBoard() {
 //         }]
 //     })
 
-//     // await storageService.post(STORAGE_KEY, { title: 'Subali Rahok 2', price: 240 })
+// //     // await storageService.post(STORAGE_KEY, { title: 'Subali Rahok 2', price: 240 })
 // })()

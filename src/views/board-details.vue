@@ -1,6 +1,6 @@
 <template>
-    <board-header></board-header>
     <section v-if="board" class="board-details">
+        <board-header v-if="board" :board="board"></board-header>
         <ul class="clean-list flex group-list">
             <li v-for="group in board.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
@@ -22,15 +22,19 @@ export default {
     },
     data() {
         return {
-            board: null
+            // board: null
         };
     },
     async created() {
         const { id } = this.$route.params
-        this.board = await boardService.getById(id)
+        if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId: id })
     },
     methods: {},
-    computed: {},
+    computed: {
+        board() {
+            return this.$store.getters.board
+        }
+    },
     unmounted() { },
 }
 </script>
