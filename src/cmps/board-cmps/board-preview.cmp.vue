@@ -1,5 +1,5 @@
 <template>
-    <h1>{{ board.title }}</h1>
+    <section class="board-preview" @click="goToDetails()">{{ board.title }}</section>
 </template>
 <script>
 export default {
@@ -12,7 +12,11 @@ export default {
         return {};
     },
     created() { },
-    methods: {},
+    methods: {
+        goToDetails() {
+            this.$router.push('/board/' + this.board._id)
+        }
+    },
     computed: {},
     unmounted() { },
 };

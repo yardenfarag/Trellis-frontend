@@ -9,7 +9,6 @@
     </section>
 </template>
 <script>
-import { boardService } from '../services/board.service.local.js'
 import boardPreview from '../cmps/board-cmps/board-preview.cmp.vue'
 export default {
     name: 'board-list',
@@ -22,7 +21,8 @@ export default {
         }
     },
     async created() {
-        this.boards = await boardService.query()
+        this.boards = await this.$store.dispatch({ type: 'loadBoards' })
+        this.boards = this.$store.getters.boards
     },
     methods: {},
     computed: {},

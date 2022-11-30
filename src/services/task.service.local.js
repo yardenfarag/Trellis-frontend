@@ -13,7 +13,7 @@ export const taskService = {
 async function getById(boardId, groupId, taskId) {
     try {
         const group = await groupService.getById(boardId, groupId)
-        return group.tasks.find(task => task._id === taskId) // change
+        return group.tasks.find(task => task.id === taskId) // change
     }
     catch {
         throw err
@@ -23,7 +23,7 @@ async function getById(boardId, groupId, taskId) {
 async function remove(boardId, groupId, taskId) {
     try {
         const group = await groupService.getById(boardId, groupId)
-        const taskIdx = group.tasks.findIndex(task => task._id === taskId)
+        const taskIdx = group.tasks.findIndex(task => task.id === taskId)
         group.splice(taskIdx, 1)
         return await groupService.save(group)
     }
@@ -35,11 +35,11 @@ async function remove(boardId, groupId, taskId) {
 async function save(boardId, groupId, task) {
     try {
         const group = await groupService.getById(boardId, groupId) // change
-        if (task._id) {
-            const taskIdx = group.tasks.findIndex(task => task._id === task._id)
+        if (task.id) {
+            const taskIdx = group.tasks.findIndex(task => task.id === task.id)
             group.tasks.splice(taskIdx, 1, task)
         } else {
-            task._id = utilService.makeId()
+            task.id = utilService.makeId()
             group.tasks.push(task)
         }
         return await groupService.save(group)
