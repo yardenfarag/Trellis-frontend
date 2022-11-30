@@ -5,6 +5,18 @@
             <li v-for="group in board.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
             </li>
+            <li>
+                <section v-if="!isAddGroup" @click="isAddGroup = true" style="{width: 272px;}" class="add-group">
+                    <button class="btn-open-add-task">+ Add another list</button>
+                </section>
+                <section v-if="isAddGroup" class="add-group-open">
+                    <input v-model="groupToSave.title" type="text" placeholder="Enter list title">
+                    <div class="add-group-btns">
+                        <button @click="addGroup" class="call-to-action">Add List</button>
+                        <button @click="isAddGroup = false">X</button>
+                    </div>
+                </section>
+            </li>
         </ul>
     </section>
     <router-view />
@@ -12,7 +24,6 @@
 
 <script>
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue';
-import { boardService } from '../services/board.service.local.js'
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 export default {
     name: 'board-details',
@@ -22,14 +33,29 @@ export default {
     },
     data() {
         return {
-            // board: null
+            isAddGroup: false,
+            groupToSave: {
+                title: '',
+                style: {},
+                tasks: [],
+            }
         };
     },
     async created() {
         const { id } = this.$route.params
         if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId: id })
     },
-    methods: {},
+    methods: {
+        async addGroup() {
+            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            await this.$store.dispatch({ type: 'saveGroup', boardToSave, groupToAdd: this.groupToAdd })
+            this.groupToSave = {
+                title: '',
+                style: {},
+                tasks: [],
+            }
+        }
+    },
     computed: {
         board() {
             return this.$store.getters.board

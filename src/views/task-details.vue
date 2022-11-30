@@ -17,11 +17,11 @@
           Due date: {{ task.dueDate }}
         </div>
         <section>Members: {{ task.memberIds }} Labels: {{ task.labelIds }}</section>
-        <task-description :task="task"/>
-        <task-attachment :task="task"/>
-        <task-checklist :task="task"/>
-        <task-map :task="task"/>
-        <task-comments :task="task"/>
+        <task-description :task="task" />
+        <task-attachment :task="task" />
+        <task-checklist :task="task" />
+        <task-map :task="task" />
+        <task-comments :task="task" />
       </section>
 
       <section class="task-sidebar">
@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import { groupService } from '../services/group.service.local';
-import { taskService } from '../services/task.service.local';
 import taskDescription from '../cmps/board-cmps/task-cmps/task-details-cmps/task-description.cmp.vue'
 import taskAttachment from '../cmps/board-cmps/task-cmps/task-details-cmps/task-attachment.cmp.vue'
 import taskChecklist from '../cmps/board-cmps/task-cmps/task-details-cmps/task-checklist.cmp.vue'
@@ -77,24 +75,33 @@ export default {
   },
 
   async created() {
-    const taskId = this.$route.params.taskId
+    const board = JSON.parse(JSON.stringify(this.board))
+    this.boardId = board._id
+
     const groupId = this.$route.params.groupId
-    this.boardId = this.$route.params.boardId
-    this.task = await taskService.getById(this.boardId, groupId, taskId)
-    this.group = await groupService.getById(this.boardId, groupId)
+    this.group = board.groups.find(group => group.id === groupId)
+
+    const taskId = this.$route.params.taskId
+    this.task = this.group.tasks.find(task => task.id === taskId)
   },
 
   methods: {
-    async removeTask(){
-      await taskService.remove(this.boardId, this.group.id, this.taskToEdit)
+    async removeTask() {
+      const boardToSave = JSON.parse(JSON.stringify(this.board))
+      const groupId = this.$route.params.groupId
+      await this.$store.dispatch({ type: 'removeTask', board: boardToSave, groupId, taskId: this.task.id })
       this.$router.push('/board/' + this.boardId)
     },
-    closeDetails(){
+    closeDetails() {
       this.$router.push('/board/' + this.boardId)
 
     },
   },
-  computed: {},
+  computed: {
+    board() {
+      return this.$store.getters.board
+    }
+  },
   directives: {
     ClickOutside
   }
