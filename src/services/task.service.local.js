@@ -1,5 +1,6 @@
 import { boardService } from './board.service.local' // no need?
 import { groupService } from './group.service.local'
+import { userService } from './user.service'
 import { utilService } from './util.service.js'
 
 export const taskService = {
@@ -24,7 +25,7 @@ async function remove(boardId, groupId, taskId) {
         const group = await groupService.getById(boardId, groupId)
         const taskIdx = group.tasks.findIndex(task => task._id === taskId)
         group.splice(taskIdx, 1)
-        return await groupService.save(group) // change
+        return await groupService.save(group)
     }
     catch {
         throw err
@@ -51,5 +52,6 @@ async function save(boardId, groupId, task) {
 function getEmptyTask() {
     return {
         title: '',
+        byMember: userService.getLoggedinUser()
     }
 }
