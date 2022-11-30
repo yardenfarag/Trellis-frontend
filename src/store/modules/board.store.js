@@ -1,4 +1,5 @@
 import { boardService } from '../../services/board.service.local.js'
+import { utilService } from '../../services/util.service.js'
 
 export function getActionRemoveBoard(boardId) {
     return {
@@ -98,5 +99,58 @@ export const boardStore = {
                 throw err
             }
         },
+        async saveTask(context, { board, groupId, taskToSave }) {
+            try {
+                const group = board.groups.find(group => group.id === groupId)
+                const groupIdx = board.groups.findIndex(group => group.id === groupId)
+                if (taskToSave.id) {
+                    const taskIdx = group.tasks.findIndex(task => task.id === task.id)
+                    group.tasks.splice(taskIdx, 1, taskToSave)
+                    board.groups.splice(groupIdx, 1, group)
+                } else {
+                    taskToSave.id = utilService.makeId()
+                    group.tasks.push(taskToSave)
+                    board.groups.splice(groupIdx, 1, group)
+                }
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch (err) {
+                console.log('there was a problem saving that task in the store')
+                throw err
+            }
+        },
+        async removeTask(context, { board, groupId, taskId }) {
+            const group = board.groups.find(group => group.id === groupId)
+            const groupIdx = board.groups.findIndex(group => group.id === groupId)
+            try {
+                const taskIdx = group.tasks.findIndex(task => task.id === taskId)
+                group.tasks.splice(taskIdx, 1)
+                board.groups.splice(groupIdx, 1, group)
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch(err) {
+                console.log('there was a problem removing that task in the store')
+                throw err
+            }
+        },
+        async saveGroup(context, {board, groupToSave}) {
+            try {
+                if (groupToSave.id) {
+                    const groupIdx = board.groups.findIndex(group => group.id === groupToSave.id)
+                    board.groups.splice(groupIdx, 1, groupToSave)
+                } else {
+                    groupToSave.id = utilService.makeId()
+                    board.groups.push(groupToEdit)
+                }
+                await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board })
+            }
+            catch (err) {
+                console.log('there was a problem saving that group in the store')
+                throw err
+            }
+        }
     }
 }

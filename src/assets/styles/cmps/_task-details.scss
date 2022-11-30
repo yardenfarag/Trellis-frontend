@@ -1,36 +1,83 @@
-.main-task-details{
-    width: 768px;
-    margin: 48px 0 80px ;
-    border: 1px solid black;
+.screen-black {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.618);
 }
-.task-cover{
-    background-color: red;
+
+.main-task-details {
+    width: 768px;
+    
+    background-color: var(--clr0);
+    position: absolute;
+    right: 50%;
+    left: 50%;
+    top: 48px;
+    bottom: 80px;
+    transform:translate(-50%, ) ;
+}
+
+.task-cover {
+    background-color: rgb(236, 93, 93);
     width: 100%;
     min-height: 116px;
     position: relative;
 
-    & button{
+    & .cover-btn {
         position: absolute;
         bottom: 0;
         right: 0;
+        margin: 8px;
+        padding: 6px 12px 6px 6px;
+    }
+    & .close-details{
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 32px;
+        width: 32px;
+        margin: 4px;
+        padding: 4px;
+        font-size: 20px;
+        line-height: 32px;
+        text-align: center;
+        border-radius: 50%;
     }
 }
-.task-content{
+
+.task-header {
+    padding: 0 8px 8px 16px;
+
+    & h5 {
+        font-size: 20px;
+        font-weight: 600;
+        height: 32px;
+        line-height: 24px;
+        margin: -4px -8px;
+        min-height: 24px;
+        padding: 4px 8px;
+        resize: none;
+    }
+}
+
+.task-content {
     width: 576px;
     padding: 0 8px 8px 16px;
 }
-.task-sidebar{
+
+.task-sidebar {
     width: 192px;
     padding: 0 16px 8px 8px;
 }
-.task-detail-btn{
+
+.task-detail-btn {
 
     width: 100%;
     display: block;
     text-align: start;
     margin-top: 8px;
 }
-hr{
+
+hr {
     height: 1px;
     color: red;
 }
