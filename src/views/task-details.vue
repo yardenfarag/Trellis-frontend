@@ -6,7 +6,7 @@
       <button class="cover-btn">Cover</button>
     </div>
     <div class="task-header">
-      <h5 contenteditable="true">{{ task.title }}</h5>
+      <h5 contenteditable="true" @blur="updateTitle(event)">{{ task.title }}</h5>
       <p v-if="group">in list: {{ group.title }}</p>
     </div>
     <section class="task-info flex">
@@ -89,6 +89,9 @@ export default {
       await taskService.remove(this.boardId, this.group.id, this.taskToEdit)
       this.$router.push('/board/' + this.boardId)
     },
+    // async updateTitle(ev){
+    //   console.log(ev.target.value)
+    // },
     closeDetails(){
       this.$router.push('/board/' + this.boardId)
 
