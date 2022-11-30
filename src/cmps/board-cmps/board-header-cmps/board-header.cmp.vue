@@ -16,7 +16,7 @@
                     <button class="member">🦝</button>
                     <button class="member">🐻</button>
                 </section> |
-                <button>Share</button> |
+                <button class="call-to-action">Share</button> |
                 <button>...</button>
             </section>
         </div>

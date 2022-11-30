@@ -1,12 +1,29 @@
-
+.main-task-details{
+    width: 768px;
+    margin: 48px 0 80px ;
+    border: 1px solid black;
+}
 .task-cover{
     background-color: red;
+    width: 100%;
+    min-height: 116px;
 }
-.main-task-details{
-    width: 552px;
+.task-content{
+    width: 576px;
     padding: 0 8px 8px 16px;
 }
 .task-sidebar{
-    width: calc(100% - 600px);
-    padding: 0 16px 8px 8px ;
+    width: 192px;
+    padding: 0 16px 8px 8px;
+}
+.task-detail-btn{
+
+    width: 100%;
+    display: block;
+    text-align: start;
+    margin-top: 8px;
+}
+hr{
+    height: 1px;
+    color: red;
 }
