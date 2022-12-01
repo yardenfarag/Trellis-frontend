@@ -2,8 +2,11 @@
     <section class="modal-container">
         <header>
             <button @click="closeModal">X</button>
-            <h5>date modal</h5>
+            <h5>Dates</h5>
         </header>
+        <section>
+
+        </section>
 
     </section>
 </template>
