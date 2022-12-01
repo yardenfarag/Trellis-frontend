@@ -9,8 +9,14 @@
       <div class="header-actions flex align-center space-between">
 
         <div class="start-section flex align-center">
-          <button>Recent</button>
-          <button>Starred</button>
+          <button><span>Recent</span>
+            <span class="material-symbols-outlined">
+              keyboard_arrow_down
+            </span></button>
+
+          <button><span>Starred</span><span class="material-symbols-outlined">
+              keyboard_arrow_down
+            </span> </button>
           <button @click="isCreateBoard = !isCreateBoard">Create</button>
         </div>
 

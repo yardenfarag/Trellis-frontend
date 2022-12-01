@@ -1,7 +1,12 @@
 <template>
     <section class="group-details">
-        <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
-        <button @click="removeGroup" class="btn-group-actions">X</button>
+        <div class="group-header">
+            <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
+            <!-- <button @click="removeGroup" class="btn-group-actions">X</button> -->
+            <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
+                more_horiz
+            </span>
+        </div>
         <!-- <button class="btn-group-actions">...</button> -->
         <ul class="clean-list task-list">
             <li v-for="task in 
@@ -9,12 +14,22 @@
                 <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
             </li>
         </ul>
-        <button v-if="!isAddTask" @click="isAddTask = true" class="btn-open-add-task">+ Add a card</button>
+        <button v-if="!isAddTask" @click="isAddTask = true" class="btn-open-add-task"><span style="font-size:20px;"
+                class="material-symbols-outlined">
+                add
+            </span><span>Add a card</span></button>
         <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
             <input v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
-            <button class="call-to-action">Add card</button>
-            <button @click="isAddTask = false" type="button">X</button>
-            <button class="add-task-options">...</button>
+            <div class="add-task-form-controler">
+                <button class="call-to-action">Add card</button>
+                <span style="font-size:32px;" @click="isAddTask = false"
+                    class="close-add-task material-symbols-outlined">
+                    close
+                </span>
+                <span style="font-size:28px;" class="add-task-options material-symbols-outlined">
+                    more_horiz
+                </span>
+            </div>
         </form>
     </section>
 </template>

@@ -6,18 +6,30 @@
                 <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
                 <button @click="setStarred()">⭐</button>
                 <button>Board</button>
-                <button>Table</button>
+                <button>
+                    <span style="font-size:15px;" class="material-symbols-outlined">
+                        table_chart
+                    </span>Table
+                </button>
             </section>
 
             <section class="end-section flex align-center">
-                <button>Filter</button> |
+                <button class="filter-btn">
+                    <span style="font-size:15px;" class="material-symbols-outlined">
+                        filter_list
+                    </span>Filter</button> |
                 <section class="members flex align-center">
                     <button class="member">🦊</button>
                     <button class="member">🦝</button>
                     <button class="member">🐻</button>
                 </section> |
-                <button class="share-btn">Share</button> |
-                <button>...</button>
+                <button class="share-btn">
+                    <span style="font-size:19px;" class="material-symbols-outlined">
+                        person_add
+                    </span>Share</button> |
+                <button class="menu-btn"><span class="material-symbols-outlined">
+                        more_horiz
+                    </span></button>
             </section>
         </div>
     </header>

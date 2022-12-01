@@ -1,6 +1,9 @@
 <template>
     <section v-if="task" class="task-preview">
-        <h5 @click="goToDetails">{{ task.title }}</h5>
+        <h5 @click="goToDetails">{{ task.title }}<span class="pencil-icon material-symbols-outlined">
+                edit
+            </span></h5>
+
     </section>
 </template>
 <script>

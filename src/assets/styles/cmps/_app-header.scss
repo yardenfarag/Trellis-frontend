@@ -5,7 +5,12 @@
     overflow: hidden;
     width: 100%;
 
+    button {
+        color: white;
+    }
+
     .header-nav {
+        color: white;
         border-bottom: 1px solid var(--clr2);
         overflow: hidden;
         backdrop-filter: blur(6px);

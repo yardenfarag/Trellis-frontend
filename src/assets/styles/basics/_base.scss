@@ -41,20 +41,22 @@ button {
     border-radius: 3px;
     cursor: pointer;
     background-color: var(--clr5);
+    padding-inline: 14px;
+    padding-block: 12px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     transition-property: background-color, border-color, box-shadow;
-    transition-duration: 85ms;
+    transition-duration: 35ms;
     transition-timing-function: ease;
-
 
     &.call-to-action {
         background-color: var(--t-blue);
         color: whitesmoke;
-    }
+        padding: 6px 12px;
 
-    &:hover {
-        background-color: var(--clr6);
+        &:hover {
+            background-color: darken(#0079bf, 4%);
+        }
     }
 }

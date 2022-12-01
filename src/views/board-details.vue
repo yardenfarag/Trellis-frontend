@@ -11,9 +11,11 @@
                 </section>
                 <section v-if="isAddGroup" class="add-group-open">
                     <input v-model="groupToSave.title" type="text" placeholder="Enter list title">
-                    <div class="add-group-btns">
+                    <div class="add-group-controler">
                         <button @click="addGroup" class="call-to-action">Add List</button>
-                        <button @click="isAddGroup = false">X</button>
+                        <span @click="isAddGroup = false" class="close-add-group material-symbols-outlined">
+                            close
+                        </span>
                     </div>
                 </section>
             </li>
