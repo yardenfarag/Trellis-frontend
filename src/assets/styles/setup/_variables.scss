@@ -1,6 +1,10 @@
 // Colors
+$color-primary-btn-modal: #091E420A;
+$color-primary-btn-modal-hover: rgba($color-primary-btn-modal, 0.08);
+$color-primary-btn-modal-active: rgba(#0079bf, 0.12);
+
 :root {
-    --clr-1: rgb(121, 121, 121); //color of secondery text
+    --clr-1: #5e6c84; //color of secondery text
     --clr0: #f4f5f7; // bgc color
     --clr1: #172b4d; // text color
     --clr2: #42526E; // icon color in button
@@ -11,8 +15,6 @@
 
     --hover-clr2: rgb(220, 220, 220);
 
-
-
     --t-blue: #0079bf;
     --t-green: #70b500;
     --t-orange: #ff9f1a;
@@ -22,7 +24,7 @@
     --t-pink: #ff78cb;
     --t-light-blue: #00c2e0;
     --t-light-green: #51e898;
-    --t-gray: #c4c9cc;
+    --t-gray: #d3d6d8;
     --t-light-gray: #ebecf0;
 }
 

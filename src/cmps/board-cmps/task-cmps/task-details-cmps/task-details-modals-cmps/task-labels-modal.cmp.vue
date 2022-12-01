@@ -1,36 +1,53 @@
 <template>
-    <section v-if="!editLabel" class="task-label-modal">
-        <button @click="$emit('closeModal')">X</button>
-        <div class="filter-labels">
-            <input v-model="filterBy.txt" type="search" placeholder="Search labels...">
-        </div>
-        <div v-if="labels" v-for="label in labels" class="labels flex">
-            <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-            <div :style="{ 'background-color': label.color }" class="label">{{ label.title }}</div>
-            <button @click="labelEditor(label)">✏️</button>
-        </div>
-        <button @click="currLabel = { title: '', color: '', } ; editLabel = true">Create a new label</button>
+    <section v-if="!editLabel" class="modal-container task-label-modal">
+        <section class="modal-header">
+            <h5>Labels</h5>
+            <span @click="$emit('closeModal')" class="material-symbols-outlined">
+                close
+            </span>
+        </section>
+        <section class="modal-body">
+            <div class="filter-labels">
+                <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search labels...">
+            </div>
+            <div v-if="labels" v-for="label in labels" class="labels flex">
+                <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+                <div :style="{ 'background-color': label.color }" class="label">{{ label.title }}</div>
+                <button @click="labelEditor(label)">✏️</button>
+            </div>
+        </section>
+        <section class="modal-footer">
+            <button class="primary-btn-modal" @click="currLabel = { title: '', color: '', } ; editLabel = true">Create a
+                new label</button>
+        </section>
     </section>
-    <section v-if="editLabel" class="task-label-modal">
-        <button @click="editLabel = false">&#60;</button>
-        <button @click="$emit('closeModal')">X</button>
-        <div class="label-show">
-            <span :style="{ backgroundColor: currLabel.color }">{{ currLabel.title }}</span>
-        </div>
-        <div class="label-editor">
-            <div class="edit-label-title">
-                <p>Title</p>
-                <input type="text" v-model="currLabel.title">
+    <section v-if="editLabel" class="modal-container task-label-modal">
+        <section class="modal-header">
+            <button @click="editLabel = false">&#60;</button>
+            <h5>Create label</h5>
+            <button @click="$emit('closeModal')">X</button>
+        </section>
+        <section class="modal-body">
+            <div class="label-show">
+                <span :style="{ backgroundColor: currLabel.color }">{{ currLabel.title }}</span>
             </div>
-            <div class="colors flex">
-                <div @click="currLabel.color = color" class="color" v-for="color in colors"
-                    :style="{ backgroundColor: color }"></div>
+            <div class="label-editor">
+                <div class="edit-label-title">
+                    <p>Title</p>
+                    <input type="text" v-model="currLabel.title">
+                </div>
+                <div class="colors flex">
+                    <div @click="currLabel.color = color" class="color" v-for="color in colors"
+                        :style="{ backgroundColor: color }"></div>
+                </div>
             </div>
+        </section>
+        <section class="modal-footer">
             <div class="action">
                 <button @click="saveLabel" class="call-to-action">Save</button>
                 <button>Delete</button>
             </div>
-        </div>
+        </section>
     </section>
 </template>
 <script>

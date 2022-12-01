@@ -1,29 +1,24 @@
 .task-label-modal {
-    position: fixed;
-    background-color: var(--clr0);
-    z-index: 300;
-    left: 276px;
-    border-radius: 3px;
-    padding: 10px;
-    border: 1px solid var(--clr1);
-
-    .label {
-        width: 100px;
-        height: 30px;
-    }
-
-    .colors {
-        flex-wrap: wrap;
-        width: 170px;
-        gap: 5px;
-        .color {
-            width: 30px;
+    .modal-body {
+        .label {
+            width: 100px;
             height: 30px;
-            cursor: pointer;
         }
-        &.selected {
-            border: 1px solid var(--clr1);
+
+        .colors {
+            flex-wrap: wrap;
+            width: 170px;
+            gap: 5px;
+
+            .color {
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+            }
+
+            &.selected {
+                border: 1px solid var(--clr1);
+            }
         }
     }
-    
 }
