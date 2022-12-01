@@ -25,6 +25,7 @@ export const userStore = {
         //     state.watchedUser = user
         // },
         setUsers(state, { users }) {
+            console.log('users from store', users);
             state.users = users
         },
         removeUser(state, { userId }) {
