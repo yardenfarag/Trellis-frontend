@@ -54,15 +54,15 @@ function getEmptyBoard() {
     }
 }
 
-function getEmptyChecklist(){
+function getEmptyChecklist() {
     return {
         id: utilService.makeId(),
         title: '',
-        todos:[]
+        todos: []
     }
 }
 
-function getEmptyTodo(){
+function getEmptyTodo() {
     return {
         id: utilService.makeId(),
         title: '',

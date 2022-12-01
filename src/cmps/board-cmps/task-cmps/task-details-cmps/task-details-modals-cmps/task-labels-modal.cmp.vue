@@ -10,10 +10,15 @@
             <div class="filter-labels">
                 <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search labels...">
             </div>
-            <div v-if="labels" v-for="label in labels" class="labels flex">
-                <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-                <div :style="{ 'background-color': label.color }" class="label">{{ label.title }}</div>
-                <button @click="labelEditor(label)">✏️</button>
+            <h6>Labels</h6>
+            <div class="lables">
+                <div v-if="labels" v-for="label in labels" class="label-container">
+                    <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+                    <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label">{{
+                            label.title
+                    }}</div>
+                    <span @click="labelEditor(label)" class="pencil-icon material-symbols-outlined">edit</span>
+                </div>
             </div>
         </section>
         <section class="modal-footer">
@@ -23,30 +28,35 @@
     </section>
     <section v-if="editLabel" class="modal-container task-label-modal">
         <section class="modal-header">
-            <button @click="editLabel = false">&#60;</button>
             <h5>Create label</h5>
-            <button @click="$emit('closeModal')">X</button>
+            <span @click="editLabel = false" class="back material-symbols-outlined">
+                arrow_back_ios
+            </span>
+            <span @click="$emit('closeModal')" class="material-symbols-outlined">
+                close
+            </span>
         </section>
         <section class="modal-body">
             <div class="label-show">
-                <span :style="{ backgroundColor: currLabel.color }">{{ currLabel.title }}</span>
+                <div class="label-preview" :style="{ backgroundColor: currLabel.color }"></div>
+                <div class="label-circle" :style="{ backgroundColor: currLabel.color }"></div>
+                <span class="label-title">{{ currLabel.title }}</span>
             </div>
             <div class="label-editor">
-                <div class="edit-label-title">
-                    <p>Title</p>
-                    <input type="text" v-model="currLabel.title">
-                </div>
-                <div class="colors flex">
+                <h5>Title</h5>
+                <input class="primary-input-modal" type="text" v-model="currLabel.title">
+                <h5>Select a color</h5>
+                <div class="colors">
                     <div @click="currLabel.color = color" class="color" v-for="color in colors"
                         :style="{ backgroundColor: color }"></div>
                 </div>
+                <button class="primary-btn-modal"> <span class="material-symbols-outlined">
+                        close
+                    </span>Remove color</button>
             </div>
         </section>
         <section class="modal-footer">
-            <div class="action">
-                <button @click="saveLabel" class="call-to-action">Save</button>
-                <button>Delete</button>
-            </div>
+            <button @click="saveLabel" class="call-to-action">Create</button>
         </section>
     </section>
 </template>

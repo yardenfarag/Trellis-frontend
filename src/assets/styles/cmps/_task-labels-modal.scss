@@ -1,24 +1,136 @@
 .task-label-modal {
     .modal-body {
-        .label {
-            width: 100px;
-            height: 30px;
+        h6 {
+            margin: 12px 0px 8px;
+            font-weight: 600;
         }
 
-        .colors {
-            flex-wrap: wrap;
-            width: 170px;
-            gap: 5px;
+        .lables {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-left: 3px;
+            margin-bottom: 4px;
 
-            .color {
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
+            .label-container {
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                padding: 0;
+                margin-inline: 2px;
+                gap: 12px;
+
+                input {
+                    display: block;
+                    margin: auto;
+                    cursor: pointer;
+                    margin-top: 8px;
+                }
+
+                .label {
+                    width: 212px;
+                    height: 32px;
+                    margin: auto;
+                    border-radius: 3px;
+                    opacity: 0.6;
+                    cursor: pointer;
+                }
+
+                span {
+                    margin-block: auto;
+                    margin-right: 8px;
+                    cursor: pointer;
+                }
             }
 
-            &.selected {
-                border: 1px solid var(--clr1);
+        }
+
+        .label-show {
+            height: 101px;
+            background-color: var(--t-light-gray);
+            display: flex;
+            position: relative;
+            padding-bottom: 7px;
+
+            .label-preview {
+                width: 240px;
+                height: 32px;
+                margin: auto;
+                border-radius: 3px;
+                display: flex;
+                // padding-inline: 31px;
+                opacity: 0.3;
             }
+
+            .label-circle {
+                position: absolute;
+                height: 16px;
+                width: 16px;
+                border-radius: 50%;
+                top: 39px;
+                left: 28px;
+            }
+
+            .label-title {
+                position: absolute;
+                top: 37px;
+                left: 52px;
+                font-size: 14px;
+            }
+
+
+        }
+
+        .label-editor {
+            border-bottom: 1px solid var(--t-gray);
+
+            h5 {
+                margin-block: 8px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            input {
+                margin-bottom: 13px;
+            }
+
+            .colors {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                gap: 8px;
+                padding-inline: 2px;
+
+                .color {
+                    width: 49px;
+                    height: 28px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                }
+
+                &.selected {
+                    border: 1px solid var(--clr1);
+                }
+            }
+
+            button {
+                margin-top: 12px;
+                margin-bottom: 24px;
+                position: relative;
+
+                span {
+                    position: absolute;
+                    font-size: 18px;
+                    left: 75px;
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        height: 60px;
+
+        button {
+            margin-top: 16px;
         }
     }
 }

@@ -5,12 +5,12 @@
         <input type="search"><button>Member</button><button>Share</button>
         <h6>Share this board with a link</h6>
         <a href="#">Create link</a>
-            <hr>
+        <hr>
         <select name="" id="">
             <option v-for="user in users" value="">{{ user.fullname }}</option>
         </select>
 
-        
+
 
     </section>
 </template>
@@ -23,8 +23,8 @@ export default {
         return {
         };
     },
-    async created() { 
-       await this.$store.dispatch('loadUsers')
+    async created() {
+        await this.$store.dispatch('loadUsers')
     },
     methods: {
         closeModal() {
@@ -32,21 +32,11 @@ export default {
         }
     },
     computed: {
-        users(){
+        users() {
             return this.$store.getters.users
         }
     },
     unmounted() { },
 };
 </script>
-<style>
-.modal-container {
-    width: 695px;
-    min-height: 304px;
-    background-color: var(--clr0);
-    position: fixed;
-    right: 10px;
-    z-index: 400;
-    border: 1px solid black;
-}
-</style>
+

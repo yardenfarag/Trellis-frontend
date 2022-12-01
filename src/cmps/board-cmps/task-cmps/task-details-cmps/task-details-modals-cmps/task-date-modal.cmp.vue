@@ -31,13 +31,3 @@ export default {
     unmounted() { },
 };
 </script>
-<style>
-.modal-container {
-    height: 695px;
-    width: 304px;
-    background-color: var(--clr0);
-    position: fixed;
-    right: 100px;
-    border: 1px solid black;
-}
-</style>

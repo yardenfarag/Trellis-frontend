@@ -71,6 +71,8 @@
     max-width: 304px;
     background-color: var(--clr0);
     box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.5);
+    top: 50%; // just for dev
+    left: 25%; // just for dev
     z-index: 300;
     border-radius: 3px;
     padding-inline: 12px;
@@ -98,7 +100,7 @@
         justify-content: center;
         border-bottom: 1px solid var(--t-gray);
         min-height: 40px;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
 
         h5 {
             margin: auto;
@@ -110,6 +112,14 @@
             bottom: 25%;
             right: -2px;
             font-size: 18px;
+            cursor: pointer;
+
+            &.back {
+                bottom: 35%;
+                left: 0;
+                font-size: 12px;
+                width: fit-content;
+            }
         }
     }
 
@@ -122,7 +132,6 @@
             height: 32px;
             padding-inline: 8px;
             padding-bottom: 2px;
-            margin-block-end: 8px;
             border-radius: 1px;
             outline: 2px solid var(--t-gray);
             transition: 0.15s;
@@ -139,6 +148,7 @@
     }
 
     .modal-footer {}
+
 }
 
 // Media helpers
