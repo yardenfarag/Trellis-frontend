@@ -8,29 +8,27 @@ export const userStore = {
     state: {
         loggedinUser: null,
         users: [],
-        watchedUser: null
+        // watchedUser: null
     },
     getters: {
         users({ users }) { return users },
         loggedinUser({ loggedinUser }) { return loggedinUser },
-        watchedUser({ watchedUser }) { return watchedUser }
+        // watchedUser({ watchedUser }) { return watchedUser }
     },
     mutations: {
         setLoggedinUser(state, { user }) {
             // Yaron: needed this workaround as for score not reactive from birth
-            state.loggedinUser = (user) ? { ...user } : null
+            // state.loggedinUser = (user) ? { ...user } : null
+            state.loggedinUser = user
         },
-        setWatchedUser(state, { user }) {
-            state.watchedUser = user
-        },
+        // setWatchedUser(state, { user }) {
+        //     state.watchedUser = user
+        // },
         setUsers(state, { users }) {
             state.users = users
         },
         removeUser(state, { userId }) {
             state.users = state.users.filter(user => user._id !== userId)
-        },
-        setUserScore(state, { score }) {
-            state.loggedinUser.score = score
         },
     },
     actions: {
@@ -74,16 +72,16 @@ export const userStore = {
                 throw err
             }
         },
-        async loadAndWatchUser({ commit }, { userId }) {
-            try {
-                const user = await userService.getById(userId)
-                commit({ type: 'setWatchedUser', user })
+        // async loadAndWatchUser({ commit }, { userId }) {
+        //     try {
+        //         const user = await userService.getById(userId)
+        //         commit({ type: 'setWatchedUser', user })
 
-            } catch (err) {
-                console.log('userStore: Error in loadAndWatchUser', err)
-                throw err
-            }
-        },
+        //     } catch (err) {
+        //         console.log('userStore: Error in loadAndWatchUser', err)
+        //         throw err
+        //     }
+        // },
         async removeUser({ commit }, { userId }) {
             try {
                 await userService.remove(userId)
@@ -102,15 +100,6 @@ export const userStore = {
                 throw err
             }
 
-        },
-        async increaseScore({ commit }) {
-            try {
-                const score = await userService.changeScore(100)
-                commit({ type: 'setUserScore', score })
-            } catch (err) {
-                console.log('userStore: Error in increaseScore', err)
-                throw err
-            }
         },
         // Keep this action for compatability with a common user.service ReactJS/VueJS
         setWatchedUser({ commit }, payload) {
