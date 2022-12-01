@@ -27,10 +27,12 @@ export default {
             if (!ev.target.value) this.isDisabled = true
             else this.isDisabled = false
         },
-        saveBoard() {
-            this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+        async saveBoard() {
+            await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+            const newBoard = this.$store.getters.board
             this.newBoard = boardService.getEmptyBoard()
             this.$emit('closeModal')
+            this.$router.push('/board/' + newBoard._id)
         }
     },
     computed: {},
