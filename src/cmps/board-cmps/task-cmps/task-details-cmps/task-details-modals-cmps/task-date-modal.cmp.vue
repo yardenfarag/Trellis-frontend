@@ -5,7 +5,7 @@
             <h5>Dates</h5>
         </header>
         <section>
-
+            <input type="date" name="" id="">
         </section>
 
     </section>

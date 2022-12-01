@@ -49,6 +49,7 @@ export default {
     },
     methods: {
         async addGroup() {
+            if (!this.groupToSave.title) return
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: this.groupToSave })
             this.groupToSave = {

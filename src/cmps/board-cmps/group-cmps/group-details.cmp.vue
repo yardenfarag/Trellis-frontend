@@ -59,6 +59,7 @@ export default {
     },
     methods: {
         async addTask() {
+            if (!this.taskToEdit.title) return
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: this.taskToEdit })
             this.taskToEdit = {
@@ -69,9 +70,15 @@ export default {
             }
         },
         async updateGroup(ev) {
-            const newTitle = ev.target.innerText
             const groupToEdit = JSON.parse(JSON.stringify(this.group))
-            groupToEdit.title = newTitle
+            let newTitle
+            if (!ev.target.innerText) {
+                ev.target.innerText = groupToEdit.title
+                return
+            } else {
+                newTitle = ev.target.innerText
+                groupToEdit.title = newTitle
+            }
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: groupToEdit })
 
