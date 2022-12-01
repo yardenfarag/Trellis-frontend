@@ -1,49 +1,109 @@
 <template>
-    <section v-if="editLabel" class="task-label-modal">
+    <section v-if="!editLabel" class="task-label-modal">
+        <button @click="$emit('closeModal')">X</button>
         <div class="filter-labels">
-            <input type="search" placeholder="Search labels...">
+            <input v-model="filterBy.txt" type="search" placeholder="Search labels...">
         </div>
-        <div class="labels">
-            <input @change="addLabeltoTask(label)" v-for="label in board.labels" type="checkbox">
-            <span :class="label.class">{{ label.title }}</span>
-            <button @click="editLabel = true">✏️</button>
+        <div v-if="labels" v-for="label in labels" class="labels flex">
+            <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+            <div :style="{ 'background-color': label.color }" class="label">{{ label.title }}</div>
+            <button @click="labelEditor(label)">✏️</button>
         </div>
-        <button>Create a new label</button>
+        <button @click="currLabel = { title: '', color: '', } ; editLabel = true">Create a new label</button>
     </section>
-    <section v-if="!editLabel" class="task-edit-label-modal">
+    <section v-if="editLabel" class="task-label-modal">
+        <button @click="editLabel = false">&#60;</button>
+        <button @click="$emit('closeModal')">X</button>
         <div class="label-show">
-            <span :class="label.class">{{ label.title }}</span>
+            <span :style="{ backgroundColor: currLabel.color }">{{ currLabel.title }}</span>
         </div>
-        <div class="labels">
-            <input @change="addLabeltoTask(label)" v-for="label in board.labels" type="checkbox">
-            <span :class="label.class">{{ label.title }}</span>
-            <button @click="editLabel = true">✏️</button>
+        <div class="label-editor">
+            <div class="edit-label-title">
+                <p>Title</p>
+                <input type="text" v-model="currLabel.title">
+            </div>
+            <div class="colors flex">
+                <div @click="currLabel.color = color" class="color" v-for="color in colors"
+                    :style="{ backgroundColor: color }"></div>
+            </div>
+            <div class="action">
+                <button @click="saveLabel" class="call-to-action">Save</button>
+                <button>Delete</button>
+            </div>
         </div>
-        <button>Create a new label</button>
     </section>
 </template>
 <script>
+import { utilService } from '../../../../../services/util.service';
+
 export default {
-    props: ['board', 'task'],
+    props: {
+        board: Object,
+        task: Object
+    },
+    emits: ['closeModal', 'updateTask'],
     name: 'task-label-modal',
     components: {},
     data() {
         return {
+            filterBy: { txt: '' },
             editLabel: false,
             currLabel: {
                 title: '',
-                class: ''
-            }
+                color: ''
+            },
+            colors: ['#b7ddb0', '#f5ea92', '#fad29c', '#efb3ab', '#dfc0eb',
+                '#7bc86c', '#f5dd29', '#ffaf3f', '#ef7564', '#cd8de5',
+                '#5aac44', '#e6c60d', '#e79217', '#cf513d', '#a86cc1',
+                '#8bbdd9', '#8fdfeb', '#b3f1d0', '#f9c2e4', '#505f79',
+                '#5ba4cf', '#29cce5', '#6deca9', '#ff8ed4', '#344563',
+                '#026aa7', '#00aecc', '#4ed583', '#e568af', '#091e42'
+            ]
         };
     },
-    created() { },
+    created() {
+        console.log(this.board.labels);
+        console.log(this.task);
+    },
     methods: {
-        addLabeltoTask(label) {
-            this.task.labels.push(label)
-
+        saveLabel() {
+            const board = JSON.parse(JSON.stringify(this.board))
+            const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
+            if (labelToSave.id) {
+                const labelIdx = board.labels.findIndex(label => label.id === labelToSave.id)
+                board.labels.splice(labelIdx, 1, labelToSave)
+            }
+            else {
+                labelToSave.id = utilService.makeId()
+                board.labels.push(labelToSave)
+            }
+            this.$store.dispatch({ type: 'saveBoard', board })
+        },
+        labelEditor(label) {
+            this.editLabel = true
+            const labelToEdit = JSON.parse(JSON.stringify(label))
+            this.currLabel = labelToEdit
+        },
+        toggleLabel(labeltoAdd) {
+            const labelToAdd = JSON.parse(JSON.stringify(labeltoAdd))
+            const labelInTask = this.task.labels.find(label => label.id === labeltoAdd.id)
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            if (labelInTask) {
+                const labelIdx = this.task.labels.findIndex(label => label.id === labelInTask.id)
+                taskToSave.labels.splice(labelIdx, 1)
+            } else {
+                taskToSave.labels.push(labelToAdd)
+            }
+            this.$emit('updateTask', taskToSave)
+            // this.$store.dispatch({ type: 'saveTask', board, groupId, taskToSave })
         }
     },
-    computed: {},
+    computed: {
+        labels() {
+            const regex = new RegExp(this.filterBy.txt, 'i')
+            return this.board.labels.filter(label => regex.test(label.title))
+        }
+    },
     unmounted() { },
 };
 </script>

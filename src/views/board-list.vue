@@ -17,16 +17,20 @@ export default {
     },
     data() {
         return {
-            boards: []
+            // boards: []
         }
     },
     async created() {
-        this.boards = await this.$store.dispatch({ type: 'loadBoards' })
-        this.boards = this.$store.getters.boards
+        await this.$store.dispatch({ type: 'loadBoards' })
+        // this.boards = this.$store.getters.boards
     },
     methods: {
     },
-    computed: {},
+    computed: {
+        boards() {
+            return this.$store.getters.boards
+        }
+    },
     unmounted() { },
 };
 </script>

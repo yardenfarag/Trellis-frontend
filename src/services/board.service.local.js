@@ -2,6 +2,7 @@
 import { storageService } from './async-storage.service.js'
 // import { utilService } from './util.service.js'
 import { userService } from './user.service.js'
+import { utilService } from './util.service.js'
 
 const STORAGE_KEY = 'board'
 
@@ -11,6 +12,8 @@ export const boardService = {
     save,
     remove,
     getEmptyBoard,
+    getEmptyChecklist,
+    getEmptyTodo,
 }
 // window.cs = boardService // (just for test)
 
@@ -51,47 +54,63 @@ function getEmptyBoard() {
     }
 }
 
+function getEmptyChecklist(){
+    return {
+        id: utilService.makeId(),
+        title: '',
+        todos:[]
+    }
+}
+
+function getEmptyTodo(){
+    return {
+        id: utilService.makeId(),
+        title: '',
+        isDone: false
+    }
+}
+
 function _getLabels() {
     return [
         {
             id: 'l101',
             title: '',
-            class: 'label1'
+            color: '#0079bf'
         },
         {
             id: 'l102',
             title: '',
-            class: 'label2'
+            color: '#70b500'
         },
         {
             id: 'l103',
             title: '',
-            class: 'label3'
+            color: '#ff9f1a'
         },
         {
             id: 'l104',
             title: '',
-            class: 'label4'
+            color: '#eb5a46'
         },
         {
             id: 'l105',
             title: '',
-            class: 'label5'
+            color: '#f2d600'
         },
         {
             id: 'l106',
             title: '',
-            class: 'label6'
+            color: '#c377e0'
         },
         {
             id: 'l107',
             title: '',
-            class: 'label7'
+            color: '#ff78cb'
         },
         {
             id: 'l108',
             title: '',
-            class: 'label8'
+            color: '#00c2e0'
         },
     ]
 }

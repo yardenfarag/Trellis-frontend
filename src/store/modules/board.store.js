@@ -45,7 +45,10 @@ export const boardStore = {
         //     state.boards.splice(idx, 1, updatedBoard)
         // },
         removeBoard(state, { boardId }) {
-            state.boards = state.boards.filter(board => board._id !== boardId)
+            const boards = state.boards
+            const boardIdx = boards.findIndex(board => board._id === boardId)
+            boards.splice(boardIdx, 1)
+            state.boards = boards
         },
     },
     actions: {
@@ -160,7 +163,17 @@ export const boardStore = {
                 context.commit({ type: 'setCurrBoard', board })
             }
             catch (err) {
-                console.log('there was a promblen rmoving this group in the store')
+                console.log('there was a promblen removing this group in the store')
+                throw err
+            }
+        },
+        async removeBoard(context, {boardId}) {
+            try {
+                await boardService.remove(boardId)
+                context.commit({type: 'removeBoard', boardId})
+            }
+            catch (err) {
+                console.log('there was a problem removing this board in the store')
                 throw err
             }
         }

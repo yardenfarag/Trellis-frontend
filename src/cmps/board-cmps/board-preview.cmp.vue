@@ -1,5 +1,8 @@
 <template>
-    <section class="board-preview" @click="goToDetails()">{{ board.title }}</section>
+    <section class="board-preview flex">
+        <h1 @click="goToDetails()">{{ board.title }}</h1>
+        <button @click="removeBoard">X</button>
+    </section>
 </template>
 <script>
 export default {
@@ -16,6 +19,9 @@ export default {
         async goToDetails() {
             await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
             this.$router.push('/board/' + this.board._id)
+        },
+        async removeBoard() {
+            await this.$store.dispatch({ type: 'removeBoard', boardId: this.board._id })
         }
     },
     computed: {},
