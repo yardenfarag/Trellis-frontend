@@ -51,7 +51,8 @@
       </section>
     </section>
   </section>
-  <taskLabelsModal @updateTask="updateTask" v-if="isLabelsModalOpen" :board="board" :task="task" />
+  <taskLabelsModal @closeModal="isLabelsModalOpen = !isLabelsModalOpen" @updateTask="updateTask"
+    v-if="isLabelsModalOpen" :board="board" :task="task" />
 
 </template>
 
@@ -124,6 +125,7 @@ export default {
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
     },
     async updateTask(UpdatedTask) {
+      this.task = UpdatedTask
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: UpdatedTask })
     },
