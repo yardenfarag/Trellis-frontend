@@ -78,7 +78,7 @@ async function logout() {
 }
 
 function saveLocalUser(user) {
-    user = {_id: user._id, fullname: user.fullname, imgUrl: user.imgUrl}
+    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
     return user
 }
@@ -86,15 +86,23 @@ function saveLocalUser(user) {
 function getLoggedinUser() {
     const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
     if (user) return user
-    else return {fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar'}
+    else return { fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar' }
 }
 
 
-// ;(async ()=>{
-//     await userService.signup({fullname: 'Puki Norma', username: 'puki', password:'123',score: 10000, isAdmin: false})
-//     await userService.signup({fullname: 'Master Adminov', username: 'admin', password:'123', score: 10000, isAdmin: true})
-//     await userService.signup({fullname: 'Muki G', username: 'muki', password:'123', score: 10000})
-// })()
+; (async () => {
+    await userService.signup({fullname:"Herman Cianciulli",imgUrl:"https://xsgames.co/randomusers/assets/avatars/male/53.jpg",password:"123",username:"herm"})
+    await userService.signup({fullname:"Mack Schlax",imgUrl:"https://xsgames.co/randomusers/assets/avatars/male/75.jpg",password:"123",username:"mac"})
+    await userService.signup({fullname:"Evangelina Najam",imgUrl:"https://xsgames.co/randomusers/assets/avatars/female/10.jpg",password:"123",username:"eva"})
+    await userService.signup({fullname:"Leana Gauwitz",imgUrl:"https://xsgames.co/randomusers/assets/avatars/female/57.jpg",password:"123",username:"lea"})
+    await userService.signup({fullname:"Mariana Hamara",imgUrl:"https://xsgames.co/randomusers/assets/avatars/female/55.jpg",password:"123",username:"mar"})
+    await userService.signup({fullname:"Rashad Poiroux",imgUrl:"https://xsgames.co/randomusers/assets/avatars/male/61.jpg",password:"123",username:"ras"})
+    await userService.signup({fullname:"Anton Madary",imgUrl:"https://xsgames.co/randomusers/assets/avatars/male/26.jpg",password:"123",username:"ant"})
+    await userService.signup({fullname:"Mallie Walker",imgUrl:"https://xsgames.co/randomusers/assets/avatars/female/19.jpg",password:"123",username:"mal"})
+    await userService.signup({fullname:"Yarden",imgUrl:"https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar",password:"123",username:"herm"})
+
+})()
+
 
 
 
