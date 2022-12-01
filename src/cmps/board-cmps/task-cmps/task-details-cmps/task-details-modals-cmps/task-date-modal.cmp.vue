@@ -4,30 +4,57 @@
             <button @click="closeModal">X</button>
             <h5>Dates</h5>
         </header>
+        <hr>
         <section>
-            <input type="date" name="" id="">
+            <div class="block">
+                <el-date-picker ref="datePicker" v-model="dueDate" type="datetime" placeholder="Select date and time"
+                    :default-time="defaultTime" />
+            </div>
+            <button @click="saveDueDate">Save</button>
+            <button @click="closeModal">Remove</button>
         </section>
 
     </section>
 </template>
 <script>
 export default {
-    emits: ['closeDateModal'],
+    emits: ['closeDateModal', 'saveTask'],
     name: 'date-modal',
+    props: {
+        task: Object
+    },
     components: {
 
     },
     data() {
         return {
+            dueDate: '',
+            defaultTime: new Date(2000, 1, 1, 12, 0, 0)
         };
     },
-    created() { },
+    created() {
+
+    },
     methods: {
+        saveDueDate() {
+            console.log(this.dueDate);
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            taskToSave.dueDate = this.dueDate
+            this.$emit('saveTask', taskToSave)
+            this.closeModal()
+        },
         closeModal() {
             this.$emit('closeDateModal')
+        },
+        focusInput() {
+            // this.$refs.datePicker.$el.focus()
+            this.$nextTick(() => this.$refs.datePicker.focus())
         }
     },
     computed: {},
+    mounted() {
+        this.focusInput()
+    },
     unmounted() { },
 };
 </script>
