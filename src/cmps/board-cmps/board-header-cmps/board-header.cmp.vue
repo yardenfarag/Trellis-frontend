@@ -19,9 +19,14 @@
                         filter_list
                     </span>Filter</button> |
                 <section class="members flex align-center">
-                    <button class="member">🦊</button>
-                    <button class="member">🦝</button>
-                    <button class="member">🐻</button>
+                    <div v-if="boardMembers" v-for="boardMember in boardMembers" class="member">
+                        <img v-if="boardMember.imgUrl" :style="{ width: 30 + 'px', 'border-radius': 50 + '%' }"
+                            :src="boardMember.imgUrl" alt="">
+                        <p :style="{ textAlign: 'center', backgroundColor: 'lightgray', width: 21 + 'px', 'border-radius': 50 + '%' }"
+                            v-else>{{
+                                    user.fullname.charAt(0)
+                            }}</p>
+                    </div>
                 </section> |
                 <button @click="isShareModal = true" class="share-btn">
                     <span style="font-size:19px;" class="material-symbols-outlined">
@@ -35,7 +40,7 @@
     </header>
 
     <section class="header-modals">
-        <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal"/>
+        <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal" />
     </section>
 </template>
 <script>
@@ -64,7 +69,20 @@ export default {
             console.log('set starred');
         }
     },
-    computed: {},
+    computed: {
+        users() {
+            return this.$store.getters.users
+        },
+        board() {
+            return this.$store.getters.board
+        },
+        boardMembers() {
+            let members = this.users.filter(user => {
+                return this.board.members.includes(user._id)
+            })
+            return members
+        }
+    },
     unmounted() { },
 };
 </script>
