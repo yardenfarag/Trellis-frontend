@@ -32,10 +32,10 @@
       <section class="task-sidebar">
         <h6>Add to card</h6>
         <button class="task-detail-btn">join</button>
-        <button class="task-detail-btn">Members</button>
+        <button @click="isMembersModal = true" class="task-detail-btn">Members</button>
         <button @click="isLabelsModalOpen = !isLabelsModalOpen" class="task-detail-btn">Labels</button>
         <button @click="toggleChecklistModal" class="task-detail-btn">Checklist</button>
-        <button class="task-detail-btn">Dates</button>
+        <button @click="isDateModal = true" class="task-detail-btn">Dates</button>
         <button class="task-detail-btn">Attachment</button>
         <button class="task-detail-btn">Location</button>
         <button class="task-detail-btn">Custom Fields</button>
@@ -51,9 +51,11 @@
       </section>
     </section>
   </section>
+
   <taskLabelsModal @closeModal="isLabelsModalOpen = !isLabelsModalOpen" @updateTask="updateTask"
     v-if="isLabelsModalOpen" :board="board" :task="task" />
-
+  <taskDatesModal v-if="isDateModal" @closeDateModal="(isDateModal = false)"/>
+  <taskMembersModal v-if="isMembersModal" @closeMembersModal="(isMembersModal = false)" />
 </template>
 
 <script>
@@ -64,6 +66,8 @@ import taskComments from '../cmps/board-cmps/task-cmps/task-details-cmps/task-co
 import taskMap from '../cmps/board-cmps/task-cmps/task-details-cmps/task-map.cmp.vue'
 import ClickOutside from 'vue-click-outside'
 import taskLabelsModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-labels-modal.cmp.vue'
+import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
+import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 
 export default {
   name: 'task-details',
@@ -74,6 +78,8 @@ export default {
     taskComments,
     taskMap,
     taskLabelsModal,
+    taskDatesModal,
+    taskMembersModal,
   },
   data() {
     return {
@@ -82,6 +88,8 @@ export default {
       boardId: null,
       isLabelsModalOpen: false,
       isChecklistModal: false,
+      isDateModal: false,
+      isMembersModal: false,
     }
   },
 

@@ -117,8 +117,6 @@ export default {
         return doneTodos/todos
       }
     }
-
-
   },
   unmounted() { },
 }

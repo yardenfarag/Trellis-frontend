@@ -23,7 +23,7 @@
                     <button class="member">🦝</button>
                     <button class="member">🐻</button>
                 </section> |
-                <button class="share-btn">
+                <button @click="isShareModal = true" class="share-btn">
                     <span style="font-size:19px;" class="material-symbols-outlined">
                         person_add
                     </span>Share</button> |
@@ -33,14 +33,24 @@
             </section>
         </div>
     </header>
+
+    <section class="header-modals">
+        <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal"/>
+    </section>
 </template>
 <script>
+import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
+
 export default {
     props: ['board'],
     name: 'board-header',
-    components: {},
+    components: {
+        shareModal
+    },
     data() {
-        return {};
+        return {
+            isShareModal: false,
+        }
     },
     created() { },
     methods: {

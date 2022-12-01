@@ -1,17 +1,7 @@
 <template>
-  <section v-if="user">
+  <section v-if="user" class="flex column align-center">
     <h1>User Details - {{ user.fullname }}</h1>
-    <h3>{{ user.username }} score: {{ user.score }}</h3>
     <img style="max-width: 200px;" :src="user.imgUrl" />
-    <ul>
-      <li v-for="review in user.givenReviews" :key="review._id">
-        {{ review.txt }}
-        <router-link :to="`/user/${review.aboutUser._id}`">
-          About {{ review.aboutUser.fullname }}
-        </router-link>
-      </li>
-    </ul>
-
     <details>
       <summary>Full JSON</summary>
       <pre>{{ user }}</pre>
@@ -32,19 +22,9 @@ export default {
     // const user = await userService.getById(id)
     // this.user = user
   },
-  watch: {
-    userId: {
-      handler() {
-        if(this.userId){
-            this.$store.dispatch({ type: "loadAndWatchUser", userId: this.userId })
-        }
-      },
-      immediate: true,
-    },
-  },
   computed: {
     user() {
-      return this.$store.getters.watchedUser
+      return this.$store.getters.loggedinUser
     },
     userId() {
       return this.$route.params.id
