@@ -5,6 +5,13 @@
         <input type="search"><button>Member</button><button>Share</button>
         <h6>Share this board with a link</h6>
         <a href="#">Create link</a>
+            <hr>
+        <select name="" id="">
+            <option v-for="user in users" value="">{{ user.fullname }}</option>
+        </select>
+
+        
+
     </section>
 </template>
 <script>
@@ -18,7 +25,6 @@ export default {
     },
     async created() { 
        await this.$store.dispatch('loadUsers')
-       console.log(this.users)
     },
     methods: {
         closeModal() {
@@ -27,7 +33,6 @@ export default {
     },
     computed: {
         users(){
-            console.log(this.$store.getters.users);
             return this.$store.getters.users
         }
     },
