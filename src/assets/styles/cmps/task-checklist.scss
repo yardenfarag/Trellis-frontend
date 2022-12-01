@@ -11,3 +11,10 @@
         width: 100%;
      }
 }
+.todo-title{
+   display: inline;
+   margin-left: 10px;
+}
+.checked{
+   text-decoration: line-through;
+}

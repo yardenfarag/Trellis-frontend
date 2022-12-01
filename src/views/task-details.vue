@@ -123,9 +123,10 @@ export default {
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
     },
-    async updateTask(UpdatedTask) {
+    async updateTask(updatedTask) {
+      this.task = updatedTask
       const boardToSave = JSON.parse(JSON.stringify(this.board))
-      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: UpdatedTask })
+      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
     },
     toggleChecklistModal() {
       this.isChecklistModal = !this.isChecklistModal
