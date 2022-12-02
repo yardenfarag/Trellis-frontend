@@ -1,4 +1,37 @@
 .task-label-modal {
+    .label-show {
+        height: 101px;
+        background-color: var(--t-light-gray);
+        display: flex;
+        position: relative;
+        padding-bottom: 7px;
+
+        .label-preview {
+            width: 240px;
+            height: 32px;
+            margin: auto;
+            border-radius: 3px;
+            display: flex;
+            opacity: 0.35;
+        }
+
+        .label-circle {
+            position: absolute;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            top: 39px;
+            left: 40px;
+        }
+
+        .label-title {
+            position: absolute;
+            top: 37px;
+            left: 64px;
+            font-size: 14px;
+        }
+    }
+
     .modal-body {
         h6 {
             margin: 12px 0px 8px;
@@ -10,76 +43,74 @@
             flex-direction: column;
             gap: 4px;
             padding-left: 3px;
-            margin-bottom: 4px;
+            // margin-bottom: 4px;
 
             .label-container {
                 position: relative;
                 display: flex;
                 justify-content: space-between;
                 padding: 0;
-                margin-inline: 2px;
+                margin-inline: 1px;
                 gap: 12px;
 
                 input {
                     display: block;
                     margin: auto;
                     cursor: pointer;
-                    margin-top: 8px;
                 }
 
-                .label {
-                    width: 212px;
+                .label-circle {
+                    position: absolute;
+                    top: 8px;
+                    left: 33px;
+                    height: 16px;
+                    width: 16px;
+                    border-radius: 50%;
+                }
+
+                .label-title {
+                    position: absolute;
+                    top: 5px;
+                    left: 57px;
+                    font-size: 14px;
+                }
+
+                .label-preview {
+                    position: relative;
+                    min-width: 212px;
                     height: 32px;
                     margin: auto;
                     border-radius: 3px;
-                    opacity: 0.6;
+                    opacity: 0.35;
                     cursor: pointer;
+
+                    .dark {
+                        position: absolute;
+                        background-color: rgb(0, 0, 0);
+                        opacity: 0;
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 3px;
+
+                        &:hover {
+                            opacity: 0.5;
+                        }
+                    }
                 }
 
-                span {
-                    margin-block: auto;
-                    margin-right: 8px;
+                .edit-btn {
+                    margin: auto;
                     cursor: pointer;
+                    width: 32px;
+                    height: 32px;
+
+                    &:hover {
+                        background-color: $color-primary-btn-modal-hover
+                    }
                 }
             }
-
         }
 
-        .label-show {
-            height: 101px;
-            background-color: var(--t-light-gray);
-            display: flex;
-            position: relative;
-            padding-bottom: 7px;
-
-            .label-preview {
-                width: 240px;
-                height: 32px;
-                margin: auto;
-                border-radius: 3px;
-                display: flex;
-                // padding-inline: 31px;
-                opacity: 0.3;
-            }
-
-            .label-circle {
-                position: absolute;
-                height: 16px;
-                width: 16px;
-                border-radius: 50%;
-                top: 39px;
-                left: 28px;
-            }
-
-            .label-title {
-                position: absolute;
-                top: 37px;
-                left: 52px;
-                font-size: 14px;
-            }
-
-
-        }
 
         .label-editor {
             border-bottom: 1px solid var(--t-gray);
@@ -101,19 +132,39 @@
                 padding-inline: 2px;
 
                 .color {
+                    position: relative;
                     width: 49px;
                     height: 28px;
                     border-radius: 3px;
                     cursor: pointer;
-                }
 
-                &.selected {
-                    border: 1px solid var(--clr1);
+                    &.selected {
+                        width: 48px;
+                        // height: 24px;
+                        border: 2px solid white;
+                        margin: auto;
+                        outline: 2px solid var(--t-blue);
+                        border-radius: 1px;
+                    }
+
+                    .dark {
+                        position: absolute;
+                        background-color: rgb(0, 0, 0);
+                        opacity: 0;
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 3px;
+
+
+                        &:hover {
+                            opacity: 0.2;
+                        }
+                    }
                 }
             }
 
             button {
-                margin-top: 12px;
+                margin-top: 10px;
                 margin-bottom: 24px;
                 position: relative;
 
@@ -127,10 +178,33 @@
     }
 
     .modal-footer {
-        height: 60px;
+        // height: 60px;
 
         button {
             margin-top: 16px;
         }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
     }
+}
+
+.delete-label-modal {
+    .modal-header {
+        margin-bottom: 8px;
+    }
+
+    .modal-footer {
+        p {
+            font-size: 14px;
+            margin: 0 0 8px;
+        }
+
+        .btn-danger {
+            width: 100%;
+        }
+    }
+
 }

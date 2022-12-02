@@ -6,14 +6,14 @@
 
 .main-task-details {
     width: 768px;
-    
-    background-color: var(--clr0);
+
+    background-color: $color-bg-1;
     position: absolute;
     right: 50%;
     left: 50%;
     top: 48px;
     margin-bottom: 80px;
-    transform:translate(-50%, ) ;
+    transform: translate(-50%, );
 }
 
 .task-cover {
@@ -29,7 +29,8 @@
         margin: 8px;
         padding: 6px 12px 6px 6px;
     }
-    & .close-details{
+
+    & .close-details {
         position: absolute;
         top: 0;
         right: 0;

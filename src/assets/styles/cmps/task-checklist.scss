@@ -1,20 +1,23 @@
-.checklist-modal{
-    position: fixed;
-    height: 229px;
-    width: 304px;
-    top: 0;
-    right: 100px;
-    padding: 0 12px 12px;
-    background-color: var(--clr0);
-    border: 1px solid black;
-     & input{
-        width: 100%;
-     }
+.checklist-modal {
+   position: fixed;
+   height: 229px;
+   width: 304px;
+   top: 0;
+   right: 100px;
+   padding: 0 12px 12px;
+   background-color: $color-bg-1;
+   border: 1px solid black;
+
+   & input {
+      width: 100%;
+   }
 }
-.todo-title{
+
+.todo-title {
    display: inline;
    margin-left: 10px;
 }
-.checked{
+
+.checked {
    text-decoration: line-through;
 }

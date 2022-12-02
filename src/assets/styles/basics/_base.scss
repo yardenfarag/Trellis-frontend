@@ -21,7 +21,7 @@ textarea {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
-    color: var(--clr1);
+    color: $color-primary-icon-hover;
     margin: 0;
     border: none;
 }
@@ -40,7 +40,6 @@ h6 {
 button {
     border-radius: 3px;
     cursor: pointer;
-    background-color: var(--clr5);
     padding-inline: 14px;
     padding-block: 12px;
     display: inline-flex;
@@ -51,12 +50,37 @@ button {
     transition-timing-function: ease;
 
     &.call-to-action {
-        background-color: var(--t-blue);
+        background-color: $color-primary;
         color: whitesmoke;
         padding: 6px 12px;
 
         &:hover {
-            background-color: darken(#0079bf, 4%);
+            background-color: $color-primary-hover
         }
+
+        &:active {
+            background-color: $color-primary-active
+        }
+    }
+
+    &.btn-danger {
+        background-color: $color-danger;
+        color: whitesmoke;
+        padding: 6px 12px;
+
+        &:hover {
+            background-color: $color-danger-hover
+        }
+
+        &:active {
+            background-color: $color-danger-active
+        }
+    }
+
+    &.btn-disabled {
+        padding: 6px 12px;
+        color: rgba($color-primary-text, 0.4) !important;
+        background-color: rgba($color-primary-btn-modal, 0.03) !important;
+        cursor: not-allowed !important;
     }
 }

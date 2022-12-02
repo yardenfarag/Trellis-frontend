@@ -1,5 +1,7 @@
 .board-details {
-    .group-list>* {
+    position: relative;
+
+    .group-list>*:not(.btn-open-add-group) {
         background-color: var(--t-light-gray);
         // padding-inline: 8px;
         margin-inline: 4px;
@@ -13,6 +15,17 @@
         width: 100%;
         background-color: transparent;
     }
+
+
+}
+
+.btn-open-add-group {
+    color: white;
+    position: absolute;
+    max-width: 272px;
+    min-width: 272px;
+    max-height: 40px;
+    min-height: 40px;
 
 }
 

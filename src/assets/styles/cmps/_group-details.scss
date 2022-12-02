@@ -34,7 +34,7 @@
 
         &:hover {
             cursor: pointer;
-            background-color: var(--hover-clr2);
+            background-color: $color-hover-1;
         }
     }
 
@@ -47,13 +47,13 @@
         background-color: transparent;
         transition: none;
         border-radius: 3px;
-        color: var(--clr-1);
+        color: $color-secondery-text;
         font-weight: 300;
 
 
         &:hover {
-            background-color: var(--hover-clr2);
-            color: var(--clr1);
+            background-color: $color-hover-1;
+            color: $color-secondery-text
         }
 
         & span:nth-child(1) {
@@ -81,18 +81,75 @@
     }
 }
 
-.task-preview h5 {
+.task-preview {
     position: relative;
 
-    & span {
+    .label-list {
+        .label-preview {
+            width: 40px;
+            height: 8px;
+
+        }
+    }
+
+    & .pencil-icon {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: -5px;
+        top: -4px;
         border-radius: 3px;
-        // padding: 4px;
+        display: none;
+        padding: 6px;
 
         &:hover {
-            background-color: darken(white, 10%);
+            background-color: lighten($color-hover-1, 6%)
+        }
+    }
+
+    &:hover {
+        .pencil-icon {
+            display: block;
+        }
+    }
+
+    .icon-toolbar {
+        height: 26px;
+        display: flex;
+        gap: 7px;
+        margin-top: 2px;
+        margin-right: 2px;
+        color: $color-primary-icon;
+
+        &>* {
+            padding-inline: 3px;
+        }
+
+        span {
+            font-size: 13px;
+            margin-block: auto;
+
+        }
+
+        .due-date-group {
+            display: flex;
+            gap: 4px;
+            border-radius: 3px;
+
+
+            &:hover {
+                background-color: darken($color-bg-1, 3%);
+
+                .due-date-box {
+                    display: inherit;
+                }
+
+                .due-date-clock {
+                    display: none;
+                }
+            }
+
+            .due-date-box {
+                display: none;
+            }
         }
     }
 }
@@ -134,7 +191,7 @@
 
     span:hover {
         cursor: pointer;
-        background-color: var(--hover-clr2);
+        background-color: $color-hover-1;
 
     }
 

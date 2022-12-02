@@ -11,7 +11,7 @@
 
     .header-nav {
         color: white;
-        border-bottom: 1px solid var(--clr2);
+        border-bottom: 1px solid $color-primary-icon-hover;
         overflow: hidden;
         backdrop-filter: blur(6px);
         max-height: 44px;
@@ -52,7 +52,7 @@
 
                 & input {
                     height: 33px;
-                    background-color: var(--clr5);
+                    background-color: $color-bg-opacity;
                     border-radius: 3px;
                     padding: 0px 12px 0px 12px;
                 }
