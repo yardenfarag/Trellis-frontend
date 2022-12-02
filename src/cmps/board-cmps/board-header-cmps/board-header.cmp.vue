@@ -4,7 +4,7 @@
 
             <section class="start-section flex align-center">
                 <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
-                <button class="opacity-input" @click="setStarred()">⭐</button>
+                <button class="opacity-input" @click="toggleStarred()">⭐</button>
                 <button class="opacity-input">Board</button>
                 <button class="opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
@@ -65,8 +65,10 @@ export default {
             board.title = newTitle
             this.$store.dispatch({ type: 'saveBoard', board })
         },
-        setStarred() {
-            console.log('set starred');
+        toggleStarred() {
+            const board = JSON.parse(JSON.stringify(this.board))
+            board.isStarred = !board.isStarred
+            this.$store.dispatch({ type: 'saveBoard', board })
         }
     },
     computed: {
