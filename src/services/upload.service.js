@@ -1,5 +1,7 @@
 export const uploadService = {
-  uploadImg
+  uploadImg,
+  // getBgImages,
+  getImages
 }
 function uploadImg(ev) {
   const CLOUD_NAME = "dcwibf9o5"
@@ -19,4 +21,28 @@ function uploadImg(ev) {
       return res
     })
     .catch(err => console.error(err))
+}
+
+// async function getBgImages(search) {
+//   try {
+//     const apiKey = 'wUWEzu8rt2t-exlLjtpXhpe8P8_fxGWyzRmd-dtB0x8'
+//     const res = await fetch(`https://api.pexels.com/search?query=${search}&client_id=${apiKey}`, { method: 'GET' })
+//     return res.json()
+//   } catch (err) {
+//     console.log('Cannot get images')
+//     throw err
+//   }
+// }
+import { createClient } from 'pexels';
+const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
+
+async function getImages(searchTerm) {
+  try {
+    const query = searchTerm
+    const res = await client.photos.search({ query, per_page: 10 })
+    return res
+  }
+  catch (err) {
+    throw err
+  }
 }

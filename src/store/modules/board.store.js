@@ -16,21 +16,26 @@ export function getActionAddBoard(board) {
 export function getActionUpdateBoard(board) {
     return {
         type: 'updateBoard',
-        board
+        board,
     }
 }
 
 export const boardStore = {
     state: {
         boards: [],
-        currBoard: null
+        currBoard: null,
+        headerClr: '#0079bf'
     },
     getters: {
         boards({ boards }) { return boards },
-        board({ currBoard }) { return currBoard }
+        board({ currBoard }) { return currBoard },
+        headerClr({headerClr}) {return headerClr}
     },
 
     mutations: {
+        setHeaderClr(state, {color}) {
+            state.headerClr = color
+        },
         setBoards(state, { boards }) {
             state.boards = boards
         },
@@ -52,6 +57,9 @@ export const boardStore = {
         },
     },
     actions: {
+        async setHeaderClr(context, {color}) {
+            await context.commit({type: 'setHeaderClr', color})
+        },
         async setCurrBoard({ commit }, { boardId }) {
             try {
                 const board = await boardService.getById(boardId)

@@ -1,5 +1,6 @@
 .board-details {
     position: relative;
+    height: 100vh;
 
     .group-list>*:not(.btn-open-add-group) {
         background-color: var(--t-light-gray);

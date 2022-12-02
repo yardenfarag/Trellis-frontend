@@ -1,5 +1,6 @@
+<!-- :style="{ background: board.style.bgc || 'white' }" -->
 <template>
-  <header class="app-header flex align-center">
+  <header :style="{ background: headerClr }" class="app-header flex align-center">
     <section class="header-nav flex align-center">
       <div class="logo flex align-center">
         <img src="../../../public/favicon.ico" alt="">
@@ -43,9 +44,17 @@ export default {
       isCreateBoard: false
     };
   },
-  created() { },
+  created() {
+  },
   methods: {},
-  computed: {},
+  computed: {
+    board() {
+      return this.$store.getters.board
+    },
+    headerClr() {
+      return this.$store.getters.headerClr
+    }
+  },
   unmounted() { },
 };
 </script>

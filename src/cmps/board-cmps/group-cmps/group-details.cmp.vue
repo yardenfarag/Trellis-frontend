@@ -2,6 +2,7 @@
     <section class="group-details">
         <div class="group-header">
             <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
+            <span>12 cards</span>
             <!-- <button @click="removeGroup" class="btn-group-actions">X</button> -->
             <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
                 more_horiz
