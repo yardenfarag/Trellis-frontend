@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    emits: ['closeMembersModal'],
+    emits: ['closeMembersModal', 'saveTask'],
     name: 'members-modal',
     props: {
         task: Object
@@ -47,7 +47,7 @@ export default {
             } else {
                 taskToSave.memberIds.push(memberToToggleId)
             }
-            this.$store.dispatch({ type: 'saveTask', taskToSave })
+            this.$emit('saveTask', taskToSave)
         },
         closeModal() {
             this.$emit('closeMembersModal')
