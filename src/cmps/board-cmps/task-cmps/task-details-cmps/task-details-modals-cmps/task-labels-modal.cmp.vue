@@ -15,6 +15,9 @@
             <div class="lables">
                 <div v-if="labels" v-for="label in labels" class="label-container">
                     <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+                    <!-- <span class="checkbox material-symbols-outlined">
+                        check_box_outline_blank
+                    </span> -->
 
                     <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label-preview">
                         <div class="dark"></div>
