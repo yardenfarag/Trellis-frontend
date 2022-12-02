@@ -1,7 +1,7 @@
 <template>
   <div className="upload-preview">
     <!-- <img v-if="imgUrl" :src="imgUrl" :style="{ maxWidth: '200px', float: 'right' }" /> -->
-    <label for="imgUpload">Computer</label>
+    <label for="imgUpload">{{ str }}</label>
     <input :style="{ display: 'none' }" type="file" @change="uploadImg" accept="img/*" id="imgUpload" />
   </div>
 </template>
@@ -10,6 +10,9 @@
 import { uploadService } from '../services/upload.service.js'
 
 export default {
+  props: {
+    str: String
+  },
   data() {
     return {
       imgUrl: null,

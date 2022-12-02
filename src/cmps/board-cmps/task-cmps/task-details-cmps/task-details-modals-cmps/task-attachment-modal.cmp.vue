@@ -9,7 +9,7 @@
         <section class="modal-body">
 
             <div class="uploader">
-                <img-uploader @uploaded="onUploaded"></img-uploader>
+                <img-uploader :str="computer" @uploaded="onUploaded"></img-uploader>
             </div>
 
             <div class="link">
@@ -44,6 +44,7 @@ export default {
     },
     data() {
         return {
+            computer: 'Computer',
             url: '',
             fileName: '',
         };

@@ -32,7 +32,7 @@
                     <span style="font-size:19px;" class="material-symbols-outlined">
                         person_add
                     </span>Share</button> |
-                <button class="menu-btn opacity-input"><span class="material-symbols-outlined">
+                <button @click="toggleMenu" class="menu-btn opacity-input"><span class="material-symbols-outlined">
                         more_horiz
                     </span></button>
             </section>
@@ -45,12 +45,13 @@
 </template>
 <script>
 import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
-
+import boardMenu from '../board-menu-cmps/board-menu.cmp.vue';
 export default {
     props: ['board'],
     name: 'board-header',
+    emits: ['toggleMenu'],
     components: {
-        shareModal
+        shareModal,
     },
     data() {
         return {
@@ -59,6 +60,9 @@ export default {
     },
     created() { },
     methods: {
+        toggleMenu() {
+            this.$emit('toggleMenu')
+        },
         ChangeBoardTitle(ev) {
             const newTitle = ev.target.innerText
             const board = JSON.parse(JSON.stringify(this.board))

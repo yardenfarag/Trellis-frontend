@@ -50,7 +50,6 @@ function getEmptyBoard() {
         groups: [],
         activities: [],
         members: [],
-        labels: _getLabels()
     }
 }
 
@@ -113,6 +112,7 @@ function _getLabels() {
 //         isStarred: false,
 //         memberIds: ["jC1op", "Csv8i", "Nlviw"],
 //         style: {},
+//         labels: _getLabels()
 //         groups: [{
 //             "id": "g101",
 //             "title": "Group 1",

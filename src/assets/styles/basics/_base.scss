@@ -11,6 +11,12 @@ html {
     background-color: var(--t-purple);
 }
 
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 body,
 button,
 html,
