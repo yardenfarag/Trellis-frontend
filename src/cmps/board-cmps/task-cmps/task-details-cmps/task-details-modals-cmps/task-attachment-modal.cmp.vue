@@ -16,8 +16,10 @@
         <hr>
         <div class="link">
             <h6>Attach a link</h6>
-            <input type="url" placeholder="Paste any link here...">
-            <button>Attach</button>
+            <input v-model="url" type="url" placeholder="Paste any link here...">
+            <h6 v-if="url">Link name (optional)</h6>
+            <input v-if="url" v-model="fileName" type="text">
+            <button @click="saveAttachment">Attach</button>
         </div>
         <hr>
         <div class="tip">
@@ -39,10 +41,23 @@ export default {
         imgUploader,
     },
     data() {
-        return {};
+        return {
+            url: '',
+            fileName: '',
+        };
     },
     created() { },
     methods: {
+        saveAttachment() {
+            const imgUrl = JSON.parse(JSON.stringify(this.url))
+            let fileName = JSON.parse(JSON.stringify(this.fileName))
+            if (!fileName) fileName = imgUrl.slice(0, 50)
+            const image = { fileName, imgUrl, id: utilService.makeId(), createdAt: Date.now() }
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            taskToSave.attachments.push(image)
+            this.$emit('saveTask', taskToSave)
+            this.$emit('closeAttachmentModal')
+        },
         onUploaded(imgUrl, fileName) {
             const image = { fileName, createdAt: Date.now(), imgUrl, id: utilService.makeId() }
             const taskToSave = JSON.parse(JSON.stringify(this.task))

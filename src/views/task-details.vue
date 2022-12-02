@@ -19,7 +19,7 @@
         <section>Members: {{ task.memberIds }} Labels: {{ task.labels }}</section>
         <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
         <hr>
-        <task-attachment @deleteAttachment="updateTask" :task="task" />
+        <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
         <hr>
         <task-checklist :isChecklistModal="isChecklistModal" :task="task" @updateTask="updateTask"
           @closeCheckListModal="toggleChecklistModal" />
@@ -57,7 +57,8 @@
   <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="(isDateModal = false)" @saveTask="updateTask" />
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="isAttachmentModal = false"
     @saveTask="updateTask"></taskAttachmentModal>
-  <taskMembersModal v-if="isMembersModal" @closeMembersModal="(isMembersModal = false)" />
+  <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal"
+    @closeMembersModal="(isMembersModal = false)" />
 </template>
 
 <script>

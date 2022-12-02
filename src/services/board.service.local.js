@@ -121,19 +121,35 @@ function _getLabels() {
 //     await storageService.post(STORAGE_KEY, {
 //         title: 'Omer board',
 //         isStarred: false,
+//         memberIds: ["jC1op", "Csv8i", "Nlviw"],
 //         style: {},
 //         groups: [{
 //             "id": "g101",
 //             "title": "Group 1",
-//             "archivedAt": 1589983468418,
 //             "tasks": [
 //                 {
 //                     "id": "c101",
-//                     "title": "Replace logo"
+//                     "title": "Replace logo",
+//                     "labels":[],
+//                     "attachments":[],
+//                     "memberIds":["jC1op", "Csv8i"],
+//                     "description": '',
+//                     "comments":[],
+//                     "checklists":[],
+//                     "dueDate": '',
+//                     "style": {},
 //                 },
 //                 {
 //                     "id": "c102",
-//                     "title": "Add Samples"
+//                     "title": "Add Samples",
+//                     "labels":[],
+//                     "attachments":[],
+//                     "memberIds":["Nlviw", "jC1op"],
+//                     "description": '',
+//                     "comments":[],
+//                     "checklists":[],
+//                     "dueDate": '',
+//                     "style": {},
 //                 }
 //             ],
 //             "style": {}
@@ -145,14 +161,22 @@ function _getLabels() {
 //                 {
 //                     "id": "c103",
 //                     "title": "Do that",
-//                     "archivedAt": 1589983468418,
+//                     "labels":[],
+//                     "attachments":[],
+//                     "memberIds":["Nlviw", "jC1op"],
+//                     "description": '',
+//                     "comments":[],
+//                     "checklists":[],
+//                     "dueDate": '',
+//                     "style": {},
 //                 },
 //                 {
 //                     "id": "c104",
 //                     "title": "Help me",
-//                     "status": "in-progress",
-//                     "priority": "high",
 //                     "description": "description",
+//                     "labels":[],
+//                     "attachments":[],
+//                     "dueDate": '',
 //                     "comments": [
 //                         {
 //                             "id": "ZdPnm",
@@ -178,8 +202,8 @@ function _getLabels() {
 //                             ]
 //                         }
 //                     ],
-//                     "memberIds": ["u101"],
-//                     "labelIds": ["l101", "l102"],
+//                     "memberIds": ["jC1op", "Csv8i"],
+//                     "labels": ["l101", "l102"],
 //                     "dueDate": 16156215211,
 //                     "byMember": {
 //                         "_id": "u101",
@@ -196,5 +220,4 @@ function _getLabels() {
 //         }]
 //     })
 
-//     //     // await storageService.post(STORAGE_KEY, { title: 'Subali Rahok 2', price: 240 })
 // })()
