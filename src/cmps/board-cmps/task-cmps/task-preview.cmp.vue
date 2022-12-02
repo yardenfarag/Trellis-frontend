@@ -4,13 +4,13 @@
             edit
         </span>
 
-        <section>
+        <!-- <section>
             <ul class="label-list clean-list">
                 <li class="label-preview" v-for="label in task.labels" :key="label.id">
                     <div style="background-color: {{label.color}};"></div>
                 </li>
             </ul>
-        </section>
+        </section> -->
 
         <h5 @click="goToDetails">{{ task.title }}</h5>
         <section class="icon-toolbar flex">

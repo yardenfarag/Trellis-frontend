@@ -1,0 +1,73 @@
+.task-members-modal {
+    .modal-header {
+        margin-block-end: 13px;
+    }
+
+    .modal-body {
+        .primary-input-modal {
+            margin-block-end: 16px;
+        }
+
+        h6 {
+            margin-bottom: 10px;
+        }
+
+        .board-members {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-bottom: -2px;
+
+            .board-member {
+                position: relative;
+                display: flex;
+                gap: 7px;
+                border-radius: 3px;
+                padding-left: 4px;
+                padding-block: 4px;
+
+
+                &:hover {
+                    background-color: $color-primary-btn-modal;
+                    cursor: pointer;
+                }
+
+                .avatar {
+                    width: 32px;
+                    height: 32px;
+
+
+                    img {
+                        border-radius: 50%;
+                        width: 100%;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+                }
+
+                h6 {
+                    line-height: 16px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: $color-primary-text;
+                }
+
+                .v-icon {
+                    position: absolute;
+                    font-size: 18px;
+                    right: 12px;
+                    top: 11px;
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        button {
+            margin-bottom: 20px;
+        }
+    }
+}

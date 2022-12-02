@@ -54,7 +54,8 @@
         <section class="modal-body">
             <div class="label-editor">
                 <h6>Title</h6>
-                <input v-if="titleVis" ref="title" class="primary-input-modal" type="text" v-model="currLabel.title">
+                <input @keyup.enter="saveLabel" v-if="titleVis" ref="title" class="primary-input-modal" type="text"
+                    v-model="currLabel.title">
                 <h6>Select a color</h6>
                 <div class="colors">
                     <div @click.stop="selectLabel($event, color, idx)" class="color"
@@ -200,6 +201,10 @@ export default {
             this.goBack()
         },
         async saveLabel() {
+            if ((this.currLabel.color === '#babdbe' && this.currLabel.title === '')) {
+                this.goBack()
+                return
+            }
             const board = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             if (labelToSave.id) {

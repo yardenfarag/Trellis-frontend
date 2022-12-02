@@ -51,7 +51,7 @@
     </section>
   </section>
 
-  <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task"
+  <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task" :gruop="group"
     @updateTask="updateTask" />
   <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="updateTask" v-if="isLabelsModalOpen" :board="board"
     :task="task" />
@@ -115,6 +115,7 @@ export default {
 
     const taskId = this.$route.params.taskId
     this.task = this.group.tasks.find(task => task.id === taskId)
+    document.querySelector('html').classList.remove('board-page')
   },
 
 
@@ -191,6 +192,9 @@ export default {
   },
   directives: {
     ClickOutside
-  }
+  },
+  unmounted() {
+    document.querySelector('html').classList.add('board-page')
+  },
 }
 </script>

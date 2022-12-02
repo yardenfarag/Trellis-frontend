@@ -19,6 +19,7 @@ export default {
         async goToDetails() {
             await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
             this.$router.push('/board/' + this.board._id)
+
         },
         async removeBoard() {
             await this.$store.dispatch({ type: 'removeBoard', boardId: this.board._id })

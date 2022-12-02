@@ -9,7 +9,13 @@
 html {
     -webkit-text-size-adjust: 100%;
     background-color: var(--t-purple);
+
+    &.board-page {
+        overflow-y: hidden;
+    }
 }
+
+
 
 body,
 button,
@@ -36,6 +42,22 @@ h6 {
     font-weight: normal;
     padding: 0;
 }
+
+// /* width */
+// body::-webkit-scrollbar {
+//     height: 12px;
+// }
+
+// /* Track */
+// body::-webkit-scrollbar-track {
+//     background: rgba($color-primary-icon, 0.3);
+//     border-radius: 50px;
+// }
+
+// /* Handle */
+// body::-webkit-scrollbar-thumb {
+//     background: $color-primary-icon;
+// }
 
 button {
     border-radius: 3px;

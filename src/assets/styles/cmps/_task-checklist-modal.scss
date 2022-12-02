@@ -1,0 +1,21 @@
+.checklist-modal {
+    .modal-body {
+        margin-block-start: 9px;
+
+        h6 {
+            color: $color-secondery-text;
+            margin-block-end: -6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+    }
+
+    .modal-footer {
+        .call-to-action {
+            width: 73px;
+            height: 32px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+    }
+}

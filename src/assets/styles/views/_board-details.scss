@@ -3,7 +3,6 @@
 
     .group-list>*:not(.btn-open-add-group) {
         background-color: var(--t-light-gray);
-        // padding-inline: 8px;
         margin-inline: 4px;
         min-width: 272px;
         max-width: 272px;
@@ -16,19 +15,18 @@
         background-color: transparent;
     }
 
-
 }
 
 .btn-open-add-group {
+    border-radius: 3px;
     color: white;
     position: absolute;
     max-width: 272px;
     min-width: 272px;
     max-height: 40px;
     min-height: 40px;
-
+    font-weight: 300;
 }
-
 
 .add-group-open {
     padding: 6px;

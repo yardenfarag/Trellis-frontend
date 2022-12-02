@@ -1,22 +1,30 @@
 <template>
-    <section class="modal-container">
-        <button @click="closeModal">X</button>
-        <h5>Members</h5>
-        <hr>
-        <input v-model="filterBy.txt" type="search" placeholder="Search members">
-        <div v-if="boardMembers" class="board-members">
+    <section class="modal-container task-members-modal">
+        <section class="modal-header">
+            <span @click="closeModal" class="material-symbols-outlined">
+                close
+            </span>
+            <h5>Members</h5>
+        </section>
+        <section class="modal-body">
+            <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search members">
             <h6>Board members</h6>
-            <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
-                class="board-member flex align-center">
-                <div class="member-avatar">
-                    <img :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }" :src="boardMember.imgUrl" alt="">
-                </div>
-                <div class="member-info flex">
+            <div v-if="boardMembers" class="board-members">
+                <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
+                    class="board-member">
+                    <div class="avatar">
+                        <img :src="boardMember.imgUrl" alt="">
+                    </div>
                     <h6>{{ boardMember.fullname }}</h6>
-                    <span v-if="isTaskMember(boardMember._id)">✔️</span>
+                    <span v-if="isTaskMember(boardMember._id)" class="v-icon material-symbols-outlined">
+                        done
+                    </span>
                 </div>
             </div>
-        </div>
+        </section>
+        <section class="modal-footer">
+            <button class="primary-btn-modal">Show other Workspace members</button>
+        </section>
     </section>
 </template>
 

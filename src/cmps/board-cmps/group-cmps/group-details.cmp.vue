@@ -14,12 +14,12 @@
                 <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
             </li>
         </ul>
-        <button v-if="!isAddTask" @click="isAddTask = true" class="btn-open-add-task"><span style="font-size:20px;"
+        <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                 class="material-symbols-outlined">
                 add
             </span><span>Add a card</span></button>
         <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
-            <input v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
+            <input ref="title" v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
             <div class="add-task-form-controler">
                 <button class="call-to-action">Add card</button>
                 <span style="font-size:32px;" @click="isAddTask = false"
@@ -56,9 +56,22 @@ export default {
         }
     },
     created() {
+
     },
     methods: {
+        openTaskForm() {
+            this.isAddTask = true
+            this.$nextTick(() => {
+                this.focusOnTitle();
+            });
+
+        },
+        focusOnTitle() {
+            this.$refs.title.focus()
+        },
         async addTask() {
+            this.focusOnTitle()
+
             if (!this.taskToEdit.title) return
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: this.taskToEdit })
@@ -94,7 +107,9 @@ export default {
             return this.$store.getters.board
         }
     },
-    unmounted() { },
+    unmounted() {
+
+    },
 };
 </script>
 <style>

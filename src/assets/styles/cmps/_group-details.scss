@@ -65,6 +65,9 @@
 
 .task-list {
     margin-top: 6px;
+    max-height: 700px;
+    overflow-y: auto; //
+    overflow-x: hidden; //
 }
 
 .task-list>* {
@@ -88,7 +91,6 @@
         .label-preview {
             width: 40px;
             height: 8px;
-
         }
     }
 

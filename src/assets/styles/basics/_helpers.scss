@@ -70,7 +70,7 @@
     min-width: 304px;
     max-width: 304px;
     background-color: $color-bg-1;
-    box-shadow: 0px 0px 0px 1px rgb(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
     top: 25%; // just for dev
     left: 25%; // just for dev
     z-index: 300;
@@ -174,6 +174,7 @@
             margin-block: 8px;
             font-size: 12px;
             font-weight: 500;
+            color: $color-secondery-text;
         }
     }
 
