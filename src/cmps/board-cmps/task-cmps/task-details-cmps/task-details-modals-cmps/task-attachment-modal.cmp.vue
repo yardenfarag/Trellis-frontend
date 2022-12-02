@@ -1,31 +1,33 @@
 <template>
-    <div class="modal-container">
-        <button @click="$emit('closeAttachmentModal')">X</button>
-        <div>
+    <section class="modal-container task-attachment-modal">
+        <section class="modal-header">
+            <span @click="$emit('closeAttachmentModal')" class="material-symbols-outlined">
+                close
+            </span>
             <h5>Attach from...</h5>
-        </div>
-        <hr>
-        <div>
-            <!-- <label for="file-upload">
-                Computer
-                <input type="file" id="file-upload" :style="{ display: 'none' }" />
-            </label> -->
-            <img-uploader @uploaded="onUploaded"></img-uploader>
+        </section>
+        <section class="modal-body">
 
-        </div>
-        <hr>
-        <div class="link">
-            <h6>Attach a link</h6>
-            <input v-model="url" type="url" placeholder="Paste any link here...">
-            <h6 v-if="url">Link name (optional)</h6>
-            <input v-if="url" v-model="fileName" type="text">
-            <button @click="saveAttachment">Attach</button>
-        </div>
-        <hr>
-        <div class="tip">
-            <h6>Tip: You can drag and drop files and links onto cards to upload them.</h6>
-        </div>
-    </div>
+            <div class="uploader">
+                <img-uploader @uploaded="onUploaded"></img-uploader>
+            </div>
+
+            <div class="link">
+                <div class="primary-link">
+                    <h6>Attach a link</h6>
+                    <input class="primary-input-modal" v-model="url" type="url" placeholder="Paste any link here...">
+                </div>
+                <div class="secondery-link">
+                    <h6 v-if="url">Link name (optional)</h6>
+                    <input v-if="url" class="primary-input-modal" v-model="fileName" type="text">
+                </div>
+                <button class="primary-btn-modal small" @click="saveAttachment">Attach</button>
+            </div>
+        </section>
+        <section class="modal-footer">
+            <p class="tip">Tip: You can drag and drop files and links onto cards to upload them.</p>
+        </section>
+    </section>
 
 </template>
 <script>
@@ -70,6 +72,3 @@ export default {
     unmounted() { },
 };
 </script>
-<style>
-
-</style>

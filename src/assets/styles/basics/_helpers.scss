@@ -71,7 +71,7 @@
     max-width: 304px;
     background-color: $color-bg-1;
     box-shadow: 0px 0px 0px 1px rgb(0, 0, 0, 0.2);
-    top: 50%; // just for dev
+    top: 25%; // just for dev
     left: 25%; // just for dev
     z-index: 300;
     border-radius: 3px;
@@ -96,6 +96,10 @@
             background-color: $color-primary-btn-modal-active;
             color: var(--t-blue);
         }
+
+        &.small {
+            width: 64px;
+        }
     }
 
     .modal-header {
@@ -104,7 +108,7 @@
         justify-content: center;
         border-bottom: 1px solid var(--t-gray);
         min-height: 40px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
 
         h5 {
             margin: auto;
@@ -148,6 +152,7 @@
             width: 276px;
             display: block;
             margin: auto;
+            margin-top: 10px;
             height: 32px;
             padding-inline: 8px;
             padding-bottom: 2px;
@@ -164,11 +169,25 @@
                 outline: 2px solid var(--t-blue);
             }
         }
+
+        h6 {
+            margin-block: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
     }
 
     .modal-footer {
         min-height: 48px;
-        margin-bottom: 10px;
+
+        p {
+            font-size: 14px;
+            margin: 0 0 8px;
+        }
+
+        button {
+            // margin-bottom: 12px;
+        }
     }
 
 }

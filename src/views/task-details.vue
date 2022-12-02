@@ -21,8 +21,7 @@
         <hr>
         <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
         <hr>
-        <task-checklist :isChecklistModal="isChecklistModal" :task="task" @updateTask="updateTask"
-          @closeCheckListModal="toggleChecklistModal" />
+        <task-checklist :task="task" @updateTask="updateTask" />
         <hr>
         <task-map :task="task" />
         <hr>
@@ -32,11 +31,11 @@
       <section class="task-sidebar">
         <h6>Add to card</h6>
         <button class="task-detail-btn">join</button>
-        <button @click="isMembersModal = true" class="task-detail-btn">Members</button>
-        <button @click="isLabelsModalOpen = !isLabelsModalOpen" class="task-detail-btn">Labels</button>
-        <button @click="toggleChecklistModal" class="task-detail-btn">Checklist</button>
-        <button @click="isDateModal = true" class="task-detail-btn">Dates</button>
-        <button @click="isAttachmentModal = true" class="task-detail-btn">Attachment</button>
+        <button @click="toggleMembersModal()" class="task-detail-btn">Members</button>
+        <button @click="toggleLabelsModal()" class="task-detail-btn">Labels</button>
+        <button @click="toggleChecklistModal()" class="task-detail-btn">Checklist</button>
+        <button @click="toggleDateModal()" class="task-detail-btn">Dates</button>
+        <button @click="toggleAttachmentModal()" class="task-detail-btn">Attachment</button>
         <button class="task-detail-btn">Location</button>
         <button class="task-detail-btn">Custom Fields</button>
         <h6>Actions</h6>
@@ -52,13 +51,14 @@
     </section>
   </section>
 
-  <taskLabelsModal @closeModal="isLabelsModalOpen = !isLabelsModalOpen" @updateTask="updateTask"
-    v-if="isLabelsModalOpen" :board="board" :task="task" />
-  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="(isDateModal = false)" @saveTask="updateTask" />
-  <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="isAttachmentModal = false"
+  <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task"
+    @updateTask="updateTask" />
+  <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="updateTask" v-if="isLabelsModalOpen" :board="board"
+    :task="task" />
+  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="updateTask" />
+  <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
     @saveTask="updateTask"></taskAttachmentModal>
-  <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal"
-    @closeMembersModal="(isMembersModal = false)" />
+  <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
 </template>
 
 <script>
@@ -67,11 +67,15 @@ import taskAttachment from '../cmps/board-cmps/task-cmps/task-details-cmps/task-
 import taskChecklist from '../cmps/board-cmps/task-cmps/task-details-cmps/task-checklist.cmp.vue'
 import taskComments from '../cmps/board-cmps/task-cmps/task-details-cmps/task-comments.cmp.vue'
 import taskMap from '../cmps/board-cmps/task-cmps/task-details-cmps/task-map.cmp.vue'
+
 import ClickOutside from 'vue-click-outside'
+
+import taskChecklistModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-checklist-modal.cmp.vue'
 import taskLabelsModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-labels-modal.cmp.vue'
 import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
+
 export default {
   name: 'task-details',
   components: {
@@ -80,6 +84,7 @@ export default {
     taskChecklist,
     taskComments,
     taskMap,
+    taskChecklistModal,
     taskLabelsModal,
     taskDatesModal,
     taskMembersModal,
@@ -99,7 +104,6 @@ export default {
   },
 
   async created() {
-
     const boardId = this.$route.params.boardId
     this.boardId = boardId
     if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
@@ -113,7 +117,44 @@ export default {
     this.task = this.group.tasks.find(task => task.id === taskId)
   },
 
+
   methods: {
+    toggleMembersModal() {
+      this.isLabelsModalOpen = false
+      this.isChecklistModal = false
+      this.isDateModal = false
+      this.isAttachmentModal = false
+      this.isMembersModal = !this.isMembersModal
+    },
+    toggleLabelsModal() {
+      this.isMembersModal = false
+      this.isChecklistModal = false
+      this.isDateModal = false
+      this.isAttachmentModal = false
+      this.isLabelsModalOpen = !this.isLabelsModalOpen
+    },
+    toggleChecklistModal() {
+      this.isMembersModal = false
+      this.isLabelsModalOpen = false
+      this.isDateModal = false
+      this.isAttachmentModal = false
+      this.isChecklistModal = !this.isChecklistModal
+    },
+    toggleDateModal() {
+      this.isMembersModal = false
+      this.isLabelsModalOpen = false
+      this.isChecklistModal = false
+      this.isAttachmentModal = false
+      this.isDateModal = !this.isDateModal
+    },
+    toggleAttachmentModal() {
+      this.isMembersModal = false
+      this.isLabelsModalOpen = false
+      this.isChecklistModal = false
+      this.isDateModal = false
+      this.isAttachmentModal = !this.isAttachmentModal
+    },
+
     async removeTask() {
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       const groupId = this.$route.params.groupId
@@ -142,9 +183,6 @@ export default {
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
     },
-    toggleChecklistModal() {
-      this.isChecklistModal = !this.isChecklistModal
-    }
   },
   computed: {
     board() {

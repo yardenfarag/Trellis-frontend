@@ -78,7 +78,7 @@ button {
     }
 
     &.btn-disabled {
-        padding: 6px 12px;
+        padding: 6px 12px !important;
         color: rgba($color-primary-text, 0.4) !important;
         background-color: rgba($color-primary-btn-modal, 0.03) !important;
         cursor: not-allowed !important;

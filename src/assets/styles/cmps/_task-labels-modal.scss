@@ -5,6 +5,7 @@
         display: flex;
         position: relative;
         padding-bottom: 7px;
+        margin-bottom: 8px;
 
         .label-preview {
             width: 240px;
@@ -34,7 +35,7 @@
 
     .modal-body {
         h6 {
-            margin: 12px 0px 8px;
+            margin: 14px 0px 8px;
             font-weight: 600;
         }
 
@@ -115,7 +116,7 @@
         .label-editor {
             border-bottom: 1px solid var(--t-gray);
 
-            h5 {
+            h6 {
                 margin-block: 8px;
                 font-size: 12px;
                 font-weight: 500;
@@ -178,7 +179,6 @@
     }
 
     .modal-footer {
-        // height: 60px;
 
         button {
             margin-top: 16px;
@@ -187,6 +187,13 @@
         .btn-group {
             display: flex;
             justify-content: space-between;
+        }
+
+        .call-to-action,
+        .btn-danger,
+        .btn-disabled {
+            margin-top: 16px;
+            margin-bottom: 12px;
         }
     }
 }
@@ -197,13 +204,9 @@
     }
 
     .modal-footer {
-        p {
-            font-size: 14px;
-            margin: 0 0 8px;
-        }
-
         .btn-danger {
             width: 100%;
+            margin-bottom: 12px;
         }
     }
 

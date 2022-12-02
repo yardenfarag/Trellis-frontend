@@ -1,18 +1,17 @@
 <template>
     <section v-if="board" class="board-details">
+        <!-- <img id="i" src="../assets/icon.png" alt=""> -->
         <board-header v-if="board" :board="board"></board-header>
         <ul class="clean-list flex group-list">
             <li v-for="group in board.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>
-
                 <div v-if="!isAddGroup" @click="isAddGroup = true" class="btn-open-add-group opacity-input">
                     <span style="font-size:20px;" class="material-symbols-outlined">
                         add
                     </span><span>Add another list</span>
                 </div>
-
                 <section v-if="isAddGroup" class="add-group-open">
                     <input v-model="groupToSave.title" type="text" placeholder="Enter list title">
                     <div class="add-group-controler">
@@ -68,6 +67,59 @@ export default {
             return this.$store.getters.board
         }
     },
+    // mounted() {
+
+    //     var rgb = getAverageRGB(document.getElementById('i'));
+    //     document.body.style.backgroundColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+
+    //     function getAverageRGB(imgEl) {
+
+    //         var blockSize = 5, // only visit every 5 pixels
+    //             defaultRGB = { r: 0, g: 0, b: 0 }, // for non-supporting envs
+    //             canvas = document.createElement('canvas'),
+    //             context = canvas.getContext && canvas.getContext('2d'),
+    //             data, width, height,
+    //             i = -4,
+    //             length,
+    //             rgb = { r: 0, g: 0, b: 0 },
+    //             count = 0;
+
+    //         if (!context) {
+    //             return defaultRGB;
+    //         }
+
+    //         height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    //         width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+
+    //         context.drawImage(imgEl, 0, 0);
+
+    //         try {
+    //             data = context.getImageData(0, 0, width, height);
+    //         } catch (e) {
+    //         /* security error, img on diff domain */alert('x');
+    //             return defaultRGB;
+    //         }
+
+    //         length = data.data.length;
+
+    //         while ((i += blockSize * 4) < length) {
+    //             ++count;
+    //             rgb.r += data.data[i];
+    //             rgb.g += data.data[i + 1];
+    //             rgb.b += data.data[i + 2];
+    //         }
+
+    //         // ~~ used to floor values
+    //         rgb.r = ~~(rgb.r / count);
+    //         rgb.g = ~~(rgb.g / count);
+    //         rgb.b = ~~(rgb.b / count);
+    //         console.log(rgb)
+    //         return rgb;
+
+    //     }
+
+    // },
     unmounted() { },
 }
 </script>
+

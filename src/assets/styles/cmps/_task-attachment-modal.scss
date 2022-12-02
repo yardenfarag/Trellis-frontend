@@ -1,0 +1,58 @@
+.task-attachment-modal {
+    .modal-body {
+        .uploader {
+            height: 32px;
+            display: flex;
+            align-items: center;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-bottom: 8px;
+
+            &:hover {
+                background-color: rgba($color-hover-2, 0.4);
+            }
+        }
+
+        .link {
+            border-top: 1px solid var(--t-gray);
+            margin-top: 8px;
+
+            .primary-link {
+                margin-top: 10px;
+            }
+
+            .secondery-link {
+                // margin-bottom: 10px;
+            }
+
+            .primary-input-modal {
+                margin-block: 0;
+                margin-bottom: 12px;
+            }
+
+            .primary-btn-modal.small {
+                background-color: rgba($color-hover-2, 0.4);
+                margin-block: auto;
+                margin-bottom: 10px;
+
+
+                &:hover {
+                    background-color: $color-hover-2;
+                }
+            }
+
+            h6 {
+                margin-block-end: 4px;
+            }
+        }
+    }
+
+
+
+    .modal-footer {
+        border-top: 1px solid var(--t-gray);
+        color: $color-secondery-text;
+        padding-block-start: 8px;
+        padding-block-end: 4px;
+    }
+}

@@ -15,10 +15,6 @@
             <div class="lables">
                 <div v-if="labels" v-for="label in labels" class="label-container">
                     <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-                    <!-- <span class="checkbox material-symbols-outlined">
-                        check_box_outline_blank
-                    </span> -->
-
                     <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label-preview">
                         <div class="dark"></div>
                     </div>
@@ -57,9 +53,9 @@
         </div>
         <section class="modal-body">
             <div class="label-editor">
-                <h5>Title</h5>
+                <h6>Title</h6>
                 <input v-if="titleVis" ref="title" class="primary-input-modal" type="text" v-model="currLabel.title">
-                <h5>Select a color</h5>
+                <h6>Select a color</h6>
                 <div class="colors">
                     <div @click.stop="selectLabel($event, color, idx)" class="color"
                         :class="{ 'selected': idx === idxOfSelectedColor }" v-for="color, idx in colors"
@@ -83,7 +79,7 @@
                     class="btn-disabled">Create</button>
                 <button v-else @click="saveLabel" class="call-to-action">Create</button>
             </div>
-            <div v-else class="btn-group call-to-action">
+            <div v-else class="btn-group">
                 <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
                     class="btn-disabled">Save</button>
                 <button v-else @click="saveLabel" class="call-to-action">Save</button>
