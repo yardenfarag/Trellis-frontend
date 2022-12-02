@@ -19,7 +19,7 @@
         <section>Members: {{ task.memberIds }} Labels: {{ task.labels }}</section>
         <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
         <hr>
-        <task-attachment :task="task" />
+        <task-attachment @deleteAttachment="updateTask" :task="task" />
         <hr>
         <task-checklist :isChecklistModal="isChecklistModal" :task="task" @updateTask="updateTask"
           @closeCheckListModal="toggleChecklistModal" />
@@ -36,7 +36,7 @@
         <button @click="isLabelsModalOpen = !isLabelsModalOpen" class="task-detail-btn">Labels</button>
         <button @click="toggleChecklistModal" class="task-detail-btn">Checklist</button>
         <button @click="isDateModal = true" class="task-detail-btn">Dates</button>
-        <button class="task-detail-btn">Attachment</button>
+        <button @click="isAttachmentModal = true" class="task-detail-btn">Attachment</button>
         <button class="task-detail-btn">Location</button>
         <button class="task-detail-btn">Custom Fields</button>
         <h6>Actions</h6>
@@ -54,7 +54,9 @@
 
   <taskLabelsModal @closeModal="isLabelsModalOpen = !isLabelsModalOpen" @updateTask="updateTask"
     v-if="isLabelsModalOpen" :board="board" :task="task" />
-  <taskDatesModal v-if="isDateModal" @closeDateModal="(isDateModal = false)"/>
+  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="(isDateModal = false)" @saveTask="updateTask" />
+  <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="isAttachmentModal = false"
+    @saveTask="updateTask"></taskAttachmentModal>
   <taskMembersModal v-if="isMembersModal" @closeMembersModal="(isMembersModal = false)" />
 </template>
 
@@ -68,7 +70,7 @@ import ClickOutside from 'vue-click-outside'
 import taskLabelsModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-labels-modal.cmp.vue'
 import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
-
+import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
 export default {
   name: 'task-details',
   components: {
@@ -80,6 +82,7 @@ export default {
     taskLabelsModal,
     taskDatesModal,
     taskMembersModal,
+    taskAttachmentModal,
   },
   data() {
     return {
@@ -90,6 +93,7 @@ export default {
       isChecklistModal: false,
       isDateModal: false,
       isMembersModal: false,
+      isAttachmentModal: false,
     }
   },
 
