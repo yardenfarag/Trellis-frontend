@@ -69,14 +69,18 @@
     position: absolute;
     min-width: 304px;
     max-width: 304px;
-    background-color: var(--clr0);
-    box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.5);
+    background-color: $color-bg-1;
+    box-shadow: 0px 0px 0px 1px rgb(0, 0, 0, 0.2);
     top: 50%; // just for dev
     left: 25%; // just for dev
     z-index: 300;
     border-radius: 3px;
-    padding-inline: 12px;
+    // margin-inline: 12px;
     font-size: 16px;
+
+    &>*:not(.full) {
+        margin-inline: 12px;
+    }
 
     .primary-btn-modal {
         background-color: $color-primary-btn-modal;
@@ -104,21 +108,35 @@
 
         h5 {
             margin: auto;
-            color: var(--clr-1);
+            color: $color-secondery-text;
+            font-size: 14px;
+
         }
 
         span {
+            color: $color-primary-icon;
             position: absolute;
-            bottom: 25%;
+            bottom: 24%;
             right: -2px;
-            font-size: 18px;
+            font-size: 21px;
             cursor: pointer;
 
+            &:hover {
+                font-weight: 500;
+                color: $color-primary-icon-hover;
+            }
+
             &.back {
-                bottom: 35%;
-                left: 0;
-                font-size: 12px;
+                color: $color-primary-icon;
+                bottom: 38%;
+                left: 3px;
+                font-size: 13px;
                 width: fit-content;
+
+                &:hover {
+                    font-weight: 500;
+                    color: $color-primary-icon-hover;
+                }
             }
         }
     }
@@ -126,6 +144,7 @@
     .modal-body {
 
         .primary-input-modal {
+            background-color: lighten($color-primary-btn-modal, 60%);
             width: 276px;
             display: block;
             margin: auto;
@@ -137,7 +156,7 @@
             transition: 0.15s;
 
             &:hover {
-                background-color: rgb(230, 232, 243);
+                background-color: $color-primary-btn-modal-hover;
             }
 
             &:focus {
@@ -147,8 +166,24 @@
         }
     }
 
-    .modal-footer {}
+    .modal-footer {
+        min-height: 48px;
+        margin-bottom: 10px;
+    }
 
+}
+
+.opacity-input {
+    background-color: $color-bg-opacity;
+
+    &:hover {
+        background-color: $color-bg-opacity-hover;
+        transition: 0.05s;
+    }
+
+    &:active {
+        background-color: $color-bg-opacity-active;
+    }
 }
 
 // Media helpers

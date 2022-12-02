@@ -47,6 +47,10 @@
                     color: black;
                     background-color: white;
                     padding-inline: 12px;
+
+                    &:hover {
+                        opacity: 0.9;
+                    }
                 }
 
                 &.menu-btn {

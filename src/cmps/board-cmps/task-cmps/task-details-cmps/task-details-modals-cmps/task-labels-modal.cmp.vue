@@ -1,62 +1,109 @@
 <template>
-    <section v-if="!editLabel" class="modal-container task-label-modal">
+    <section v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
             <h5>Labels</h5>
-            <span @click="$emit('closeModal')" class="material-symbols-outlined">
+            <span @click="closeModal()" class="material-symbols-outlined">
                 close
             </span>
         </section>
         <section class="modal-body">
             <div class="filter-labels">
-                <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search labels...">
+                <input v-if="filterVis" ref="filter" class="primary-input-modal" v-model="filterBy.txt" type="search"
+                    placeholder="Search labels..." />
             </div>
             <h6>Labels</h6>
             <div class="lables">
                 <div v-if="labels" v-for="label in labels" class="label-container">
                     <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-                    <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label">{{
-                            label.title
-                    }}</div>
-                    <span @click="labelEditor(label)" class="pencil-icon material-symbols-outlined">edit</span>
+
+                    <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label-preview">
+                        <div class="dark"></div>
+                    </div>
+                    <div :style="{ 'background-color': label.color }" class="label-circle">
+                    </div>
+                    <span class="label-title">{{ label.title }}</span>
+                    <button class="edit-btn" @click="labelEditor(label)"> <span
+                            class="pencil-icon material-symbols-outlined">edit</span></button>
+
+
                 </div>
             </div>
         </section>
         <section class="modal-footer">
-            <button class="primary-btn-modal" @click="currLabel = { title: '', color: '', } ; editLabel = true">Create a
+            <button class="primary-btn-modal" @click="onOpenCreateEditor">Create
+                a
                 new label</button>
         </section>
     </section>
-    <section v-if="editLabel" class="modal-container task-label-modal">
+    <section v-if="(editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
-            <h5>Create label</h5>
-            <span @click="editLabel = false" class="back material-symbols-outlined">
+            <h5 v-if="isCreate">Create label</h5>
+            <h5 v-else>Edit label</h5>
+            <span @click="goBack()" class="back material-symbols-outlined">
                 arrow_back_ios
             </span>
-            <span @click="$emit('closeModal')" class="material-symbols-outlined">
+            <span @click="closeModal()" class="material-symbols-outlined">
                 close
             </span>
         </section>
-        <section class="modal-body">
-            <div class="label-show">
-                <div class="label-preview" :style="{ backgroundColor: currLabel.color }"></div>
-                <div class="label-circle" :style="{ backgroundColor: currLabel.color }"></div>
-                <span class="label-title">{{ currLabel.title }}</span>
+        <div class="label-show full">
+            <div class="label-preview" :style="{ backgroundColor: currLabel.color }">
             </div>
+            <div class="label-circle" :style="{ backgroundColor: currLabel.color }"></div>
+            <span class="label-title">{{ currLabel.title }}</span>
+        </div>
+        <section class="modal-body">
             <div class="label-editor">
                 <h5>Title</h5>
-                <input class="primary-input-modal" type="text" v-model="currLabel.title">
+                <input v-if="titleVis" ref="title" class="primary-input-modal" type="text" v-model="currLabel.title">
                 <h5>Select a color</h5>
                 <div class="colors">
-                    <div @click="currLabel.color = color" class="color" v-for="color in colors"
-                        :style="{ backgroundColor: color }"></div>
+                    <div @click.stop="selectLabel($event, color, idx)" class="color"
+                        :class="{ 'selected': idx === idxOfSelectedColor }" v-for="color, idx in colors"
+                        :style="{ backgroundColor: color }">
+                        <div class="dark"></div>
+                    </div>
                 </div>
-                <button class="primary-btn-modal"> <span class="material-symbols-outlined">
+                <button v-if="currLabel.color === '#babdbe'" class="primary-btn-modal btn-disabled"> <span
+                        class="material-symbols-outlined">
+                        close
+                    </span>Remove color</button>
+                <button v-else @click="removeColor()" class="primary-btn-modal"> <span
+                        class="material-symbols-outlined">
                         close
                     </span>Remove color</button>
             </div>
         </section>
         <section class="modal-footer">
-            <button @click="saveLabel" class="call-to-action">Create</button>
+            <div v-if="isCreate">
+                <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
+                    class="btn-disabled">Create</button>
+                <button v-else @click="saveLabel" class="call-to-action">Create</button>
+            </div>
+            <div v-else class="btn-group call-to-action">
+                <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
+                    class="btn-disabled">Save</button>
+                <button v-else @click="saveLabel" class="call-to-action">Save</button>
+                <button @click="openDeleteModal()" class="btn-danger">Delete</button>
+            </div>
+        </section>
+    </section>
+    <section v-if="isDelete" class="modal-container delete-label-modal">
+        <section class="modal-header">
+            <h5>Delete label</h5>
+            <span @click="goBackFromDelete()" class="back material-symbols-outlined">
+                arrow_back_ios
+            </span>
+            <span @click="closeModal()" class="material-symbols-outlined">
+                close
+            </span>
+        </section>
+        <section class="modal-body">
+
+        </section>
+        <section class="modal-footer">
+            <p>This will remove this label from all cards. There is no undo.</p>
+            <button @click="removeLabel()" class="btn-danger">Delete</button>
         </section>
     </section>
 </template>
@@ -75,7 +122,13 @@ export default {
         return {
             filterBy: { txt: '' },
             editLabel: false,
+            isCreate: false,
+            isDelete: false,
+            filterVis: false,
+            titleVis: false,
+            idxOfSelectedColor: null,
             currLabel: {
+                id: '',
                 title: '',
                 color: ''
             },
@@ -89,27 +142,89 @@ export default {
         };
     },
     created() {
-        console.log(this.board.labels);
-        console.log(this.task);
+        this.idxOfSelectedColor = 7
     },
     methods: {
-        saveLabel() {
+        focusOnTitle() {
+            this.$refs.title.focus()
+        },
+        focusOnFilter() {
+            this.$refs.filter.focus()
+        },
+        openDeleteModal() {
+            this.isDelete = true
+        },
+        goBack() {
+            this.editLabel = false
+            this.isCreate = false
+            this.isDelete = false
+
+            this.filterVis = true
+            this.$nextTick(() => {
+                this.focusOnFilter();
+            });
+        },
+        goBackFromDelete() {
+            this.isDelete = false
+
+            this.titleVis = true
+            this.$nextTick(() => {
+                this.focusOnTitle()();
+            });
+        },
+        closeModal() {
+            this.$emit('closeModal')
+        },
+        onOpenCreateEditor() {
+            this.currLabel = { title: '', color: '#ffaf3f', },
+                this.editLabel = true,
+                this.isCreate = true,
+                this.idxOfSelectedColor = 7
+
+            this.titleVis = true
+            this.$nextTick(() => {
+                this.focusOnTitle()();
+            });
+        },
+        removeColor() {
+            this.currLabel.color = '#babdbe'
+        },
+        selectLabel(ev, color, idx) {
+            this.idxOfSelectedColor = idx
+            this.currLabel.color = color
+        },
+        async removeLabel() {
+            const board = JSON.parse(JSON.stringify(this.board))
+            const idx = board.labels.findIndex(label => label.id === this.currLabel.id)
+            board.labels.splice(idx, 1)
+            await this.$store.dispatch({ type: 'saveBoard', board })
+            this.goBack()
+        },
+        async saveLabel() {
             const board = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             if (labelToSave.id) {
-                const labelIdx = board.labels.findIndex(label => label.id === labelToSave.id)
-                board.labels.splice(labelIdx, 1, labelToSave)
+                const idx = board.labels.findIndex(label => label.id === labelToSave.id)
+                board.labels.splice(idx, 1, labelToSave)
             }
             else {
                 labelToSave.id = utilService.makeId()
                 board.labels.push(labelToSave)
             }
-            this.$store.dispatch({ type: 'saveBoard', board })
+            await this.$store.dispatch({ type: 'saveBoard', board })
+            this.goBack()
         },
         labelEditor(label) {
             this.editLabel = true
             const labelToEdit = JSON.parse(JSON.stringify(label))
             this.currLabel = labelToEdit
+            const idx = this.colors.findIndex(color => color === label.color)
+            this.idxOfSelectedColor = idx
+
+            this.titleVis = true
+            this.$nextTick(() => {
+                this.focusOnTitle()();
+            });
         },
         toggleLabel(labeltoAdd) {
             const labelToAdd = JSON.parse(JSON.stringify(labeltoAdd))
@@ -129,7 +244,17 @@ export default {
         labels() {
             const regex = new RegExp(this.filterBy.txt, 'i')
             return this.board.labels.filter(label => regex.test(label.title))
+        },
+        setSelected() {
+            return { 'selected': this.isSelected }
         }
+    },
+    mounted() {
+        this.filterVis = true
+
+        this.$nextTick(() => {
+            this.focusOnFilter();
+        });
     },
     unmounted() { },
 };

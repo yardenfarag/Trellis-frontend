@@ -4,9 +4,9 @@
 
             <section class="start-section flex align-center">
                 <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
-                <button @click="setStarred()">⭐</button>
-                <button>Board</button>
-                <button>
+                <button class="opacity-input" @click="setStarred()">⭐</button>
+                <button class="opacity-input">Board</button>
+                <button class="opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         table_chart
                     </span>Table
@@ -14,7 +14,7 @@
             </section>
 
             <section class="end-section flex align-center">
-                <button class="filter-btn">
+                <button class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
                     </span>Filter</button> |
@@ -32,7 +32,7 @@
                     <span style="font-size:19px;" class="material-symbols-outlined">
                         person_add
                     </span>Share</button> |
-                <button class="menu-btn"><span class="material-symbols-outlined">
+                <button class="menu-btn opacity-input"><span class="material-symbols-outlined">
                         more_horiz
                     </span></button>
             </section>

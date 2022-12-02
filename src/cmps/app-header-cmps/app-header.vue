@@ -9,21 +9,21 @@
       <div class="header-actions flex align-center space-between">
 
         <div class="start-section flex align-center">
-          <button><span>Recent</span>
+          <button class="opacity-input"><span>Recent</span>
             <span class="material-symbols-outlined">
               keyboard_arrow_down
             </span></button>
 
-          <button><span>Starred</span><span class="material-symbols-outlined">
+          <button class="opacity-input"><span>Starred</span><span class="material-symbols-outlined">
               keyboard_arrow_down
             </span> </button>
-          <button @click="isCreateBoard = !isCreateBoard">Create</button>
+          <button class="opacity-input" @click="isCreateBoard = !isCreateBoard">Create</button>
         </div>
 
         <div class="end-section flex align-center">
           <input type="text" placeholder="Search">
-          <button>🔔</button>
-          <button>🐭</button>
+          <button class="opacity-input">🔔</button>
+          <button class="opacity-input">🐭</button>
         </div>
 
       </div>

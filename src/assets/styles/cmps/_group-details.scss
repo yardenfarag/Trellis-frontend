@@ -34,7 +34,7 @@
 
         &:hover {
             cursor: pointer;
-            background-color: var(--hover-clr2);
+            background-color: $color-hover-1;
         }
     }
 
@@ -47,13 +47,13 @@
         background-color: transparent;
         transition: none;
         border-radius: 3px;
-        color: var(--clr-1);
+        color: $color-secondery-text;
         font-weight: 300;
 
 
         &:hover {
-            background-color: var(--hover-clr2);
-            color: var(--clr1);
+            background-color: $color-hover-1;
+            color: $color-secondery-text
         }
 
         & span:nth-child(1) {
@@ -134,7 +134,7 @@
 
     span:hover {
         cursor: pointer;
-        background-color: var(--hover-clr2);
+        background-color: $color-hover-1;
 
     }
 

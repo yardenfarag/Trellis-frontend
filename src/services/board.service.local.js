@@ -75,46 +75,36 @@ function _getLabels() {
         {
             id: 'l101',
             title: '',
-            color: '#0079bf'
+            color: '#7bc86c'
         },
         {
             id: 'l102',
             title: '',
-            color: '#70b500'
+            color: '#f5dd29'
         },
         {
             id: 'l103',
             title: '',
-            color: '#ff9f1a'
+            color: '#ffaf3f'
         },
         {
             id: 'l104',
             title: '',
-            color: '#eb5a46'
+            color: '#ef7564'
         },
         {
             id: 'l105',
             title: '',
-            color: '#f2d600'
+            color: '#cd8de5'
         },
         {
             id: 'l106',
             title: '',
-            color: '#c377e0'
+            color: '#5ba4cf'
         },
-        {
-            id: 'l107',
-            title: '',
-            color: '#ff78cb'
-        },
-        {
-            id: 'l108',
-            title: '',
-            color: '#00c2e0'
-        },
+
     ]
 }
-
 
 // TEST DATA
 // ; (async () => {

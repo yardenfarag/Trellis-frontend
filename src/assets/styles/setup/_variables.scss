@@ -3,18 +3,28 @@ $color-primary-btn-modal: #091E420A;
 $color-primary-btn-modal-hover: rgba($color-primary-btn-modal, 0.08);
 $color-primary-btn-modal-active: rgba(#0079bf, 0.12);
 
+$color-primary: #0079bf;
+$color-primary-hover: darken($color-primary, 8%);
+$color-primary-active: darken($color-primary, 12%);
+
+$color-danger: #b04632;
+$color-danger-hover: darken($color-danger, 8%);
+$color-danger-active: darken($color-danger, 15%);
+
+$color-hover-1: #dadee6;
+$color-bg-1: #f4f5f7;
+
+$color-primary-icon: #6b778c;
+$color-primary-icon-hover: #172b4d;
+
+$color-primary-text: #172b4d;
+$color-secondery-text: #5e6c84;
+
+$color-bg-opacity: rgba(255, 255, 255, 0.24);
+$color-bg-opacity-hover: rgba($color-bg-opacity , 0.40);
+$color-bg-opacity-active: rgba($color-bg-opacity , 0.55);
+
 :root {
-    --clr-1: #5e6c84; //color of secondery text
-    --clr0: #f4f5f7; // bgc color
-    --clr1: #172b4d; // text color
-    --clr2: #42526E; // icon color in button
-    --clr3: rgb(149 158 174); //color of little icons in task
-    --clr4: #0079bf; //color of share btn
-    --clr5: rgba(255, 255, 255, 0.24); // button background color
-    --clr6: rgba(0, 0, 0, 0.2); // hover button background color 
-
-    --hover-clr2: rgb(220, 220, 220);
-
     --t-blue: #0079bf;
     --t-green: #70b500;
     --t-orange: #ff9f1a;

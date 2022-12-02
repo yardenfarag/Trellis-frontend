@@ -6,9 +6,13 @@
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>
-                <section v-if="!isAddGroup" @click="isAddGroup = true" style="{width: 272px;}" class="add-group">
-                    <button class="btn-open-add-task">+ Add another list</button>
-                </section>
+
+                <div v-if="!isAddGroup" @click="isAddGroup = true" class="btn-open-add-group opacity-input">
+                    <span style="font-size:20px;" class="material-symbols-outlined">
+                        add
+                    </span><span>Add another list</span>
+                </div>
+
                 <section v-if="isAddGroup" class="add-group-open">
                     <input v-model="groupToSave.title" type="text" placeholder="Enter list title">
                     <div class="add-group-controler">
