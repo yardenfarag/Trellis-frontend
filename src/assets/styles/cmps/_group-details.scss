@@ -40,10 +40,11 @@
 
     .btn-open-add-task {
         width: 100%;
-        padding: 6px 12px;
+        padding: 4px 12px;
         display: flex;
         justify-content: flex-start;
         margin-block-end: 8px;
+        margin-top: 2px;
         background-color: transparent;
         transition: none;
         border-radius: 3px;
@@ -53,7 +54,7 @@
 
         &:hover {
             background-color: $color-hover-1;
-            color: $color-secondery-text
+            color: $color-primary-text;
         }
 
         & span:nth-child(1) {

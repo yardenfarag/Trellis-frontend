@@ -26,7 +26,24 @@
     min-width: 272px;
     max-height: 40px;
     min-height: 40px;
-    font-weight: 300;
+    font-weight: 400;
+    cursor: pointer;
+
+    .cont {
+        position: relative;
+
+        .plus {
+            position: absolute;
+            left: 11px;
+            top: 9px;
+        }
+
+        .title {
+            position: absolute;
+            left: 35px;
+            top: 10px;
+        }
+    }
 }
 
 .add-group-open {

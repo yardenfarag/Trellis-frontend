@@ -7,13 +7,17 @@
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>
-                <div v-if="!isAddGroup" @click="isAddGroup = true" class="btn-open-add-group opacity-input">
-                    <span style="font-size:20px;" class="material-symbols-outlined">
-                        add
-                    </span><span>Add another list</span>
+                <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
+                    <div class="cont">
+                        <span style="font-size:22px;" class="plus material-symbols-outlined">
+                            add
+                        </span>
+                        <span class="title">Add another list </span>
+                    </div>
                 </div>
                 <section v-if="isAddGroup" class="add-group-open">
-                    <input v-model="groupToSave.title" type="text" placeholder="Enter list title">
+                    <input v-if="titleVis" ref="title" v-model="groupToSave.title" type="text"
+                        placeholder="Enter list title">
                     <div class="add-group-controler">
                         <button @click="addGroup" class="call-to-action">Add List</button>
                         <span @click="isAddGroup = false" class="close-add-group material-symbols-outlined">
@@ -43,6 +47,7 @@ export default {
     },
     data() {
         return {
+            titleVis: false,
             isMenuOpen: false,
             isAddGroup: false,
             groupToSave: {
@@ -57,6 +62,16 @@ export default {
         if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
     },
     methods: {
+        focusOnTitle() {
+            this.$refs.title.focus()
+        },
+        openAddGroup() {
+            this.titleVis = true
+            this.isAddGroup = true
+            this.$nextTick(() => {
+                this.focusOnTitle();
+            });
+        },
         async changeBackgroundImg(imgUrl, avgColor) {
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             boardToSave.style.bgc = `url(${imgUrl})`

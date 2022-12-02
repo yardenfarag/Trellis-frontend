@@ -6,7 +6,6 @@
 
 .main-task-details {
     width: 768px;
-
     background-color: $color-bg-2;
     position: absolute;
     right: 50%;
@@ -14,7 +13,9 @@
     top: 48px;
     margin-bottom: 80px;
     transform: translate(-50%, );
+
 }
+
 
 .task-cover {
     background-color: rgb(236, 93, 93);
@@ -46,17 +47,28 @@
 }
 
 .task-header {
-    padding: 0 8px 8px 16px;
+    min-height: 32px;
+    padding: 12px 40px 8px 56px;
+    position: relative;
+    z-index: 1;
 
-    & h5 {
+    .task-title {
+        padding: 12px 0 0;
+    }
+
+    h5 {
         font-size: 20px;
         font-weight: 600;
-        height: 32px;
         line-height: 24px;
         margin: -4px -8px;
         min-height: 24px;
         padding: 4px 8px;
         resize: none;
+    }
+
+    p {
+        margin: 0 0 8px;
+        line-height: 32px;
     }
 }
 
