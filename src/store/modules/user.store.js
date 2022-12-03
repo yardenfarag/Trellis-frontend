@@ -32,6 +32,15 @@ export const userStore = {
         },
     },
     actions: {
+        async getLoggedinUser(context) {
+            try {
+                const user = userService.getLoggedinUser()
+                context.commit({ type: 'setLoggedinUser', user })
+            } catch (err) {
+                console.log('userStore: Error in get logged in user', err)
+                throw err
+            }
+        },
         async login({ commit }, { userCred }) {
             try {
                 const user = await userService.login(userCred)
