@@ -10,7 +10,7 @@
         </div>
         <!-- <button class="btn-group-actions">...</button> -->
         <ul class="clean-list task-list">
-            <li v-for="task in 
+            <li v-if="group.tasks" v-for="task in 
                 group.tasks" :key="task">
                 <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
             </li>

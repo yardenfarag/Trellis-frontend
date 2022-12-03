@@ -1,9 +1,9 @@
 <template>
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
         <!-- <img id="i" src="../assets/icon.png" alt=""> -->
-        <board-header @toggleMenu="toggleMenu" v-if="board" :board="board"></board-header>
+        <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board" :board="board"></board-header>
         <ul class="clean-list flex group-list">
-            <li v-for="group in board.groups" :key="group.id">
+            <li v-if="boardToShow" v-for="group in boardToShow.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>
@@ -30,6 +30,8 @@
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
+        <task-filter v-if="isFilterOpen" @setFilterBy="filterBy" @closeFilter="toggleFilter">
+        </task-filter>
     </section>
     <router-view />
 </template>
@@ -38,30 +40,48 @@
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue';
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 import boardMenu from '../cmps/board-cmps/board-menu-cmps/board-menu.cmp.vue';
+import taskFilter from '../cmps/board-cmps/board-header-cmps/task-filter.cmp.vue';
 export default {
     name: 'board-details',
     components: {
         groupDetails,
         boardHeader,
         boardMenu,
+        taskFilter,
     },
     data() {
         return {
             titleVis: false,
+            isFilterOpen: false,
             isMenuOpen: false,
             isAddGroup: false,
             groupToSave: {
                 title: '',
                 style: {},
                 tasks: [],
-            }
+            },
+            boardToShow: null,
         };
     },
     async created() {
         const { boardId } = this.$route.params
-        if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+        await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+        this.boardToShow = this.board
     },
     methods: {
+        filterBy(filterBy) {
+            const regex = new RegExp(filterBy.txt, 'i')
+            if (filterBy.txt) {
+                console.log('hi from inside');
+                this.boardToShow = this.board.groups.forEach(group => {
+                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
+                })
+                console.log(this.boardToShow);
+            } else {
+                this.boardToShow = this.board
+            }
+        },
+
         focusOnTitle() {
             this.$refs.title.focus()
         },
@@ -84,6 +104,9 @@ export default {
             await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
             await this.$store.dispatch({ type: 'setHeaderClr', color })
         },
+        toggleFilter() {
+            this.isFilterOpen = !this.isFilterOpen
+        },
         toggleMenu() {
             this.isMenuOpen = !this.isMenuOpen
         },
@@ -100,7 +123,7 @@ export default {
     },
     computed: {
         board() {
-            return this.$store.getters.board
+            return JSON.parse(JSON.stringify(this.$store.getters.board))
         }
     },
     mounted() {
