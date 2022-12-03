@@ -57,7 +57,7 @@
         <hr>
         <task-map :task="task" />
         <hr>
-        <task-comments :task="task" />
+        <task-comments @saveTask="updateTask" :task="task" />
       </section>
 
       <section class="task-sidebar">

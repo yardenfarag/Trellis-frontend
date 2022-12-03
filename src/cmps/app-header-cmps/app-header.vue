@@ -24,7 +24,7 @@
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="notifications"></button>
-          <button class="opacity-input">🐭</button>
+          <img :src="loggedinUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
         </div>
 
       </div>
@@ -44,13 +44,17 @@ export default {
       isCreateBoard: false
     };
   },
-  created() {
+  async created() {
+    await this.$store.dispatch({ type: 'getLoggedinUser' })
   },
   methods: {},
   computed: {
     board() {
       return this.$store.getters.board
     },
+    loggedinUser() {
+      return this.$store.getters.loggedinUser
+    }
   },
   unmounted() { },
 };
