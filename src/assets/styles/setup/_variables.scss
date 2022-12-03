@@ -1,6 +1,6 @@
 // Colors
 $color-primary-btn-modal: #091E420A;
-$color-primary-btn-modal-hover: rgba($color-primary-btn-modal, 0.07);
+$color-primary-btn-modal-hover: rgba($color-primary-btn-modal, 0.2);
 $color-primary-btn-modal-active: rgba(#0079bf, 0.12);
 
 $color-primary: #0079bf;
@@ -22,9 +22,9 @@ $color-primary-icon-hover: #172b4d;
 $color-primary-text: #172b4d;
 $color-secondery-text: #5e6c84;
 
-$color-bg-opacity: rgba(255, 255, 255, 0.24);
-$color-bg-opacity-hover: rgba($color-bg-opacity , 0.40);
-$color-bg-opacity-active: rgba($color-bg-opacity , 0.55);
+$color-bg-opacity: rgba(255, 255, 255, 0.26);
+$color-bg-opacity-hover: rgba($color-bg-opacity , 0.32);
+$color-bg-opacity-active: rgba($color-bg-opacity , 0.46);
 
 :root {
     --t-blue: #0079bf;

@@ -6,7 +6,9 @@
       <button class="cover-btn">Cover</button>
     </div>
     <div class="task-header">
-      <h5 contenteditable="true" @blur="updateTaskTitle($event)">{{ task.title }}</h5>
+      <div class="task-title">
+        <h5 contenteditable="true" @blur="updateTaskTitle($event)">{{ task.title }}</h5>
+      </div>
       <p v-if="group">in list: {{ group.title }}</p>
     </div>
     <section class="task-info flex">
@@ -116,6 +118,7 @@ export default {
     const taskId = this.$route.params.taskId
     this.task = this.group.tasks.find(task => task.id === taskId)
     document.querySelector('html').classList.remove('board-page')
+    console.log(this.task);
   },
 
 

@@ -28,6 +28,24 @@
         .start-section {
             margin-inline-start: 30px;
             gap: 16px;
+
+            h3 {
+                margin-block: 0;
+                line-height: 16px;
+                padding-inline: 12px;
+                font-size: 18px;
+                font-weight: 700;
+                border-radius: 3px;
+
+                &:hover {
+                    background-color: $color-bg-opacity;
+                }
+
+                &:focus {
+                    color: black;
+                    background-color: white;
+                }
+            }
         }
 
         .end-section {

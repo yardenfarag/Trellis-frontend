@@ -1,0 +1,84 @@
+.board-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 339px;
+    background-color: white;
+    padding-inline: 12px;
+
+    .menu-layout {
+        .menu-header {
+            height: 48px;
+            border-bottom: 1px solid var(--t-gray);
+            position: relative;
+            display: flex;
+            justify-content: center;
+
+
+            h5 {
+                margin: auto;
+                color: $color-primary-text;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 20px;
+                margin: 14px 32px;
+            }
+
+            span {
+                color: $color-primary-text;
+                position: absolute;
+                // font-weight: 600;
+                bottom: 28%;
+                right: -2px;
+                font-size: 21px;
+                cursor: pointer;
+
+                &:hover {
+                    font-weight: 500;
+                    color: $color-primary-icon-hover;
+                }
+
+                &.back {
+                    color: $color-primary-icon;
+                    bottom: 38%;
+                    left: 3px;
+                    font-size: 13px;
+                    width: fit-content;
+
+                    &:hover {
+                        font-weight: 500;
+                        color: $color-primary-icon-hover;
+                    }
+                }
+            }
+        }
+
+        &.bg-container {
+            .menu-body {
+                .options {
+                    min-height: 152px;
+                    display: flex;
+                    gap: 8px;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    border-bottom: 1px solid var(--t-gray);
+                    padding-left: 7px;
+                    padding-bottom: 6px;
+                    // margin-top: -2px;
+
+                    img {
+                        border-radius: 7px;
+                        width: 153px;
+                        height: 97px;
+                    }
+
+                    h6 {
+                        margin-inline: auto;
+                    }
+                }
+            }
+        }
+    }
+}
