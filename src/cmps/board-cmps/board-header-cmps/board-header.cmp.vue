@@ -4,13 +4,10 @@
 
             <section class="start-section flex align-center">
                 <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
-                <button class="opacity-input" @click="toggleStarred()">⭐</button>
-                <button class="opacity-input">Board</button>
-                <button class="opacity-input">
-                    <span style="font-size:15px;" class="material-symbols-outlined">
-                        table_chart
-                    </span>Table
-                </button>
+                <button v-if="board.isStarred" class="star opacity-input" @click="toggleStarred()"></button>
+                <button v-else class="star active opacity-input" @click="toggleStarred()"></button>
+                <button class="board opacity-input">Board</button>
+                <button class="table opacity-input">Table</button>
             </section>
 
             <section class="end-section flex align-center">
@@ -30,9 +27,7 @@
                 </section> |
                 <button @click="isShareModal = true" class="share-btn">
                     Share</button> |
-                <button @click="toggleMenu" class="menu-btn opacity-input"><span class="material-symbols-outlined">
-                        more_horiz
-                    </span></button>
+                <button @click="toggleMenu" class="menu-btn opacity-input"></button>
             </section>
         </div>
     </header>

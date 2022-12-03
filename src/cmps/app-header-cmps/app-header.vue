@@ -10,20 +10,20 @@
       <div class="header-actions flex align-center space-between">
 
         <div class="start-section flex align-center">
-          <button class="opacity-input"><span>Recent</span>
+          <button class="recent"><span>Recent</span>
             <span class="material-symbols-outlined">
               keyboard_arrow_down
             </span></button>
 
-          <button class="opacity-input"><span>Starred</span><span class="material-symbols-outlined">
+          <button class="starred"><span>Starred</span><span class="material-symbols-outlined">
               keyboard_arrow_down
             </span> </button>
           <button class="opacity-input" @click="isCreateBoard = !isCreateBoard">Create</button>
         </div>
 
         <div class="end-section flex align-center">
-          <input type="text" placeholder="Search">
-          <button class="opacity-input">🔔</button>
+          <button class="search">Search</button>
+          <button class="notifications"></button>
           <button class="opacity-input">🐭</button>
         </div>
 

@@ -195,12 +195,12 @@
     background-color: $color-bg-opacity;
     transition: 0.15s;
 
-    &:hover {
+    &:hover:not(.star) {
         background-color: $color-bg-opacity-hover;
         transition: 0.05s;
     }
 
-    &:active {
+    &:active:not(.star) {
         background-color: $color-bg-opacity-active;
     }
 }

@@ -20,7 +20,9 @@
                 add
             </span><span>Add a card</span></button>
         <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
-            <input ref="title" v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card...">
+            <!-- <input ref="title" v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card..."> -->
+            <textarea ref="title" v-model="taskToEdit.title" type="text"
+                placeholder="Enter a title for this card..."></textarea>
             <div class="add-task-form-controler">
                 <button class="call-to-action">Add card</button>
                 <span style="font-size:32px;" @click="isAddTask = false"

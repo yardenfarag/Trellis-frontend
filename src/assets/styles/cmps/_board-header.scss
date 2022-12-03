@@ -46,6 +46,69 @@
                     background-color: white;
                 }
             }
+
+            .star {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+                transition: none;
+
+                &:hover {
+                    font-size: 18px;
+                    color: yellow;
+                }
+
+                &::after {
+                    font-family: trello;
+                    content: '\E966';
+                }
+
+                &.active {
+                    font-size: 18px;
+                    color: yellow;
+
+                    &::after {
+                        font-family: trello;
+                        content: '\E967';
+                    }
+
+                    &:hover {
+                        &::after {
+                            font-family: trello;
+                            content: '\E966';
+                        }
+                    }
+                }
+            }
+
+            .board {
+                position: relative;
+                padding-left: 33px;
+                padding-right: 13px;
+
+                &::before {
+                    font-family: trello;
+                    content: '\E943';
+                    position: absolute;
+                    bottom: 8px;
+                    left: 13px;
+                }
+            }
+
+            .table {
+                position: relative;
+                padding-right: 12px;
+                padding-left: 34px;
+
+                &::before {
+                    font-family: trello;
+                    content: '\E97E';
+                    position: absolute;
+                    left: 11px;
+                    bottom: 8px;
+                    font-size: 18px;
+                }
+            }
         }
 
         .end-section {
@@ -62,14 +125,19 @@
                 }
 
                 &.share-btn {
+                    position: relative;
                     color: black;
                     background-color: white;
                     padding-inline: 12px;
-                    
+                    padding-left: 28px;
+
                     &::before {
+                        position: absolute;
                         font-family: trello;
-                        font-size: 20px;
                         content: '\E902';
+                        font-size: 16px;
+                        left: 8px;
+                        bottom: 7px;
                     }
 
                     &:hover {
@@ -80,9 +148,12 @@
                 &.menu-btn {
                     padding: 6px;
 
-                    span {
-                        // background-color: red;
+                    &::after {
+                        font-family: trello;
+                        content: '\E952';
+                        font-size: 20px;
                     }
+
                 }
             }
 

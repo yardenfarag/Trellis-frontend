@@ -37,8 +37,18 @@
             width: 100%;
 
             .start-section {
-                gap: 25px;
+                gap: 6px;
                 position: relative;
+
+                .recent,
+                .starred {
+                    background-color: transparent;
+
+                    &:hover {
+                        background-color: $color-bg-opacity;
+                        transition: 0.15s;
+                    }
+                }
 
                 & button {
                     height: 33px;
@@ -47,19 +57,53 @@
             }
 
             .end-section {
-                gap: 25px;
+                gap: 4px;
                 margin-inline-end: 20px;
-
-                & input {
-                    height: 33px;
-                    background-color: $color-bg-opacity;
-                    border-radius: 3px;
-                    padding: 0px 12px 0px 12px;
-                }
 
                 & button {
                     height: 33px;
-                    padding-block: 8px;
+                }
+
+                .search {
+                    position: relative;
+                    background-color: rgb(255, 255, 255, 0.25);
+                    border: 1px solid rgb(255, 255, 255, 0.3);
+                    border-radius: 5px;
+                    opacity: 0.7;
+                    padding-right: 129px;
+                    padding-left: 29px;
+                    transition: none;
+                    cursor: text;
+
+                    &::before {
+                        font-family: trello;
+                        content: '\E960';
+                        position: absolute;
+                        font-size: 16px;
+                        left: 8px;
+                        bottom: 6px;
+                    }
+
+                    &:hover {
+                        background-color: rgb(255, 255, 255, 0.5);
+                    }
+                }
+
+                .notifications {
+                    background-color: transparent;
+                    padding-inline: 8px;
+
+                    &:hover {
+                        background-color: $color-bg-opacity;
+                        transition: 0.15s;
+                    }
+
+                    &::after {
+                        font-family: trello;
+                        content: '\E94C';
+                        font-size: 22px;
+                        transform: rotate(45deg)
+                    }
                 }
             }
         }
