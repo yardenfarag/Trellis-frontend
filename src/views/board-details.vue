@@ -3,7 +3,7 @@
         <!-- <img id="i" src="../assets/icon.png" alt=""> -->
         <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board" :board="board"></board-header>
         <ul class="clean-list flex group-list">
-            <li v-if="boardToShow" v-for="group in boardToShow.groups" :key="group.id">
+            <li v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>
@@ -67,26 +67,26 @@ export default {
     async created() {
         const { boardId } = this.$route.params
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-        this.boardToShow = this.board
+        // this.boardToShow = this.board
     },
     methods: {
         setFilterBy(filterBy) {
             this.filterBy = filterBy
-            this.setBoardToShow()
+            // this.setBoardToShow()
         },
-        setBoardToShow() {
-            const regex = new RegExp(this.filterBy.txt, 'i')
-            if (this.filterBy.txt) {
-                console.log('hi from inside');
-                this.boardToShow = this.board.groups.forEach(group => {
-                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
-                })
-                console.log(this.boardToShow);
-            } else {
-                this.boardToShow = this.board
-                console.log(this.boardToShow);
-            }
-        },
+        // setBoardToShow() {
+        //     const regex = new RegExp(this.filterBy.txt, 'i')
+        //     if (this.filterBy.txt) {
+        //         console.log('hi from inside');
+        //         this.boardToShow = this.board.groups.forEach(group => {
+        //             return group.tasks = group.tasks.filter(task => regex.test(task.title))
+        //         })
+        //         console.log(this.boardToShow);
+        //     } else {
+        //         this.boardToShow = this.board
+        //         console.log(this.boardToShow);
+        //     }
+        // },
         focusOnTitle() {
             this.$refs.title.focus()
         },
