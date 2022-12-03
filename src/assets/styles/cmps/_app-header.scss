@@ -7,7 +7,7 @@
     background-color: #026aa7;
 
     .dark {
-        z-index: 500;
+        z-index: -200;
         position: absolute;
         height: 100%;
         width: 100%;
@@ -32,8 +32,8 @@
             margin-inline: 20px;
             gap: 3px;
             text-decoration: none;
-            
-            .main-logo{
+
+            .main-logo {
                 text-decoration: none;
                 color: white;
                 padding: 0;
