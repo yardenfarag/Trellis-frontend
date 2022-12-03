@@ -134,7 +134,6 @@ export default {
             try {
                 const images = await uploadService.getImages(searchTerm)
                 this.images = images.photos
-                console.log(this.images);
             }
             catch (err) {
                 console.log('Cannot get images')
@@ -142,7 +141,6 @@ export default {
             }
         },
         setBoardBgImg(imgUrl, avgColor) {
-            console.log(avgColor);
             this.$emit('changeBackgroundImg', imgUrl, avgColor)
         },
         setBoardBgColor(color) {

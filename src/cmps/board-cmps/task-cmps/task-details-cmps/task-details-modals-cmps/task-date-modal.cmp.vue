@@ -7,8 +7,8 @@
         <hr>
         <section>
             <div class="block">
-                <el-date-picker ref="datePicker" v-model="dueDate" type="datetime" placeholder="Select date and time"
-                    :default-time="defaultTime" />
+                <el-date-picker ref="datePicker" v-model="dueDate.info" type="datetime"
+                    placeholder="Select date and time" :default-time="defaultTime" />
             </div>
             <button @click="saveDueDate">Save</button>
             <button @click="closeModal">Remove</button>
@@ -28,7 +28,10 @@ export default {
     },
     data() {
         return {
-            dueDate: '',
+            dueDate: {
+                info: '',
+                isDone: false,
+            },
             defaultTime: new Date(2000, 1, 1, 12, 0, 0)
         };
     },
@@ -37,7 +40,6 @@ export default {
     },
     methods: {
         saveDueDate() {
-            console.log(this.dueDate);
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.dueDate = this.dueDate
             this.$emit('saveTask', taskToSave)

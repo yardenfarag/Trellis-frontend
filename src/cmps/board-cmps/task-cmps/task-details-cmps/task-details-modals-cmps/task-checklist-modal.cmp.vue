@@ -45,8 +45,6 @@ export default {
             this.closeModal()
             const checklist = boardService.getEmptyChecklist()
             checklist.title = this.listTitle
-            console.log(checklist)
-            console.log(this.task)
             const updateTask = JSON.parse(JSON.stringify(this.task))
             if (updateTask.checklists) updateTask.checklists.push(checklist)
             else updateTask.checklists = [checklist]

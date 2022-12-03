@@ -13,12 +13,42 @@
     </div>
     <section class="task-info flex">
       <section class="task-content">
-
-        <div v-if="task.dueDate">
-          <input type="checkBox">
-          Due date: {{ task.dueDate }}
+        <section class="flex members-and-labels">
+          <section>
+            <h5>Members</h5>
+            <div v-if="taskMembers.length" class="task-members flex">
+              <div v-for="taskMember in taskMembers" class="task-member">
+                <div class="avatar">
+                  <img :src="taskMember.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
+                </div>
+              </div>
+              <div @click="toggleMembersModal" class="avatar"
+                :style="{ textAlign: 'center', background: 'gray', width: 40 + 'px', 'border-radius': 50 + '%' }">+
+              </div>
+            </div>
+          </section>
+          <section>
+            <h5>Labels</h5>
+            <div v-if="task.labels.length" class="task-labels flex">
+              <div v-for="label in task.labels" :key="label.id" class="task-label">
+                <div v-if="label" class="label-preview"
+                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">
+                  hi</div>
+                <div v-if="label" class="label-circle"
+                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">hi</div>
+                <span class="label-title">{{ label.title }}</span>
+              </div>
+              <button @click="toggleLabelsModal">+</button>
+            </div>
+          </section>
+        </section>
+        <div v-if="task.dueDate" class="task-date">
+          <h5>Due date</h5>
+          <input @change="toggleDuedate" type="checkbox">
+          <span @click="toggleDateModal" class="date-info">
+            {{ formattedDate }} <span>{{ duedateComplete }}</span>
+          </span>
         </div>
-        <section>Members: {{ task.memberIds }} Labels: {{ task.labels }}</section>
         <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
         <hr>
         <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
@@ -64,6 +94,7 @@
 </template>
 
 <script>
+import { utilService } from '../services/util.service'
 import taskDescription from '../cmps/board-cmps/task-cmps/task-details-cmps/task-description.cmp.vue'
 import taskAttachment from '../cmps/board-cmps/task-cmps/task-details-cmps/task-attachment.cmp.vue'
 import taskChecklist from '../cmps/board-cmps/task-cmps/task-details-cmps/task-checklist.cmp.vue'
@@ -106,6 +137,7 @@ export default {
   },
 
   async created() {
+    this.$store.dispatch({ type: 'loadUsers' })
     const boardId = this.$route.params.boardId
     this.boardId = boardId
     if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
@@ -118,11 +150,15 @@ export default {
     const taskId = this.$route.params.taskId
     this.task = this.group.tasks.find(task => task.id === taskId)
     document.querySelector('html').classList.remove('board-page')
-    console.log(this.task);
   },
 
 
   methods: {
+    async toggleDuedate() {
+      const taskToEdit = JSON.parse(JSON.stringify(this.task))
+      taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
+      await this.updateTask(taskToEdit)
+    },
     toggleMembersModal() {
       this.isLabelsModalOpen = false
       this.isChecklistModal = false
@@ -166,7 +202,6 @@ export default {
       this.$router.push('/board/' + this.boardId)
     },
     closeDetails() {
-      console.log(this.boardId)
       this.$router.push('/board/' + this.boardId)
     },
     async updateTaskTitle(ev) {
@@ -189,9 +224,30 @@ export default {
     },
   },
   computed: {
+    duedateComplete() {
+      if (this.task.dueDate.isDone) {
+        return 'completed'
+      }
+      return ''
+    },
+    formattedDate() {
+      return utilService.dueDateFormat(this.task.dueDate?.info)
+    },
     board() {
       return this.$store.getters.board
-    }
+    },
+    users() {
+      return this.$store.getters.users
+    },
+    taskMembers() {
+      let members = this.users.filter(user => {
+        return this.board.memberIds.includes(user._id)
+      })
+      let taskMembers = members.filter(member => {
+        return this.task.memberIds.includes(member._id)
+      })
+      return taskMembers
+    },
   },
   directives: {
     ClickOutside

@@ -13,7 +13,7 @@
                 <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
                     class="board-member">
                     <div class="avatar">
-                        <img :src="boardMember.imgUrl" alt="">
+                        <img :src="boardMember.imgUrl">
                     </div>
                     <h6>{{ boardMember.fullname }}</h6>
                     <span v-if="isTaskMember(boardMember._id)" class="v-icon material-symbols-outlined">

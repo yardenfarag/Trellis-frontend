@@ -57,8 +57,6 @@ export default {
             this.$refs.link.focus()
         },
         saveAttachment() {
-            console.log('ss');
-
             const imgUrl = JSON.parse(JSON.stringify(this.url))
             let fileName = JSON.parse(JSON.stringify(this.fileName))
             if (!fileName) fileName = imgUrl.slice(0, 50)

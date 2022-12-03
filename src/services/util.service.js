@@ -6,7 +6,8 @@ export const utilService = {
     randomPastTime,
     saveToStorage,
     loadFromStorage,
-    timeAgo
+    timeAgo,
+    dueDateFormat
 }
 
 function makeId(length = 6) {
@@ -19,6 +20,15 @@ function makeId(length = 6) {
 
     return txt
 }
+
+function dueDateFormat(dueDate) {
+    let strDate = ''
+    strDate += `${new Date(dueDate).toLocaleString('en-US', { day: 'numeric' })} `
+    strDate += `${new Date(dueDate).toLocaleString('en-US', { month: 'short' })}`
+    strDate += ' at '
+    strDate += `${new Date(dueDate).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}`
+    return strDate
+  }
 
 function makeLorem(size = 100) {
     var words = ['The sky', 'above', 'the port', 'was', 'the color of television', 'tuned', 'to', 'a dead channel', '.', 'All', 'this happened', 'more or less', '.', 'I', 'had', 'the story', 'bit by bit', 'from various people', 'and', 'as generally', 'happens', 'in such cases', 'each time', 'it', 'was', 'a different story', '.', 'It', 'was', 'a pleasure', 'to', 'burn']
