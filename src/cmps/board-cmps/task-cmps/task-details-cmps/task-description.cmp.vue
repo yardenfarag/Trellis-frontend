@@ -1,7 +1,7 @@
 <template>
     <div class="description-container">
-        <div class="title">
-            <h3><span class="task-details-icon">☰</span>Description</h3>
+        <div class="title-container">
+            <h3> Description</h3>
         </div>
         <div class="description-input">
             <div v-if="!isDescriptionSelected" class="pre-text-area" @click="isDescriptionSelected = true">

@@ -1,7 +1,7 @@
 <template>
   <div v-if="task.attachments" class="attachment-container">
-    <div class="title">
-      <h3><span class="icon">🔗</span>Attachments</h3>
+    <div class="title-container">
+      <h3>Attachments</h3>
     </div>
     <div v-if="task.attachments" class="task-attachment">
       <div class="attachment">

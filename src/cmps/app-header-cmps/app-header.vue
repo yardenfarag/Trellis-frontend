@@ -1,6 +1,7 @@
 <!-- :style="{ background: board.style.bgc || 'white' }" -->
 <template>
   <header v-if="board" :style="{ backgroundColor: board.style.headerClr }" class="app-header flex align-center">
+    <div class="dark"></div>
     <section class="header-nav flex align-center">
       <div class="logo flex align-center">
         <img src="../../../public/favicon.ico" alt="">

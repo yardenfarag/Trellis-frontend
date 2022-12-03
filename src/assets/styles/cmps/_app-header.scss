@@ -5,13 +5,22 @@
     overflow: hidden;
     width: 100%;
 
+    .dark {
+        z-index: 500;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        opacity: 0.15;
+    }
+
     button {
         color: white;
     }
 
     .header-nav {
         color: white;
-        border-bottom: 1px solid $color-primary-icon-hover;
+        border-bottom: 1px solid $color-bg-opacity;
         overflow: hidden;
         backdrop-filter: blur(6px);
         max-height: 44px;

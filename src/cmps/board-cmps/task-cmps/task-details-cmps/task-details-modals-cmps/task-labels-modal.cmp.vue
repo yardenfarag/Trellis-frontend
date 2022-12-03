@@ -15,12 +15,15 @@
             <div class="lables">
                 <div v-if="labels" v-for="label in labels" class="label-container">
                     <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-                    <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }" class="label-preview">
-                        <div class="dark"></div>
+                    <div class="label">
+                        <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }"
+                            class="label-preview">
+                            <!-- <div class="dark"></div> -->
+                        </div>
+                        <div :style="{ 'background-color': label.color }" class="label-circle">
+                        </div>
+                        <span class="label-title">{{ label.title }}</span>
                     </div>
-                    <div :style="{ 'background-color': label.color }" class="label-circle">
-                    </div>
-                    <span class="label-title">{{ label.title }}</span>
                     <button class="edit-btn" @click="labelEditor(label)"> <span
                             class="pencil-icon material-symbols-outlined">edit</span></button>
 

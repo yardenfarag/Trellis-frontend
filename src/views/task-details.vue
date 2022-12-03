@@ -1,47 +1,54 @@
 <template>
   <div class="screen-black"></div>
-  <section v-click-outside="closeDetails" v-if="task" class="main-task-details">
-    <div class="task-cover">
-      <button @click="closeDetails" class="close-details">X</button>
-      <button class="cover-btn">Cover</button>
-    </div>
-    <div class="task-header">
-      <div class="task-title">
-        <h5 contenteditable="true" @blur="updateTaskTitle($event)">{{ task.title }}</h5>
+
+  <section v-click-outside="closeDetails" v-if="task" class="task-details">
+
+    <section class="task-header">
+      <div class="task-cover">
+        <button class="btn-cover opacity-input">Cover</button>
       </div>
-      <p v-if="group">in list: {{ group.title }}</p>
-    </div>
-    <section class="task-info flex">
+      <div class="task-title-container">
+        <div class="task-title">
+          <textarea rows="1" class="task-title-edit" v-model="task.title"
+            @blur="updateTaskTitle($event)">{{ task.title }}</textarea>
+        </div>
+        <p class="in-group" v-if="group">in list: {{ group.title }}</p>
+        <button class="close-details opacity-input" @click="closeDetails"></button>
+      </div>
+    </section>
+
+    <section class="task-main">
       <section class="task-content">
-        <section class="flex members-and-labels">
-          <section>
-            <h5>Members</h5>
-            <div v-if="taskMembers.length" class="task-members flex">
-              <div v-for="taskMember in taskMembers" class="task-member">
-                <div class="avatar">
-                  <img :src="taskMember.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
-                </div>
-              </div>
-              <div @click="toggleMembersModal" class="avatar"
-                :style="{ textAlign: 'center', background: 'gray', width: 40 + 'px', 'border-radius': 50 + '%' }">+
-              </div>
+        <section class="members-and-labels">
+          <section class="members-container">
+            <h5 class="small-title">Members</h5>
+            <div class="member-list-container">
+              <ul v-if="taskMembers.length" v-for="taskMember in taskMembers" class="clean-list">
+                <li class="avatar">
+                  <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 100 + '%' }">
+                </li>
+              </ul>
+              <button class="btn-member-modal task-content-btn" @click="toggleMembersModal"></button>
             </div>
           </section>
-          <section>
-            <h5>Labels</h5>
-            <div v-if="task.labels.length" class="task-labels flex">
-              <div v-for="label in task.labels" :key="label.id" class="task-label">
-                <div v-if="label" class="label-preview"
-                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">
-                  hi</div>
-                <div v-if="label" class="label-circle"
-                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">hi</div>
-                <span class="label-title">{{ label.title }}</span>
+
+
+          <section class="labels-container">
+            <h5 class="small-title">Labels</h5>
+            <div v-if="task.labels.length" class="labels-list-container">
+
+              <div v-for="label in task.labels" :key="label.id" class="label">
+                <div class="label-bg" :style="{ backgroundColor: label.color }">
+                  <div v-if="label.title" class="label-title-place-holder">{{ label.title }}</div>
+                </div>
+                <div v-if="label.title" class="label-title">{{ label.title }}</div>
+                <div class="label-circle" :style="{ backgroundColor: label.color }"></div>
               </div>
-              <button @click="toggleLabelsModal">+</button>
+              <button class="btn-label-modal task-content-btn" @click="toggleLabelsModal"></button>
             </div>
           </section>
         </section>
+
         <div v-if="task.dueDate" class="task-date">
           <h5>Due date</h5>
           <input @change="toggleDuedate" type="checkbox">
@@ -49,35 +56,43 @@
             {{ formattedDate }} <span>{{ duedateComplete }}</span>
           </span>
         </div>
-        <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
-        <hr>
-        <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
-        <hr>
-        <task-checklist :task="task" @updateTask="updateTask" />
-        <hr>
-        <task-map :task="task" />
-        <hr>
-        <task-comments @saveTask="updateTask" :task="task" />
+        <div class="task-info">
+          <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
+
+          <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
+
+          <task-checklist :task="task" @updateTask="updateTask" />
+
+          <task-map :task="task" />
+          <task-comments @saveTask="updateTask" :task="task" />
+        </div>
       </section>
 
       <section class="task-sidebar">
-        <h6>Add to card</h6>
-        <button class="task-detail-btn">join</button>
-        <button @click="toggleMembersModal()" class="task-detail-btn">Members</button>
-        <button @click="toggleLabelsModal()" class="task-detail-btn">Labels</button>
-        <button @click="toggleChecklistModal()" class="task-detail-btn">Checklist</button>
-        <button @click="toggleDateModal()" class="task-detail-btn">Dates</button>
-        <button @click="toggleAttachmentModal()" class="task-detail-btn">Attachment</button>
-        <button class="task-detail-btn">Location</button>
-        <button class="task-detail-btn">Custom Fields</button>
-        <h6>Actions</h6>
-        <button class="task-detail-btn">Move</button>
-        <button class="task-detail-btn">Copy</button>
-        <button class="task-detail-btn">Make template</button>
-        <button class="task-detail-btn">Watch</button>
-        <hr>
-        <button @click="removeTask" class="task-detail-btn">Archive</button>
-        <button class="task-detail-btn">Share</button>
+        <div class="add-to-card-container">
+          <h5 class="small-title add-to-card-title">Add to card</h5>
+          <div class="btn-container">
+            <button class="task-detail-btn">join</button>
+            <button @click="toggleMembersModal()" class="task-detail-btn">Members</button>
+            <button @click="toggleLabelsModal()" class="task-detail-btn">Labels</button>
+            <button @click="toggleChecklistModal()" class="task-detail-btn">Checklist</button>
+            <button @click="toggleDateModal()" class="task-detail-btn">Dates</button>
+            <button @click="toggleAttachmentModal()" class="task-detail-btn">Attachment</button>
+            <button class="task-detail-btn">Location</button>
+            <button class="task-detail-btn">Custom Fields</button>
+          </div>
+        </div>
+        <div class="action-container">
+          <h5 class="small-title">Actions</h5>
+          <div class="btn-container">
+            <button class="task-detail-btn">Move</button>
+            <button class="task-detail-btn">Copy</button>
+            <button class="task-detail-btn">Make template</button>
+            <button class="task-detail-btn">Watch</button>
+            <button @click="removeTask" class="task-detail-btn">Archive</button>
+            <button class="task-detail-btn">Share</button>
+          </div>
+        </div>
 
       </section>
     </section>
@@ -205,7 +220,7 @@ export default {
       this.$router.push('/board/' + this.boardId)
     },
     async updateTaskTitle(ev) {
-      const newTitle = ev.target.innerText
+      const newTitle = this.task.title
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.title = newTitle
       const boardToSave = JSON.parse(JSON.stringify(this.board))

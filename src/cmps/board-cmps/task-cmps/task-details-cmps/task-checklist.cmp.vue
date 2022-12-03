@@ -1,23 +1,14 @@
 <template>
 
-  <!-- <section v-if="isChecklistModal" class="checklist-modal">
-    <button @click="closeModal">X</button>
-    <h2>Add checklist</h2>
-    <hr>
-    <label for="title">Title</label>
-    <input v-model="listTitle" type="text">
-    <button @click="addCheckList" class="call-to-action">Add</button>
-  </section> -->
-
   <section v-if="task.checklists" class="checklists-container">
     <div v-for="checklist in task.checklists" class="checklists">
 
-      <div class="title">
-        <progress :value=progressCount(checklist)></progress>
-        <h3><span class="task-details-icon">🗹</span>{{ checklist.title }}</h3>
-        <button>Hide checked items</button>
-        <button @click="removeChecklist(checklist.id)">Delete</button>
+      <div class="title-container">
+        <h3>{{ checklist.title }}</h3>
       </div>
+      <progress :value=progressCount(checklist)></progress>
+      <button>Hide checked items</button>
+      <button @click="removeChecklist(checklist.id)">Delete</button>
       <div v-for="todo in checklist.todos" class="checklist-todos">
         <input type="checkBox" :checked="todo.isDone" @change="toggleTodo(todo.id, checklist.id)" />
         <h4 class="todo-title" :class="{ checked: todo.isDone }">{{ todo.title }}</h4>
@@ -44,7 +35,6 @@ export default {
   emits: ['closeCheckListModal', 'updateTask'],
   props: {
     task: Object,
-    // isChecklistModal: Boolean,
   },
   name: 'task-checklist',
   components: {},

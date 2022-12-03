@@ -1,7 +1,7 @@
 <template>
   <section class="activity-container">
-    <div class="title flex">
-      <h3><span>💬</span>Activity</h3>
+    <div class="title-container">
+      <h3>Activity</h3>
       <button>Show details</button>
     </div>
 
