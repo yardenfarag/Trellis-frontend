@@ -228,17 +228,11 @@ export default {
       this.$router.push('/board/' + this.boardId)
     },
     async updateTaskTitle(ev) {
-<<<<<<< HEAD
-      const newTitle = this.task.title
-=======
->>>>>>> ff36a37e11915a196987e52a9ec9ab0e49bb58f8
-      const taskToEdit = JSON.parse(JSON.stringify(this.task))
-      let newTitle
-      if (!ev.target.innerText) {
-        ev.target.innerText = taskToEdit.title
+      let newTitle = this.task.title
+      if (!newTitle) {
         return
       } else {
-        newTitle = ev.target.innerText
+        const taskToEdit = JSON.parse(JSON.stringify(this.task))
         taskToEdit.title = newTitle
         const boardToSave = JSON.parse(JSON.stringify(this.board))
         await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
