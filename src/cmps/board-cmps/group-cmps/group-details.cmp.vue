@@ -15,13 +15,27 @@
                 group.tasks" :key="task">
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                 </li>
+                <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
+                    <!-- <input ref="title" v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card..."> -->
+                    <textarea ref="title" v-model="taskToEdit.title" type="text"
+                        placeholder="Enter a title for this card..."></textarea>
+                    <div class="add-task-form-controler">
+                        <button class="call-to-action">Add card</button>
+                        <span style="font-size:32px;" @click="isAddTask = false"
+                            class="close-add-task material-symbols-outlined">
+                            close
+                        </span>
+                        <span style="font-size:28px;" class="add-task-options material-symbols-outlined">
+                            more_horiz
+                        </span>
+                    </div>
+                </form>
             </ul>
             <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                     class="material-symbols-outlined">
                     add
                 </span><span>Add a card</span></button>
-            <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
-                <!-- <input ref="title" v-model="taskToEdit.title" type="text" placeholder="Enter a title for this card..."> -->
+            <!-- <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
                 <textarea ref="title" v-model="taskToEdit.title" type="text"
                     placeholder="Enter a title for this card..."></textarea>
                 <div class="add-task-form-controler">
@@ -34,7 +48,7 @@
                         more_horiz
                     </span>
                 </div>
-            </form>
+            </form> -->
         </section>
     </section>
 </template>
