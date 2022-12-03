@@ -21,7 +21,7 @@
 
 <script>
 import { boardService } from '../../../../../services/board.service.local';
-
+import { utilService } from '../../../../../services/util.service.js'
 export default {
     emits: ['closeCheckListModal', 'updateTask'],
     props: {
@@ -48,12 +48,15 @@ export default {
             const updateTask = JSON.parse(JSON.stringify(this.task))
             if (updateTask.checklists) updateTask.checklists.push(checklist)
             else updateTask.checklists = [checklist]
-            this.$emit('updateTask', updateTask)
+            const newActivity = utilService.setActivity(`added ${checklist.title} to ${updateTask.title}`, updateTask)
+            this.$emit('updateTask', updateTask, newActivity)
             this.listTitle = ''
         },
     },
     mounted() {
         this.focusOnTitle()
+    },
+    computed: {
     }
 }
 </script>

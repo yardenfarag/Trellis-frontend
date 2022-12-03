@@ -1,11 +1,9 @@
 <template>
     <section v-if="boards.length" class="board-list">
-        <ul>
-            <li v-for="board in 
-                boards" :key="board._id">
-                <board-preview :board="board" />
-            </li>
-        </ul>
+        <!-- <router-link to="/">Home</router-link> -->
+        <div v-for="board in boards" :key="board._id">
+            <board-preview :board="board" />
+        </div>
     </section>
 </template>
 <script>
@@ -22,7 +20,7 @@ export default {
     },
     async created() {
         await this.$store.dispatch({ type: 'loadBoards' })
-        // this.boards = this.$store.getters.boards
+        await this.$store.dispatch({ type: 'clearCurrBoard' })
     },
     methods: {
     },

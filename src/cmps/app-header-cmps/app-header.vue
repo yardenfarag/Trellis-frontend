@@ -1,11 +1,12 @@
-<!-- :style="{ background: board.style.bgc || 'white' }" -->
+<!-- :style="{ backgroundColor: board.style.headerClr }" -->
 <template>
-  <header v-if="board" :style="{ backgroundColor: board.style.headerClr }" class="app-header flex align-center">
+  <header :style="{ backgroundColor: bgColor }" class="app-header flex align-center">
     <div class="dark"></div>
     <section class="header-nav flex align-center">
       <div class="logo flex align-center">
-        <img src="../../../public/favicon.ico" alt="">
-        <h2>Trellis</h2>
+        <router-link class="router-link" to="/board">
+          <h2 class="main-logo">Trellis</h2>
+        </router-link>
       </div>
 
       <div class="header-actions flex align-center space-between">
@@ -55,6 +56,12 @@ export default {
     },
     loggedinUser() {
       return this.$store.getters.loggedinUser
+    },
+    bgColor() {
+      if (this.board) {
+        return this.board.style.headerClr
+      }
+      return '#026aa7'
     }
   },
   unmounted() { },

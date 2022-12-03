@@ -3,6 +3,11 @@
         <div class="modal-title">
             <h2>Create board</h2>
         </div>
+        <div class="choose-color">
+            <select v-model="bgc">
+                <option v-for="color in colors">{{ color }}</option>
+            </select>
+        </div>
         <label>
             <p>Board title *</p>
             <input v-model="newBoard.title" @input="toggleCreateBtn($event)" type="text" required>
@@ -17,8 +22,11 @@ export default {
     components: {},
     data() {
         return {
+            colors: ['#0079bf', '#d29034', '#519839', '#b04632',
+                '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91'],
             isDisabled: false,
-            newBoard: boardService.getEmptyBoard()
+            newBoard: boardService.getEmptyBoard(),
+            bgc: ''
         };
     },
     created() { },
@@ -28,6 +36,10 @@ export default {
             else this.isDisabled = false
         },
         async saveBoard() {
+            if (!this.bgc) return
+            if (!this.newBoard.title) return
+            this.newBoard.style.bgc = this.bgc
+            this.newBoard.style.headerClr = this.bgc
             await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
             const newBoard = this.$store.getters.board
             this.newBoard = boardService.getEmptyBoard()

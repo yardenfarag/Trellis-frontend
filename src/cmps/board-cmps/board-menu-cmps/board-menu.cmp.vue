@@ -24,9 +24,11 @@
                 <div class="activity">
                     <div class="title">
                         <h6>Activity</h6>
-                    </div>
-                    <div class="activities">
-                        <p>example: Yarden changed the background color of this board</p>
+                        <div v-if="board.activities" class="activities">
+                            <div v-for="activity in board.activities" class="activity">
+                                <board-activity :activity="activity"></board-activity>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -105,11 +107,13 @@
 <script>
 import { uploadService } from '../../../services/upload.service';
 import imgUploader from '../../img-uploader.vue';
+import boardActivity from './board-activity.cmp.vue';
 export default {
     emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg'],
     name: 'board-menu',
     components: {
-        imgUploader
+        imgUploader,
+        boardActivity
     },
     data() {
         return {
@@ -128,7 +132,8 @@ export default {
     },
     methods: {
         onUploaded(imgUrl) {
-            this.$emit('changeBackgroundImg', imgUrl)
+            const avgColor = '#0079bf'
+            this.$emit('changeBackgroundImg', imgUrl, avgColor)
         },
         async searchImages(searchTerm) {
             try {
@@ -164,6 +169,9 @@ export default {
         }
     },
     computed: {
+        board() {
+            return this.$store.getters.board
+        }
     },
     unmounted() { },
 };

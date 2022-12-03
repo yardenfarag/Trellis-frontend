@@ -11,9 +11,13 @@ html {
 
     &.board-page {
         overflow-y: hidden;
+        
     }
 }
 
+.router-link {
+    text-decoration: none;
+}
 
 body,
 button,

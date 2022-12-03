@@ -1,5 +1,6 @@
 <template>
   <section v-if="user" class="flex column align-center">
+    <router-link to="/login">Back</router-link>
     <h1>User Details - {{ user.fullname }}</h1>
     <img style="max-width: 200px;" :src="user.imgUrl" />
     <details>

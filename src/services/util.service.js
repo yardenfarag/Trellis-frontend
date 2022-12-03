@@ -1,3 +1,5 @@
+import {userService} from '../services/user.service.js'
+
 export const utilService = {
     makeId,
     makeLorem,
@@ -7,7 +9,8 @@ export const utilService = {
     saveToStorage,
     loadFromStorage,
     timeAgo,
-    dueDateFormat
+    dueDateFormat,
+    setActivity
 }
 
 function makeId(length = 6) {
@@ -99,4 +102,17 @@ function timeAgo(input) {
         }
     }
     return 'Just now'
+}
+
+function setActivity(txt, task) {
+    const user = userService.getLoggedinUser()
+    const miniTask = task ? {id: task.id || null, title: task.title} : null
+    const activity = {
+        id: makeId(),
+        txt,
+        createdAt: Date.now(),
+        byMember: user,
+        task: miniTask,
+    }
+    return activity
 }

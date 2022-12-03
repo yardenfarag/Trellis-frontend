@@ -13,12 +13,16 @@
     "axios": "^0.27.2",
     "element-plus": "^2.2.25",
     "pexels": "^1.4.0",
+    "react-dnd-html5-backend": "^16.0.1",
     "sass": "^1.53.0",
     "socket.io-client": "^4.5.1",
     "vue": "^3.2.37",
     "vue-click-outside": "^1.1.0",
     "vue-router": "^4.1.2",
+    "vue-smooth-dnd": "^0.8.1",
+    "vue3-dnd": "^2.0.2",
     "vue3-google-map": "^0.15.0",
+    "vuedraggable": "^2.24.3",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

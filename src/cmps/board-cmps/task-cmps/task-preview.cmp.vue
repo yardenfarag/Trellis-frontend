@@ -41,10 +41,11 @@
                 attachment
             </span>
         </section>
-
     </section>
+
 </template>
 <script>
+
 export default {
     props: {
         task: Object,
@@ -52,7 +53,9 @@ export default {
         groupId: String,
     },
     name: 'task-preview',
-    components: {},
+    components: {
+
+    },
     data() {
         return {};
     },

@@ -62,8 +62,10 @@ export default {
             if (!fileName) fileName = imgUrl.slice(0, 50)
             const image = { fileName, imgUrl, id: utilService.makeId(), createdAt: Date.now() }
             const taskToSave = JSON.parse(JSON.stringify(this.task))
-            taskToSave.attachments.push(image)
-            this.$emit('saveTask', taskToSave)
+            if (taskToSave.attachments) taskToSave.attachments.push(image)
+            else taskToSave.attachments = [image]
+            const newActivity = utilService.setActivity(`attached ${fileName} to ${taskToSave.title}`, taskToSave)
+            this.$emit('saveTask', taskToSave, newActivity)
             this.$emit('closeAttachmentModal')
         },
         onUploaded(imgUrl, fileName) {

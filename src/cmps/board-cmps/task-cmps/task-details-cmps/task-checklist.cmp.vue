@@ -30,7 +30,7 @@
 
 <script>
 import { boardService } from '../../../../services/board.service.local';
-
+import { utilService } from '../../../../services/util.service';
 export default {
   emits: ['closeCheckListModal', 'updateTask'],
   props: {
@@ -68,7 +68,8 @@ export default {
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === id)
       updateTask.checklists.splice(clIdx, 1)
-      this.$emit('updateTask', updateTask)
+      const newActivity = utilService.setActivity(`removed ${updateTask.checklists[clIdx].title} from ${updateTask.title}`, updateTask)
+      this.$emit('updateTask', updateTask, newActivity)
     },
     addTodo(checklistId) {
       this.addItem = false
@@ -92,10 +93,14 @@ export default {
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === checklistId)
       const tdIdx = updateTask.checklists[clIdx].todos.findIndex(td => td.id === todoId)
       updateTask.checklists[clIdx].todos[tdIdx].isDone = !updateTask.checklists[clIdx].todos[tdIdx].isDone
-      this.$emit('updateTask', updateTask)
-    },
-
-
+      let newActivity
+      if (updateTask.checklists[clIdx].todos[tdIdx].isDone) {
+        newActivity = utilService.setActivity(`completed ${updateTask.checklists[clIdx].todos[tdIdx].title} on ${updateTask.checklists[clIdx].title}`, updateTask)
+      } else {
+        newActivity = utilService.setActivity(`marked ${updateTask.checklists[clIdx].todos[tdIdx].title} incomplete on ${updateTask.checklists[clIdx].title}`, updateTask)
+      }
+      this.$emit('updateTask', updateTask, newActivity)
+    }
   },
   computed: {
     progressCount() {

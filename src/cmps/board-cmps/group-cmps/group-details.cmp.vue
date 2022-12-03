@@ -3,7 +3,6 @@
         <section class="group-details">
             <div class="group-header">
                 <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
-                <span>12 cards</span>
                 <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
                     more_horiz
                 </span>
@@ -12,7 +11,13 @@
             <ul class="clean-list task-list">
                 <li v-if="group.tasks" v-for="task in 
                 group.tasks" :key="task">
+                    <!-- <draggable :list="group.tasks" ghostClass="on-drag">
+                        <transitionGroup type="transition"> -->
+
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
+
+                    <!-- </transitionGroup>
+                    </draggable> -->
                 </li>
                 <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
                     <textarea ref="title" v-model="taskToEdit.title" type="text"
@@ -37,7 +42,11 @@
     </section>
 </template>
 <script>
+import { utilService } from '../../../services/util.service';
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
+// import { DndProvider } from 'vue3-dnd'
+// import { HTML5Backend } from 'react-dnd-html5-backend'
+// import draggable from 'vuedraggable'
 export default {
     props: {
         group: Object,
@@ -46,6 +55,8 @@ export default {
     name: 'group-details',
     components: {
         taskPreview,
+        // draggable,
+
     },
     data() {
         return {
@@ -53,6 +64,7 @@ export default {
             taskToEdit: {
                 title: '',
                 members: [],
+                comments: [],
                 labels: [],
                 position: null
             }
@@ -74,9 +86,12 @@ export default {
         },
         async addTask() {
             this.focusOnTitle()
-
             if (!this.taskToEdit.title) return
             const boardToSave = JSON.parse(JSON.stringify(this.board))
+            const newActivity = utilService.setActivity(`added ${this.taskToEdit.title} to ${this.group.title}`, this.taskToEdit)
+            if (!boardToSave.activities) boardToSave.activities = [newActivity]
+            else boardToSave.activities.unshift(newActivity)
+            console.log(boardToSave);
             await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: this.taskToEdit })
             this.taskToEdit = {
                 title: '',
@@ -102,6 +117,8 @@ export default {
         async removeGroup() {
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             const groupId = this.group.id
+            const newActivity = utilService.setActivity(`removed ${this.group.title} from this board`, null)
+            boardToSave.activities.unshift(newActivity)
             await this.$store.dispatch({ type: 'removeGroup', board: boardToSave, groupId })
         }
     },
@@ -116,5 +133,9 @@ export default {
 };
 </script>
 <style>
-
+.on-drag {
+    background-color: blue;
+    color: blueviolet;
+    z-index: 100;
+}
 </style>

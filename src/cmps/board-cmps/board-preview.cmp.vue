@@ -1,7 +1,10 @@
 <template>
     <section class="board-preview flex">
-        <h1 @click="goToDetails()">{{ board.title }}</h1>
-        <button @click="removeBoard">X</button>
+        <div @click="goToDetails()" :style="{ background: board.style.bgc, backgroundSize: 'cover' }"
+            class="mini-board">
+            <h1>{{ board.title }}</h1>
+        </div>
+        <!-- <button @click="removeBoard">X</button> -->
     </section>
 </template>
 <script>
