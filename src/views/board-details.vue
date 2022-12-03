@@ -3,7 +3,7 @@
         <!-- <img id="i" src="../assets/icon.png" alt=""> -->
         <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board" :board="board"></board-header>
         <ul class="clean-list flex group-list">
-            <li v-if="board" v-for="group in board.groups" :key="group.id">
+            <li class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details :group="group" :boardId="board._id" />
             </li>
             <li>

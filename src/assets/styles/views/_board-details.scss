@@ -3,7 +3,6 @@
     height: 100vh;
 
     .group-list>*:not(.btn-open-add-group) {
-        background-color: var(--t-light-gray);
         margin-inline: 4px;
         min-width: 272px;
         max-width: 272px;
@@ -27,6 +26,7 @@
     max-height: 40px;
     min-height: 40px;
     font-weight: 400;
+
     cursor: pointer;
 
     .cont {
@@ -48,6 +48,8 @@
 
 .add-group-open {
     padding: 6px;
+    background-color: var(--t-light-gray);
+    border-radius: 3px;
 
     .add-group-controler {
         position: relative;
