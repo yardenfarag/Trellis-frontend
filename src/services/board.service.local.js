@@ -112,7 +112,7 @@ function _getLabels() {
 //         isStarred: false,
 //         memberIds: ["jC1op", "Csv8i", "Nlviw"],
 //         style: {},
-//         labels: _getLabels()
+//         labels: _getLabels(),
 //         groups: [{
 //             "id": "g101",
 //             "title": "Group 1",

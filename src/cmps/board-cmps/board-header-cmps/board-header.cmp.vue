@@ -14,7 +14,7 @@
             </section>
 
             <section class="end-section flex align-center">
-                <button class="filter-btn opacity-input">
+                <button @click="toggleFilter" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
                     </span>Filter</button> |
@@ -29,9 +29,7 @@
                     </div>
                 </section> |
                 <button @click="isShareModal = true" class="share-btn">
-                    <span style="font-size:19px;" class="material-symbols-outlined">
-                        person_add
-                    </span>Share</button> |
+                    Share</button> |
                 <button @click="toggleMenu" class="menu-btn opacity-input"><span class="material-symbols-outlined">
                         more_horiz
                     </span></button>
@@ -45,11 +43,10 @@
 </template>
 <script>
 import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
-import boardMenu from '../board-menu-cmps/board-menu.cmp.vue';
 export default {
     props: ['board'],
     name: 'board-header',
-    emits: ['toggleMenu'],
+    emits: ['toggleMenu', 'toggleFilter'],
     components: {
         shareModal,
     },
@@ -60,6 +57,9 @@ export default {
     },
     created() { },
     methods: {
+        toggleFilter() {
+            this.$emit('toggleFilter')
+        },
         toggleMenu() {
             this.$emit('toggleMenu')
         },

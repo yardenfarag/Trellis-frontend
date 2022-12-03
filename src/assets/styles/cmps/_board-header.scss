@@ -47,6 +47,12 @@
                     color: black;
                     background-color: white;
                     padding-inline: 12px;
+                    
+                    &::before {
+                        font-family: trello;
+                        font-size: 20px;
+                        content: '\E902';
+                    }
 
                     &:hover {
                         opacity: 0.9;
