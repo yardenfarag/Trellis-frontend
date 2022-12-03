@@ -18,7 +18,35 @@
           <input type="checkBox">
           Due date: {{ task.dueDate }}
         </div>
-        <section>Members: {{ task.memberIds }} Labels: {{ task.labels }}</section>
+        <section class="flex members-and-labels">
+          <section>
+            <h5>Members</h5>
+            <div v-if="taskMembers.length" class="task-members flex">
+              <div v-for="taskMember in taskMembers" class="task-member">
+                <div class="avatar">
+                  <img :src="taskMember.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
+                </div>
+              </div>
+              <div @click="toggleMembersModal" class="avatar"
+                :style="{ textAlign: 'center', background: 'gray', width: 40 + 'px', 'border-radius': 50 + '%' }">+
+              </div>
+            </div>
+          </section>
+          <section>
+            <h5>Labels</h5>
+            <div v-if="task.labels.length" class="task-labels flex">
+              <div v-for="label in task.labels" :key="label.id" class="task-label">
+                <div v-if="label" class="label-preview"
+                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">
+                  hi</div>
+                <div v-if="label" class="label-circle"
+                  :style="[label.color ? { backgroundColor: label.color } : { backgroundColor: 'black' }]">hi</div>
+                <span class="label-title">{{ label.title }}</span>
+              </div>
+              <button @click="toggleLabelsModal">+</button>
+            </div>
+          </section>
+        </section>
         <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
         <hr>
         <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
@@ -106,6 +134,7 @@ export default {
   },
 
   async created() {
+    this.$store.dispatch({ type: 'loadUsers' })
     const boardId = this.$route.params.boardId
     this.boardId = boardId
     if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
@@ -191,7 +220,22 @@ export default {
   computed: {
     board() {
       return this.$store.getters.board
-    }
+    },
+    users() {
+      return this.$store.getters.users
+    },
+    taskMembers() {
+      let members = this.users.filter(user => {
+        return this.board.memberIds.includes(user._id)
+      })
+      console.log(members);
+      console.log(this.task.memberIds);
+      let taskMembers = members.filter(member => {
+        return this.task.memberIds.includes(member._id)
+      })
+      console.log(taskMembers);
+      return taskMembers
+    },
   },
   directives: {
     ClickOutside
