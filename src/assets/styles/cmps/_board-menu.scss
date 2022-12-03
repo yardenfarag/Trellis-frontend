@@ -59,23 +59,23 @@
                 .options {
                     min-height: 152px;
                     display: flex;
+                    flex-direction: row;
                     gap: 8px;
                     justify-content: center;
                     align-items: center;
-                    flex-direction: row;
                     border-bottom: 1px solid var(--t-gray);
                     padding-left: 7px;
                     padding-bottom: 6px;
-                    // margin-top: -2px;
 
                     img {
                         border-radius: 7px;
                         width: 153px;
                         height: 97px;
-                    }
 
-                    h6 {
-                        margin-inline: auto;
+                        &:hover {
+                            opacity: 0.7;
+                            cursor: pointer;
+                        }
                     }
                 }
             }

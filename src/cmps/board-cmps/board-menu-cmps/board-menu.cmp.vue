@@ -45,11 +45,11 @@
                 <div class="options">
                     <div @click="toggleImages">
                         <img src="https://i.ibb.co/tKphwfp/photos.jpg" />
-                        <h6>Photos</h6>
+                        <h6 class="title">Photos</h6>
                     </div>
                     <div @click="toggleColors">
                         <img src="https://i.ibb.co/GF3jN08/colors.jpg" />
-                        <h6>Colors</h6>
+                        <h6 class="title">Colors</h6>
                     </div>
                 </div>
                 <div @click="" class="custom">
