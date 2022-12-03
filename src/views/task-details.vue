@@ -157,7 +157,13 @@ export default {
     async toggleDuedate() {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
-      await this.updateTask(taskToEdit)
+      let newActivity
+      if (taskToEdit.dueDate.isDone) {
+        newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} complete`, taskToEdit)
+      } else {
+        newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} incomplete`, taskToEdit)
+      }
+      await this.updateTask(taskToEdit, newActivity)
     },
     toggleMembersModal() {
       this.isLabelsModalOpen = false
@@ -198,6 +204,8 @@ export default {
     async removeTask() {
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       const groupId = this.$route.params.groupId
+      const newActivity = utilService.setActivity(`archived ${this.task.title}`, this.task)
+      boardToSave.activities.unshift(newActivity)
       await this.$store.dispatch({ type: 'removeTask', board: boardToSave, groupId, taskId: this.task.id })
       this.$router.push('/board/' + this.boardId)
     },
@@ -205,11 +213,17 @@ export default {
       this.$router.push('/board/' + this.boardId)
     },
     async updateTaskTitle(ev) {
-      const newTitle = ev.target.innerText
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
-      taskToEdit.title = newTitle
-      const boardToSave = JSON.parse(JSON.stringify(this.board))
-      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+      let newTitle
+      if (!ev.target.innerText) {
+        ev.target.innerText = taskToEdit.title
+        return
+      } else {
+        newTitle = ev.target.innerText
+        taskToEdit.title = newTitle
+        const boardToSave = JSON.parse(JSON.stringify(this.board))
+        await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+      }
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
@@ -217,9 +231,10 @@ export default {
       const boardToSave = JSON.parse(JSON.stringify(this.board))
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
     },
-    async updateTask(updatedTask) {
+    async updateTask(updatedTask, activity) {
       this.task = updatedTask
       const boardToSave = JSON.parse(JSON.stringify(this.board))
+      if (activity) boardToSave.activities.unshift(activity)
       await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
     },
   },
@@ -240,14 +255,17 @@ export default {
       return this.$store.getters.users
     },
     taskMembers() {
-      let members = this.users.filter(user => {
-        return this.board.memberIds.includes(user._id)
+      let members = this.users?.filter(user => {
+        return this.board?.memberIds?.includes(user._id)
       })
-      let taskMembers = members.filter(member => {
-        return this.task.memberIds.includes(member._id)
+      let taskMembers = members?.filter(member => {
+        return this.task?.memberIds?.includes(member._id)
       })
       return taskMembers
     },
+    loggedinUser() {
+      this.$store.getters.loggedinUser
+    }
   },
   directives: {
     ClickOutside

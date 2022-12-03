@@ -39,7 +39,7 @@
 <script>
 import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
 export default {
-    props: ['board'],
+    // props: ['board'],
     name: 'board-header',
     emits: ['toggleMenu', 'toggleFilter'],
     components: {
@@ -59,10 +59,16 @@ export default {
             this.$emit('toggleMenu')
         },
         ChangeBoardTitle(ev) {
-            const newTitle = ev.target.innerText
             const board = JSON.parse(JSON.stringify(this.board))
-            board.title = newTitle
-            this.$store.dispatch({ type: 'saveBoard', board })
+            let newTitle
+            if (!ev.target.innerText) {
+                ev.target.innerText = board.title
+                return
+            } else {
+                newTitle = ev.target.innerText
+                board.title = newTitle
+                this.$store.dispatch({ type: 'saveBoard', board })
+            }
         },
         toggleStarred() {
             const board = JSON.parse(JSON.stringify(this.board))
@@ -78,10 +84,13 @@ export default {
             return this.$store.getters.board
         },
         boardMembers() {
-            let members = this.users.filter(user => {
-                return this.board.memberIds.includes(user._id)
+            let members = this.users?.filter(user => {
+                return this.board?.memberIds?.includes(user._id)
             })
-            return members
+            if (members) {
+                return members
+            }
+            return ''
         }
     },
     unmounted() { },

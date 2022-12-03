@@ -1,14 +1,15 @@
 <template>
   <section class="flex column align-center">
-    <h1>Welcome to Trellis</h1>
     <section v-if="user">
-      <h1>Welcome, {{ user.fullname }}</h1>
+      <h1>Hello, {{ user.fullname }}</h1>
+      <h1>Welcome to Trellis</h1>
       <div class="actions flex align-center">
         <router-link :to="'/user/' + user._id">
           <button>Profile</button>
         </router-link>
         <button @click="logout">Logout</button>
       </div>
+      <router-link to="/board">Go to boards</router-link>
     </section>
     <section v-else>
       <article className="login-signup">
@@ -26,6 +27,7 @@
           <input type="text" v-model="signupInfo.imgUrl" placeholder="image URL">
           <button>Sign up</button>
         </form>
+        <router-link to="/board">Continue in guest mode</router-link>
       </article>
     </section>
   </section>

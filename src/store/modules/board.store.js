@@ -52,6 +52,9 @@ export const boardStore = {
         },
     },
     actions: {
+        async clearCurrBoard(context) {
+            await context.commit({ type: 'setCurrBoard', board: null })
+        },
         async setCurrBoard({ commit }, { boardId }) {
             try {
                 const board = await boardService.getById(boardId)
@@ -147,8 +150,8 @@ export const boardStore = {
         },
         async saveBoard(context, { board }) {
             try {
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+                const savedBoard = await boardService.save(board)
+                context.commit({ type: 'setCurrBoard', board: savedBoard })
             }
             catch (err) {
                 console.log('there was a problem updating this board in the store')

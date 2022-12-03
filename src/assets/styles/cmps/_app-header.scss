@@ -1,9 +1,10 @@
 .app-header {
-    position: relative;
+    position: sticky;
     min-height: 44px;
     max-height: 44px;
     overflow: hidden;
     width: 100%;
+    background-color: #026aa7;
 
     button {
         color: white;
@@ -21,14 +22,27 @@
         .logo {
             margin-inline: 20px;
             gap: 3px;
-
-            h2 {
+            text-decoration: none;
+            
+            .main-logo{
+                text-decoration: none;
+                color: white;
                 padding: 0;
+                font-family: charlie-semibold;
+                letter-spacing: 0.08rem;
+            }
+
+            &::before {
+                margin-block-start: 3px;
+                font-family: trello;
+                content: '\E90B';
+                font-size: 19px;
+                color: white;
+                text-align: center;
+
             }
 
             img {
-                width: 17px;
-                height: 17px;
                 border-radius: 2px;
             }
         }
