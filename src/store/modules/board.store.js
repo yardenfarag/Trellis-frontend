@@ -24,18 +24,13 @@ export const boardStore = {
     state: {
         boards: [],
         currBoard: null,
-        headerClr: '#0079bf'
     },
     getters: {
         boards({ boards }) { return boards },
         board({ currBoard }) { return currBoard },
-        headerClr({headerClr}) {return headerClr}
     },
 
     mutations: {
-        setHeaderClr(state, {color}) {
-            state.headerClr = color
-        },
         setBoards(state, { boards }) {
             state.boards = boards
         },
@@ -57,9 +52,6 @@ export const boardStore = {
         },
     },
     actions: {
-        async setHeaderClr(context, {color}) {
-            await context.commit({type: 'setHeaderClr', color})
-        },
         async setCurrBoard({ commit }, { boardId }) {
             try {
                 const board = await boardService.getById(boardId)
@@ -175,10 +167,10 @@ export const boardStore = {
                 throw err
             }
         },
-        async removeBoard(context, {boardId}) {
+        async removeBoard(context, { boardId }) {
             try {
                 await boardService.remove(boardId)
-                context.commit({type: 'removeBoard', boardId})
+                context.commit({ type: 'removeBoard', boardId })
             }
             catch (err) {
                 console.log('there was a problem removing this board in the store')

@@ -75,7 +75,6 @@ export default {
     //   this.listTitle = ''
     // },
     removeChecklist(id) {
-      console.log(id)
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === id)
       updateTask.checklists.splice(clIdx, 1)

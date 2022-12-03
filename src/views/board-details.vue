@@ -30,7 +30,7 @@
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
-        <task-filter v-if="isFilterOpen" @setFilterBy="filterBy" @closeFilter="toggleFilter">
+        <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="toggleFilter">
         </task-filter>
     </section>
     <router-view />
@@ -61,6 +61,7 @@ export default {
                 tasks: [],
             },
             boardToShow: null,
+            filterBy: null,
         };
     },
     async created() {
@@ -69,9 +70,13 @@ export default {
         this.boardToShow = this.board
     },
     methods: {
-        filterBy(filterBy) {
-            const regex = new RegExp(filterBy.txt, 'i')
-            if (filterBy.txt) {
+        setFilterBy(filterBy) {
+            this.filterBy = filterBy
+            this.setBoardToShow()
+        },
+        setBoardToShow() {
+            const regex = new RegExp(this.filterBy.txt, 'i')
+            if (this.filterBy.txt) {
                 console.log('hi from inside');
                 this.boardToShow = this.board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => regex.test(task.title))
@@ -79,9 +84,9 @@ export default {
                 console.log(this.boardToShow);
             } else {
                 this.boardToShow = this.board
+                console.log(this.boardToShow);
             }
         },
-
         focusOnTitle() {
             this.$refs.title.focus()
         },
@@ -95,14 +100,14 @@ export default {
         async changeBackgroundImg(imgUrl, avgColor) {
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             boardToSave.style.bgc = `url(${imgUrl})`
+            boardToSave.style.headerClr = avgColor
             await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
-            await this.$store.dispatch({ type: 'setHeaderClr', color: avgColor })
         },
         async changeBackgroundColor(color) {
             const boardToSave = JSON.parse(JSON.stringify(this.board))
             boardToSave.style.bgc = color
+            boardToSave.style.headerClr = color
             await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
-            await this.$store.dispatch({ type: 'setHeaderClr', color })
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen

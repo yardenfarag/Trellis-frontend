@@ -9,8 +9,7 @@
                 <p v-else>Add a more detailed description…</p>
             </div>
             <div v-if="isDescriptionSelected">
-                <textarea placeholder="Add a more detailed description…"
-                    v-model="description"></textarea>
+                <textarea placeholder="Add a more detailed description…" v-model="description"></textarea>
                 <button @click="updateTaskDesc()">Save</button>
                 <button @click="isDescriptionSelected = false">Cancel</button>
             </div>
@@ -33,7 +32,6 @@ export default {
     created() { },
     methods: {
         updateTaskDesc() {
-            console.log(this.description)
             this.$emit('updateTaskDesc', this.description)
             this.isDescriptionSelected = false
         }
