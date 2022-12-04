@@ -642,20 +642,87 @@
                 flex-direction: column;
 
                 .task-detail-btn {
+                    position: relative;
                     width: 168px;
                     border-radius: 3px;
                     margin-top: 8px;
                     max-width: 300px;
                     overflow: hidden;
                     padding: 6px 12px;
-                    position: relative;
                     padding-left: 0px;
                     padding-right: 30px;
 
                     span {
                         position: absolute;
                         left: 35px;
+                        top: 7px;
+                    }
 
+                    &::before {
+                        font-family: trello;
+                        position: absolute;
+                        font-size: 16px;
+                        left: 10px;
+                    }
+
+                    &.members {
+                        &::before {
+                            content: '\E946';
+                        }
+                    }
+
+                    &.labels {
+                        &::before {
+                            content: '\E93F';
+                        }
+                    }
+
+                    &.checklist {
+                        &::before {
+                            content: '\E918';
+                        }
+                    }
+
+                    &.dates {
+                        &::before {
+                            content: '\E91B';
+                        }
+                    }
+
+                    &.attachment {
+                        &::before {
+                            content: '\E908';
+                        }
+                    }
+
+                    &.location {
+                        &::before {
+                            content: '\E944';
+                        }
+                    }
+
+                    &.cover {
+                        &::before {
+                            content: '\E914';
+                        }
+                    }
+
+                    &.move {
+                        &::before {
+                            content: '\E94A';
+                        }
+                    }
+
+                    &.copy {
+                        &::before {
+                            content: '\E91F';
+                        }
+                    }
+
+                    &.archive {
+                        &::before {
+                            content: '\E907';
+                        }
                     }
                 }
             }

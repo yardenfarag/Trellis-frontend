@@ -1,9 +1,14 @@
 .board-details {
     position: relative;
-    height: 100vh;
+    // height: 100vh;
+    height: calc(100vh - 44px);
 
     .group-list {
+        height: calc(100% - 49px);
         padding-left: 8px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 100%;
     }
 
     .group-list>*:not(.btn-open-add-group) {
@@ -51,7 +56,7 @@
 }
 
 .add-group-open {
-    padding: 6px;
+    padding: 4px;
     background-color: var(--t-light-gray);
     border-radius: 3px;
 
@@ -85,11 +90,13 @@
     }
 
     input {
-        width: 100%;
+        width: 260px;
         height: 32px;
         box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
         padding-inline: 8px;
-        margin-block-end: 8px;
+        margin-block-end: 6px;
+        margin-block-start: 2px;
+        margin-inline-start: 2px;
         border-radius: 1px;
         outline: 2px solid var(--t-blue)
     }

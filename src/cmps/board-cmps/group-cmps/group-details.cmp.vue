@@ -2,10 +2,9 @@
     <section class="group-wrapper">
         <section class="group-details">
             <div class="group-header">
-                <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
-                <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
-                    more_horiz
-                </span>
+                <textarea rows="1" class="group-title" v-model="group.title"
+                    @blur="updateGroup()">{{ group.title }}</textarea>
+                <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
             <!-- <button class="btn-group-actions">...</button> -->
             <ul class="clean-list task-list">
@@ -34,10 +33,12 @@
                     </div>
                 </form>
             </ul>
-            <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
-                    class="material-symbols-outlined">
-                    add
-                </span><span>Add a card</span></button>
+            <div v-if="!isAddTask" class="open-add-task-container">
+                <button @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
+                        class="material-symbols-outlined">
+                        add
+                    </span><span>Add a card</span></button>
+            </div>
         </section>
     </section>
 </template>
@@ -100,18 +101,15 @@ export default {
                 position: null
             }
         },
-        async updateGroup(ev) {
+        async updateGroup() { // need to get old title on blur
             const groupToEdit = JSON.parse(JSON.stringify(this.group))
-            let newTitle
-            if (!ev.target.innerText) {
-                ev.target.innerText = groupToEdit.title
+            if (!groupToEdit.title) {
                 return
             } else {
-                newTitle = ev.target.innerText
-                groupToEdit.title = newTitle
+                const boardToSave = JSON.parse(JSON.stringify(this.board))
+                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: groupToEdit })
             }
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
-            await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: groupToEdit })
+
 
         },
         async removeGroup() {

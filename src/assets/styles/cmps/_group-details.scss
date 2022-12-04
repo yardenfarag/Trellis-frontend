@@ -10,7 +10,7 @@
     width: 272px;
 
     .group-details {
-        padding: 8px;
+        // padding: 8px;
         font-size: 16px;
         background-color: var(--t-light-gray);
         border-radius: 3px;
@@ -18,21 +18,35 @@
         // overflow-y: auto;
 
         .group-header {
-            position: relative; // 
-            // position: sticky; 
+            position: relative;
+            padding: 10px 8px;
+
+            .btn-group-actions {
+                position: absolute;
+                top: 4px;
+                right: 6px;
+
+                &::before {
+                    font-family: trello;
+                    content: '\E952';
+                }
+            }
+
 
             & .group-title {
-                max-width: 226px;
-                flex-grow: 1;
-                margin-inline: 2px;
-                padding-inline: 6px;
-                padding-bottom: 2px;
-                margin-bottom: 4px;
-                // margin-top: 10px;
+                overflow: hidden;
+                overflow-wrap: break-word;
+                width: 240px;
+                max-width: 224px;
                 font-weight: 600;
-
-                border-radius: 1px;
                 cursor: pointer;
+                border-radius: 1px;
+                margin: -4px 0;
+                margin-left: 2px;
+                max-height: 256px;
+                min-height: 24px;
+                padding: 4px 6px;
+                background-color: transparent;
 
                 &:focus {
                     outline: 2px solid var(--t-blue);
@@ -54,40 +68,44 @@
             }
         }
 
-        .btn-open-add-task {
-            width: 100%;
-            padding: 4px 12px;
+        .open-add-task-container {
+            max-height: 38px;
+            min-height: 38px;
             display: flex;
-            justify-content: flex-start;
-            margin-block-end: 8px;
-            margin-top: 2px;
-            background-color: transparent;
-            transition: none;
-            border-radius: 3px;
-            color: $color-secondery-text;
-            font-weight: 300;
 
+            .btn-open-add-task {
+                display: flex;
+                justify-content: flex-start;
+                padding: 0;
+                margin: 2px 0 8px 8px;
+                padding: 4px 8px;
 
-            &:hover {
-                background-color: $color-hover-1;
-                color: $color-primary-text;
-            }
+                &:hover {
+                    background-color: $color-hover-1;
+                    color: $color-primary-text;
+                }
 
-            & span:nth-child(1) {
-                margin-left: -4px;
-                padding-right: 2px;
+                & span:nth-child(1) {
+                    margin-left: -4px;
+                    padding-right: 2px;
+                    padding-left: 4px;
+                }
             }
         }
     }
 
+
+
     .task-list {
-        margin-top: 6px;
-        max-height: calc(100vh - 220px);
+        padding: 0 4px;
+        margin: 0 4px;
+        // margin-top: 6px;
+        max-height: calc(100vh - 200px);
         overflow-y: auto;
         overflow-x: hidden;
 
         .add-task-form {
-            padding: 0px 0px 8px;
+            padding-bottom: 8px;
 
             .add-task-form-controler {
                 position: relative;
@@ -135,6 +153,7 @@
                 border-radius: 3px;
                 margin-block-end: 8px;
                 resize: none;
+                box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
 
                 &:focus {
                     outline: none;
