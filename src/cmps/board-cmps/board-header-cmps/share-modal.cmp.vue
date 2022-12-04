@@ -61,16 +61,20 @@ export default {
         },
         addUserToBoard(userId) {
             const board = JSON.parse(JSON.stringify(this.board))
-            board.memberIds.push(userId)
+            if (board.memberIds) {
+                board.memberIds.push(userId)
+            } else {
+                board.memberIds = [userId]
+            }
             this.$store.dispatch({ type: 'saveBoard', board })
-        }
+        },
     },
     computed: {
         usersToShow() {
             const regex = new RegExp(this.filterBy.txt, 'i')
             const users = this.$store.getters.users
-            let usersToShow = users.filter(user => {
-                return !this.board.memberIds.includes(user._id)
+            let usersToShow = users?.filter(user => {
+                return !this.board?.memberIds?.includes(user._id)
             })
             return usersToShow.filter(user => {
                 return regex.test(user.fullname)
@@ -83,8 +87,8 @@ export default {
             return this.$store.getters.board
         },
         boardMembers() {
-            let members = this.users.filter(user => {
-                return this.board.memberIds.includes(user._id)
+            let members = this.users?.filter(user => {
+                return this.board?.memberIds?.includes(user._id)
             })
             return members
         }

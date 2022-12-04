@@ -2,6 +2,10 @@
     position: relative;
     height: 100vh;
 
+    .group-list {
+        padding-left: 8px;
+    }
+
     .group-list>*:not(.btn-open-add-group) {
         margin-inline: 4px;
         min-width: 272px;

@@ -49,6 +49,7 @@ export default {
     methods: {
         toggleMemberToTask(memberToToggleId) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
+            if (!taskToSave.memberIds) taskToSave.memberIds = []
             if (this.isTaskMember(memberToToggleId)) {
                 const idx = taskToSave.memberIds.findIndex(memberId => memberId === memberToToggleId)
                 taskToSave.memberIds.splice(idx, 1)
@@ -61,7 +62,7 @@ export default {
             this.$emit('closeMembersModal')
         },
         isTaskMember(memberId) {
-            if (this.task.memberIds.includes(memberId)) {
+            if (this.task.memberIds?.includes(memberId)) {
                 return true
             }
         }
