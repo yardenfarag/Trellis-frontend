@@ -77,7 +77,6 @@
         <div class="add-to-card-container">
           <h5 class="small-title add-to-card-title">Add to card</h5>
           <div class="btn-container">
-            <button class="task-detail-btn join"><span>join</span> </button>
             <button @click="toggleMembersModal()" class="task-detail-btn members"><span>Members</span> </button>
             <button @click="toggleLabelsModal()" class="task-detail-btn labels"><span>Labels</span> </button>
             <button @click="toggleChecklistModal()" class="task-detail-btn checklist"><span>Checklist</span> </button>
@@ -85,7 +84,7 @@
             <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button class="task-detail-btn custom-field"><span>Custom Fields</span> </button>
+            <button class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
         <div class="action-container">
@@ -93,10 +92,7 @@
           <div class="btn-container">
             <button class="task-detail-btn move"><span>Move</span> </button>
             <button class="task-detail-btn copy"><span>Copy</span> </button>
-            <button class="task-detail-btn make-template"><span>Make template</span></button>
-            <button class="task-detail-btn watch"><span>Watch</span> </button>
             <button @click="removeTask" class="task-detail-btn archive"><span>Archive</span></button>
-            <button class="task-detail-btn share"><span>Share</span></button>
           </div>
         </div>
 
@@ -174,7 +170,7 @@ export default {
 
     const taskId = this.$route.params.taskId
     this.task = this.group.tasks.find(task => task.id === taskId)
-    document.querySelector('html').classList.remove('board-page')
+    document.querySelector('#app').classList.remove('board-page')
   },
 
 
@@ -307,7 +303,7 @@ export default {
     ClickOutside
   },
   unmounted() {
-    document.querySelector('html').classList.add('board-page')
+    document.querySelector('#app').classList.add('board-page')
   },
 }
 </script>

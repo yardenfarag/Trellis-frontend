@@ -3,9 +3,13 @@
         <div class="board-header-actions flex align-center space-between">
 
             <section class="start-section flex align-center">
-                <h3 contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title }}</h3>
+                <div class="title-container">
+                    <button class="title" contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title
+                    }}</button>
+                </div>
                 <button v-if="board.isStarred" class="star opacity-input" @click="toggleStarred()"></button>
                 <button v-else class="star active opacity-input" @click="toggleStarred()"></button>
+                <span class="btn-divider">|</span>
                 <button class="board opacity-input">Board</button>
                 <button class="table opacity-input">Table</button>
             </section>
@@ -14,19 +18,14 @@
                 <button @click="toggleFilter" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
-                    </span>Filter</button> |
-                <section class="members flex align-center">
+                    </span>Filter</button> <span class="btn-divider">|</span>
+                <section class="members">
                     <div v-if="boardMembers" v-for="boardMember in boardMembers" class="member">
-                        <img v-if="boardMember.imgUrl" :style="{ width: 30 + 'px', 'border-radius': 50 + '%' }"
-                            :src="boardMember.imgUrl" alt="">
-                        <p :style="{ textAlign: 'center', backgroundColor: 'lightgray', width: 21 + 'px', 'border-radius': 50 + '%' }"
-                            v-else>{{
-                                    user.fullname.charAt(0)
-                            }}</p>
+                        <img v-if="boardMember.imgUrl" :src="boardMember.imgUrl" alt="" />
                     </div>
-                </section> |
+                </section>
                 <button @click="isShareModal = true" class="share-btn">
-                    Share</button> |
+                    Share</button><span class="btn-divider">|</span>
                 <button @click="toggleMenu" class="menu-btn opacity-input"></button>
             </section>
         </div>

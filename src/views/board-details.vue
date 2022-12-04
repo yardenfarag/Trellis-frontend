@@ -153,10 +153,10 @@ export default {
         }
     },
     mounted() {
-        document.querySelector('html').classList.add('board-page')
+        document.querySelector('#app').classList.add('board-page')
     },
     unmounted() {
-        document.querySelector('html').classList.remove('board-page')
+        document.querySelector('#app').classList.remove('board-page')
     },
 }
 </script>
