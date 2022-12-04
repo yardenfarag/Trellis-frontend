@@ -3,22 +3,18 @@
         <section class="group-details">
             <div class="group-header">
                 <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
+                <span v-if="txt" class="card-count">{{ groupTasksCount }} cards</span>
                 <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
                     more_horiz
                 </span>
             </div>
             <!-- <button class="btn-group-actions">...</button> -->
-            <ul class="clean-list task-list">
-                <li v-if="group.tasks" v-for="task in 
-                group.tasks" :key="task">
-                    <!-- <draggable :list="group.tasks" ghostClass="on-drag">
-                        <transitionGroup type="transition"> -->
-
+            <!-- <ul class="clean-list task-list"> -->
+            <Container class="clean-list task-list">
+                <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task">
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
-
-                    <!-- </transitionGroup>
-                    </draggable> -->
-                </li>
+                    <!-- </li> -->
+                </Draggable>
                 <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
                     <textarea ref="title" v-model="taskToEdit.title" type="text"
                         placeholder="Enter a title for this card..."></textarea>
@@ -33,7 +29,8 @@
                         </span>
                     </div>
                 </form>
-            </ul>
+            </Container>
+            <!-- </ul> -->
             <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                     class="material-symbols-outlined">
                     add
@@ -47,15 +44,18 @@ import taskPreview from '../task-cmps/task-preview.cmp.vue'
 // import { DndProvider } from 'vue3-dnd'
 // import { HTML5Backend } from 'react-dnd-html5-backend'
 // import draggable from 'vuedraggable'
+import { Container, Draggable } from "vue3-smooth-dnd";
 export default {
     props: {
         group: Object,
         boardId: String,
+        txt: String,
     },
     name: 'group-details',
     components: {
         taskPreview,
-        // draggable,
+        Draggable,
+        Container,
 
     },
     data() {
@@ -66,7 +66,9 @@ export default {
                 members: [],
                 comments: [],
                 labels: [],
-                position: null
+                position: null,
+                isFilter: false,
+
             }
         }
     },
@@ -125,6 +127,12 @@ export default {
     computed: {
         board() {
             return this.$store.getters.board
+        },
+        groupTasksCount() {
+            const board = this.$store.getters.board
+            const group = board.groups.find(group => group.id === this.group.id)
+            const groupTasks = group.tasks
+            return groupTasks.length
         }
     },
     unmounted() {

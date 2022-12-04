@@ -21,6 +21,14 @@
             position: relative; // 
             // position: sticky; 
 
+            .card-count {
+                position: relative;
+                font-size: 1rem;
+                font-weight: 400;
+                padding-inline-start: 8px;
+                color: $color-secondery-text;
+            }
+
             & .group-title {
                 max-width: 226px;
                 flex-grow: 1;
@@ -143,7 +151,7 @@
         }
     }
 
-    .task-list>*:not(.add-task-form) {
+    .task-list>*:not(.add-task-form){
         background-color: white;
         box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
         padding-inline: 8px;
