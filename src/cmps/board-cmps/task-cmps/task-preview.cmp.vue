@@ -13,8 +13,8 @@
         </section> -->
 
         <h5 @click="goToDetails">{{ task.title }}</h5>
-        <section class="icon-toolbar flex">
-            <!-- <div class="todo-group">
+        <!-- <section class="icon-toolbar flex"> -->
+        <!-- <div class="todo-group">
                 <span class="todo-checkbox material-symbols-outlined">
                     select_check_box
                 </span>
@@ -22,7 +22,7 @@
                 <span class="due-date-date">Dec 5</span>
             </div> -->
 
-            <span class="comment material-symbols-outlined">
+        <!-- <span class="comment material-symbols-outlined">
                 maps_ugc
             </span>
             <span class="description material-symbols-outlined">
@@ -39,8 +39,8 @@
             </div>
             <span class="attachment material-symbols-outlined">
                 attachment
-            </span>
-        </section>
+            </span> -->
+        <!-- </section> -->
     </section>
 
 </template>

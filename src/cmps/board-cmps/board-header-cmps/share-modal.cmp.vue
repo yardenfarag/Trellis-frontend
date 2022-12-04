@@ -69,8 +69,8 @@ export default {
         usersToShow() {
             const regex = new RegExp(this.filterBy.txt, 'i')
             const users = this.$store.getters.users
-            let usersToShow = users.filter(user => {
-                return !this.board.memberIds.includes(user._id)
+            let usersToShow = users?.filter(user => {
+                return !this.board?.memberIds?.includes(user._id)
             })
             return usersToShow.filter(user => {
                 return regex.test(user.fullname)
@@ -83,8 +83,8 @@ export default {
             return this.$store.getters.board
         },
         boardMembers() {
-            let members = this.users.filter(user => {
-                return this.board.memberIds.includes(user._id)
+            let members = this.users?.filter(user => {
+                return this.board?.memberIds?.includes(user._id)
             })
             return members
         }
