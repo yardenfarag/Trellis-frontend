@@ -105,9 +105,9 @@
     </section>
 </template>
 <script>
-import { uploadService } from '../../../services/upload.service';
-import imgUploader from '../../img-uploader.vue';
-import boardActivity from './board-activity.cmp.vue';
+import { uploadService } from '../../../services/upload.service'
+import imgUploader from '../../img-uploader.vue'
+import boardActivity from './board-activity.cmp.vue'
 export default {
     emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg'],
     name: 'board-menu',

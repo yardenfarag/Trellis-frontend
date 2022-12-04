@@ -4,8 +4,8 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div v-if="task.style" class="task-cover">
-        <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
+      <div :style="{background: task.style?.bg }" v-if="(task.style?.bg)" class="task-cover">
+        <button  @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
         <div class="task-title">
@@ -84,7 +84,7 @@
             <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button class="task-detail-btn cover"><span>Cover</span> </button>
+            <button v-if="(!task.style?.bg)" @click="toggleCoverModal()" class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
         <div class="action-container">
@@ -108,7 +108,7 @@
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
     @saveTask="updateTask"></taskAttachmentModal>
   <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
-  <taskCoverModal :task="task" v-if="isCoverModal" @toggleCoverModal="toggleCoverModal"/>
+  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="updateTask" @toggleCoverModal="toggleCoverModal"/>
 </template>
 
 <script>
