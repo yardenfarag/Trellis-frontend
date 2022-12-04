@@ -3,9 +3,13 @@
         <!-- <img id="i" src="../assets/icon.png" alt=""> -->
         <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board"></board-header>
         <ul class="clean-list flex group-list">
+            <!-- <Container class="clean-list flex group-list"> -->
             <li class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
-                <group-details :group="group" :boardId="board._id" />
+                <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </li>
+            <!-- <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id"> -->
+            <!-- <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" /> -->
+            <!-- </Draggable> -->
             <li>
                 <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
                     <div class="cont">
@@ -26,6 +30,7 @@
                     </div>
                 </section>
             </li>
+            <!-- </Container> -->
         </ul>
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
@@ -43,6 +48,7 @@ import { utilService } from '../services/util.service.js'
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue';
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 import boardMenu from '../cmps/board-cmps/board-menu-cmps/board-menu.cmp.vue';
+import { Container, Draggable } from "vue3-smooth-dnd";
 import taskFilter from '../cmps/board-cmps/board-header-cmps/task-filter.cmp.vue';
 export default {
     name: 'board-details',
@@ -51,7 +57,8 @@ export default {
         boardHeader,
         boardMenu,
         taskFilter,
-        // DndProvider,
+        Container,
+        Draggable,
     },
     data() {
         return {
@@ -65,7 +72,9 @@ export default {
                 tasks: [],
             },
             boardToShow: null,
-            filterBy: null,
+            filterBy: {
+                txt: '',
+            },
         };
     },
     async created() {
@@ -76,17 +85,6 @@ export default {
     methods: {
         setFilterBy(filterBy) {
             this.filterBy = filterBy
-            this.setBoardToShow()
-        },
-        setBoardToShow() {
-            const regex = new RegExp(this.filterBy.txt, 'i')
-            if (this.filterBy.txt) {
-                console.log('hi from inside');
-                this.board.groups.forEach(group => {
-                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
-                })
-                console.log(this.board);
-            }
         },
         focusOnTitle() {
             this.$refs.title.focus()
@@ -139,11 +137,19 @@ export default {
                 style: {},
                 tasks: [],
             }
-        }
+        },
     },
     computed: {
         board() {
-            return JSON.parse(JSON.stringify(this.$store.getters.board))
+            let board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            const regex = new RegExp(this.filterBy.txt, 'i')
+            if (this.filterBy.txt) {
+                console.log('hi from inside');
+                board.groups.forEach(group => {
+                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
+                })
+            }
+            return board
         }
     },
     mounted() {

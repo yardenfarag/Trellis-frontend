@@ -197,7 +197,20 @@ export default {
             this.currLabel.color = color
         },
         async removeLabel() {
-            const board = JSON.parse(JSON.stringify(this.board))
+            let board = JSON.parse(JSON.stringify(this.board))
+            const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
+            let labelIdx
+            if (labelToSave.id) {
+                board.groups.forEach(group => {
+                    group.tasks.forEach(task => {
+                        labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
+                        if (labelIdx >= 0) {
+                            task.labels.splice(labelIdx, 1)
+                            this.$emit('updateTask', task)
+                        }
+                    })
+                })
+            }
             const idx = board.labels.findIndex(label => label.id === this.currLabel.id)
             board.labels.splice(idx, 1)
             await this.$store.dispatch({ type: 'saveBoard', board })
@@ -208,9 +221,19 @@ export default {
                 this.goBack()
                 return
             }
-            const board = JSON.parse(JSON.stringify(this.board))
+            let board = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
+            let labelIdx
             if (labelToSave.id) {
+                board.groups.forEach(group => {
+                    group.tasks.forEach(task => {
+                        labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
+                        if (labelIdx >= 0) {
+                            task.labels.splice(labelIdx, 1, labelToSave)
+                            this.$emit('updateTask', task)
+                        }
+                    })
+                })
                 const idx = board.labels.findIndex(label => label.id === labelToSave.id)
                 board.labels.splice(idx, 1, labelToSave)
             }

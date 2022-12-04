@@ -75,7 +75,7 @@ export default {
         },
         boardMembers() {
             let members = this.users.filter(user => {
-                return this.board.memberIds.includes(user._id)
+                return this.board.memberIds?.includes(user._id)
             })
             return members
         }
