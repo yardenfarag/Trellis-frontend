@@ -1,5 +1,6 @@
 <template>
     <div class="modal-container cover-modal">
+        <button @click="toggleCoverModal">X</button>
         <div class="modal-title">
             <h5>Cover</h5>
         </div>
@@ -25,7 +26,13 @@
     </div>
 </template>
 <script>
+import TaskAttachmentCmp from '../task-attachment.cmp.vue';
+
 export default {
+    emits: ['toggleCoverModal'],
+    props:{
+        task: Object
+    },  
     name: 'task-cover-modal',
     components: {},
     data() {
@@ -35,7 +42,11 @@ export default {
         };
     },
     created() { },
-    methods: {},
+    methods: {
+        toggleCoverModal(){
+            this.$emit('toggleCoverModal')
+        }
+    },
     computed: {},
     unmounted() { },
 };
