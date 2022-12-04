@@ -1,17 +1,17 @@
 <template>
   <section class="activity-container">
-    <div class="title-container">
+    <div class="title-container flex space-between">
       <h3>Activity</h3>
-      <button>Show details</button>
+      <button class="task-content-btn ">Show details</button>
     </div>
 
     <div class="add-comments">
       <img :src="loggedinUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
-      <button v-if="!addComment" @click.stop="addComment = true">Write a comment...</button>
+      <div class="open-txt" v-if="!addComment" @click.stop="addComment = true">Write a comment...</div>
       <div v-if="addComment" class="comment-input">
-        <input v-model="comment.txt" type="text" placeholder="Write a comment...">
-        <button @click="saveComment(comment)">Save</button>
-        <button @click="addComment = false">Cancel</button>
+        <textarea class="add-txt-input" v-model="comment.txt" type="text" placeholder="Write a comment..."></textarea>
+        <button class="call-to-action" @click="saveComment(comment)">Save</button>
+        <button class="task-content-btn" @click="addComment = false">Cancel</button>
       </div>
 
       <div v-if="task.comments" class="comments">

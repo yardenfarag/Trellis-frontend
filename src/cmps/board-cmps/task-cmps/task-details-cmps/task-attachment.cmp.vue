@@ -9,7 +9,9 @@
           v-for="attachment in task.attachments" :attachment="attachment"></taskAttachmentPreview>
       </div>
     </div>
-    <button>Add an attachment</button>
+    <div class="attachment-footer">
+      <button class="task-content-btn">Add an attachment</button>
+    </div>
   </div>
 </template>
  

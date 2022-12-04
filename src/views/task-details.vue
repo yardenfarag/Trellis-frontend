@@ -20,8 +20,8 @@
     <section class="task-main">
       <section class="task-content">
         <section class="members-and-labels">
-          <section class="members-container">
-            <h5 class="small-title">Members</h5>
+          <section class="members-container small-container">
+            <h5 class="small-title-margin">Members</h5>
             <div class="member-list-container">
               <ul v-if="taskMembers.length" v-for="taskMember in taskMembers" class="clean-list">
                 <li class="avatar">
@@ -33,8 +33,8 @@
           </section>
 
 
-          <section class="labels-container">
-            <h5 class="small-title">Labels</h5>
+          <section class="labels-container small-container">
+            <h5 class="small-title-margin">Labels</h5>
             <div v-if="task.labels.length" class="labels-list-container">
 
               <div v-for="label in task.labels" :key="label.id" class="label">
@@ -49,12 +49,17 @@
           </section>
         </section>
 
-        <div v-if="task.dueDate" class="task-date">
-          <h5>Due date</h5>
-          <input @change="toggleDuedate" type="checkbox">
-          <span @click="toggleDateModal" class="date-info">
-            {{ formattedDate }} <span>{{ duedateComplete }}</span>
-          </span>
+        <div v-if="task.dueDate" class="task-date small-container">
+          <h5 class="small-title-margin">Due date</h5>
+          <div class="small-container">
+            <input @change="toggleDuedate" type="checkbox">
+            <button class="task-content-btn" @click="toggleDateModal">
+              <span class="date-info">
+                {{ formattedDate }} <span>{{ duedateComplete }}</span>
+              </span>
+              <span class="arrow-down"></span>
+            </button>
+          </div>
         </div>
         <div class="task-info">
           <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
@@ -72,25 +77,26 @@
         <div class="add-to-card-container">
           <h5 class="small-title add-to-card-title">Add to card</h5>
           <div class="btn-container">
-            <button class="task-detail-btn">join</button>
-            <button @click="toggleMembersModal()" class="task-detail-btn">Members</button>
-            <button @click="toggleLabelsModal()" class="task-detail-btn">Labels</button>
-            <button @click="toggleChecklistModal()" class="task-detail-btn">Checklist</button>
-            <button @click="toggleDateModal()" class="task-detail-btn">Dates</button>
-            <button @click="toggleAttachmentModal()" class="task-detail-btn">Attachment</button>
-            <button class="task-detail-btn">Location</button>
-            <button class="task-detail-btn">Custom Fields</button>
+            <button class="task-detail-btn join"><span>join</span> </button>
+            <button @click="toggleMembersModal()" class="task-detail-btn members"><span>Members</span> </button>
+            <button @click="toggleLabelsModal()" class="task-detail-btn labels"><span>Labels</span> </button>
+            <button @click="toggleChecklistModal()" class="task-detail-btn checklist"><span>Checklist</span> </button>
+            <button @click="toggleDateModal()" class="task-detail-btn dates"><span>Dates</span> </button>
+            <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
+            </button>
+            <button class="task-detail-btn location"><span>Location</span> </button>
+            <button class="task-detail-btn custom-field"><span>Custom Fields</span> </button>
           </div>
         </div>
         <div class="action-container">
           <h5 class="small-title">Actions</h5>
           <div class="btn-container">
-            <button class="task-detail-btn">Move</button>
-            <button class="task-detail-btn">Copy</button>
-            <button class="task-detail-btn">Make template</button>
-            <button class="task-detail-btn">Watch</button>
-            <button @click="removeTask" class="task-detail-btn">Archive</button>
-            <button class="task-detail-btn">Share</button>
+            <button class="task-detail-btn move"><span>Move</span> </button>
+            <button class="task-detail-btn copy"><span>Copy</span> </button>
+            <button class="task-detail-btn make-template"><span>Make template</span></button>
+            <button class="task-detail-btn watch"><span>Watch</span> </button>
+            <button @click="removeTask" class="task-detail-btn archive"><span>Archive</span></button>
+            <button class="task-detail-btn share"><span>Share</span></button>
           </div>
         </div>
 

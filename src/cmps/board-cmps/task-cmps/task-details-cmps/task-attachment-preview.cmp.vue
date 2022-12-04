@@ -1,23 +1,21 @@
 <template>
-    <section class="attachment-preview flex align-center">
+    <section class="attachment-preview">
         <div class="preview">
-            <img :style="{ width: 200 + 'px' }" :src="attachment.imgUrl" alt="">
+            <img :src="attachment.imgUrl" alt="">
         </div>
-        <div class="attachment-info flex column align-center">
+        <div class="attachment-info">
             <div class="file-name">
                 {{ attachment.fileName }}
             </div>
             <div class="crud">
                 <span>{{ formattedTime }}</span> -
-                <button @click="$emit('deleteAttachment', attachment.id)">Delete</button> -
-                <button @click="isEdit = true">Edit</button>
-
+                <span @click="$emit('deleteAttachment', attachment.id)">Delete</span> -
+                <span @click="isEdit = true">Edit</span>
                 <section v-if="isEdit" class="modal-container">
                     <button @click="isEdit = false">X</button>
                     <div class="modal-title">
                         <h5>Edit attachment</h5>
                     </div>
-                    <hr>
                     <div class="edit-attachment">
                         <h6>Link name</h6>
                         <input v-model="fileName" type="text">

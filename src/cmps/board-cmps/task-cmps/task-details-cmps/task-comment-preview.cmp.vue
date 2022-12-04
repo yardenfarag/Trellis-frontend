@@ -1,10 +1,10 @@
 <template>
     <div class="comment-details">
         <img :src="commentUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
-        <h4>{{ commentUser.fullname }} <span>{{ formattedTime }}</span></h4>
+        <h4 class="name">{{ commentUser.fullname }} <span class="time">{{ formattedTime }}</span></h4>
         <span>{{ isEdited }}</span>
         <div v-if="!isCommentEdit">
-            <button>{{ comment.txt }}</button>
+            <div class="txt-preview">{{ comment.txt }}</div>
             <div class="">
                 <span @click="openEdit">Edit</span>-<span @click="deleteComment(comment.id)">Delete</span>
             </div>

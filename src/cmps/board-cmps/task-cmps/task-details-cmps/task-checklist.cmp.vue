@@ -3,25 +3,30 @@
   <section v-if="task.checklists" class="checklists-container">
     <div v-for="checklist in task.checklists" class="checklists">
 
-      <div class="title-container">
+      <div class="title-container flex space-between ">
         <h3>{{ checklist.title }}</h3>
+        <button class="task-content-btn danger" @click="removeChecklist(checklist.id)">Delete</button>
       </div>
-      <progress :value=progressCount(checklist)></progress>
-      <button>Hide checked items</button>
-      <button @click="removeChecklist(checklist.id)">Delete</button>
-      <div v-for="todo in checklist.todos" class="checklist-todos">
-        <input type="checkBox" :checked="todo.isDone" @change="toggleTodo(todo.id, checklist.id)" />
-        <h4 class="todo-title" :class="{ checked: todo.isDone }">{{ todo.title }}</h4>
-        <button @click="deleteTodo(todo.id, checklist.id)">X</button>
+      <progress class="progress-bar" :value=progressCount(checklist)></progress>
+      <div class="list">
+        <div v-for="todo in checklist.todos" class="checklist-todos">
+          <div class="todo">
+            <input type="checkBox" :checked="todo.isDone" @change="toggleTodo(todo.id, checklist.id)" />
+            <h4 class="todo-title" :class="{ checked: todo.isDone }">{{ todo.title }}</h4>
+          </div>
+        </div>
+        <!-- <button @click="deleteTodo(todo.id, checklist.id)">X</button> -->
       </div>
-      <button v-if="!addItem" @click="addItem = true ; writeTodo(checklist)">Add an item</button>
+      <button v-if="!addItem" @click="addItem = true ; writeTodo(checklist)" class="task-content-btn">Add an
+        item</button>
 
       <div v-if="(addItem && checklist.id === currChecklist.id)" class="add-todo">
 
-        <textarea v-model="todoTitle" placeholder="Add an item" cols="30" rows="10"></textarea>
-
-        <button @click="addTodo(checklist.id)">Add</button>
-        <button @click="addItem = false">Cancel</button>
+        <textarea v-model="todoTitle" placeholder="Add an item"></textarea>
+        <div class="controler">
+          <button class="call-to-action" @click="addTodo(checklist.id)">Add</button>
+          <button class="task-content-btn" @click="addItem = false">Cancel</button>
+        </div>
 
       </div>
     </div>

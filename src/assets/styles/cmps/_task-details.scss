@@ -50,6 +50,9 @@
         font-weight: 600;
     }
 
+
+
+
     .task-header {
         position: relative;
 
@@ -132,14 +135,15 @@
                     min-height: 32px;
                     resize: none;
                     height: 29px;
+                    margin-bottom: 3px;
                 }
             }
 
             p {
                 color: $color-secondery-text;
                 margin: 0px;
-                margin-bottom: 11px;
-                line-height: 20px;
+                line-height: 12px;
+                margin-bottom: 7px;
             }
         }
 
@@ -159,13 +163,29 @@
             display: flex;
             flex-direction: column;
 
+            .small-container {
+                margin-right: 8px;
+                margin-bottom: 8px;
+            }
+
+            .small-title-margin {
+                color: $color-secondery-text;
+                font-size: 12px;
+                font-weight: 600;
+                margin-top: 0px;
+                margin-right: 8px;
+                margin-bottom: 4px;
+                margin-left: 0px;
+            }
+
             .members-and-labels {
                 display: flex;
+                flex-wrap: wrap;
                 gap: 8px;
-
+                margin-top: 8px;
 
                 .members-container {
-                    margin: 0 8px 8px 0;
+                    max-width: 100%;
 
                     .member-list-container {
                         display: flex;
@@ -192,12 +212,13 @@
                 }
 
                 .labels-container {
-                    margin-right: 8px;
-                    margin-bottom: 8px;
+                    // margin-right: 8px;
+                    // margin-bottom: 8px;
                     max-width: 100%;
 
                     .labels-list-container {
                         display: flex;
+                        flex-wrap: wrap;
                         gap: 4px;
                         position: relative;
 
@@ -257,17 +278,18 @@
                     }
                 }
 
-                .small-title {
-                    margin-top: 0;
-                    margin-right: 8px;
-                    margin-bottom: 4px;
-                    margin-left: 0;
-                    line-height: 20px;
-                }
+                // .small-title {
+                //     margin-top: 0;
+                //     margin-right: 8px;
+                //     margin-bottom: 4px;
+                //     margin-left: 0;
+                //     line-height: 20px;
+                // }
             }
 
             &>* {
                 margin-left: 40px;
+
 
                 .title-container {
                     margin-bottom: 4px;
@@ -283,9 +305,36 @@
                 }
             }
 
+            .task-date {
+
+                button {
+                    padding-right: 31px;
+                    position: relative;
+                    margin-left: 4px;
+
+                    .arrow-down {
+                        &::after {
+                            font-family: trello;
+                            content: '\E924';
+                            position: absolute;
+                            top: 7px;
+                            right: 12px;
+
+                        }
+                    }
+                }
+            }
+
             .task-info {
                 &>* {
                     margin-block-end: 24px;
+                }
+
+                .title-container h3 {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: $color-primary-text;
+                    line-height: 20px;
                 }
 
                 .checklists-container {
@@ -293,43 +342,292 @@
                         margin-block-end: 24px;
                     }
                 }
-            }
 
-            .description-container {
-                .title-container {
-                    &::before {
-                        content: '\E922';
+                .description-container {
+                    .description-wraper {
+                        margin-bottom: 9px;
+                        position: relative;
+                    }
+
+                    .title-container {
+                        position: relative;
+                        align-items: center;
+                        display: flex;
+                        flex-direction: row;
+                        // min-height: 32px;
+
+                        button {
+                            margin-left: 8px;
+                        }
+
+                        &::before {
+                            content: '\E922';
+                        }
+                    }
+
+                    .pre-text-area {
+                        p {
+                            margin: 0;
+                        }
+                    }
+
+                    .description-form {
+                        margin: 0;
+
+
+                        .description-input {
+                            // display: block;
+                            width: 100%;
+                            height: 108px;
+                            padding: 12px;
+                            overflow: hidden;
+                            overflow-wrap: break-word;
+                            margin-bottom: 8px;
+
+                        }
                     }
                 }
-            }
 
-            .attachment-container {
-                .title-container {
-                    &::before {
-                        content: '\E908';
+                .attachment-container {
+
+                    .title-container {
+
+                        h3 {
+                            margin-bottom: 4px;
+                        }
+
+                        &::before {
+                            content: '\E908';
+                        }
+                    }
+
+                    .attachment-footer {
+                        margin-bottom: 40px;
+
+                        button {
+                            margin-top: 8px;
+                            margin-bottom: 8px;
+                        }
+                    }
+
+
+
+                    .attachment-preview {
+                        border-radius: 3px;
+                        margin: 0 0 10px;
+                        min-height: 80px;
+                        overflow: hidden;
+                        position: relative;
+                        display: flex;
+                        gap: 14px;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: $color-primary-btn-modal;
+                        }
+
+
+
+                        .preview {
+                            background-position: 50%;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            border-radius: 3px;
+                            height: 80px;
+                            width: 112px;
+                            text-align: center;
+                            text-decoration: none;
+                            width: 112px;
+                            z-index: 1;
+                            background-color: #42526e;
+
+                            img {
+                                object-fit: cover;
+                                width: 75%;
+                                height: 100%;
+                            }
+                        }
+
+                        .attachment-info {
+                            margin: 0;
+                            min-height: 80px;
+                            padding: 8px 8px 8px 0px;
+
+                            .file-name {
+                                font-weight: 700;
+                                font-size: 14px;
+                            }
+                        }
+
+                        .crud {
+                            // display: flex;
+                            // flex-direction: column;
+
+                            // margin: 0;
+                            // min-height: 80px;
+                            // padding: 8px 8px 8px 128px;
+                            // z-index: 0;
+                        }
+                    }
+
+
+                }
+
+                .checklists-container {
+                    .task-content-btn {
+                        margin-top: 10px;
+                    }
+
+                    .title-container {
+                        h3 {
+                            margin-block: auto;
+                        }
+
+                        &::before {
+                            content: '\E91A';
+                            top: 15px;
+
+                        }
+                    }
+
+                    .add-todo {
+                        textarea {
+                            resize: vertical;
+                            display: block;
+                            width: 100%;
+                            padding-left: 10px;
+                            padding-top: 3px;
+                            margin-block: 2px;
+                        }
+
+                        .controler {
+
+                            .call-to-action {
+                                margin-right: 4px;
+                            }
+                        }
+                    }
+
+                    .progress-bar {
+                        background-color: $color-primary-btn-modal;
+                        width: 100%;
+                        border-radius: 4px;
+                        height: 10px;
+                        overflow: hidden;
+                        position: relative;
+                    }
+
+                    .checklist-todos {
+                        padding-block: 10px;
+
+                        .todo {
+                            position: relative;
+                            display: flex;
+
+                            input {
+                                position: absolute;
+                                left: -32px;
+                                top: 2px;
+                            }
+                        }
                     }
                 }
-            }
 
-            .checklists-container {
-                .title-container {
-                    &::before {
-                        content: '\E91A';
+                .activity-container {
+
+                    .title-container {
+                        h3 {
+                            margin-block: auto;
+                        }
+
+                        &::before {
+                            content: '\E900';
+                            top: 15px;
+                        }
                     }
-                }
-            }
 
-            .activity-container {
-                .title-container {
-                    &::before {
-                        content: '\E900';
+                    .add-comments {
+                        position: relative;
+
+                        img {
+                            position: absolute;
+                            left: -40px;
+                        }
+
+                        .open-txt {
+                            width: 100%;
+                            color: rgb(182, 182, 182);
+                            // min-height: 36px;
+                            background-color: white;
+                            box-shadow: 0px 0px 1px 0px rgb(114, 113, 113);
+                            text-align: start;
+                            padding: 8px;
+                            padding-left: 12px;
+                            border-radius: 3px;
+                            transition: 0.12s;
+
+                            &:hover {
+                                background-color: rgb(230, 230, 230);
+                            }
+                        }
+                    }
+
+                    .comment-input {
+
+
+                        .add-txt-input {
+                            margin-block: 8px;
+                            display: block;
+                            width: 100%;
+                            color: rgb(182, 182, 182);
+                            padding: 8px;
+                            padding-left: 12px;
+                            border-radius: 3px;
+                            transition: 0.12s;
+                            outline: none;
+                            box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.25);
+                        }
+                    }
+
+                    .comment-list {
+                        .comment-details {
+                            position: relative;
+                            // display: flex;
+                            padding-block: 10px;
+
+                            img {
+                                position: absolute;
+                                left: -40px;
+                                top: 14px;
+                            }
+
+                            .name {
+                                font-weight: 700;
+                                line-height: 28px;
+
+                                .time {
+                                    line-height: 14px;
+                                    font-size: 12px;
+                                    font-weight: 400;
+                                }
+                            }
+
+                            .txt-preview {
+                                width: 100%;
+                                // min-height: 36px;
+                                background-color: white;
+                                box-shadow: 0px 0px 1px 0px rgb(114, 113, 113);
+                                text-align: start;
+                                padding: 8px;
+                                border-radius: 3px;
+                            }
+                        }
                     }
                 }
             }
         }
 
         .task-sidebar {
-            overflow: hidden;
             padding-top: 0px;
             padding-right: 16px;
             padding-bottom: 8px;
@@ -344,12 +642,21 @@
                 flex-direction: column;
 
                 .task-detail-btn {
+                    width: 168px;
                     border-radius: 3px;
                     margin-top: 8px;
                     max-width: 300px;
                     overflow: hidden;
                     padding: 6px 12px;
                     position: relative;
+                    padding-left: 0px;
+                    padding-right: 30px;
+
+                    span {
+                        position: absolute;
+                        left: 35px;
+
+                    }
                 }
             }
         }
