@@ -103,7 +103,11 @@ export default {
             boardToSave.style.bgc = `url(${imgUrl})`
             boardToSave.style.headerClr = avgColor
             const newActivity = utilService.setActivity(`changed this board cover`, null)
-            boardToSave.activities.unshift(newActivity)
+            if (boardToSave.activities) {
+                boardToSave.activities.unshift(newActivity)
+            } else {
+                boardToSave.activities = [newActivity]
+            }
             await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
         },
         async changeBackgroundColor(color) {
@@ -111,7 +115,11 @@ export default {
             boardToSave.style.bgc = color
             boardToSave.style.headerClr = color
             const newActivity = utilService.setActivity(`changed this board cover`, null)
-            boardToSave.activities.unshift(newActivity)
+            if (boardToSave.activities) {
+                boardToSave.activities.unshift(newActivity)
+            } else {
+                boardToSave.activities = [newActivity]
+            }
             await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
         },
         toggleFilter() {
