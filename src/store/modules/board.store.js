@@ -153,7 +153,7 @@ export const boardStore = {
         async saveBoard(context, { board }) {
             try {
                 const savedBoard = await boardService.save(board)
-                console.table(savedBoard.groups[0].tasks)
+                // console.table(savedBoard.groups[0].tasks)
                 context.commit({ type: 'setCurrBoard', board: savedBoard })
             }
             catch (err) {

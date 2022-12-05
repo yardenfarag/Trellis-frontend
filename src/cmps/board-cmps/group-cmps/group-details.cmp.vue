@@ -126,11 +126,12 @@ export default {
             else this.boardToShow.activities.unshift(newActivity)
 
             const groupIdx = this.boardToShow.groups.findIndex(group => group.id === this.group.id)
+            const groupToSave = JSON.parse(JSON.stringify(this.group))
 
-            this.group.tasks.push(this.taskToEdit)
-            this.boardToShow.groups.splice(groupIdx, 1, this.group)
-
-            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
+            groupToSave.tasks.push(this.taskToEdit)
+            this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
+            this.$emit('updateGroup', groupToSave)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
             this.taskToEdit = {
                 title: '',
                 members: [],
