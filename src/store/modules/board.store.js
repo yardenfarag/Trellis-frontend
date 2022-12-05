@@ -1,4 +1,6 @@
 import { boardService } from '../../services/board.service.local.js'
+import { groupService } from '../../services/group.service.local.js'
+import { taskService } from '../../services/task.service.local.js'
 import { utilService } from '../../services/util.service.js'
 
 export function getActionRemoveBoard(boardId) {
@@ -57,9 +59,10 @@ export const boardStore = {
             await context.commit({ type: 'setCurrBoard', board: null })
         },
         async setCurrBoard({ commit }, { boardId }) {
+            console.log(boardId);
             try {
                 const board = await boardService.getById(boardId)
-                commit({ type: 'setCurrBoard', board })
+                await commit({ type: 'setCurrBoard', board })
             } catch (err) {
                 console.log(err);
             }
@@ -94,56 +97,31 @@ export const boardStore = {
                 throw err
             }
         },
-        async saveTask(context, { board, groupId, taskToSave }) {
+        async saveTask(context, { boardId, groupId, taskToSave }) {
             try {
-                const group = board.groups.find(group => group.id === groupId)
-                const groupIdx = board.groups.findIndex(group => group.id === groupId)
-                if (taskToSave.id) {
-                    const taskIdx = group.tasks.findIndex(task => task.id === taskToSave.id)
-                    group.tasks.splice(taskIdx, 1, taskToSave)
-                    board.groups.splice(groupIdx, 1, group)
-                } else {
-                    taskToSave.id = utilService.makeId()
-                    group.tasks.push(taskToSave)
-                    board.groups.splice(groupIdx, 1, group)
-                }
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+                taskService.save(boardId, groupId, taskToSave)
+                context.dispatch({ type: 'setCurrBoard', boardId })
             }
             catch (err) {
                 console.log('there was a problem saving that task in the store')
                 throw err
             }
         },
-        async removeTask(context, { board, groupId, taskId }) {
-            const group = board.groups.find(group => group.id === groupId)
-            const groupIdx = board.groups.findIndex(group => group.id === groupId)
+        async removeTask(context, { boardId, groupId, taskId }) {
             try {
-                const taskIdx = group.tasks.findIndex(task => task.id === taskId)
-                group.tasks.splice(taskIdx, 1)
-                board.groups.splice(groupIdx, 1, group)
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+                taskService.remove(boardId, groupId, taskId)
+                context.dispatch({ type: 'setCurrBoard', boardId })
             }
             catch (err) {
                 console.log('there was a problem removing that task in the store')
                 throw err
             }
         },
-        async saveGroup(context, { board, groupToEdit }) {
+        async saveGroup(context, { boardId, groupToEdit }) {
             console.log('group that got to the store',groupToEdit);
             try {
-                if (groupToEdit.id) {
-                    const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
-                    board.groups.splice(groupIdx, 1, groupToEdit)
-                } else {
-                    console.log(board);
-                    groupToEdit.id = utilService.makeId()
-                    board.groups.push(groupToEdit)
-                }
-                await boardService.save(board)
-                console.log(board)
-                context.commit({ type: 'setCurrBoard', board })
+                groupService.save(boardId, groupToEdit)
+                context.dispatch({ type: 'setCurrBoard', boardId })
             }
             catch (err) {
                 console.log('there was a problem saving that group in the store')
@@ -153,20 +131,18 @@ export const boardStore = {
         async saveBoard(context, { board }) {
             try {
                 const savedBoard = await boardService.save(board)
-                // console.table(savedBoard.groups[0].tasks)
-                context.commit({ type: 'setCurrBoard', board: savedBoard })
+                console.log(savedBoard);
+                await context.dispatch({ type: 'setCurrBoard', boardId: savedBoard._id })
             }
             catch (err) {
                 console.log('there was a problem updating this board in the store')
                 throw err
             }
         },
-        async removeGroup(context, { board, groupId }) {
+        async removeGroup(context, { boardId, groupId }) {
             try {
-                const groupIdx = board.groups.findIndex(group => group.id === groupId)
-                board.groups.splice(groupIdx, 1)
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+                await groupService.remove(boardId, groupId)
+                context.dispatch({ type: 'setCurrBoard', boardId })
             }
             catch (err) {
                 console.log('there was a promblen removing this group in the store')

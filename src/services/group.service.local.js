@@ -37,7 +37,7 @@ async function save(boardId, groupToEdit) { // change
             const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
             board.groups.splice(groupIdx, 1, groupToEdit)
         } else {
-            groupToEdit._id = utilService.makeId()
+            groupToEdit.id = utilService.makeId()
             board.groups.push(groupToEdit)
         }
         return await boardService.save(board)

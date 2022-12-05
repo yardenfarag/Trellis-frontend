@@ -39,6 +39,7 @@ async function save(board) {
         board.createdBy = userService.getLoggedinUser()
         savedBoard = await storageService.post(STORAGE_KEY, board)
     }
+    console.log(savedBoard);
     return savedBoard
 }
 

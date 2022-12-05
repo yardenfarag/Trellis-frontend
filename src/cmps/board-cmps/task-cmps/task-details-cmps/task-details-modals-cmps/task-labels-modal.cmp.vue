@@ -123,6 +123,7 @@ export default {
     components: {},
     data() {
         return {
+            // boardToShow: null,
             filterBy: { txt: '' },
             editLabel: false,
             isCreate: false,
@@ -144,7 +145,10 @@ export default {
             ]
         };
     },
-    created() {
+    async created() {
+        // const boardId = this.$route.params.boardId
+        // await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+        // this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
         this.idxOfSelectedColor = 7
     },
     methods: {
@@ -197,11 +201,11 @@ export default {
             this.currLabel.color = color
         },
         async removeLabel() {
-            let board = JSON.parse(JSON.stringify(this.board))
+            // let board = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             let labelIdx
             if (labelToSave.id) {
-                board.groups.forEach(group => {
+                this.board.groups.forEach(group => {
                     group.tasks.forEach(task => {
                         labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
                         if (labelIdx >= 0) {
@@ -211,9 +215,9 @@ export default {
                     })
                 })
             }
-            const idx = board.labels.findIndex(label => label.id === this.currLabel.id)
-            board.labels.splice(idx, 1)
-            await this.$store.dispatch({ type: 'saveBoard', board })
+            const idx = this.board.labels.findIndex(label => label.id === this.currLabel.id)
+            this.board.labels.splice(idx, 1)
+            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
             this.goBack()
         },
         async saveLabel() {
@@ -221,11 +225,11 @@ export default {
                 this.goBack()
                 return
             }
-            let board = JSON.parse(JSON.stringify(this.board))
+            // let board = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             let labelIdx
             if (labelToSave.id) {
-                board.groups.forEach(group => {
+                this.board.groups.forEach(group => {
                     group.tasks.forEach(task => {
                         labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
                         if (labelIdx >= 0) {
@@ -234,14 +238,14 @@ export default {
                         }
                     })
                 })
-                const idx = board.labels.findIndex(label => label.id === labelToSave.id)
-                board.labels.splice(idx, 1, labelToSave)
+                const idx = this.board.labels.findIndex(label => label.id === labelToSave.id)
+                this.board.labels.splice(idx, 1, labelToSave)
             }
             else {
                 labelToSave.id = utilService.makeId()
-                board.labels.push(labelToSave)
+                this.board.labels.push(labelToSave)
             }
-            await this.$store.dispatch({ type: 'saveBoard', board })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
             this.goBack()
         },
         labelEditor(label) {

@@ -172,6 +172,11 @@
         }
     }
 
+    .ghost {
+        opacity: 0.4;
+        margin-inline-end: 8px;
+    }
+
     .task-preview {
         position: relative;
         background-color: white;
