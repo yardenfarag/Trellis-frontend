@@ -8,8 +8,8 @@
             <!-- <li class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </li> -->
-            <Draggable class="group-item" v-if="board" v-for="group in board.groups">
-                <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
+            <Draggable class="group-item" v-if="boardToShow" v-for="group in boardToShow.groups">
+                <group-details :txt="filterBy.txt" :group="group" :boardId="boardToShow._id" />
             </Draggable>
             <li>
                 <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
@@ -79,18 +79,19 @@ export default {
     async created() {
         const { boardId } = this.$route.params
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-        // this.boardToShow = this.board
+        this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
     },
     methods: {
         async onGroupDrop(ev) {
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
-            const dragGroup = this.board.groups[ev.removedIndex]
-            const dropGroup = this.board.groups[ev.addedIndex]
-            await this.board.groups.splice(dragIdx, 1)
-            await this.board.groups.splice(dropIdx, 0, dragGroup)
+            const dragGroup = this.boardToShow.groups[ev.removedIndex]
+            const dropGroup = this.boardToShow.groups[ev.addedIndex]
+            await this.boardToShow.groups.splice(dragIdx, 1)
+            await this.boardToShow.groups.splice(dropIdx, 0, dragGroup)
             // this.board.groups[dropIdx] = this.board.groups.splice(dragIdx, 1, dropGroup)[0]
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            console.log('groupppppppppppp')
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
