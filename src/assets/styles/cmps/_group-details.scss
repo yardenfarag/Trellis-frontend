@@ -316,3 +316,31 @@
         font-size: 20px;
     }
 }
+
+.labels-prev-container{
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.prev-label {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-right: 0;
+    padding-left: 0;
+    min-width: 40px;
+    max-width: 40px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.quick-menu-screen{
+    background-color: rgba(0, 0, 0, 0.478);
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+.quick-edit-modal{
+    position: fixed;
+    z-index: 20;
+}

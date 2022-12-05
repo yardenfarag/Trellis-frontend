@@ -70,7 +70,6 @@ export default {
         }
     },
     created() {
-        console.log('created');
         this.boardToSave = JSON.parse(JSON.stringify(this.board))
     },
     methods: {

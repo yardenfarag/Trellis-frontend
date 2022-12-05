@@ -1,5 +1,5 @@
 <template>
-    <section v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
+    <section  v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
             <h5>Labels</h5>
             <span @click="closeModal()" class="material-symbols-outlined">
@@ -263,8 +263,10 @@ export default {
             if (labelInTask) {
                 const labelIdx = this.task.labels.findIndex(label => label.id === labelInTask.id)
                 taskToSave.labels.splice(labelIdx, 1)
+                console.log('inTask')
             } else {
                 taskToSave.labels.push(labelToAdd)
+                console.log('New')
             }
             this.$emit('updateTask', taskToSave)
             // this.$store.dispatch({ type: 'saveTask', board, groupId, taskToSave })
