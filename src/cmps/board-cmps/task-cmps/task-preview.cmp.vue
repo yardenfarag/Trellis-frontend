@@ -1,9 +1,9 @@
 <template>
-    <section v-if="task" class="task-preview" :style="taskBg"  @click.stop="goToDetails">
+    <section v-if="task" class="task-preview" :style="taskBg" @click.stop="goToDetails">
         <div v-if="task.style?.asTop" :style="taskTopBg" style="height: 30px"></div>
-            <span  class="pencil-icon material-symbols-outlined">
-                edit
-            </span>
+        <span class="pencil-icon material-symbols-outlined">
+            edit
+        </span>
         <h5>{{ task.title }}</h5>
 
         <section class="prev-icons">
@@ -22,7 +22,7 @@
             <div :style="checklistDoneStyle" class="icon" title="Checklist items" v-if="(task.checklists?.length > 0)">
                 <small class="prev-checklists"> {{ checklistSum }}</small>
             </div>
-            <ul v-if="taskMembers.length"  class="clean-list flex">
+            <ul v-if="taskMembers.length" class="clean-list flex">
                 <li v-for="taskMember in taskMembers" class="avatar flex">
                     <img :src="taskMember.imgUrl">
                 </li>
@@ -52,7 +52,7 @@ export default {
         }
     },
     async created() {
-        console.log(this.task)
+        // console.log(this.task)
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {
@@ -96,13 +96,13 @@ export default {
             })
             return taskMembers
         },
-        taskTopBg(){
-            if(this.task?.style?.asTop) return {background: this.task?.style?.bg}
+        taskTopBg() {
+            if (this.task?.style?.asTop) return { background: this.task?.style?.bg }
             console.log('here')
         },
-        taskBg(){
-            if(!this.task?.style?.asTop) return {background: this.task?.style?.bg , color: this.task?.style?.textColor}
-            else return {background: 'white'}
+        taskBg() {
+            if (!this.task?.style?.asTop) return { background: this.task?.style?.bg, color: this.task?.style?.textColor }
+            else return { background: 'white' }
         }
     },
     unmounted() { },

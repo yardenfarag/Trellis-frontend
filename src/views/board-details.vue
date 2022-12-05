@@ -9,7 +9,8 @@
                 <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </li> -->
             <Draggable class="group-item" v-if="boardToShow" v-for="group in boardToShow.groups">
-                <group-details :txt="filterBy.txt" :group="group" :boardId="boardToShow._id" />
+                <group-details @updateGroup="updateGroup" :txt="filterBy.txt" :group="group"
+                    :boardId="boardToShow._id" />
             </Draggable>
             <li>
                 <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
@@ -148,6 +149,11 @@ export default {
                 tasks: [],
             }
         },
+        async updateGroup(groupToSave) {
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupToSave.id)
+            this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
+        }
     },
     computed: {
         board() {
