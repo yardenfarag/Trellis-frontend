@@ -9,7 +9,7 @@
         </div>
         <h5>{{ task.title }}</h5>
 
-        <section class="prev-icons">
+        <section v-if="showLabels" class="prev-icons">
 
             <div class="icon" title="This card has a description" v-if="(task.dueDate)">
                 <small class="prev-date"> {{ dueDate }}</small>
