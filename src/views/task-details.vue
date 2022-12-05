@@ -4,12 +4,12 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div :style="{background: task.style?.bg }" v-if="(task.style?.bg)" class="task-cover">
-        <button  @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
+      <div :style="{ background: task.style?.bg }" v-if="(task.style?.bg)" class="task-cover">
+        <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
         <div class="task-title">
-          <textarea rows="1" class="task-title-edit" v-model="task.title"
+          <textarea rows="1" class="task-title-edit" v-model="newTitle"
             @blur="updateTaskTitle($event)">{{ task.title }}</textarea>
         </div>
         <p class="in-group" v-if="group">in list: {{ group.title }}</p>
@@ -64,12 +64,13 @@
         <div class="task-info">
           <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
 
-          <task-attachment v-if="task.attachments?.length" @deleteAttachment="updateTask" :task="task" />
+          <task-attachment v-if="task.attachments?.length" @saveAttachment="saveTask" @deleteAttachment="saveTask"
+            :task="task" />
 
-          <task-checklist :task="task" @updateTask="updateTask" />
+          <task-checklist :task="task" @updateTask="saveTask" />
 
           <task-map :task="task" />
-          <task-comments @saveTask="updateTask" :task="task" />
+          <task-comments @saveTask="saveTask" :task="task" />
         </div>
       </section>
 
@@ -84,7 +85,8 @@
             <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button v-if="(!task.style?.bg)" @click="toggleCoverModal()" class="task-detail-btn cover"><span>Cover</span> </button>
+            <button v-if="(!task.style?.bg)" @click="toggleCoverModal()"
+              class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
         <div class="action-container">
@@ -101,14 +103,14 @@
   </section>
 
   <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task" :gruop="group"
-    @updateTask="updateTask" />
+    @updateTask="saveTask" />
   <taskLabelsModal @removeLabelFromTask="removeLabelFromTask" @saveLabelToTask="saveLabelToTask"
-    @closeModal="toggleLabelsModal" @updateTask="updateTask" v-if="isLabelsModalOpen" :board="board" :task="task" />
+    @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="boardToShow" :task="task" />
   <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="updateTask" />
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
-    @saveTask="updateTask"></taskAttachmentModal>
-  <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
-  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="updateTask" @toggleCoverModal="toggleCoverModal"/>
+    @saveTask="saveTask"></taskAttachmentModal>
+  <taskMembersModal @saveTask="saveTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
+  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="saveTask" @toggleCoverModal="toggleCoverModal" />
 </template>
 
 <script>
@@ -127,6 +129,7 @@ import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
 import taskCoverModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
+import { eventBus } from '../services/event-bus.service'
 
 export default {
   name: 'task-details',
@@ -145,6 +148,8 @@ export default {
   },
   data() {
     return {
+      newTitle: '',
+      boardToShow: null,
       task: null,
       group: null,
       boardId: null,
@@ -160,16 +165,15 @@ export default {
   async created() {
     this.$store.dispatch({ type: 'loadUsers' })
     const boardId = this.$route.params.boardId
-    this.boardId = boardId
-    if (!this.$store.getters.board) await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-
-    const board = JSON.parse(JSON.stringify(this.board))
+    await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+    this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
 
     const groupId = this.$route.params.groupId
-    this.group = board.groups.find(group => group.id === groupId)
+    this.group = this.boardToShow.groups.find(group => group.id === groupId)
 
     const taskId = this.$route.params.taskId
     this.task = this.group.tasks.find(task => task.id === taskId)
+    this.newTitle = this.task.title
     document.querySelector('#app').classList.remove('board-page')
   },
 
@@ -178,13 +182,14 @@ export default {
     async toggleDuedate() {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
-      let newActivity
-      if (taskToEdit.dueDate.isDone) {
-        newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} complete`, taskToEdit)
-      } else {
-        newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} incomplete`, taskToEdit)
-      }
-      await this.updateTask(taskToEdit, newActivity)
+      this.saveTask(taskToEdit)
+      // let newActivity
+      // if (taskToEdit.dueDate.isDone) {
+      //   newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} complete`, taskToEdit)
+      // } else {
+      //   newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} incomplete`, taskToEdit)
+      // }
+      // await this.updateTask(taskToEdit, newActivity)
     },
     toggleMembersModal() {
       this.isLabelsModalOpen = false
@@ -236,38 +241,48 @@ export default {
     },
 
     async removeTask() {
-      const boardToSave = JSON.parse(JSON.stringify(this.board))
-      const groupId = this.$route.params.groupId
-      const newActivity = utilService.setActivity(`archived ${this.task.title}`, this.task)
-      boardToSave.activities.unshift(newActivity)
-      await this.$store.dispatch({ type: 'removeTask', board: boardToSave, groupId, taskId: this.task.id })
-      this.$router.push('/board/' + this.boardId)
+      // const newActivity = utilService.setActivity(`archived ${this.task.title}`, this.task)
+      // boardToSave.activities.unshift(newActivity)
+      const boardId = this.boardToShow._id
+      const groupId = this.group.id
+      const taskId = this.task.id
+      eventBus.emit('removeTask', { boardId, groupId, taskId })
+      this.closeDetails()
     },
     closeDetails() {
-      this.$router.push('/board/' + this.boardId)
+      this.$router.push('/board/' + this.boardToShow._id)
     },
-    async updateTaskTitle(ev) {
-      let newTitle = this.task.title
-      if (!newTitle) {
+    async updateTaskTitle() {
+      if (!this.newTitle) {
+        this.newTitle = this.task.title
         return
       } else {
         const taskToEdit = JSON.parse(JSON.stringify(this.task))
-        taskToEdit.title = newTitle
-        const boardToSave = JSON.parse(JSON.stringify(this.board))
-        await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+        taskToEdit.title = this.newTitle
+        this.saveTask(taskToEdit)
       }
+    },
+    async saveTask(taskToEdit) {
+      this.task = taskToEdit
+      const boardId = this.boardToShow._id
+      const groupId = this.group.id
+      const taskId = this.task.id
+      const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupId)
+      const taskIdx = this.boardToShow.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
+      this.boardToShow.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+      eventBus.emit('saveTask', { boardId, groupId, taskToEdit })
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.description = desc
-      const boardToSave = JSON.parse(JSON.stringify(this.board))
-      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: taskToEdit })
+      this.saveTask(taskToEdit)
     },
     async updateTask(updatedTask, activity) {
-      this.task = updatedTask
-      const boardToSave = JSON.parse(JSON.stringify(this.board))
-      if (activity) boardToSave.activities.unshift(activity)
-      await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
+      this.saveTask(updatedTask)
+      // this.task = updatedTask
+      // const boardToSave = JSON.parse(JSON.stringify(this.board))
+      // if (activity) boardToSave.activities.unshift(activity)
+      // await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
     },
   },
   computed: {

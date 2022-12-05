@@ -41,10 +41,11 @@ export default {
             this.newBoard.style.bgc = this.bgc
             this.newBoard.style.headerClr = this.bgc
             await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
-            const newBoard = this.$store.getters.board
+            const newBoard = await this.$store.getters.board
             this.newBoard = boardService.getEmptyBoard()
             this.$emit('closeModal')
-            this.$router.push('/board/' + newBoard._id)
+            await this.$router.push('/board/' + newBoard._id)
+            location.reload()
         }
     },
     computed: {},

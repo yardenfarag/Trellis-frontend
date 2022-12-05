@@ -2,7 +2,7 @@
     <section class="group-wrapper">
         <section class="group-details">
             <div class="group-header">
-                <textarea rows="1" class="group-title" v-model="group.title"
+                <textarea rows="1" class="group-title" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
@@ -57,8 +57,9 @@ export default {
     },
     data() {
         return {
+            newTitle: this.group.title,
             isAddTask: false,
-            boardToSave: null,
+            boardToShow: null,
             taskToEdit: {
                 title: '',
                 members: [],
@@ -69,8 +70,9 @@ export default {
             }
         }
     },
-    created() {
-        console.log('created');
+    async created() {
+        const { boardId } = this.$route.params
+        await this.$store.dispatch({ type: 'setCurrBoard', boardId })
         this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
     },
     methods: {
@@ -119,9 +121,7 @@ export default {
         async addTask() {
             this.focusOnTitle()
             if (!this.taskToEdit.title) return
-            // const boardToSave = JSON.parse(JSON.stringify(this.board))
             const newActivity = utilService.setActivity(`added ${this.taskToEdit.title} to ${this.group.title}`, this.taskToEdit)
-
             if (!this.boardToShow.activities) this.boardToShow.activities = [newActivity]
             else this.boardToShow.activities.unshift(newActivity)
 
@@ -131,7 +131,7 @@ export default {
             groupToSave.tasks.push(this.taskToEdit)
             this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
             this.$emit('updateGroup', groupToSave)
-            // await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
+            await this.$store.dispatch({ type: 'saveTask', boardId: this.boardToShow._id, groupId: this.group.id, taskToSave: this.taskToEdit })
             this.taskToEdit = {
                 title: '',
                 members: [],
@@ -139,23 +139,24 @@ export default {
                 position: null
             }
         },
-        async updateGroup() { // need to get old title on blur
+        async updateGroup() {
             const groupToEdit = JSON.parse(JSON.stringify(this.group))
-            if (!groupToEdit.title) {
+            if (!this.newTitle) {
+                this.newTitle = this.group.title
                 return
             } else {
-                const boardToSave = JSON.parse(JSON.stringify(this.board))
-                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: groupToEdit })
+                groupToEdit.title = this.newTitle
+                const groupIdx = this.boardToShow.groups.findIndex(group => group.id === this.group.id)
+                this.boardToShow.groups.splice(groupIdx, 1, groupToEdit)
+                await this.$store.dispatch({ type: 'saveGroup', boardId: this.boardToShow._id, groupToEdit: groupToEdit })
             }
 
 
         },
         async removeGroup() {
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
-            const groupId = this.group.id
             const newActivity = utilService.setActivity(`removed ${this.group.title} from this board`, null)
-            boardToSave.activities.unshift(newActivity)
-            await this.$store.dispatch({ type: 'removeGroup', board: boardToSave, groupId })
+            // this.boardToSave.activities.unshift(newActivity)
+            this.$emit('removeGroup', this.group.id)
         }
     },
     computed: {

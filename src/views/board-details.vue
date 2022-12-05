@@ -9,7 +9,7 @@
                 <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </li> -->
             <Draggable class="group-item" v-if="boardToShow" v-for="group in boardToShow.groups">
-                <group-details @updateGroup="updateGroup" :txt="filterBy.txt" :group="group"
+                <group-details @removeGroup="removeGroup" @updateGroup="updateGroup" :txt="filterBy.txt" :group="group"
                     :boardId="boardToShow._id" />
             </Draggable>
             <li>
@@ -50,6 +50,7 @@ import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 import boardMenu from '../cmps/board-cmps/board-menu-cmps/board-menu.cmp.vue';
 import { Container, Draggable } from "vue3-smooth-dnd";
 import taskFilter from '../cmps/board-cmps/board-header-cmps/task-filter.cmp.vue';
+import { eventBus } from '../services/event-bus.service';
 export default {
     name: 'board-details',
     components: {
@@ -81,6 +82,12 @@ export default {
         const { boardId } = this.$route.params
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
         this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
+        eventBus.on('removeTask', ({ boardId, groupId, taskId }) => {
+            this.removeTask({ boardId, groupId, taskId })
+        })
+        eventBus.on('saveTask', ({ boardId, groupId, taskToEdit }) => {
+            this.saveTask({ boardId, groupId, taskToEdit })
+        })
     },
     methods: {
         async onGroupDrop(ev) {
@@ -90,8 +97,6 @@ export default {
             const dropGroup = this.boardToShow.groups[ev.addedIndex]
             await this.boardToShow.groups.splice(dragIdx, 1)
             await this.boardToShow.groups.splice(dropIdx, 0, dragGroup)
-            // this.board.groups[dropIdx] = this.board.groups.splice(dragIdx, 1, dropGroup)[0]
-            console.log('groupppppppppppp')
             await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
         },
         setFilterBy(filterBy) {
@@ -108,28 +113,26 @@ export default {
             });
         },
         async changeBackgroundImg(imgUrl, avgColor) {
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
-            boardToSave.style.bgc = `url(${imgUrl})`
-            boardToSave.style.headerClr = avgColor
+            this.boardToShow.style.bgc = `url(${imgUrl})`
+            this.boardToShow.style.headerClr = avgColor
             const newActivity = utilService.setActivity(`changed this board cover`, null)
-            if (boardToSave.activities) {
-                boardToSave.activities.unshift(newActivity)
+            if (this.boardToShow.activities) {
+                this.boardToShow.activities.unshift(newActivity)
             } else {
-                boardToSave.activities = [newActivity]
+                this.boardToShow.activities = [newActivity]
             }
-            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
         },
         async changeBackgroundColor(color) {
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
-            boardToSave.style.bgc = color
-            boardToSave.style.headerClr = color
+            this.boardToShow.style.bgc = color
+            this.boardToShow.style.headerClr = color
             const newActivity = utilService.setActivity(`changed this board cover`, null)
-            if (boardToSave.activities) {
-                boardToSave.activities.unshift(newActivity)
+            if (this.boardToShow.activities) {
+                this.boardToShow.activities.unshift(newActivity)
             } else {
-                boardToSave.activities = [newActivity]
+                this.boardToShow.activities = [newActivity]
             }
-            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
@@ -139,21 +142,39 @@ export default {
         },
         async addGroup() {
             if (!this.groupToSave.title) return
-            // const boardToSave = JSON.parse(JSON.stringify(this.board))
             const newActivity = utilService.setActivity(`added ${this.groupToSave.title} to this board`, null)
             this.boardToShow.activities.unshift(newActivity)
-            await this.$store.dispatch({ type: 'saveGroup', board: this.boardToShow, groupToEdit: this.groupToSave })
+            this.boardToShow.groups.push(this.groupToSave)
+            await this.$store.dispatch({ type: 'saveGroup', boardId: this.boardToShow._id, groupToEdit: this.groupToSave })
             this.groupToSave = {
                 title: '',
-                style: {},
                 tasks: [],
             }
         },
         async updateGroup(groupToSave) {
             const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupToSave.id)
             this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
-            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
-        }
+            await this.$store.dispatch({ type: 'saveGroup', boardId: this.boardToShow._id, groupToEdit: groupToSave })
+        },
+        async removeGroup(groupId) {
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupId)
+            this.boardToShow.groups.splice(groupIdx, 1)
+            await this.$store.dispatch({ type: 'removeGroup', boardId: this.boardToShow._id, groupId, })
+        },
+        async removeTask({ boardId, groupId, taskId }) {
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupId)
+            const group = this.boardToShow.groups.find(group => group.id === groupId)
+            const taskIdx = group.tasks.findIndex(task => task.id === taskId)
+            this.boardToShow.groups[groupIdx].tasks.splice(taskIdx, 1)
+            await this.$store.dispatch({ type: 'removeTask', boardId, groupId, taskId })
+        },
+        async saveTask({ boardId, groupId, taskToEdit }) {
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupId)
+            const group = this.boardToShow.groups.find(group => group.id === groupId)
+            const taskIdx = group.tasks.findIndex(task => task.id === taskToEdit.id)
+            this.boardToShow.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+            await this.$store.dispatch({ type: 'saveTask', boardId, groupId, taskToSave: taskToEdit })
+        },
     },
     computed: {
         board() {

@@ -75,7 +75,7 @@ export default {
             return `${done}/${total}`
         },
         checklistDoneStyle() {
-            if (this.isTodosDone) return { backgroundColor: 'green', color: 'white' }
+            if (this.isTodosDone) return { backgroundColor: '#61bd4f', color: 'white' }
         },
         dueDate() {
             var date = utilService.dueDateShortFormat(this.task.dueDate.info)
