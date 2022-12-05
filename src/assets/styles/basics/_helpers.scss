@@ -69,7 +69,7 @@
 }
 
 .modal-container {
-    position: absolute;
+    position: fixed;
     min-width: 304px;
     max-width: 304px;
     background-color: $color-bg-1;
