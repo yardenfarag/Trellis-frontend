@@ -7,30 +7,30 @@
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
             <!-- <button class="btn-group-actions">...</button> -->
-            <Container :drop-placeholder="{ class: 'placeholder' }" :get-child-payload="getChildPayload"
-                @drop="onTaskDrop(group, $event)" group-name="task" class="clean-list task-list"
+            <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
+                @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list task-list"
                 drag-class="drag-preview">
                 <!-- <ul class="clean-list task-list"> -->
-                <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task">
+                <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                     <!-- </li> -->
                 </Draggable>
-                <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
-                    <textarea ref="title" v-model="taskToEdit.title" type="text"
-                        placeholder="Enter a title for this card..."></textarea>
-                    <div class="add-task-form-controler">
-                        <button class="call-to-action">Add card</button>
-                        <span style="font-size:32px;" @click="isAddTask = false"
-                            class="close-add-task material-symbols-outlined">
-                            close
-                        </span>
-                        <span style="font-size:28px;" class="add-task-options material-symbols-outlined">
-                            more_horiz
-                        </span>
-                    </div>
-                </form>
-                <!-- </ul> -->
             </Container>
+            <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
+                <textarea ref="title" v-model="taskToEdit.title" type="text"
+                    placeholder="Enter a title for this card..."></textarea>
+                <div class="add-task-form-controler">
+                    <button class="call-to-action">Add card</button>
+                    <span style="font-size:32px;" @click="isAddTask = false"
+                        class="close-add-task material-symbols-outlined">
+                        close
+                    </span>
+                    <span style="font-size:28px;" class="add-task-options material-symbols-outlined">
+                        more_horiz
+                    </span>
+                </div>
+            </form>
+            <!-- </ul> -->
             <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                     class="material-symbols-outlined">
                     add
@@ -39,9 +39,9 @@
     </section>
 </template>
 <script>
-import { utilService } from '../../../services/util.service';
+import { utilService } from '../../../services/util.service'
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
-import { Container, Draggable } from "vue3-smooth-dnd";
+import { Container, Draggable } from "vue3-smooth-dnd"
 export default {
     props: {
         group: Object,
@@ -79,40 +79,30 @@ export default {
         getChildPayload(index) {
             return this.group.tasks[index]
         },
-        async onTaskDrop(currGroup, dropResult) {
-            // console.table('currGroup:', currGroup.tasks);
-            // console.log(dropResult);
-            const groupIdx = this.boardToSave.groups.findIndex(group => group.id === currGroup.id)
-            const { removedIndex, addedIndex, payload } = dropResult
-            if (removedIndex === null && addedIndex === null) {
-                return
-            }
+        async onTaskDrop(ev) {
+            console.log(ev)
+            this.$emit('saveTaskDrop', { ev, groupId: this.group.id })
+            // const { removedIndex, addedIndex, payload } = dropResult
+            // const groupIdx = this.boardToShow.groups.findIndex(group => group.id === currGroup.id)
+            // const tasks = this.boardToShow.groups[groupIdx].tasks
 
-            const result = JSON.parse(JSON.stringify(currGroup))
-            // console.table(result.tasks)
-            let itemToAdd = payload
+            // if (removedIndex === null && addedIndex === null) return
 
-            if (removedIndex !== null) {
-                itemToAdd = result.tasks.splice(removedIndex, 1)[0]
-            }
-            if (addedIndex !== null) {
-                // console.log('task that was dragged:', itemToAdd);
-                result.tasks.splice(addedIndex, 0, itemToAdd)
-            }
+            // let itemToAdd = payload
 
-            this.boardToSave.groups[groupIdx] = result
-            console.table(this.boardToSave.groups[0].tasks)
-            console.table(this.boardToSave.groups[1].tasks)
-            // console.table(this.boardToSave.groups[groupIdx].tasks)
-            await this.$store.dispatch({
-                type: 'saveBoard', board: this.boardToSave
-            })
+            // if (removedIndex !== null) itemToAdd = tasks.splice(removedIndex, 1)[0]
+
+            // if (addedIndex !== null) tasks.splice(addedIndex, 0, itemToAdd)
+
+            // await this.$store.dispatch({
+            //     type: 'saveBoard', board: this.boardToShow
+            // })
         },
         openTaskForm() {
             this.isAddTask = true
             this.$nextTick(() => {
-                this.focusOnTitle();
-            });
+                this.focusOnTitle()
+            })
 
         },
         focusOnTitle() {
@@ -173,7 +163,7 @@ export default {
     unmounted() {
 
     },
-};
+}
 </script>
 <style>
 .drag-preview {
