@@ -10,7 +10,8 @@ export const utilService = {
     loadFromStorage,
     timeAgo,
     dueDateFormat,
-    setActivity
+    setActivity,
+    dueDateShortFormat
 }
 
 function makeId(length = 6) {
@@ -30,6 +31,12 @@ function dueDateFormat(dueDate) {
     strDate += `${new Date(dueDate).toLocaleString('en-US', { month: 'short' })}`
     strDate += ' at '
     strDate += `${new Date(dueDate).toLocaleTimeString('en-US', { hour: "2-digit", minute: "2-digit" })}`
+    return strDate
+  }
+function dueDateShortFormat(dueDate) {
+    let strDate = ''
+    strDate += `${new Date(dueDate).toLocaleString('en-US', { day: 'numeric' })} `
+    strDate += `${new Date(dueDate).toLocaleString('en-US', { month: 'short' })}`
     return strDate
   }
 

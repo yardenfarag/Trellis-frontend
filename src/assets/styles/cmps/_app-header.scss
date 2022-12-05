@@ -29,7 +29,7 @@
         width: 100%;
 
         .logo {
-            margin-inline: 20px;
+            margin-inline: 6px;
             gap: 3px;
             text-decoration: none;
 
@@ -67,10 +67,15 @@
                 .starred {
                     background-color: transparent;
 
+
                     &:hover {
                         background-color: $color-bg-opacity;
                         transition: 0.15s;
                     }
+                }
+
+                .recent {
+                    margin-right: -4px;
                 }
 
                 & button {
@@ -81,7 +86,7 @@
 
             .end-section {
                 gap: 4px;
-                margin-inline-end: 20px;
+                // margin-inline-end: 8px;
 
                 & button {
                     height: 33px;

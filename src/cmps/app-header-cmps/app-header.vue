@@ -12,14 +12,16 @@
       <div class="header-actions flex align-center space-between">
 
         <div class="start-section flex align-center">
-          <button class="recent"><span>Recent</span>
-            <span class="material-symbols-outlined">
-              keyboard_arrow_down
-            </span></button>
+          <div class="btn-dropdown">
+            <button class="recent"><span>Recent</span>
+              <span class="material-symbols-outlined">
+                keyboard_arrow_down
+              </span></button>
+            <button class="starred"><span>Starred</span><span class="material-symbols-outlined">
+                keyboard_arrow_down
+              </span> </button>
+          </div>
 
-          <button class="starred"><span>Starred</span><span class="material-symbols-outlined">
-              keyboard_arrow_down
-            </span> </button>
           <button class="opacity-input" @click="isCreateBoard = !isCreateBoard">Create</button>
         </div>
 

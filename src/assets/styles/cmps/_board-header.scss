@@ -15,27 +15,39 @@
 
     & * {
         height: 33px;
-        padding-block: 8px;
     }
 
     & .start-section h3 {
         margin: auto;
     }
 
+
+
     .board-header-actions {
         width: 100%;
 
         .start-section {
-            margin-inline-start: 30px;
-            gap: 16px;
+            margin-inline-start: 20px;
+            gap: 10px;
 
-            h3 {
+            .btn-divider {
+                height: 100%;
+                font-size: 20px;
+                line-height: 27px;
+                font-weight: 300;
+                opacity: 0.2;
+                margin-inline: -4px
+            }
+
+            .title {
+                background-color: transparent;
                 margin-block: 0;
                 line-height: 16px;
                 padding-inline: 12px;
                 font-size: 18px;
                 font-weight: 700;
                 border-radius: 3px;
+                margin: auto;
 
                 &:hover {
                     background-color: $color-bg-opacity;
@@ -113,16 +125,36 @@
 
         .end-section {
             gap: 8px;
-            margin-inline-end: 20px;
+            margin-inline-end: 12px;
+
+            .btn-divider {
+                height: 100%;
+                font-size: 20px;
+                line-height: 27px;
+                font-weight: 300;
+                opacity: 0.2;
+                margin-inline: 2px;
+            }
+
+            .members {
+                display: flex;
+                gap: 2px;
+                padding-top: 3px;
+
+                .member img {
+                    border-radius: 50%;
+                    width: 28px;
+                    height: 28px;
+                }
+            }
+
+
 
             button {
                 border: none;
-                margin-inline-end: -5px;
+                // margin-inline-end: -5px;
 
-                &.member {
-                    border-radius: 50%;
-                    align-self: center;
-                }
+
 
                 &.share-btn {
                     position: relative;
@@ -159,7 +191,7 @@
 
             & .filter-btn span {
                 padding-right: 7px;
-                margin-top: 2px;
+                margin-top: 17px;
             }
 
         }

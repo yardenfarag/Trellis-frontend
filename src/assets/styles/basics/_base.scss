@@ -8,11 +8,6 @@
 
 html {
     -webkit-text-size-adjust: 100%;
-
-    &.board-page {
-        overflow-y: hidden;
-        
-    }
 }
 
 .router-link {
@@ -32,6 +27,13 @@ textarea {
     color: $color-primary-icon-hover;
     margin: 0;
     border: none;
+}
+
+#app {
+    &.board-page {
+        overflow-y: hidden;
+
+    }
 }
 
 textarea {
