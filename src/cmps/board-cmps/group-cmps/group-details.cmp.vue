@@ -3,14 +3,16 @@
         <section class="group-details">
             <div class="group-header">
                 <h5 class="group-title" contenteditable="true" @blur="updateGroup($event)">{{ group.title }}</h5>
-                <span v-if="txt" class="card-count">{{ groupTasksCount }} cards</span>
+                <!-- <span class="card-count">{{ groupTasksCount }} cards</span> -->
                 <span @click="removeGroup" style="font-size:16px;" class="btn-group-actions material-symbols-outlined">
                     more_horiz
                 </span>
             </div>
             <!-- <button class="btn-group-actions">...</button> -->
-            <!-- <ul class="clean-list task-list"> -->
-            <Container class="clean-list task-list">
+            <Container :drop-placeholder="{ class: 'placeholder' }" :get-child-payload="getChildPayload"
+                @drag-start="onDragStart(group, $event)" @drop="onTaskDrop(group, $event)" group-name="task"
+                class="clean-list task-list" drag-class="drag-preview">
+                <!-- <ul class="clean-list task-list"> -->
                 <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task">
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                     <!-- </li> -->
@@ -29,8 +31,8 @@
                         </span>
                     </div>
                 </form>
+                <!-- </ul> -->
             </Container>
-            <!-- </ul> -->
             <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                     class="material-symbols-outlined">
                     add
@@ -68,6 +70,11 @@ export default {
                 labels: [],
                 position: null,
                 isFilter: false,
+                draggingTask: {
+                    group: '',
+                    index: -1,
+                    taskData: {},
+                }
 
             }
         }
@@ -76,6 +83,43 @@ export default {
 
     },
     methods: {
+        getChildPayload(index) {
+            return {
+                index,
+            }
+        },
+        onDragStart(group, ev) {
+            const { payload, isSource } = ev
+            if (isSource) {
+                this.draggingTask = {
+                    group,
+                    index: payload.index,
+                    taskData: group.tasks[payload.index],
+
+                }
+            }
+            console.log('task dragged:', this.draggingTask);
+        },
+        async onTaskDrop(currGroup, ev) {
+            let boardToSave = JSON.parse(JSON.stringify(this.board))
+            const { removedIndex, addedIndex } = ev
+            if (currGroup === this.draggingTask?.group && removedIndex === addedIndex) {
+                return
+            }
+            if (removedIndex !== null) {
+                console.log('deleting that task....');
+                currGroup.tasks.splice(removedIndex, 1)
+                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: currGroup })
+            }
+            if (addedIndex !== null) {
+                console.log('task that was dragged:', this.draggingTask?.taskData);
+                currGroup.tasks.splice(addedIndex, 0, this.draggingTask.taskData)
+                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: currGroup })
+            }
+            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
+
+
+        },
         openTaskForm() {
             this.isAddTask = true
             this.$nextTick(() => {
@@ -141,9 +185,19 @@ export default {
 };
 </script>
 <style>
-.on-drag {
-    background-color: blue;
-    color: blueviolet;
-    z-index: 100;
+.drag-preview {
+    /* transform: rotate(4deg); */
+    /* transform: rotateZ(5deg);
+    transition: transform 0.18s ease; */
+}
+
+.placeholder {
+    background: rgba(33, 33, 33, .08);
+    width: 256px;
+    height: 32px;
+    position: relative;
+    border-radius: 0.04rem;
+    /* transform: scaleY(0.85);
+    transform-origin: 0% 0%; */
 }
 </style>

@@ -152,6 +152,21 @@
     }
 
     .task-list>*:not(.add-task-form){
+        // background-color: white;
+        // box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+        // padding-inline: 8px;
+        // margin-block-end: 8px;
+        // padding-block: 6px;
+        // border-radius: 3px;
+        // cursor: pointer;
+
+        // &:hover {
+        //     background-color: darken(white, 3%);
+        // }
+    }
+
+    .task-preview {
+        position: relative;
         background-color: white;
         box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
         padding-inline: 8px;
@@ -163,10 +178,6 @@
         &:hover {
             background-color: darken(white, 3%);
         }
-    }
-
-    .task-preview {
-        position: relative;
 
         .label-list {
             .label-preview {
@@ -236,7 +247,6 @@
             }
         }
     }
-
     // .add-task-form {
     //     padding: 0px 0px 8px;
 
