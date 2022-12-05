@@ -138,10 +138,10 @@ export default {
         },
         async addGroup() {
             if (!this.groupToSave.title) return
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            // const boardToSave = JSON.parse(JSON.stringify(this.board))
             const newActivity = utilService.setActivity(`added ${this.groupToSave.title} to this board`, null)
-            boardToSave.activities.unshift(newActivity)
-            await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: this.groupToSave })
+            this.boardToShow.activities.unshift(newActivity)
+            await this.$store.dispatch({ type: 'saveGroup', board: this.boardToShow, groupToEdit: this.groupToSave })
             this.groupToSave = {
                 title: '',
                 style: {},
