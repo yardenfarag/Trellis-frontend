@@ -2,6 +2,10 @@
 //     height: 100vh;
 // }
 
+.smooth-dnd-container.horizontal {
+    display: flex !important;
+}
+
 .group-wrapper {
     display: inline-block;
     height: 100vh;
@@ -168,7 +172,8 @@
         }
     }
 
-    .task-list>*:not(.add-task-form) {
+    .task-preview {
+        position: relative;
         background-color: white;
         box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
         padding-inline: 8px;
@@ -180,10 +185,6 @@
         &:hover {
             background-color: darken(white, 3%);
         }
-    }
-
-    .task-preview {
-        position: relative;
 
         .label-list {
             .label-preview {
@@ -253,61 +254,65 @@
             }
         }
     }
+}
 
-    // .add-task-form {
-    //     padding: 0px 0px 8px;
+.prev-icons {
+    .icon {
+        display: inline;
+    }
 
-    //     .add-task-form-controler {
-    //         position: relative;
-    //         height: 32px;
+    & ul li {
+        display: inline;
 
-    //         .close-add-task {
-    //             position: absolute;
-    //             top: -3px;
-    //             left: 80px;
-    //             // border-radius: 3px;
-    //             padding: 4px;
-    //             color: rgb(136, 136, 136);
+        & img {
+            width: 28px;
+            height: 28px;
+            border-radius: 100%;
+        }
+    }
+}
 
-    //             &:hover {
-    //                 color: darken(rgb(136, 136, 136), 40%);
-    //                 background-color: transparent;
-    //             }
-    //         }
+.prev-attach {
 
-    //         span:nth-child(3) {
-    //             position: absolute;
-    //             // bottom: 2px;
-    //             right: -1px;
-    //             border-radius: 3px;
-    //             padding: 4px;
-    //             color: rgb(135, 135, 135);
+    &::before {
+        font-family: trello;
+        content: '\E908';
+        font-size: 20px;
+    }
+}
 
-    //             &:hover {
-    //                 color: darken(rgb(135, 135, 135), 20%);
-    //             }
-    //         }
-    //     }
+.prev-desc {
 
-    //     span:hover {
-    //         cursor: pointer;
-    //         background-color: $color-hover-1;
+    &::before {
+        font-family: trello;
+        content: '\E922';
+        font-size: 20px;
+    }
+}
 
-    //     }
+.prev-checklists {
 
-    //     textarea {
-    //         width: 100%;
-    //         height: 69px;
-    //         padding-left: 9px;
-    //         padding-top: 6px;
-    //         border-radius: 3px;
-    //         margin-block-end: 8px;
-    //         resize: none;
+    &::before {
+        font-family: trello;
+        content: '\E91A';
+        font-size: 20px;
+    }
+}
 
-    //         &:focus {
-    //             outline: none;
-    //         }
-    //     }
-    // }
+.prev-date {
 
+    &::before {
+        font-family: trello;
+        content: '\E91B';
+        font-size: 20px;
+    }
+}
+
+.prev-comments {
+
+    &::before {
+        font-family: trello;
+        content: '\E91E';
+        font-size: 20px;
+    }
 }

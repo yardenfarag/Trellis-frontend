@@ -1,0 +1,74 @@
+.home-hero {
+    height: calc(100vh - 44px);
+    background: url(//images.ctfassets.net/rz1oowkt5gyp/6kBmKYevSE6afQVs3k7f85/4f95550…/hero-1-left.svg) 0px 124px / auto no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/6QeCRDk331YxhjdhUY5ZfR/0f0c9cc…/wave--big-swing-hero.svg) left bottom -0.5px / 100% 29% no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/2iTmnZoDWa5z5r1XQd1FCw/385920f…/hero-1-right-top-padding.svg) right top / auto no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/5NNPHxU4uE3URY8gHqBqsH/aac2280…/white_moire.png) center center / 90% no-repeat scroll padding-box border-box, linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180)) 0% 0% / auto repeat scroll padding-box border-box rgb(82, 67, 170);
+    background-blend-mode: normal, normal, normal, normal, normal;
+    color: rgb(255, 255, 255);
+
+    & h1 {
+        font-size: 48px;
+        line-height: 1.25;
+        font-family: charlie-semibold;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 80px;
+        height: 180px;
+        width: 608px;
+        text-align: center;
+    }
+
+    & h3 {
+        text-align: center;
+        width: 608px;
+        font-family: charlie-text-regular;
+        font-size: 20px;
+    }
+
+    & button {
+        margin-top: 30px;
+        text-decoration: none;
+        color: white;
+        background-color: rgb(42 99 246);
+    }
+
+}
+
+.home-header {
+    width: 100%;
+    height: 60px;
+}
+
+.logo {
+    margin-inline: 20px;
+    gap: 3px;
+    text-decoration: none;
+
+    .main-logo {
+        text-decoration: none;
+        color: black;
+        padding: 0;
+        font-family: charlie-bold;
+        letter-spacing: 0.08rem;
+    }
+
+    &::before {
+        margin-block-start: 3px;
+        font-family: trello;
+        content: '\E90B';
+        font-size: 19px;
+        color: rgb(0, 82, 204);
+        text-align: center;
+
+    }
+}
+
+.header-nav {
+
+    justify-items: center;
+    align-items: center;
+    gap: 10px;
+
+    a {
+        text-decoration: none;
+    }
+
+}

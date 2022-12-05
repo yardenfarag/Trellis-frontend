@@ -1,4 +1,4 @@
-.board-menu {
+.board-menu-layout {
     position: fixed;
     right: 0;
     top: 43px;
@@ -6,7 +6,18 @@
     width: 339px;
     background-color: white;
 
-    // padding-inline: 12px;
+    .board-menu-content-frame {
+        padding: 12px 6px 8px 12px;
+        width: 100%;
+    }
+
+    // .board-menu-divider {
+    //     height: 1px;
+    //     margin: 15px 0 20px;
+    //     color: var(--t-gray);
+    //     box-sizing: initial;
+    //     border-bottom: 1px solid var(--t-gray);
+    // }
 
     .menu-header {
 
@@ -56,46 +67,41 @@
         }
     }
 
-    .board-menu-content {
-        padding: 12px 6px 8px 12px;
-        width: 100%;
 
-        .board-menu-navigation {
-            margin: 4px 0;
-            list-style: none;
-            border-bottom: 1px solid var(--t-gray);
 
-            .board-menu-navigation-item {
-                cursor: pointer;
+    .board-menu-navigation {
+        margin: 4px 0;
+        list-style: none;
+        border-bottom: 1px solid var(--t-gray);
 
-                .board-menu-navigation-item-link {
-                    padding-top: 6px;
-                    padding-right: 6px;
-                    padding-bottom: 6px;
-                    // padding-left: 40px;
-                    position: relative;
-                    border-radius: 3px;
-                    display: block;
-                    font-weight: 600;
-                    line-height: 20px;
-                    text-decoration: none;
-                }
+        .board-menu-navigation-item {
+            cursor: pointer;
+
+            .board-menu-navigation-item-link {
+                padding-top: 6px;
+                padding-right: 6px;
+                padding-bottom: 6px;
+                // padding-left: 40px;
+                position: relative;
+                border-radius: 3px;
+                display: block;
+                font-weight: 600;
+                line-height: 20px;
+                text-decoration: none;
             }
         }
     }
 
+
     .bg-container {
 
-        .options {
-            min-height: 152px;
+        .board-backgrounds-section-tiles {
+            // min-height: 152px;
             display: flex;
             flex-direction: row;
             gap: 8px;
             justify-content: center;
-            align-items: center;
             border-bottom: 1px solid var(--t-gray);
-            padding-left: 7px;
-            padding-bottom: 6px;
 
             img {
                 border-radius: 7px;
@@ -106,7 +112,10 @@
                     opacity: 0.7;
                     cursor: pointer;
                 }
+
+
             }
         }
     }
+
 }

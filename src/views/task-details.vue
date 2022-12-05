@@ -4,8 +4,8 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div class="task-cover">
-        <button class="btn-cover opacity-input">Cover</button>
+      <div :style="{background: task.style?.bg }" v-if="(task.style?.bg)" class="task-cover">
+        <button  @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
         <div class="task-title">
@@ -84,7 +84,7 @@
             <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button class="task-detail-btn cover"><span>Cover</span> </button>
+            <button v-if="(!task.style?.bg)" @click="toggleCoverModal()" class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
         <div class="action-container">
@@ -108,6 +108,7 @@
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
     @saveTask="updateTask"></taskAttachmentModal>
   <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
+  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="updateTask" @toggleCoverModal="toggleCoverModal"/>
 </template>
 
 <script>
@@ -125,6 +126,7 @@ import taskLabelsModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task
 import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
+import taskCoverModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
 
 export default {
   name: 'task-details',
@@ -139,6 +141,7 @@ export default {
     taskDatesModal,
     taskMembersModal,
     taskAttachmentModal,
+    taskCoverModal,
   },
   data() {
     return {
@@ -150,6 +153,7 @@ export default {
       isDateModal: false,
       isMembersModal: false,
       isAttachmentModal: false,
+      isCoverModal: false,
     }
   },
 
@@ -187,6 +191,7 @@ export default {
       this.isChecklistModal = false
       this.isDateModal = false
       this.isAttachmentModal = false
+      this.taskCoverModal = false
       this.isMembersModal = !this.isMembersModal
     },
     toggleLabelsModal() {
@@ -194,6 +199,7 @@ export default {
       this.isChecklistModal = false
       this.isDateModal = false
       this.isAttachmentModal = false
+      this.taskCoverModal = false
       this.isLabelsModalOpen = !this.isLabelsModalOpen
     },
     toggleChecklistModal() {
@@ -201,6 +207,7 @@ export default {
       this.isLabelsModalOpen = false
       this.isDateModal = false
       this.isAttachmentModal = false
+      this.taskCoverModal = false
       this.isChecklistModal = !this.isChecklistModal
     },
     toggleDateModal() {
@@ -208,6 +215,7 @@ export default {
       this.isLabelsModalOpen = false
       this.isChecklistModal = false
       this.isAttachmentModal = false
+      this.taskCoverModal = false
       this.isDateModal = !this.isDateModal
     },
     toggleAttachmentModal() {
@@ -215,7 +223,16 @@ export default {
       this.isLabelsModalOpen = false
       this.isChecklistModal = false
       this.isDateModal = false
+      this.taskCoverModal = false
       this.isAttachmentModal = !this.isAttachmentModal
+    },
+    toggleCoverModal() {
+      this.isMembersModal = false
+      this.isLabelsModalOpen = false
+      this.isChecklistModal = false
+      this.isDateModal = false
+      this.isAttachmentModal = false
+      this.isCoverModal = !this.isCoverModal
     },
 
     async removeTask() {

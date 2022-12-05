@@ -2,14 +2,15 @@
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
         <!-- <img id="i" src="../assets/icon.png" alt=""> -->
         <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board"></board-header>
-        <ul class="clean-list flex group-list">
-            <!-- <Container class="clean-list flex group-list"> -->
-            <li class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
+        <!-- <ul class="clean-list flex group-list"> -->
+        <Container @drop="onGroupDrop($event)" group-name="trello-group" drop-class="drop-preview"
+            drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
+            <!-- <li class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
-            </li>
-            <!-- <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id"> -->
-            <!-- <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" /> -->
-            <!-- </Draggable> -->
+            </li> -->
+            <Draggable class="group-item" v-if="board" v-for="group in board.groups">
+                <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
+            </Draggable>
             <li>
                 <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
                     <div class="cont">
@@ -30,8 +31,8 @@
                     </div>
                 </section>
             </li>
-            <!-- </Container> -->
-        </ul>
+        </Container>
+        <!-- </ul> -->
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
@@ -42,8 +43,6 @@
 </template>
 
 <script>
-// import { DndProvider } from 'vue3-dnd'
-// import { useDrag, useDrop, useDragLayer } from 'vue3-dnd'
 import { utilService } from '../services/util.service.js'
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue';
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
@@ -83,6 +82,16 @@ export default {
         // this.boardToShow = this.board
     },
     methods: {
+        async onGroupDrop(ev) {
+            const dragIdx = ev.removedIndex
+            const dropIdx = ev.addedIndex
+            const dragGroup = this.board.groups[ev.removedIndex]
+            const dropGroup = this.board.groups[ev.addedIndex]
+            await this.board.groups.splice(dragIdx, 1)
+            await this.board.groups.splice(dropIdx, 0, dragGroup)
+            // this.board.groups[dropIdx] = this.board.groups.splice(dragIdx, 1, dropGroup)[0]
+            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+        },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
         },
@@ -160,4 +169,14 @@ export default {
     },
 }
 </script>
+<style>
+.drag-preview {
+    transition: transform 0.18s ease;
+    transform: rotateZ(5deg)
+}
 
+.drop-preview {
+    transition: transform 0.18s ease-in-out;
+    transform: rotateZ(0deg)
+}
+</style>

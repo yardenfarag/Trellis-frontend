@@ -130,7 +130,7 @@ export const boardStore = {
             }
         },
         async saveGroup(context, { board, groupToEdit }) {
-            console.log(groupToEdit);
+            console.log('group that got to the store',groupToEdit);
             try {
                 if (groupToEdit.id) {
                     const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
