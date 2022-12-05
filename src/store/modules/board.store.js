@@ -36,6 +36,7 @@ export const boardStore = {
         },
         setCurrBoard(state, { board }) {
             state.currBoard = board
+            console.log('board set')
         },
         addBoard(state, { board }) {
             state.boards.push(board)
@@ -141,6 +142,7 @@ export const boardStore = {
                     board.groups.push(groupToEdit)
                 }
                 await boardService.save(board)
+                console.log(board)
                 context.commit({ type: 'setCurrBoard', board })
             }
             catch (err) {
@@ -151,6 +153,7 @@ export const boardStore = {
         async saveBoard(context, { board }) {
             try {
                 const savedBoard = await boardService.save(board)
+                console.table(savedBoard.groups[0].tasks)
                 context.commit({ type: 'setCurrBoard', board: savedBoard })
             }
             catch (err) {

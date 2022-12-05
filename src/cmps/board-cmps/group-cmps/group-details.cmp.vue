@@ -7,9 +7,8 @@
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
             <!-- <button class="btn-group-actions">...</button> -->
-            <Container :tag="{ value: 'div', props: { class: 'clean-list task-list' } }"
-                :drop-placeholder="{ class: 'placeholder' }" :get-child-payload="getChildPayload"
-                @drag-start="onDragStart(group, $event)" @drop="onTaskDrop(group, $event)" group-name="task"
+            <Container :drop-placeholder="{ class: 'placeholder' }" :get-child-payload="getChildPayload"
+                @drop="onTaskDrop(group, $event)" group-name="task" class="clean-list task-list"
                 drag-class="drag-preview">
                 <!-- <ul class="clean-list task-list"> -->
                 <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task">
@@ -42,9 +41,6 @@
 <script>
 import { utilService } from '../../../services/util.service';
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
-// import { DndProvider } from 'vue3-dnd'
-// import { HTML5Backend } from 'react-dnd-html5-backend'
-// import draggable from 'vuedraggable'
 import { Container, Draggable } from "vue3-smooth-dnd";
 export default {
     props: {
@@ -62,6 +58,7 @@ export default {
     data() {
         return {
             isAddTask: false,
+            boardToSave: null,
             taskToEdit: {
                 title: '',
                 members: [],
@@ -69,55 +66,45 @@ export default {
                 labels: [],
                 position: null,
                 isFilter: false,
-                draggingTask: {
-                    group: '',
-                    index: -1,
-                    taskData: {},
-                }
-
             }
         }
     },
     created() {
-
+        console.log('created');
+        this.boardToSave = JSON.parse(JSON.stringify(this.board))
     },
     methods: {
         getChildPayload(index) {
-            return {
-                index,
-            }
+            return this.group.tasks[index]
         },
-        onDragStart(group, ev) {
-            const { payload, isSource } = ev
-            if (isSource) {
-                this.draggingTask = {
-                    group,
-                    index: payload.index,
-                    taskData: group.tasks[payload.index],
-
-                }
-            }
-            console.log('task dragged:', this.draggingTask);
-        },
-        async onTaskDrop(currGroup, ev) {
-            let boardToSave = JSON.parse(JSON.stringify(this.board))
-            const { removedIndex, addedIndex } = ev
-            if (currGroup === this.draggingTask?.group && removedIndex === addedIndex) {
+        async onTaskDrop(currGroup, dropResult) {
+            // console.table('currGroup:', currGroup.tasks);
+            // console.log(dropResult);
+            const groupIdx = this.boardToSave.groups.findIndex(group => group.id === currGroup.id)
+            const { removedIndex, addedIndex, payload } = dropResult
+            if (removedIndex === null && addedIndex === null) {
                 return
             }
+
+            const result = JSON.parse(JSON.stringify(currGroup))
+            // console.table(result.tasks)
+            let itemToAdd = payload
+
             if (removedIndex !== null) {
-                console.log('deleting that task....');
-                currGroup.tasks.splice(removedIndex, 1)
-                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: currGroup })
+                itemToAdd = result.tasks.splice(removedIndex, 1)[0]
             }
             if (addedIndex !== null) {
-                console.log('task that was dragged:', this.draggingTask?.taskData);
-                currGroup.tasks.splice(addedIndex, 0, this.draggingTask.taskData)
-                await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: currGroup })
+                // console.log('task that was dragged:', itemToAdd);
+                result.tasks.splice(addedIndex, 0, itemToAdd)
             }
-            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
 
-
+            this.boardToSave.groups[groupIdx] = result
+            console.table(this.boardToSave.groups[0].tasks)
+            console.table(this.boardToSave.groups[1].tasks)
+            // console.table(this.boardToSave.groups[groupIdx].tasks)
+            await this.$store.dispatch({
+                type: 'saveBoard', board: this.boardToSave
+            })
         },
         openTaskForm() {
             this.isAddTask = true

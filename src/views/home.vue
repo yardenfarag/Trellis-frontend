@@ -21,31 +21,40 @@
       </router-link>
     </section>
 
-    <section class="trello-101">
-      <p>TRELLO 101</p>
+    <section class="trello-101 flex column">
+      <h4>TRELLO 101</h4>
       <h2>A productivity powerhouse</h2>
       <p>Simple, flexible, and powerful. All it takes are boards, lists, and cards to get a clear view of who’s doing
         what and what needs to get done. Learn more in our guide for getting started.</p>
-      <div class="101-cards">
+      <div class="cards-101-section flex">
+        <div class="cards-101">
         <div class="card">
+          <div>
           <h3>Boards</h3>
           <p>Trello boards keep tasks organized and work moving forward. In a glance, see everything from “things to do”
             to “aww yeah, we did it!”</p>
+          </div>
+          <div class="side-border"></div>
         </div>
         <div class="card">
+          <div>
           <h3>Lists</h3>
           <p>The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to
             your team’s needs. There’s no wrong way to Trello.</p>
-        </div>
-        <div class="card">
-          <h3>Cards</h3>
-          <p>Cards represent tasks and ideas and hold all the information to get the job done. As you make progress,
-            move
-            cards across lists to show their status.</p>
+          </div>
+            <div class="side-border"></div>
+          </div>
+          <div class="card">
+            <h3>Cards</h3>
+            <p>Cards represent tasks and ideas and hold all the information to get the job done. As you make progress,
+              move
+              cards across lists to show their status.</p>
+              <div class="side-border"></div>
         </div>
       </div>
-      <div class="101-imgs">
-        <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+        <div class="101-imgs">
+          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+        </div>
       </div>
     </section>
 

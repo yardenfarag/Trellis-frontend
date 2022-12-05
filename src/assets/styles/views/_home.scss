@@ -72,3 +72,69 @@
     }
 
 }
+
+.trello-101 {
+    align-items: center;
+
+    h4 {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 0px;
+        font-size: 20px;
+        line-height: 1.25;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-family: charlie-semibold;
+        font-size: 2.25rem;
+        line-height: 1.33333;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 0px;
+    }
+
+    >p {
+        width: 607px;
+        text-align: center;
+        font-size: 20px;
+        font-family: charlie-regular;
+        font-weight: 400;
+        line-height: 1.5;
+        text-size-adjust: 100%;
+        margin-bottom: 0;
+    }
+
+    .cards-101-section {
+        margin-top: 50px;
+    }
+
+    .card {
+        width: 288px;
+        height: 181px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(9, 30, 66);
+        box-shadow: rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px;
+        border-radius: 0.3rem;
+        border: 0px;
+        padding: 1rem 1rem 1rem 1.5rem;
+        position: relative;
+        text-align: left;
+    }
+
+    .side-border {
+        background-color: rgb(0, 199, 229);
+        border-radius: 0.3rem 0px 0px 0.3rem;
+        bottom: 0px;
+        content: "";
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 0.5rem;
+    }
+
+    img {
+        width: 607px;
+        height: 408px;
+    }
+}

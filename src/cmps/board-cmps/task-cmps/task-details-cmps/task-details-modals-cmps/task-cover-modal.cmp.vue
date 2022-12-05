@@ -7,8 +7,14 @@
         <hr>
         <div class="size">
             <h6>Size</h6>
-            <span>1</span>---<span>2</span>
+            <button @click="setAsTop(true)">as Top</button>
+            <button @click="setAsTop(false)">as Background</button>
             <button v-if="task.style?.bg" @click="setAsCover('')">Remove cover</button>
+
+            <div class="text-color-btns">
+                <button @click="setTextColor('white')">White</button>
+                <button @click="setTextColor('black')">Black</button>
+            </div>
         </div>
         <div class="colors">
             <h6>Colors</h6>
@@ -63,7 +69,9 @@ export default {
             uploadTxt: 'Upload a cover image' ,
             images: null, 
             searchTerm: '', 
-        };
+            asTop: true,
+            textColor: false,
+        }
     },
     created() {
         this.searchImages('nature')
@@ -78,7 +86,8 @@ export default {
             if (!taskToSave.style.bg) taskToSave.style.bg = ''
             if (taskToSave.style.bg === color) taskToSave.style.bg = ''
             else taskToSave.style.bg = color
-            console.log(taskToSave.style.bg)
+            taskToSave.style.asTop = this.asTop
+            taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)
         },
         onUploaded(imgUrl, fileName) {
@@ -86,7 +95,9 @@ export default {
             if (!taskToSave.style) taskToSave.style = {}
             if (!taskToSave.style.bg) taskToSave.style.bg = ''
             taskToSave.style.bg = `url(${imgUrl})`
-            
+            taskToSave.style.asTop = this.asTop
+            taskToSave.style.textColor = 'black'
+
             const image = { fileName, createdAt: Date.now(), imgUrl, id: utilService.makeId() }
             if (!taskToSave.attachments) taskToSave.attachments = []
             taskToSave.attachments.push(image)
@@ -97,8 +108,24 @@ export default {
             if (!taskToSave.style) taskToSave.style = {}
             if (!taskToSave.style.bg) taskToSave.style.bg = ''
             taskToSave.style.bg = `url(${imgUrl})`
+            taskToSave.style.asTop = this.asTop
+            taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)
             
+        },
+        setAsTop(bool){
+            if(!bool) this.textColor = true
+            else this.textColor = false
+            this.asTop = bool
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            taskToSave.style.asTop = bool
+            this.$emit('saveTask', taskToSave)
+        },
+        setTextColor(color){
+            if(color === this.task.style.textColor) return
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            taskToSave.style.textColor = color
+            this.$emit('saveTask', taskToSave)
         },
         async searchImages(searchTerm) {
             try {
