@@ -4,10 +4,10 @@
     height: calc(100vh - 44px);
 
     .group-list {
-        height: calc(100% - 49px);
         padding-left: 8px;
         overflow-x: auto;
         overflow-y: hidden;
+        height: calc(100% - 49px);
         width: 100%;
     }
 
