@@ -9,7 +9,8 @@
                 <group-details :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </li> -->
             <Draggable class="group-item" v-if="boardToShow" v-for="group in boardToShow.groups">
-                <group-details :txt="filterBy.txt" :group="group" :boardId="boardToShow._id" />
+                <group-details @updateGroup="updateGroup" :txt="filterBy.txt" :group="group"
+                    :boardId="boardToShow._id" />
             </Draggable>
             <li>
                 <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
@@ -138,16 +139,21 @@ export default {
         },
         async addGroup() {
             if (!this.groupToSave.title) return
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            // const boardToSave = JSON.parse(JSON.stringify(this.board))
             const newActivity = utilService.setActivity(`added ${this.groupToSave.title} to this board`, null)
-            boardToSave.activities.unshift(newActivity)
-            await this.$store.dispatch({ type: 'saveGroup', board: boardToSave, groupToEdit: this.groupToSave })
+            this.boardToShow.activities.unshift(newActivity)
+            await this.$store.dispatch({ type: 'saveGroup', board: this.boardToShow, groupToEdit: this.groupToSave })
             this.groupToSave = {
                 title: '',
                 style: {},
                 tasks: [],
             }
         },
+        async updateGroup(groupToSave) {
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupToSave.id)
+            this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
+        }
     },
     computed: {
         board() {

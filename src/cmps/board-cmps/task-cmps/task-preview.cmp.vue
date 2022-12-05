@@ -93,6 +93,7 @@ export default {
         }
     },
     async created() {
+        // console.log(this.task)
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {

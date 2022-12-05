@@ -70,7 +70,8 @@ export default {
         }
     },
     created() {
-        this.boardToSave = JSON.parse(JSON.stringify(this.board))
+        console.log('created');
+        this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
     },
     methods: {
         getChildPayload(index) {
@@ -118,12 +119,19 @@ export default {
         async addTask() {
             this.focusOnTitle()
             if (!this.taskToEdit.title) return
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
+            // const boardToSave = JSON.parse(JSON.stringify(this.board))
             const newActivity = utilService.setActivity(`added ${this.taskToEdit.title} to ${this.group.title}`, this.taskToEdit)
-            if (!boardToSave.activities) boardToSave.activities = [newActivity]
-            else boardToSave.activities.unshift(newActivity)
-            console.log(boardToSave);
-            await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: this.taskToEdit })
+
+            if (!this.boardToShow.activities) this.boardToShow.activities = [newActivity]
+            else this.boardToShow.activities.unshift(newActivity)
+
+            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === this.group.id)
+            const groupToSave = JSON.parse(JSON.stringify(this.group))
+
+            groupToSave.tasks.push(this.taskToEdit)
+            this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
+            this.$emit('updateGroup', groupToSave)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.boardToShow })
             this.taskToEdit = {
                 title: '',
                 members: [],
