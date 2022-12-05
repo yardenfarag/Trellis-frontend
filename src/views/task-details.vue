@@ -104,8 +104,8 @@
 
   <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task" :gruop="group"
     @updateTask="saveTask" />
-  <taskLabelsModal @removeLabelFromTask="removeLabelFromTask" @saveLabelToTask="saveLabelToTask"
-    @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="boardToShow" :task="task" />
+  <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="boardToShow"
+    :task="task" />
   <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="updateTask" />
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
     @saveTask="saveTask"></taskAttachmentModal>
