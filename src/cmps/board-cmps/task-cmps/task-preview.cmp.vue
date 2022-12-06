@@ -1,33 +1,37 @@
 <template>
-    <section v-if="task" class="task-preview" :style="taskBg" @click.stop="goToDetails">
+    <section v-if="task" class="task-preview" @click.stop="goToDetails">
         <div class="task-bg-color" v-if="task.style?.asTop" :style="taskTopBg"></div>
         <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
             edit
         </span>
-        <div class="task-info">
+        <section v-if="isTaskInfo" class="task-info">
             <div v-if="showLabels" class="labels-container">
                 <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
                 </div>
             </div>
             <h5 class="task-title">{{ task.title }}</h5>
-
-            <section v-if="showLabels" class="badges">
+            <section class="badges">
 
                 <div class="icon-container" v-if="(task.dueDate)">
-                    <small class="prev-date">{{ dueDate }}</small>
+                    <span class="icon date-icon"></span>
+                    <span class="text text-date">{{ dueDate }}</span>
                 </div>
                 <div class="icon-container" title="This card has a description" v-if="(task.description)">
-                    <small class="prev-desc"> </small>
+                    <span class="icon desc-icon"></span>
+                    <span class="text text-desc"> </span>
                 </div>
                 <div class="icon-container" title="Comments" v-if="(task.comments?.length > 0)">
-                    <small class="prev-comments"> {{ task.comments?.length }}</small>
+                    <span class="icon comments-icon"></span>
+                    <span class="text text-comments"> {{ task.comments?.length }}</span>
                 </div>
                 <div class="icon-container" title="Attachments" v-if="(task.attachments?.length > 0)">
-                    <small class="prev-attach"> {{ task.attachments?.length }}</small>
+                    <span class="icon attach-icon"></span>
+                    <span class="text text-attach"> {{ task.attachments?.length }}</span>
                 </div>
                 <div :style="checklistDoneStyle" class="icon-container" title="Checklist items"
                     v-if="(task.checklists?.length > 0)">
-                    <small class="prev-checklists"> {{ checklistSum }}</small>
+                    <span class="icon checklists-icon"></span>
+                    <span class="text text-checklists"> {{ checklistSum }}</span>
                 </div>
             </section>
 
@@ -36,8 +40,15 @@
                     <img :src="taskMember.imgUrl">
                 </li>
             </ul>
-
-        </div>
+        </section>
+        <section v-else>
+            <div :style="{ background: this.task?.style?.bg, color: this.task?.style?.textColor }"
+                class="full-bg-container">
+                <div class="full-bg-title-container">
+                    <h5 class="full-bg-title">{{ task.title }}</h5>
+                </div>
+            </div>
+        </section>
 
     </section>
 
@@ -153,6 +164,17 @@ export default {
         },
     },
     computed: {
+        isTaskInfo() {
+            if (this.task.style.asTop) return true
+            return false
+        },
+        taskTopBg() {
+            if (this.task?.style?.asTop) return { background: this.task?.style?.bg }
+        },
+        taskBg() {
+            if (!this.task?.style?.asTop) return { background: this.task?.style?.bg, color: this.task?.style?.textColor }
+            else return { background: 'white' }
+        },
         checklistSum() {
             let total = 0
             let done = 0
@@ -184,20 +206,10 @@ export default {
             })
             return taskMembers
         },
-        taskTopBg() {
-            if (this.task?.style?.asTop) return { background: this.task?.style?.bg }
-        },
-        taskBg() {
-            if (!this.task?.style?.asTop) return { background: this.task?.style?.bg, color: this.task?.style?.textColor }
-            else return { background: 'white' }
-        },
         board() {
             return JSON.parse(JSON.stringify(this.$store.getters.board))
         },
-        showLabels() {
-            if (!this.task?.style?.asTop) return false
-            else return true
-        },
+
     },
     unmounted() { },
 };

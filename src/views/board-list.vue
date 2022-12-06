@@ -20,7 +20,7 @@ export default {
     },
     async created() {
         await this.$store.dispatch({ type: 'loadBoards' })
-        await this.$store.dispatch({ type: 'clearCurrBoard' })
+        // await this.$store.dispatch({ type: 'clearCurrBoard' })
     },
     methods: {
     },
