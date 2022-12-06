@@ -126,6 +126,8 @@
         .end-section {
             gap: 8px;
             margin-inline-end: 12px;
+            display: flex;
+            align-items: center;
 
             .btn-divider {
                 height: 100%;
@@ -151,11 +153,6 @@
 
 
             button {
-                border: none;
-                // margin-inline-end: -5px;
-
-
-
                 &.share-btn {
                     position: relative;
                     color: black;

@@ -14,7 +14,7 @@
                 <button class="table opacity-input">Table</button>
             </section>
 
-            <section class="end-section flex align-center">
+            <section class="end-section">
                 <button @click="toggleFilter" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
