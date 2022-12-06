@@ -46,10 +46,6 @@ export const boardStore = {
             try {
                 var boards = await boardService.query()
                 commit({ type: 'setBoards', boards })
-                // socketService.off(SOCKET_EVENT_CHANGE_BOARD)
-                // socketService.on(SOCKET_EVENT_CHANGE_BOARD, (board) => {
-                //     commit({ type: 'saveBoard', board })
-                // })
             } catch (err) {
                 console.error('There was a problem loading these boards, please try again later.', err)
                 throw err
@@ -83,6 +79,7 @@ export const boardStore = {
                 var board = await boardService.save(board)
                 commit({ type: 'saveBoard', board })
               }
+              // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, (board))
               //TODO: if await fails, set before board and send user-msg
               return board
             } catch (err) {
