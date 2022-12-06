@@ -56,6 +56,7 @@ export default {
     },
     data() {
         return {
+            boardToEdit: null,
             editTitle: false,
             groupTitle: '',
             titleVis: false,
@@ -80,27 +81,29 @@ export default {
         // socketService.emit('setMemberJoin', this.$store.getters.loggedinUser?._id || '')
 
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-        // this.board = JSON.parse(JSON.stringify(this.$store.getters.board))
+        this.boardToEdit = JSON.parse(JSON.stringify(this.board))
     },
     methods: {
         async onGroupDrop(ev) {
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
-            const dragGroup = this.board.groups[ev.removedIndex]
-            const dropGroup = this.board.groups[ev.addedIndex]
-            await this.board.groups.splice(dragIdx, 1)
-            await this.board.groups.splice(dropIdx, 0, dragGroup)
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            const dragGroup = this.boardToEdit.groups[ev.removedIndex]
+            const dropGroup = this.boardToEdit.groups[ev.addedIndex]
+            await this.boardToEdit.groups.splice(dragIdx, 1)
+            await this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
+            // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            await this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
         },
         async saveTaskDrop({ ev, groupId }) {
-            const board = this.board
-            const group = board.groups.find((group) => group.id === groupId)
+            // const board = this.board
+            const group = this.boardToEdit.groups.find((group) => group.id === groupId)
 
             if (ev.removedIndex !== null) group.tasks.splice(ev.removedIndex, 1)
 
             if (ev.addedIndex !== null) group.tasks.splice(ev.addedIndex, 0, ev.payload)
+            // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
 
-            await this.$store.dispatch({ type: "saveBoard", board })
+            await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
@@ -116,26 +119,26 @@ export default {
             })
         },
         async changeBackgroundImg(imgUrl, avgColor) {
-            this.board.style.bgc = `url(${imgUrl})`
-            this.board.style.headerClr = avgColor
+            this.boardToEdit.style.bgc = `url(${imgUrl})`
+            this.boardToEdit.style.headerClr = avgColor
             // const newActivity = utilService.setActivity(`changed this board cover`, null)
             // if (this.board.activities) {
             //     this.board.activities.unshift(newActivity)
             // } else {
             //     this.board.activities = [newActivity]
             // }
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit })
         },
         async changeBackgroundColor(color) {
-            this.board.style.bgc = color
-            this.board.style.headerClr = color
+            this.boardToEdit.style.bgc = color
+            this.boardToEdit.style.headerClr = color
             // const newActivity = utilService.setActivity(`changed this board cover`, null)
-            // if (this.board.activities) {
+            // if (this.boardToEdit.activities) {
             //     this.board.activities.unshift(newActivity)
             // } else {
             //     this.board.activities = [newActivity]
             // }
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit })
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
@@ -150,11 +153,8 @@ export default {
         },
     },
     computed: {
-        boardFromStore() {
-            return this.$store.getters.board
-        },
         board() {
-            return JSON.parse(JSON.stringify(this.$store.getters.board))
+            return this.$store.getters.board
         }
     },
     mounted() {
@@ -163,14 +163,14 @@ export default {
     unmounted() {
         document.querySelector('#app').classList.remove('board-page')
     },
-    watch: {
-        boardFromStore: {
-            handler() {
-                this.board = this.boardFromStore
-            },
-            deep: true,
-        },
-    },
+    // watch: {
+    //     boardFromStore: {
+    //         handler() {
+    //             this.board = this.boardFromStore
+    //         },
+    //         deep: true,
+    //     },
+    // },
 }
 </script>
 <style>
