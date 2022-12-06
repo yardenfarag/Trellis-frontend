@@ -1,7 +1,7 @@
 .task-attachment-modal {
     .modal-body {
         .uploader {
-            height: 32px;
+            height: 33px;
             display: flex;
             align-items: center;
             border-radius: 3px;
@@ -17,42 +17,32 @@
             border-top: 1px solid var(--t-gray);
             margin-top: 8px;
 
-            .primary-link {
-                margin-top: 10px;
-            }
-
-            .secondery-link {
-                // margin-bottom: 10px;
+            .link-label {
+                display: block;
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 16px;
+                margin-bottom: 4px;
+                margin-top: 12px;
+                color: $color-secondery-text;
             }
 
             .primary-input-modal {
-                margin-block: 0;
-                margin-bottom: 12px;
+                margin-top: 6px;
+                margin-bottom: 14px;
             }
+        }
 
-            .primary-btn-modal.small {
-                background-color: rgba($color-hover-2, 0.4);
-                margin-block: auto;
-                margin-bottom: 10px;
-
-
-                &:hover {
-                    background-color: $color-hover-2;
-                }
-            }
-
-            h6 {
-                margin-block-end: 4px;
-            }
+        .tip {
+            border-top: 1px solid var(--t-gray);
+            margin-bottom: 0px;
+            margin-top: 8px;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 400;
+            color: $color-secondery-text;
+            padding-top: 9px;
         }
     }
 
-
-
-    .modal-footer {
-        border-top: 1px solid var(--t-gray);
-        color: $color-secondery-text;
-        padding-block-start: 8px;
-        padding-block-end: 4px;
-    }
 }

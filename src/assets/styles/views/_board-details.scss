@@ -4,25 +4,19 @@
     height: calc(100vh - 44px);
 
     .group-list {
-        padding-left: 8px;
         overflow-x: auto;
         overflow-y: hidden;
         height: calc(100% - 49px);
         width: 100%;
     }
 
-    .group-list>*:not(.btn-open-add-group) {
-        margin-inline: 4px;
-        min-width: 272px;
-        max-width: 272px;
-        height: fit-content;
-        border-radius: 3px;
-    }
-
-    .btn-open-add-task {
-        width: 100%;
-        background-color: transparent;
-    }
+    // .group-list>*:not(.btn-open-add-group) {
+    //     margin-inline: 4px;
+    //     min-width: 272px;
+    //     max-width: 272px;
+    //     height: fit-content;
+    //     border-radius: 3px;
+    // }
 
 }
 
@@ -35,7 +29,6 @@
     max-height: 40px;
     min-height: 40px;
     font-weight: 400;
-
     cursor: pointer;
 
     .cont {

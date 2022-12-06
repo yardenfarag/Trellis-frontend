@@ -1,15 +1,26 @@
 .task-members-modal {
     .modal-header {
-        margin-block-end: 13px;
+        // margin-block-end: 13px;
     }
 
     .modal-body {
         .primary-input-modal {
-            margin-block-end: 16px;
+            margin-top: 14px;
+            margin-bottom: 12px;
         }
 
-        h6 {
-            margin-bottom: 10px;
+        .primary-btn-modal {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .title-mt16-mb8 {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+            margin-top: 17px;
+            margin-bottom: 8px;
+            color: $color-secondery-text;
         }
 
         .board-members {
@@ -22,6 +33,7 @@
             .board-member {
                 position: relative;
                 display: flex;
+                align-items: center;
                 gap: 7px;
                 border-radius: 3px;
                 padding-left: 4px;

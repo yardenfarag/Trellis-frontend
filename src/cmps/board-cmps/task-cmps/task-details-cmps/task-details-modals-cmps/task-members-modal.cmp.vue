@@ -1,30 +1,30 @@
 <template>
     <section class="modal-container task-members-modal">
         <section class="modal-header">
-            <span @click="closeModal" class="material-symbols-outlined">
+            <span @click="closeModal" class="close material-symbols-outlined">
                 close
             </span>
-            <h5>Members</h5>
+            <h5 class="title-modal-header">Members</h5>
         </section>
-        <section class="modal-body">
-            <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search members">
-            <h6>Board members</h6>
-            <div v-if="boardMembers" class="board-members">
-                <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
-                    class="board-member">
-                    <div class="avatar">
-                        <img :src="boardMember.imgUrl">
+        <div class="modal-body-wrapper">
+            <section class="modal-body">
+                <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search members">
+                <h6 class="title-mt16-mb8">Board members</h6>
+                <div v-if="boardMembers" class="board-members">
+                    <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
+                        class="board-member">
+                        <div class="avatar">
+                            <img :src="boardMember.imgUrl">
+                        </div>
+                        <h6>{{ boardMember.fullname }}</h6>
+                        <span v-if="isTaskMember(boardMember._id)" class="v-icon material-symbols-outlined">
+                            done
+                        </span>
                     </div>
-                    <h6>{{ boardMember.fullname }}</h6>
-                    <span v-if="isTaskMember(boardMember._id)" class="v-icon material-symbols-outlined">
-                        done
-                    </span>
                 </div>
-            </div>
-        </section>
-        <section class="modal-footer">
-            <button class="primary-btn-modal">Show other Workspace members</button>
-        </section>
+                <button class="primary-btn-modal">Show other Workspace members</button>
+            </section>
+        </div>
     </section>
 </template>
 

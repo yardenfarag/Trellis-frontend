@@ -1,34 +1,29 @@
 <template>
     <section class="modal-container task-attachment-modal">
         <section class="modal-header">
-            <span @click="$emit('closeAttachmentModal')" class="material-symbols-outlined">
+            <span @click="$emit('closeAttachmentModal')" class="close material-symbols-outlined">
                 close
             </span>
-            <h5>Attach from...</h5>
+            <h5 class="title-modal-header">Attach from...</h5>
         </section>
-        <section class="modal-body">
-
-            <div class="uploader">
-                <img-uploader :str="computer" @uploaded="onUploaded"></img-uploader>
-            </div>
-
-            <div class="link">
-                <div class="primary-link">
-                    <h6>Attach a link</h6>
-                    <input ref="link" @keyup.enter="saveAttachment" class="primary-input-modal" v-model="url" type="url"
-                        placeholder="Paste any link here...">
+        <div class="modal-body-wrapper">
+            <section class="modal-body">
+                <div class="uploader">
+                    <img-uploader :str="computer" @uploaded="onUploaded"></img-uploader>
                 </div>
-                <div class="secondery-link">
-                    <h6 v-if="url">Link name (optional)</h6>
+
+                <div class="link">
+                    <label for="link" class="link-label">Attach a link</label>
+                    <input name="link" ref="link" @keyup.enter="saveAttachment" class="primary-input-modal"
+                        v-model="url" type="url" placeholder="Paste any link here...">
+                    <h6 class="link-label" v-if="url">Link name (optional)</h6>
                     <input @keyup.enter="saveAttachment" v-if="url" class="primary-input-modal" v-model="fileName"
                         type="text">
+                    <button class="primary-btn-modal small" @click="saveAttachment">Attach</button>
                 </div>
-                <button class="primary-btn-modal small" @click="saveAttachment">Attach</button>
-            </div>
-        </section>
-        <section class="modal-footer">
-            <p class="tip">Tip: You can drag and drop files and links onto cards to upload them.</p>
-        </section>
+                <p class="tip">Tip: You can drag and drop files and links onto cards to upload them.</p>
+            </section>
+        </div>
     </section>
 
 </template>
