@@ -1,5 +1,5 @@
 <template>
-    <section  v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
+    <section v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
             <h5>Labels</h5>
             <span @click="closeModal()" class="material-symbols-outlined">

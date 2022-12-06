@@ -104,9 +104,9 @@
 
   <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task" :gruop="group"
     @updateTask="saveTask" />
-  <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="boardToShow"
+  <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="board"
     :task="task" />
-  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="updateTask" />
+  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="saveTask" />
   <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
     @saveTask="saveTask"></taskAttachmentModal>
   <taskMembersModal @saveTask="saveTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
@@ -129,7 +129,6 @@ import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
 import taskCoverModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
-import { eventBus } from '../services/event-bus.service'
 
 export default {
   name: 'task-details',
@@ -163,16 +162,16 @@ export default {
   },
 
   async created() {
-    this.$store.dispatch({ type: 'loadUsers' })
-    const boardId = this.$route.params.boardId
-    await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-    this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
-
-    const groupId = this.$route.params.groupId
-    this.group = this.boardToShow.groups.find(group => group.id === groupId)
-
+    await this.$store.dispatch({ type: 'loadUsers' })
     const taskId = this.$route.params.taskId
+    const groupId = this.$route.params.groupId
+    this.boardId = this.$route.params.boardId
+
+    await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.boardId })
+
+    this.group = this.board.groups.find(group => group.id === groupId)
     this.task = this.group.tasks.find(task => task.id === taskId)
+
     this.newTitle = this.task.title
     document.querySelector('#app').classList.remove('board-page')
   },
@@ -243,14 +242,13 @@ export default {
     async removeTask() {
       // const newActivity = utilService.setActivity(`archived ${this.task.title}`, this.task)
       // boardToSave.activities.unshift(newActivity)
-      const boardId = this.boardToShow._id
       const groupId = this.group.id
       const taskId = this.task.id
-      eventBus.emit('removeTask', { boardId, groupId, taskId })
+      await this.$store.dispatch({ type: 'removeTask', groupId, taskId })
       this.closeDetails()
     },
     closeDetails() {
-      this.$router.push('/board/' + this.boardToShow._id)
+      this.$router.push('/board/' + this.board._id)
     },
     async updateTaskTitle() {
       if (!this.newTitle) {
@@ -264,25 +262,15 @@ export default {
     },
     async saveTask(taskToEdit) {
       this.task = taskToEdit
-      const boardId = this.boardToShow._id
-      const groupId = this.group.id
-      const taskId = this.task.id
-      const groupIdx = this.boardToShow.groups.findIndex(group => group.id === groupId)
-      const taskIdx = this.boardToShow.groups[groupIdx].tasks.findIndex(task => task.id === taskId)
-      this.boardToShow.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-      eventBus.emit('saveTask', { boardId, groupId, taskToEdit })
+      const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+      const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
+      this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+      await this.$store.dispatch({ type: 'updateTask', groupId: this.group.id, task: taskToEdit })
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.description = desc
       this.saveTask(taskToEdit)
-    },
-    async updateTask(updatedTask, activity) {
-      this.saveTask(updatedTask)
-      // this.task = updatedTask
-      // const boardToSave = JSON.parse(JSON.stringify(this.board))
-      // if (activity) boardToSave.activities.unshift(activity)
-      // await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.group.id, taskToSave: updatedTask })
     },
   },
   computed: {
@@ -296,14 +284,14 @@ export default {
       return utilService.dueDateFormat(this.task.dueDate?.info)
     },
     board() {
-      return this.$store.getters.board
+      return JSON.parse(JSON.stringify(this.$store.getters.board))
     },
     users() {
       return this.$store.getters.users
     },
     taskMembers() {
       let members = this.users?.filter(user => {
-        return this.board?.memberIds?.includes(user._id)
+        return this.boardToShow?.memberIds?.includes(user._id)
       })
       let taskMembers = members?.filter(member => {
         return this.task?.memberIds?.includes(member._id)

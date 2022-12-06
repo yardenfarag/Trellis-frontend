@@ -1,4 +1,4 @@
-import { boardService } from './board.service.local' // change
+import { boardService } from './board.service' // change
 import { utilService } from './util.service.js'
 
 export const groupService = {
