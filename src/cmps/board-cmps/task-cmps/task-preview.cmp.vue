@@ -5,7 +5,7 @@
             edit
         </span>
         <div v-if="showLabels" class="labels-prev-container flex">
-            <div v-for="label in task.labels" :style="{backgroundColor: label.color}" class="prev-label"></div>
+            <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label"></div>
         </div>
         <h5>{{ task.title }}</h5>
 
@@ -53,9 +53,11 @@
                 <button @click.stop="">Archive</button>
             </div>
         </section>
-        <taskLabelsModalCmpVue @updateTask="updateTask" @closeModal="toggleLabelModal" v-if="isLabelsModalOpen" :board="board" :task="task" />
-        <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
-        <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="updateTask" @toggleCoverModal="toggleCoverModal"/>
+        <taskLabelsModalCmpVue @updateTask="updateTask" @closeModal="toggleLabelModal" v-if="isLabelsModalOpen"
+            :board="board" :task="task" />
+        <taskMembersModal @saveTask="updateTask" :task="task" v-if="isMembersModal"
+            @closeMembersModal="toggleMembersModal" />
+        <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="updateTask" @toggleCoverModal="toggleCoverModal" />
 
         <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="updateTask" />
     </section>
@@ -67,7 +69,7 @@ import taskLabelsModalCmpVue from './task-details-cmps/task-details-modals-cmps/
 import taskMembersModal from './task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskCoverModal from './task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
 import taskDatesModal from './task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
-
+import { eventBus } from '../../../services/event-bus.service'
 
 export default {
     props: {
@@ -84,6 +86,7 @@ export default {
     },
     data() {
         return {
+            // board: null,
             isTodosDone: false,
             isQuickEdit: false,
             isLabelsModalOpen: false,
@@ -93,7 +96,6 @@ export default {
         }
     },
     async created() {
-        // console.log(this.task)
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {
@@ -112,19 +114,18 @@ export default {
         toggleLabelModal() {
             this.isLabelsModalOpen = !this.isLabelsModalOpen
         },
-        toggleMembersModal(){
+        toggleMembersModal() {
             this.isMembersModal = !this.isMembersModal
         },
-        toggleCoverModal(){
+        toggleCoverModal() {
             this.isCoverModal = !this.isCoverModal
         },
-        toggleDateModal(){
+        toggleDateModal() {
             this.isDateModal = !this.isDateModal
         },
-        async updateTask(updatedTask, activity) {
-            const boardToSave = JSON.parse(JSON.stringify(this.board))
-            if (activity) boardToSave.activities.unshift(activity)
-            await this.$store.dispatch({ type: 'saveTask', board: boardToSave, groupId: this.groupId, taskToSave: updatedTask })
+        async updateTask(task) {
+            const taskToEdit = JSON.parse(JSON.stringify(task))
+            this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: taskToEdit })
         },
     },
     computed: {
@@ -147,9 +148,6 @@ export default {
             var date = utilService.dueDateShortFormat(this.task.dueDate.info)
             return date
         },
-        board() {
-            return this.$store.getters.board
-        },
         users() {
             return this.$store.getters.users
         },
@@ -164,18 +162,17 @@ export default {
         },
         taskTopBg() {
             if (this.task?.style?.asTop) return { background: this.task?.style?.bg }
-            console.log('here')
         },
         taskBg() {
             if (!this.task?.style?.asTop) return { background: this.task?.style?.bg, color: this.task?.style?.textColor }
             else return { background: 'white' }
         },
         board() {
-            return this.$store.getters.board
+            return JSON.parse(JSON.stringify(this.$store.getters.board))
         },
-        showLabels(){
-         if (!this.task?.style?.asTop) return false
-         else return true   
+        showLabels() {
+            if (!this.task?.style?.asTop || !this.task.style) return false
+            else return true
         },
     },
     unmounted() { },

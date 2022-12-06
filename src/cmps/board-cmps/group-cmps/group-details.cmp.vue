@@ -16,8 +16,8 @@
                     <!-- </li> -->
                 </Draggable>
             </Container>
-            <form v-if="isAddTask" @submit.prevent="addTask()" class="add-task-form">
-                <textarea ref="title" v-model="taskToEdit.title" type="text"
+            <form v-if="isAddTask" @submit.prevent="addTask" class="add-task-form">
+                <textarea ref="title" v-model="taskTitle" type="text"
                     placeholder="Enter a title for this card..."></textarea>
                 <div class="add-task-form-controler">
                     <button class="call-to-action">Add card</button>
@@ -57,46 +57,19 @@ export default {
     },
     data() {
         return {
+            taskTitle: '',
             newTitle: this.group.title,
             isAddTask: false,
-            boardToShow: null,
-            taskToEdit: {
-                title: '',
-                members: [],
-                comments: [],
-                labels: [],
-                position: null,
-                isFilter: false,
-            }
         }
     },
-    async created() {
-        const { boardId } = this.$route.params
-        await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-        this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
-    },
+    async created() { },
     methods: {
         getChildPayload(index) {
             return this.group.tasks[index]
         },
         async onTaskDrop(ev) {
-            console.log(ev)
-            this.$emit('saveTaskDrop', { ev, groupId: this.group.id })
-            // const { removedIndex, addedIndex, payload } = dropResult
-            // const groupIdx = this.boardToShow.groups.findIndex(group => group.id === currGroup.id)
-            // const tasks = this.boardToShow.groups[groupIdx].tasks
-
-            // if (removedIndex === null && addedIndex === null) return
-
-            // let itemToAdd = payload
-
-            // if (removedIndex !== null) itemToAdd = tasks.splice(removedIndex, 1)[0]
-
-            // if (addedIndex !== null) tasks.splice(addedIndex, 0, itemToAdd)
-
-            // await this.$store.dispatch({
-            //     type: 'saveBoard', board: this.boardToShow
-            // })
+            const groupId = JSON.parse(JSON.stringify(this.group.id))
+            this.$emit('saveTaskDrop', { ev, groupId })
         },
         openTaskForm() {
             this.isAddTask = true
@@ -108,26 +81,10 @@ export default {
         focusOnTitle() {
             this.$refs.title.focus()
         },
-        async addTask() {
-            this.focusOnTitle()
-            if (!this.taskToEdit.title) return
-            const newActivity = utilService.setActivity(`added ${this.taskToEdit.title} to ${this.group.title}`, this.taskToEdit)
-            if (!this.boardToShow.activities) this.boardToShow.activities = [newActivity]
-            else this.boardToShow.activities.unshift(newActivity)
-
-            const groupIdx = this.boardToShow.groups.findIndex(group => group.id === this.group.id)
-            const groupToSave = JSON.parse(JSON.stringify(this.group))
-
-            groupToSave.tasks.push(this.taskToEdit)
-            this.boardToShow.groups.splice(groupIdx, 1, groupToSave)
-            this.$emit('updateGroup', groupToSave)
-            await this.$store.dispatch({ type: 'saveTask', boardId: this.boardToShow._id, groupId: this.group.id, taskToSave: this.taskToEdit })
-            this.taskToEdit = {
-                title: '',
-                members: [],
-                labels: [],
-                position: null
-            }
+        addTask() {
+            if (!this.taskTitle) return
+            this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
+            this.taskTitle = ''
         },
         async updateGroup() {
             const groupToEdit = JSON.parse(JSON.stringify(this.group))
@@ -136,22 +93,23 @@ export default {
                 return
             } else {
                 groupToEdit.title = this.newTitle
-                const groupIdx = this.boardToShow.groups.findIndex(group => group.id === this.group.id)
-                this.boardToShow.groups.splice(groupIdx, 1, groupToEdit)
-                await this.$store.dispatch({ type: 'saveGroup', boardId: this.boardToShow._id, groupToEdit: groupToEdit })
+                const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+                this.board.groups.splice(groupIdx, 1, groupToEdit)
+                await this.$store.dispatch({ type: 'saveBoard', board: this.board })
             }
 
 
         },
         async removeGroup() {
-            const newActivity = utilService.setActivity(`removed ${this.group.title} from this board`, null)
-            // this.boardToSave.activities.unshift(newActivity)
-            this.$emit('removeGroup', this.group.id)
-        }
+            this.$store.dispatch({ type: 'removeGroup', groupId: this.group.id })
+        },
+        // removeTask(taskId) {
+        //     this.$store.dispatch({ type: 'removeTask', groupId: this.group.id, taskId })
+        // },
     },
     computed: {
         board() {
-            return this.$store.getters.board
+            return JSON.parse(JSON.stringify(this.$store.getters.board))
         },
         groupTasksCount() {
             const board = this.$store.getters.board

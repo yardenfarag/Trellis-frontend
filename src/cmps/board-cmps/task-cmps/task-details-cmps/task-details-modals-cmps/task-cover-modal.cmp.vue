@@ -37,7 +37,7 @@
                     <input type="search" placeholder="🔍Photos" v-model="searchTerm" @input="searchImages(searchTerm)">
                 </div>
                 <div class="images flex wrap">
-                    <div v-for="image in images" @click="setPexlesAsCover(image.src.large)"
+                    <div v-for="image in images" @click="setPexlesAsCover(image.src.large2x)"
                         :style="{ borderRadius: 3 + 'px', width: 140 + 'px', height: 90 + 'px' }" class="image">
                         <img :style="{ width: 100 + '%', height: 100 + '%', objectFit: 'cover' }" :src="image.src.tiny">
                     </div>
@@ -66,16 +66,16 @@ export default {
         return {
             colors: ['#f4f5f7', '#f5dd29', '#ffaf3f', '#ef7564', '#cd8de5',
                 '#5ba4cf', '#29cce5', '#6deca9', '#ff8ed4', '#172b4d'],
-            uploadTxt: 'Upload a cover image' ,
-            images: null, 
-            searchTerm: '', 
+            uploadTxt: 'Upload a cover image',
+            images: null,
+            searchTerm: '',
             asTop: true,
             textColor: false,
         }
     },
     created() {
         this.searchImages('nature')
-     },
+    },
     methods: {
         toggleCoverModal() {
             this.$emit('toggleCoverModal')
@@ -103,7 +103,7 @@ export default {
             taskToSave.attachments.push(image)
             this.$emit('saveTask', taskToSave)
         },
-        setPexlesAsCover(imgUrl){
+        setPexlesAsCover(imgUrl) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             if (!taskToSave.style) taskToSave.style = {}
             if (!taskToSave.style.bg) taskToSave.style.bg = ''
@@ -111,18 +111,18 @@ export default {
             taskToSave.style.asTop = this.asTop
             taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)
-            
+
         },
-        setAsTop(bool){
-            if(!bool) this.textColor = true
+        setAsTop(bool) {
+            if (!bool) this.textColor = true
             else this.textColor = false
             this.asTop = bool
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style.asTop = bool
             this.$emit('saveTask', taskToSave)
         },
-        setTextColor(color){
-            if(color === this.task.style.textColor) return
+        setTextColor(color) {
+            if (color === this.task.style.textColor) return
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style.textColor = color
             this.$emit('saveTask', taskToSave)

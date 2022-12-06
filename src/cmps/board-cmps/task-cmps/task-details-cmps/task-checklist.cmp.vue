@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { boardService } from '../../../../services/board.service.local';
+import { localService } from '../../../../services/board.service.local';
 import { utilService } from '../../../../services/util.service';
 export default {
   emits: ['closeCheckListModal', 'updateTask'],
@@ -78,7 +78,7 @@ export default {
     },
     addTodo(checklistId) {
       this.addItem = false
-      const todo = boardService.getEmptyTodo()
+      const todo = localService.getEmptyTodo()
       todo.title = this.todoTitle
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === checklistId)

@@ -16,7 +16,7 @@
     </section>
 </template>
 <script>
-import { boardService } from '../../../services/board.service.local';
+import { localService } from '../../../services/board.service.local';
 export default {
     name: 'board-create-modal',
     components: {},
@@ -25,7 +25,7 @@ export default {
             colors: ['#0079bf', '#d29034', '#519839', '#b04632',
                 '#89609e', '#cd5a91', '#4bbf6b', '#00aecc', '#838c91'],
             isDisabled: false,
-            newBoard: boardService.getEmptyBoard(),
+            newBoard: localService.getEmptyBoard(),
             bgc: ''
         };
     },
@@ -40,9 +40,9 @@ export default {
             if (!this.newBoard.title) return
             this.newBoard.style.bgc = this.bgc
             this.newBoard.style.headerClr = this.bgc
-            await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+            const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
             const newBoard = await this.$store.getters.board
-            this.newBoard = boardService.getEmptyBoard()
+            this.newBoard = localService.getEmptyBoard()
             this.$emit('closeModal')
             await this.$router.push('/board/' + newBoard._id)
             location.reload()
