@@ -1,6 +1,6 @@
 <template>
     <section v-if="task" class="task-preview" :style="taskBg" @click.stop="goToDetails">
-        <div class="" v-if="task.style?.asTop" :style="taskTopBg" style="height: 30px"></div>
+        <div class="task-bg-color" v-if="task.style?.asTop" :style="taskTopBg"></div>
         <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
             edit
         </span>
