@@ -171,7 +171,7 @@ export default {
             return JSON.parse(JSON.stringify(this.$store.getters.board))
         },
         showLabels() {
-            if (!this.task?.style?.asTop || !this.task.style) return false
+            if (!this.task?.style?.asTop) return false
             else return true
         },
     },
