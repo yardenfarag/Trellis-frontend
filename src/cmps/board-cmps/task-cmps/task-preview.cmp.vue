@@ -39,18 +39,18 @@
         <div @click.stop="closeModals" class="quick-menu-screen"></div>
         <section class="quick-edit-modal flex">
             <div @click.stop="" class="edit-modal-title flex column">
-                <textarea cols="30" rows="5">{{ task.title }}</textarea>
-                <button class="call-to-action">Save</button>
+                <textarea v-model="newTitle" cols="30" rows="5"></textarea>
+                <button @click="updateTaskTitle" class="call-to-action">Save</button>
             </div>
             <div class="edit-modal-btns flex column">
                 <button @click.stop="goToDetails">Open card</button>
                 <button @click.stop="toggleLabelModal">Edit labels</button>
                 <button @click.stop="toggleMembersModal">Change members</button>
                 <button @click.stop="toggleCoverModal">Change cover</button>
-                <button @click.stop="">Move</button>
-                <button @click.stop="">Copy</button>
+                <!-- <button @click.stop="">Move</button>
+                <button @click.stop="">Copy</button> -->
                 <button @click.stop="toggleDateModal">Edit dates</button>
-                <button @click.stop="">Archive</button>
+                <button @click.stop="removeTask">Archive</button>
             </div>
         </section>
         <taskLabelsModalCmpVue @updateTask="updateTask" @closeModal="toggleLabelModal" v-if="isLabelsModalOpen"
@@ -86,7 +86,7 @@ export default {
     },
     data() {
         return {
-            // board: null,
+            newTitle: '',
             isTodosDone: false,
             isQuickEdit: false,
             isLabelsModalOpen: false,
@@ -96,6 +96,7 @@ export default {
         }
     },
     async created() {
+        this.newTitle = this.task.title
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {
@@ -126,6 +127,23 @@ export default {
         async updateTask(task) {
             const taskToEdit = JSON.parse(JSON.stringify(task))
             this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: taskToEdit })
+        },
+        async removeTask() {
+            const groupId = this.groupId
+            const taskId = this.task.id
+            await this.$store.dispatch({ type: 'removeTask', groupId, taskId })
+            this.closeModals()
+        },
+        async updateTaskTitle() {
+            if (!this.newTitle) {
+                this.newTitle = this.task.title
+                return
+            } else {
+                const taskToEdit = JSON.parse(JSON.stringify(this.task))
+                taskToEdit.title = this.newTitle
+                this.updateTask(taskToEdit)
+                this.closeModals()
+            }
         },
     },
     computed: {

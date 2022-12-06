@@ -92,8 +92,8 @@
         <div class="action-container">
           <h5 class="small-title">Actions</h5>
           <div class="btn-container">
-            <button class="task-detail-btn move"><span>Move</span> </button>
-            <button class="task-detail-btn copy"><span>Copy</span> </button>
+            <!-- <button class="task-detail-btn move"><span>Move</span> </button>
+            <button class="task-detail-btn copy"><span>Copy</span> </button> -->
             <button @click="removeTask" class="task-detail-btn archive"><span>Archive</span></button>
           </div>
         </div>
