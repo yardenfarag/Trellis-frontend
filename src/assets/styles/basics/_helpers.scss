@@ -68,32 +68,32 @@
     margin: 0;
 }
 
+
 .modal-container {
     position: fixed;
-    min-width: 304px;
-    max-width: 304px;
+    width: 304px;
     background-color: $color-bg-1;
     box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
-    top: 25%; // just for dev
+    top: 10%; // just for dev
     left: 25%; // just for dev
     z-index: 300;
     border-radius: 3px;
     font-size: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-    &>*:not(.full) {
-        margin-inline: 12px;
+    .modal-body-wrapper {
+        // overflow-x: hidden;
+        // overflow-y: scroll;
+        // max-height: 846px;
     }
-
-    // .modal-srollbar {
-    //     overflow-y: scroll;
-    //     overflow-x: hidden;
-    // }
 
     .primary-btn-modal {
         background-color: $color-primary-btn-modal;
         width: 280px;
+        max-width: 100%;
         height: 32px;
-        margin-block: 12px;
+        // margin-block: 12px;
 
         &:hover {
             background-color: $color-primary-btn-modal-hover
@@ -109,57 +109,84 @@
         }
     }
 
-    .modal-header {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        border-bottom: 1px solid var(--t-gray);
-        min-height: 40px;
-        margin-bottom: 8px;
 
-        h5 {
-            margin: auto;
+    .modal-header {
+        // position: relative;
+        // display: flex;
+        // justify-content: center;
+        // border-bottom: 1px solid var(--t-gray);
+        // min-height: 40px;
+        // margin-bottom: 8px;
+
+        height: 40px;
+        margin-bottom: 8px;
+        position: relative;
+        text-align: center;
+
+        .title-modal-header {
+            // margin: auto;
             color: $color-secondery-text;
             font-size: 14px;
 
+            border-bottom: 1px solid var(--t-gray);
+            color: $color-secondery-text;
+            line-height: 40px;
+            margin: 0 12px;
+            overflow: hidden;
+            padding: 0 32px;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            z-index: 1;
         }
 
         span {
+            cursor: pointer;
             color: $color-primary-icon;
             position: absolute;
-            bottom: 24%;
-            right: -2px;
-            font-size: 21px;
-            cursor: pointer;
+            z-index: 2;
+            height: 20px;
+            line-height: 20px;
 
-            &:hover {
-                font-weight: 500;
-                color: $color-primary-icon-hover;
+            &.close {
+                padding: 10px 12px 10px 8px;
+                right: 0;
+                top: 1px;
+                font-size: 21px;
+                font-weight: 300;
             }
 
             &.back {
-                color: $color-primary-icon;
-                bottom: 38%;
-                left: 3px;
-                font-size: 13px;
-                width: fit-content;
+                padding: 10px 8px 10px 12px;
+                left: 0;
+                top: 1px;
+                font-size: 15px;
+                font-weight: 300;
+            }
 
-                &:hover {
-                    font-weight: 500;
-                    color: $color-primary-icon-hover;
-                }
+            &:hover {
+                color: $color-primary-text;
             }
         }
+
     }
 
     .modal-body {
+        padding: 0 12px 12px;
+
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // max-height: 846px;
+        &>* {
+            width: 100%;
+        }
 
         .primary-input-modal {
             background-color: lighten($color-primary-btn-modal, 60%);
-            width: 276px;
+            width: 100%;
             display: block;
             margin: auto;
-            margin-top: 10px;
+            // margin-top: 10px;
             height: 32px;
             padding-inline: 8px;
             padding-bottom: 2px;
@@ -176,23 +203,16 @@
                 outline: 2px solid var(--t-blue);
             }
         }
-
-        h6 {
-            margin-block: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            color: $color-secondery-text;
-        }
     }
 
-    .modal-footer {
-        min-height: 48px;
+    // .modal-footer {
+    //     min-height: 48px;
 
-        p {
-            font-size: 14px;
-            margin: 0 0 8px;
-        }
-    }
+    //     p {
+    //         font-size: 14px;
+    //         margin: 0 0 8px;
+    //     }
+    // }
 
 }
 

@@ -1,21 +1,25 @@
 .checklist-modal {
     .modal-body {
-        margin-block-start: 9px;
+        // ???
 
-        h6 {
+
+        .title-title {
             color: $color-secondery-text;
-            margin-block-end: -6px;
+            margin-bottom: 4px;
+            margin-top: 10px;
             font-size: 12px;
             font-weight: 700;
         }
-    }
 
-    .modal-footer {
-        .call-to-action {
-            width: 73px;
-            height: 32px;
-            margin-top: 24px;
+        .primary-input-modal {
+            margin-top: 4px;
             margin-bottom: 12px;
         }
+
+        .call-to-action {
+            width: 73px;
+            margin-top: 10px;
+        }
+
     }
 }

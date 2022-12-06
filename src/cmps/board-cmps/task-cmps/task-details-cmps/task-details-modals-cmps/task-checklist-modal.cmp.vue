@@ -1,21 +1,21 @@
 <template>
     <section class="modal-container checklist-modal">
         <section class="modal-header">
-            <span @click="closeModal()" class="material-symbols-outlined">
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
-            <h5>Add checklist</h5>
+            <h5 class="title-modal-header">Add checklist</h5>
         </section>
-        <section class="modal-body">
-            <div>
-                <h6>Tilte</h6>
-                <input ref="title" @keyup.enter="addCheckList" class="primary-input-modal" v-model="listTitle"
-                    type="text">
-            </div>
-        </section>
-        <section class="modal-footer">
-            <button @click="addCheckList" class="call-to-action">Add</button>
-        </section>
+        <div class="modal-body-wrapper">
+            <section class="modal-body">
+                <div>
+                    <h6 class="title-title">Tilte</h6>
+                    <input ref="title" @keyup.enter="addCheckList" class="primary-input-modal" v-model="listTitle"
+                        type="text">
+                </div>
+                <button @click="addCheckList" class="call-to-action">Add</button>
+            </section>
+        </div>
     </section>
 </template>
 

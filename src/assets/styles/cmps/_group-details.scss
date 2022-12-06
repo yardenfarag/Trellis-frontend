@@ -12,18 +12,63 @@
     vertical-align: top;
     white-space: nowrap;
     width: 272px;
+    margin-right: 4px;
+
+    &:first-child {
+        margin-left: 12px;
+    }
 
     .group-details {
-        // padding: 8px;
-        font-size: 16px;
+        // font-size: 16px;
+        // background-color: var(--t-light-gray);
+        // border-radius: 3px;
+
         background-color: var(--t-light-gray);
         border-radius: 3px;
-        // max-height: calc(100vh - 120px);
-        // overflow-y: auto;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        position: relative;
+        white-space: normal;
+        width: 100% !important;
 
         .group-header {
-            position: relative;
+            // position: relative;
+            // padding: 10px 8px;
+            flex: 0 0 auto;
+            min-height: 20px;
             padding: 10px 8px;
+            padding-right: 8px;
+            position: relative;
+
+            .editing-target {
+                bottom: 0;
+                cursor: pointer;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .group-title {
+                outline: none;
+                display: block;
+                line-height: 20px;
+                width: 100%;
+                background: #0000;
+                border-radius: 3px;
+                box-shadow: none;
+                font-weight: 600;
+                margin: -4px 0;
+                max-height: 256px;
+                min-height: 20px;
+                padding: 4px 8px;
+                resize: none;
+                overflow: hidden;
+                overflow-wrap: break-word;
+                height: 28px;
+            }
 
             .btn-group-actions {
                 position: absolute;
@@ -33,34 +78,6 @@
                 &::before {
                     font-family: trello;
                     content: '\E952';
-                }
-            }
-
-
-            .card-count {
-                position: relative;
-                font-size: 1rem;
-                font-weight: 400;
-                padding-inline-start: 8px;
-                color: $color-secondery-text;
-            }
-
-            & .group-title {
-                width: 240px;
-                max-width: 224px;
-                font-weight: 600;
-                cursor: pointer;
-                border-radius: 1px;
-                margin: -4px 0;
-                margin-left: 2px;
-                max-height: 256px;
-                min-height: 24px;
-                padding: 4px 6px;
-                background-color: transparent;
-
-                &:focus {
-                    outline: 2px solid var(--t-blue);
-                    background-color: white;
                 }
             }
         }
@@ -107,85 +124,104 @@
 
 
     .task-list {
-        padding: 0 4px;
+        // padding: 0 4px;
+        // margin: 0 4px;
+        // // margin-top: 6px;
+        // max-height: calc(100vh - 200px);
+        // overflow-y: auto;
+        // overflow-x: hidden;
+
+        flex: 1 1 auto;
         margin: 0 4px;
-        // margin-top: 6px;
-        max-height: calc(100vh - 200px);
-        overflow-y: auto;
+        min-height: 0;
         overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0 4px;
+        z-index: 1;
 
-        .add-task-form {
-            padding-bottom: 8px;
+        //     .add-task-form {
+        //         padding-bottom: 8px;
 
-            .add-task-form-controler {
-                position: relative;
-                height: 32px;
+        //         .add-task-form-controler {
+        //             position: relative;
+        //             height: 32px;
 
-                .close-add-task {
-                    position: absolute;
-                    top: -3px;
-                    left: 80px;
-                    // border-radius: 3px;
-                    padding: 4px;
-                    color: rgb(136, 136, 136);
+        //             .close-add-task {
+        //                 position: absolute;
+        //                 top: -3px;
+        //                 left: 80px;
+        //                 // border-radius: 3px;
+        //                 padding: 4px;
+        //                 color: rgb(136, 136, 136);
 
-                    &:hover {
-                        color: darken(rgb(136, 136, 136), 40%);
-                        background-color: transparent;
-                    }
-                }
+        //                 &:hover {
+        //                     color: darken(rgb(136, 136, 136), 40%);
+        //                     background-color: transparent;
+        //                 }
+        //             }
 
-                span:nth-child(3) {
-                    position: absolute;
-                    // bottom: 2px;
-                    right: -1px;
-                    border-radius: 3px;
-                    padding: 4px;
-                    color: rgb(135, 135, 135);
+        //             span:nth-child(3) {
+        //                 position: absolute;
+        //                 // bottom: 2px;
+        //                 right: -1px;
+        //                 border-radius: 3px;
+        //                 padding: 4px;
+        //                 color: rgb(135, 135, 135);
 
-                    &:hover {
-                        color: darken(rgb(135, 135, 135), 20%);
-                    }
-                }
-            }
+        //                 &:hover {
+        //                     color: darken(rgb(135, 135, 135), 20%);
+        //                 }
+        //             }
+        //         }
 
-            span:hover {
-                cursor: pointer;
-                background-color: $color-hover-1;
+        //         span:hover {
+        //             cursor: pointer;
+        //             background-color: $color-hover-1;
 
-            }
+        //         }
 
-            textarea {
-                width: 100%;
-                height: 69px;
-                padding-left: 9px;
-                padding-top: 6px;
-                border-radius: 3px;
-                margin-block-end: 8px;
-                resize: none;
-                box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+        //         textarea {
+        //             width: 100%;
+        //             height: 69px;
+        //             padding-left: 9px;
+        //             padding-top: 6px;
+        //             border-radius: 3px;
+        //             margin-block-end: 8px;
+        //             resize: none;
+        //             box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
 
-                &:focus {
-                    outline: none;
-                }
-            }
-        }
-    }
+        //             &:focus {
+        //                 outline: none;
+        //             }
+        //         }
+        //     }
+        // }
 
-    .ghost {
-        opacity: 0.4;
-        margin-inline-end: 8px;
+        // .ghost {
+        //     opacity: 0.4;
+        //     margin-inline-end: 8px;
     }
 
     .task-preview {
-        position: relative;
+        // position: relative;
+        // background-color: white;
+        // box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+        // padding-inline: 8px;
+        // margin-block-end: 8px;
+        // padding-block: 6px;
+        // border-radius: 3px;
+        // cursor: pointer;
+
         background-color: white;
-        box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
-        padding-inline: 8px;
-        margin-block-end: 8px;
-        padding-block: 6px;
         border-radius: 3px;
+        box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
         cursor: pointer;
+        display: block;
+        margin-bottom: 8px;
+        max-width: 300px;
+        min-height: 20px;
+        position: relative;
+        z-index: 0;
 
         &:hover {
             background-color: darken(white, 3%);
@@ -322,7 +358,7 @@
     }
 }
 
-.labels-prev-container{
+.labels-prev-container {
     gap: 5px;
     flex-wrap: wrap;
 }
@@ -338,14 +374,14 @@
     border-radius: 4px;
 }
 
-.quick-menu-screen{
+.quick-menu-screen {
     background-color: rgba(0, 0, 0, 0.478);
     position: fixed;
     inset: 0;
     z-index: 10;
 }
 
-.quick-edit-modal{
+.quick-edit-modal {
     position: fixed;
     z-index: 20;
 }

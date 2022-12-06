@@ -2,18 +2,16 @@
     <section class="group-wrapper">
         <section class="group-details">
             <div class="group-header">
+                <div class="editing-target"></div>
                 <textarea rows="1" class="group-title" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
-            <!-- <button class="btn-group-actions">...</button> -->
             <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
                 @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list task-list"
                 drag-class="drag-preview">
-                <!-- <ul class="clean-list task-list"> -->
                 <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
                     <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
-                    <!-- </li> -->
                 </Draggable>
             </Container>
             <form v-if="isAddTask" @submit.prevent="addTask" class="add-task-form">
@@ -30,7 +28,6 @@
                     </span>
                 </div>
             </form>
-            <!-- </ul> -->
             <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
                     class="material-symbols-outlined">
                     add
