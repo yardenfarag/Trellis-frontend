@@ -32,7 +32,7 @@ export default {
       const taskToSave = JSON.parse(JSON.stringify(this.task))
       const idx = taskToSave.attachments.findIndex(attachment => attachment.id === attachmentToSave.id)
       taskToSave.attachments.splice(idx, 1, attachmentToSave)
-      this.$emit('deleteAttachment', taskToSave)
+      this.$emit('saveAttachment', taskToSave)
     },
     deleteAttachment(attachmentId) {
       const taskToSave = JSON.parse(JSON.stringify(this.task))

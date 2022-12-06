@@ -119,7 +119,7 @@
                     </div>
                     <div class="board-backgrounds-list-observer">
                         <div class="board-backgrounds-list flex wrap">
-                            <div v-for="image in images" @click="setBoardBgImg(image.src.original, image.avg_color)"
+                            <div v-for="image in images" @click="setBoardBgImg(image.src.large2x, image.avg_color)"
                                 :style="{ borderRadius: 3 + 'px', width: 140 + 'px', height: 90 + 'px' }" class="image">
                                 <img :style="{ width: 100 + '%', height: 100 + '%', objectFit: 'cover' }"
                                     :src="image.src.tiny">

@@ -11,7 +11,8 @@ export const utilService = {
     timeAgo,
     dueDateFormat,
     setActivity,
-    dueDateShortFormat
+    dueDateShortFormat,
+    makeAvatar
 }
 
 function makeId(length = 6) {
@@ -123,3 +124,9 @@ function setActivity(txt, task) {
     }
     return activity
 }
+
+function makeAvatar(fullname) {
+    fullname = fullname.split(' ')
+    var short = (fullname.split(' ')[0].split('')[0] + fullname.split(' ')[1].split('')[0]).toUpperCases()
+    return short.toUpperCases()
+  }

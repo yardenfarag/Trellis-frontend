@@ -1,58 +1,115 @@
 
-import { storageService } from './async-storage.service.js'
-// import { utilService } from './util.service.js'
-import { userService } from './user.service.js'
-import { utilService } from './util.service.js'
+import { utilService } from './util.service'
+import { boardService } from './board.service'
+import { userService } from './user.service'
+
+import axios from 'axios'
+import { httpService } from './http.service'
+
+axios.defaults.withCredentials = true
 
 const STORAGE_KEY = 'board'
 
-export const boardService = {
-    query,
-    getById,
-    save,
-    remove,
+export const localService = {
     getEmptyBoard,
-    getEmptyChecklist,
+    addGroup,
+    editGroup,
+    removeGroup,
+    addTask,
+    getTaskById,
+    updateTask,
+    removeTask,
     getEmptyTodo,
-}
-// window.cs = boardService // (just for test)
-
-async function query() {
-    var boards = await storageService.query(STORAGE_KEY)
-    return boards
+    getEmptyChecklist,
 }
 
-function getById(boardId) {
-    return storageService.get(STORAGE_KEY, boardId)
-}
+// task related functions
 
-async function remove(boardId) {
-    await storageService.remove(STORAGE_KEY, boardId)
-}
-
-async function save(board) {
-    var savedBoard
-    if (board._id) {
-        savedBoard = await storageService.put(STORAGE_KEY, board)
-    } else {
-        // Later, owner is set by the backend
-        board.createdBy = userService.getLoggedinUser()
-        savedBoard = await storageService.post(STORAGE_KEY, board)
-    }
-    return savedBoard
-}
-
-function getEmptyBoard() {
-    return {
-        title: '',
-        isStarred: false,
-        style: {},
-        groups: [],
-        activities: [],
-        members: [],
-        labels: _getLabels()
+async function addTask(boardId, groupId, title) {
+    try {
+        var board = await boardService.getById(boardId)
+        const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+        board.groups[groupIdx].tasks.push(_getEmptyTask(title))
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
     }
 }
+
+async function updateTask(boardId, groupId, updatedTask) {
+    try {
+        const board = await boardService.getById(boardId)
+        const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+        const idxTask = board.groups[groupIdx].tasks.findIndex((task) => task.id === updatedTask.id)
+        board.groups[groupIdx].tasks.splice(idxTask, 1, updatedTask)
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
+    }
+}
+
+async function removeTask(boardId, groupId, taskId) {
+    try {
+        var board = await boardService.getById(boardId)
+        const groupIdx = board.groups.findIndex((group) => group.id === groupId)
+        const taskIdx = board.groups[groupIdx].tasks.findIndex((task) => task.id === taskId)
+        board.groups[groupIdx].tasks.splice(taskIdx, 1)[0]
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
+    }
+}
+
+async function getTaskById(boardId, taskId) {
+    try {
+        var board = await boardService.getById(boardId)
+        var taskData = null
+        board.groups.forEach((group) => {
+            group.tasks.forEach((task) => {
+                if (task.id === taskId) taskData = { groupId: group.id, task }
+            })
+        })
+        return taskData
+    } catch (err) {
+        throw err
+    }
+}
+
+// group related functions
+
+async function addGroup(boardId, title) {
+    try {
+        var board = await boardService.getById(boardId)
+        board.groups.push(_getEmptyGroup(title))
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
+    }
+}
+
+async function editGroup(boardId, groupToEdit) {
+    try {
+        var board = await boardService.getById(boardId)
+        const idx = board.groups.findIndex((group) => group.id === groupToEdit.id)
+        board.groups[idx] = groupToEdit
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
+    }
+}
+async function removeGroup(boardId, groupId) {
+    try {
+        var board = await boardService.getById(boardId)
+        const idx = board.groups.findIndex((group) => group.id === groupId)
+        board.groups.splice(idx, 1)[0]
+        return await boardService.save(board)
+    } catch (err) {
+        throw err
+    }
+}
+
+// get empty stuff
+
 
 function getEmptyChecklist() {
     return {
@@ -67,6 +124,50 @@ function getEmptyTodo() {
         id: utilService.makeId(),
         title: '',
         isDone: false
+    }
+}
+
+function _getEmptyGroup(title) {
+    return {
+      id: utilService.makeId(),
+      title,
+      tasks: [],
+    }
+  }
+
+  function _getEmptyTask(title) {
+    return {
+      id: utilService.makeId(),
+      title,
+      description: '',
+      dueDate: null,
+      createdAt: Date.now(),
+      attachments: [],
+      checklists: [],
+      comments: [],
+      memberIds: [],
+      labels: [],
+      createdBy: userService.getLoggedinUser(),
+      stickers: [],
+      style: {},
+    }
+  }
+
+function getEmptyBoard() {
+    return {
+        title: '',
+        recentlyViewed: Date.now(),
+        isStarred: false,
+        createdBy: userService.getLoggedinUser() || {}, //add logged in user
+        style: {
+            bgImUrl: '',
+            bgColor: '',
+            bgHeader: ''
+        },
+        labels: _getLabels(),
+        memberIds: [],
+        groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
+        activities: [],
     }
 }
 
@@ -105,169 +206,3 @@ function _getLabels() {
 
     ]
 }
-
-
-
-// TEST DATA
-; (async () => {
-    await storageService.post(STORAGE_KEY, {
-        title: 'Sprint 4',
-        isStarred: true,
-        activities: [],
-        memberIds: [],
-        labels: _getLabels(),
-        style: { bgc: 'url(https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg)', headerClr: '#5D5A63' },
-        groups: [
-            {
-                id: 'g101',
-                title: 'Group 1',
-                tasks: [
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Finish the frontend ASAP",
-                        dueDate: "",
-                        id: "c101",
-                        labels: [],
-                        memberIds: [],
-                        title: "Finish frontend",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Get data for product testing",
-                        dueDate: "",
-                        id: "c102",
-                        labels: [],
-                        memberIds: [],
-                        title: "Get more data",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "move along, no description here",
-                        dueDate: "",
-                        id: "c103",
-                        labels: [],
-                        memberIds: [],
-                        title: "Drag and drop",
-                    }
-                ]
-            },
-            {
-                id: 'g102',
-                title: 'Group 2',
-                tasks: [
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Call me ASAP!",
-                        dueDate: "",
-                        id: "c104",
-                        labels: [],
-                        memberIds: [],
-                        title: "Call me",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "get the right font and implement it on our trellis logo ASAP!",
-                        dueDate: "16156215211",
-                        id: "c105",
-                        labels: ["l101", "l102"],
-                        memberIds: [],
-                        title: "find the trello logo font",
-                    }
-                ]
-            },
-
-        ]
-    })
-    await storageService.post(STORAGE_KEY, {
-        title: 'Remote Team Hub',
-        isStarred: false,
-        activities: [],
-        memberIds: [],
-        createdBy: {
-            fullname: 'Guest',
-            imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar'
-        },
-        labels: _getLabels(),
-        style: { bgc: '#0079bf', headerClr: '#0079bf' },
-        groups: [
-            {
-                id: 'wAMbUC',
-                title: 'Team Info',
-                tasks: [
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "",
-                        dueDate: "",
-                        id: "c10234",
-                        labels: [],
-                        memberIds: [],
-                        title: "Team Resources",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "",
-                        dueDate: "",
-                        id: "c1043",
-                        labels: [],
-                        memberIds: [],
-                        title: "Working Hours",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Link to your team's OKRs so that anyone at the company can see what you will be up to this quarter.",
-                        dueDate: "",
-                        id: "c10564",
-                        labels: [],
-                        memberIds: [],
-                        title: "Team OKRs - Q3",
-                    }
-                ]
-            },
-            {
-                id: 'g10sd2',
-                title: 'Current Project',
-                tasks: [
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Tip: Add a card for each project that the team is currently working on to provide a quick overview of what's in the pipeline.\n\nConsider including on each card:\n\nLink to the Trello board for that project\nLink to Confluence or Google Docs with specs for the project\nChat room where someone can ask questions/follow along\nThe person that is leading the project (add avatar to card)\nLaunch date (Add as due date to the card)\nAlso, whoever is in charge of the project should add weekly updates on any progress being made/work getting done so that everyone on the team can easily stay in the loop.",
-                        dueDate: "",
-                        id: "c1055",
-                        labels: [],
-                        memberIds: [],
-                        title: "Current Project Template",
-                    },
-                    {
-                        attachments: [],
-                        checklists: [],
-                        comments: [],
-                        description: "Tip: Add a card for each project that the team is currently working on to provide a quick overview of what's in the pipeline.\n\nConsider including on each card:\n\nLink to the Trello board for that project\nLink to Confluence or Google Docs with specs for the project\nChat room where someone can ask questions/follow along\nThe person that is leading the project (add avatar to card)\nLaunch date (Add as due date to the card)\nAlso, whoever is in charge of the project should add weekly updates on any progress being made/work getting done so that everyone on the team can easily stay in the loop.",
-                        dueDate: "16156215211",
-                        id: "c1077",
-                        labels: _getLabels(),
-                        memberIds: [],
-                        title: "Blog Redesign",
-                    }
-                ]
-            },
-
-        ]
-    })
-})

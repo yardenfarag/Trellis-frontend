@@ -1,4 +1,4 @@
-import { boardService } from './board.service.local' // no need?
+import { boardService } from './board.service' // no need?
 import { groupService } from './group.service.local'
 import { userService } from './user.service'
 import { utilService } from './util.service.js'

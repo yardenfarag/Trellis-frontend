@@ -38,13 +38,18 @@ export default {
     components: {},
     data() {
         return {
+            boardToShow: null,
             filterBy: {
                 txt: '',
             },
         };
     },
-    created() {
-        this.$store.dispatch({ type: 'loadUsers' })
+    async created() {
+        await this.$store.dispatch({ type: 'loadUsers' })
+        const boardId = this.$route.params.boardId
+        await this.$store.dispatch({ type: 'setCurrBoard', boardId })
+        this.boardToShow = JSON.parse(JSON.stringify(this.$store.getters.board))
+
     },
     methods: {
         toggleMemberToTask(memberToToggleId) {
@@ -71,12 +76,12 @@ export default {
         users() {
             return this.$store.getters.users
         },
-        board() {
-            return this.$store.getters.board
-        },
+        // board() {
+        //     return this.$store.getters.board
+        // },
         boardMembers() {
             let members = this.users.filter(user => {
-                return this.board.memberIds?.includes(user._id)
+                return this.boardToShow?.memberIds?.includes(user._id)
             })
             const regex = new RegExp(this.filterBy.txt, 'i')
             members = members.filter(member => regex.test(member.fullname))

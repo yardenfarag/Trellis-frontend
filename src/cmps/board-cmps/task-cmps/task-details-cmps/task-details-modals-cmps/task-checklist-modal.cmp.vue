@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import { boardService } from '../../../../../services/board.service.local';
-import { utilService } from '../../../../../services/util.service.js'
+import { localService } from '../../../../../services/board.service.local';
 export default {
     emits: ['closeCheckListModal', 'updateTask'],
     props: {
@@ -42,14 +41,14 @@ export default {
             this.$emit('closeCheckListModal', false)
         },
         addCheckList() {
+            if (!this.listTitle) return
             this.closeModal()
-            const checklist = boardService.getEmptyChecklist()
+            const checklist = localService.getEmptyChecklist()
             checklist.title = this.listTitle
             const updateTask = JSON.parse(JSON.stringify(this.task))
             if (updateTask.checklists) updateTask.checklists.push(checklist)
             else updateTask.checklists = [checklist]
-            const newActivity = utilService.setActivity(`added ${checklist.title} to ${updateTask.title}`, updateTask)
-            this.$emit('updateTask', updateTask, newActivity)
+            this.$emit('updateTask', updateTask)
             this.listTitle = ''
         },
     },

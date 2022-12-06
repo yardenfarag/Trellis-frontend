@@ -1,24 +1,8 @@
-import { boardService } from '../../services/board.service.local.js'
-import { utilService } from '../../services/util.service.js'
+import { localService } from '../../services/board.service.local'
+import { boardService } from '../../services/board.service'
+import { socketService, SOCKET_EVENT_CHANGE_BOARD } from '../../services/socket.service'
+import { utilService } from '../../services/util.service'
 
-export function getActionRemoveBoard(boardId) {
-    return {
-        type: 'removeBoard',
-        boardId
-    }
-}
-export function getActionAddBoard(board) {
-    return {
-        type: 'addBoard',
-        board
-    }
-}
-export function getActionUpdateBoard(board) {
-    return {
-        type: 'updateBoard',
-        board,
-    }
-}
 
 export const boardStore = {
     state: {
@@ -29,159 +13,151 @@ export const boardStore = {
         boards({ boards }) { return boards },
         board({ currBoard }) { return currBoard },
     },
-
     mutations: {
         setBoards(state, { boards }) {
             state.boards = boards
         },
         setCurrBoard(state, { board }) {
             state.currBoard = board
-            console.log('board set')
         },
-        addBoard(state, { board }) {
-            state.boards.push(board)
-        },
-        // updateBoard(state, { updatedBoard }) {
-        //     const idx = state.boards.findIndex(b => b.id === updatedBoard._id)
-        //     state.boards.splice(idx, 1, updatedBoard)
-        // },
         removeBoard(state, { boardId }) {
-            const boards = state.boards
-            const boardIdx = boards.findIndex(board => board._id === boardId)
-            boards.splice(boardIdx, 1)
-            state.boards = boards
+            const idx = state.boards.findIndex((board) => board._id === boardId)
+            state.boards.splice(idx, 1)
+        },
+        saveBoard(state, { board }) {
+            const idx = state.boards.findIndex((b) => b._id === board._id)
+            if (idx !== -1) {
+                if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
+                state.boards.splice(idx, 1, board)
+            } else {
+                state.boards.push(board)
+                state.currBoard = board
+            }
+        },
+        addGroup(state, { emptyGroup }) {
+            state.currBoard.groups.push(emptyGroup)
+        },
+        addActivity(state, { activity }) {
+            state.currBoard.activities.unshift(activity)
         },
     },
     actions: {
-        async clearCurrBoard(context) {
-            await context.commit({ type: 'setCurrBoard', board: null })
+        async loadBoards({ commit }) {
+            try {
+                var boards = await boardService.query()
+                commit({ type: 'setBoards', boards })
+                // socketService.off(SOCKET_EVENT_CHANGE_BOARD)
+                // socketService.on(SOCKET_EVENT_CHANGE_BOARD, (board) => {
+                //     commit({ type: 'saveBoard', board })
+                // })
+            } catch (err) {
+                console.error('There was a problem loading these boards, please try again later.', err)
+                throw err
+            }
         },
         async setCurrBoard({ commit }, { boardId }) {
             try {
                 const board = await boardService.getById(boardId)
                 commit({ type: 'setCurrBoard', board })
+                return board
             } catch (err) {
-                console.log(err);
+                console.log('There was a problem finding that board, please try again later.', err)
+                throw err
             }
         },
-        // async updateBoard(context, { updatedBoard }) {
-        //     try {
-        //         console.log(updatedBoard)
-
-        //         var board = await boardService.save(updatedBoard)
-        //         context.commit({ type: 'updateBoard', updatedBoard })
-        //         return board
-        //     } catch (err) {
-        //         console.log('boardStore: Error in updateBoard', err)
-        //         throw err
-        //     }
-        // },
-        async loadBoards(context) {
+        async removeBoard({ commit }, { boardId }) {
             try {
-                const boards = await boardService.query()
-                context.commit({ type: 'setBoards', boards })
+              var boardId = await boardService.remove(boardId)
+              commit({ type: 'removeBoard', boardId })
             } catch (err) {
-                console.log('boardStore: Error in loadBoards', err)
-                throw err
+              console.error('There was a problem removing that board, please try again later.', err)
+              throw err
             }
-        },
-        async removeBoard(context, { boardId }) {
+          },
+          async saveBoard({ commit }, { board }) {
             try {
-                await boardService.remove(boardId)
-                context.commit(getActionRemoveBoard(boardId))
+              var board = await boardService.save(board)
+              
+              commit({ type: 'saveBoard', board })
+              return board
             } catch (err) {
-                console.log('boardStore: Error in removeBoard', err)
-                throw err
+              console.error('There was a problem saving that board, please try again later.', err)
+              throw err
             }
-        },
-        async saveTask(context, { board, groupId, taskToSave }) {
+          },
+          async addGroup({ commit, state }, { title }) {
             try {
-                const group = board.groups.find(group => group.id === groupId)
-                const groupIdx = board.groups.findIndex(group => group.id === groupId)
-                if (taskToSave.id) {
-                    const taskIdx = group.tasks.findIndex(task => task.id === taskToSave.id)
-                    group.tasks.splice(taskIdx, 1, taskToSave)
-                    board.groups.splice(groupIdx, 1, group)
-                } else {
-                    taskToSave.id = utilService.makeId()
-                    group.tasks.push(taskToSave)
-                    board.groups.splice(groupIdx, 1, group)
-                }
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+              const board = await localService.addGroup(state.currBoard._id, title)
+              console.log('store addGroup board', board)
+              commit({ type: 'saveBoard', board })
+            } catch (err) {
+              console.log('There was a problem adding that group, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a problem saving that task in the store')
-                throw err
-            }
-        },
-        async removeTask(context, { board, groupId, taskId }) {
-            const group = board.groups.find(group => group.id === groupId)
-            const groupIdx = board.groups.findIndex(group => group.id === groupId)
+          },
+          async addTask({ commit, state }, { groupId, title }) {
             try {
-                const taskIdx = group.tasks.findIndex(task => task.id === taskId)
-                group.tasks.splice(taskIdx, 1)
-                board.groups.splice(groupIdx, 1, group)
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+              const board = await localService.addTask(state.currBoard._id, groupId, title)
+              commit({ type: 'saveBoard', board })
+            } catch (err) {
+              console.log('There was a problem adding that task, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a problem removing that task in the store')
-                throw err
-            }
-        },
-        async saveGroup(context, { board, groupToEdit }) {
-            console.log('group that got to the store',groupToEdit);
+          },
+          async removeGroup({ commit, state }, { groupId }) {
             try {
-                if (groupToEdit.id) {
-                    const groupIdx = board.groups.findIndex(group => group.id === groupToEdit.id)
-                    board.groups.splice(groupIdx, 1, groupToEdit)
-                } else {
-                    console.log(board);
-                    groupToEdit.id = utilService.makeId()
-                    board.groups.push(groupToEdit)
-                }
-                await boardService.save(board)
-                console.log(board)
-                context.commit({ type: 'setCurrBoard', board })
+              const board = await localService.removeGroup(state.currBoard._id, groupId)
+              commit({ type: 'saveBoard', board })
+            } catch (err) {
+              console.log('There was a problem removing that group, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a problem saving that group in the store')
-                throw err
-            }
-        },
-        async saveBoard(context, { board }) {
+          },
+          async removeTask({ commit, state }, { groupId, taskId }) {
             try {
-                const savedBoard = await boardService.save(board)
-                // console.table(savedBoard.groups[0].tasks)
-                context.commit({ type: 'setCurrBoard', board: savedBoard })
+              const board = await localService.removeTask(state.currBoard._id, groupId, taskId)
+              commit({ type: 'saveBoard', board })
+            } catch (err) {
+              console.log('There was a problem removing that task, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a problem updating this board in the store')
-                throw err
-            }
-        },
-        async removeGroup(context, { board, groupId }) {
+          },
+          async updateTask({ commit, state }, { groupId, task }) {
             try {
-                const groupIdx = board.groups.findIndex(group => group.id === groupId)
-                board.groups.splice(groupIdx, 1)
-                await boardService.save(board)
-                context.commit({ type: 'setCurrBoard', board })
+              const board = await localService.updateTask(state.currBoard._id, groupId, task)
+              commit({ type: 'saveBoard', board })
+            } catch (err) {
+              console.log('There was a problem updating that task, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a promblen removing this group in the store')
-                throw err
-            }
-        },
-        async removeBoard(context, { boardId }) {
+          },
+          async getTaskById({ commit }, { boardId, taskId }) {
             try {
-                await boardService.remove(boardId)
-                context.commit({ type: 'removeBoard', boardId })
+              const task = await localService.getTaskById(boardId, taskId)
+              return task
+            } catch (err) {
+              console.log('There was a problem getting that task, please try again later.', err)
+              throw err
             }
-            catch (err) {
-                console.log('there was a problem removing this board in the store')
-                throw err
+          },
+          async addActivity({ commit, getters, dispatch }, { txt, task }) {
+            const clearAct = getters.currBoard.activities.length > 100
+            const activity = {
+              id: utilService.makeId(),
+              txt: txt,
+              createdAt: Date.now(),
+              byMember: {
+                _id: getters.loggedinUser?._id || null,
+                fullname: getters.loggedinUser?.fullname || 'Guest',
+                imgUrl: getters.loggedinUser?.imgUrl || '',
+              },
+              task: {
+                id: task.id,
+                title: task.title,
+              },
             }
-        }
+            commit({ type: 'addActivity', activity})
+            await dispatch({ type: 'saveBoard', board: getters.currBoard })
+          },
     }
 }

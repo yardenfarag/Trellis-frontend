@@ -1,8 +1,4 @@
-import { storageService } from './async-storage.service'
-// import { httpService } from './http.service'
-import { store } from '../store/store'
-// import { socketService, SOCKET_EVENT_USER_UPDATED, SOCKET_EMIT_USER_WATCH } from './socket.service'
-import { showSuccessMsg } from './event-bus.service'
+import { httpService } from './http.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
@@ -15,16 +11,11 @@ export const userService = {
     getUsers,
     getById,
     remove,
-    // update,
-    // changeScore
 }
 
-window.userService = userService
 
-
-function getUsers() {
-    return storageService.query('user')
-    // return httpService.get(`user`)
+async function getUsers() {
+    return await httpService.get('user')
 }
 
 // function onUserUpdate(user) {
@@ -56,25 +47,17 @@ function remove(userId) {
 // }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
-    // const user = await httpService.post('auth/login', userCred)
-    if (user) {
-        // socketService.login(user._id)
-        return saveLocalUser(user)
-    }
+    const user = await httpService.post('auth/login', userCred)
+    if (user) return saveLocalUser(user)
 }
+
 async function signup(userCred) {
-    if (!userCred.imgUrl) userCred.imgUrl = 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar'
-    const user = await storageService.post('user', userCred)
-    // const user = await httpService.post('auth/signup', userCred)
-    // socketService.login(user._id)
+    const user = await httpService.post('auth/signup', userCred)
     return saveLocalUser(user)
 }
 async function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
-    // socketService.logout()
-    // return await httpService.post('auth/logout')
+    return await httpService.post('auth/logout')
 }
 
 function saveLocalUser(user) {
@@ -90,18 +73,18 @@ function getLoggedinUser() {
 }
 
 
-; (async () => {
-    await userService.signup({ fullname: "Herman Cianciulli", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/53.jpg", password: "123", username: "herm" })
-    await userService.signup({ fullname: "Mack Schlax", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/75.jpg", password: "123", username: "mac" })
-    await userService.signup({ fullname: "Evangelina Najam", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/10.jpg", password: "123", username: "eva" })
-    await userService.signup({ fullname: "Leana Gauwitz", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/57.jpg", password: "123", username: "lea" })
-    await userService.signup({ fullname: "Mariana Hamara", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/55.jpg", password: "123", username: "mar" })
-    await userService.signup({ fullname: "Rashad Poiroux", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/61.jpg", password: "123", username: "ras" })
-    await userService.signup({ fullname: "Anton Madary", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/26.jpg", password: "123", username: "ant" })
-    await userService.signup({ fullname: "Mallie Walker", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/19.jpg", password: "123", username: "mal" })
-    await userService.signup({ fullname: "Yarden", imgUrl: "https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar", password: "123", username: "herm" })
+// ; (async () => {
+//     await userService.signup({ fullname: "Herman Cianciulli", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/53.jpg", password: "123", username: "herm" })
+//     await userService.signup({ fullname: "Mack Schlax", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/75.jpg", password: "123", username: "mac" })
+//     await userService.signup({ fullname: "Evangelina Najam", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/10.jpg", password: "123", username: "eva" })
+//     await userService.signup({ fullname: "Leana Gauwitz", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/57.jpg", password: "123", username: "lea" })
+//     await userService.signup({ fullname: "Mariana Hamara", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/55.jpg", password: "123", username: "mar" })
+//     await userService.signup({ fullname: "Rashad Poiroux", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/61.jpg", password: "123", username: "ras" })
+//     await userService.signup({ fullname: "Anton Madary", imgUrl: "https://xsgames.co/randomusers/assets/avatars/male/26.jpg", password: "123", username: "ant" })
+//     await userService.signup({ fullname: "Mallie Walker", imgUrl: "https://xsgames.co/randomusers/assets/avatars/female/19.jpg", password: "123", username: "mal" })
+//     await userService.signup({ fullname: "Yarden", imgUrl: "https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar", password: "123", username: "herm" })
 
-})()
+// })()
 
 
 

@@ -28,7 +28,8 @@
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="notifications"></button>
-          <img :src="loggedinUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
+          <img :src="loggedinUser.imgUrl"
+            :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
         </div>
 
       </div>
@@ -48,9 +49,7 @@ export default {
       isCreateBoard: false
     };
   },
-  async created() {
-    await this.$store.dispatch({ type: 'getLoggedinUser' })
-  },
+  created() { },
   methods: {},
   computed: {
     board() {

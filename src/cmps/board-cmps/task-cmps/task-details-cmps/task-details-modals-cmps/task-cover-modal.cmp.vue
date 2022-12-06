@@ -50,6 +50,11 @@
                             </div>
                         </div>
                         <h4 class="small-title-margin-top">Attachment</h4>
+                        <div v-if="task.attachments" class="attachments">
+                            <div v-for="attachment in task.attachments" class="mini-attachment">
+                                <img :src="attachment.imgUrl" :style="{ width: 100 + 'px', objectFit: 'contain' }">
+                            </div>
+                        </div>
                         <div class="upload-container">
                             <button class="primary-btn-modal btn-uploader">
                                 <img-uploader :str="uploadTxt" @uploaded="onUploaded"></img-uploader>

@@ -58,34 +58,52 @@
       </div>
     </section>
 
-    <section class="trelli-action">
+    <section class="trello-action flex column">
       <p>TRELLO IN ACTION</p>
       <h2>Workflows for any project, big or small</h2>
 
-      <div class="action-cards">
+      <div class="action-cards flex">
         <div class="card">
-          <h3>Project management</h3>
-          <p>Keep tasks in order, deadlines on track, and team members aligned with Trello.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">
+            <h3>Project management</h3>
+            <p>Keep tasks in order, deadlines on track, and team members aligned with Trello.</p>
+          </div>
         </div>
         <div class="card">
-          <h3>Brainstorming</h3>
-          <p>Unleash your team’s creativity and keep ideas visible, collaborative, and actionable.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">
+            <h3>Brainstorming</h3>
+            <p>Unleash your team’s creativity and keep ideas visible, collaborative, and actionable.</p>
+          </div>
         </div>
         <div class="card">
-          <h3>Meetings</h3>
-          <p>Empower your team meetings to be more productive, empowering, and dare we say—fun.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">
+            <h3>Meetings</h3>
+            <p>Empower your team meetings to be    more productive, empowering, and dare we say—fun.</p>
+          </div>
         </div>
         <div class="card">
-          <h3>Task management</h3>
-          <p>Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make your team’s projects a cohesive success every time.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">
+            <h3>Task management</h3>
+            <p>Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make your team’s projects a cohesive success every time.</p>
+          </div>
         </div>
         <div class="card">
-          <h3>CRM</h3>
-          <p>Customize your CRM to help your sales team manage their leads and accounts effectively.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">
+            <h3>CRM</h3>
+            <p>Customize your CRM to help your sales team manage their leads and accounts effectively.</p>
+          </div>
         </div>
         <div class="card">
-          <h3>Editorial calendar</h3>
-          <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
+          <div class="action-card-header"></div>
+          <div class="action-card-content">  
+            <h3>Editorial calendar</h3>
+            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
+          </div>
         </div>
       </div>
     </section>
