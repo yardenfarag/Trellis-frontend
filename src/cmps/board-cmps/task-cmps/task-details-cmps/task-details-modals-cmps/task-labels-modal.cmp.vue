@@ -1,114 +1,121 @@
 <template>
     <section v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
-            <h5>Labels</h5>
-            <span @click="closeModal()" class="material-symbols-outlined">
+            <h5 class="title-modal-header">Labels</h5>
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
         </section>
-        <section class="modal-body">
-            <div class="filter-labels">
-                <input v-if="filterVis" ref="filter" class="primary-input-modal" v-model="filterBy.txt" type="search"
-                    placeholder="Search labels..." />
-            </div>
-            <h6>Labels</h6>
-            <div class="lables">
-                <div v-if="labels" v-for="label in labels" class="label-container">
-                    <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
-                    <div class="label">
-                        <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }"
-                            class="label-preview">
-                            <!-- <div class="dark"></div> -->
-                        </div>
-                        <div :style="{ 'background-color': label.color }" class="label-circle">
-                        </div>
-                        <span class="label-title">{{ label.title }}</span>
-                    </div>
-                    <button class="edit-btn" @click="labelEditor(label)"> <span
-                            class="pencil-icon material-symbols-outlined">edit</span></button>
-
-
+        <div class="modal-body-wrapper">
+            <section class="modal-body">
+                <div class="filter-labels">
+                    <input v-if="filterVis" ref="filter" class="primary-input-modal search" v-model="filterBy.txt"
+                        type="search" placeholder="Search labels..." />
                 </div>
-            </div>
-        </section>
-        <section class="modal-footer">
-            <button class="primary-btn-modal" @click="onOpenCreateEditor">Create
-                a
-                new label</button>
-        </section>
+                <p class="title-mt12-mb8">Labels</p>
+                <div class="lables">
+                    <div v-if="labels" v-for="label in labels" class="label-container">
+                        <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+                        <div class="label">
+                            <div class="label-shrink">
+                                <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }"
+                                    class="label-preview">
+                                </div>
+                                <div :style="{ 'background-color': label.color }" class="label-circle">
+                                </div>
+                                <span class="label-title">{{ label.title }}</span>
+                            </div>
+                            <button class="edit-btn" @click="labelEditor(label)"> <span
+                                    class="pencil-icon material-symbols-outlined">edit</span></button>
+                        </div>
+                    </div>
+                </div>
+                <button class="primary-btn-modal btn-go-to-create" @click="onOpenCreateEditor">Create
+                    a
+                    new label</button>
+            </section>
+        </div>
     </section>
     <section v-if="(editLabel && !isDelete)" class="modal-container task-label-modal">
         <section class="modal-header">
-            <h5 v-if="isCreate">Create label</h5>
-            <h5 v-else>Edit label</h5>
+
             <span @click="goBack()" class="back material-symbols-outlined">
                 arrow_back_ios
             </span>
-            <span @click="closeModal()" class="material-symbols-outlined">
+            <h5 class="title-modal-header" v-if="isCreate">Create label</h5>
+            <h5 class="title-modal-header" v-else>Edit label</h5>
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
         </section>
-        <div class="label-show full">
-            <div class="label-preview" :style="{ backgroundColor: currLabel.color }">
+        <div class="modal-body-wrapper">
+            <div class="label-show">
+                <div class="label-preview" :style="{ backgroundColor: currLabel.color }">
+                </div>
+                <div class="label-circle" :style="{ backgroundColor: currLabel.color }"></div>
+                <span class="label-title">{{ currLabel.title }}</span>
             </div>
-            <div class="label-circle" :style="{ backgroundColor: currLabel.color }"></div>
-            <span class="label-title">{{ currLabel.title }}</span>
-        </div>
-        <section class="modal-body">
-            <div class="label-editor">
-                <h6>Title</h6>
-                <input @keyup.enter="saveLabel" v-if="titleVis" ref="title" class="primary-input-modal" type="text"
-                    v-model="currLabel.title">
-                <h6>Select a color</h6>
-                <div class="colors">
-                    <div @click.stop="selectLabel($event, color, idx)" class="color"
-                        :class="{ 'selected': idx === idxOfSelectedColor }" v-for="color, idx in colors"
-                        :style="{ backgroundColor: color }">
-                        <div class="dark"></div>
+            <section class="modal-body">
+                <div class="label-editor">
+                    <p class="title-mt12-mb8">Title</p>
+                    <input @keyup.enter="saveLabel" v-if="titleVis" ref="title" class="primary-input-modal" type="text"
+                        v-model="currLabel.title">
+                    <p class="title-mt12-mb8">Select a color</p>
+                    <div class="colors">
+                        <div @click.stop="selectLabel($event, color, idx)" class="color"
+                            :class="{ 'selected': idx === idxOfSelectedColor }" v-for="color, idx in colors"
+                            :style="{ backgroundColor: color }">
+                            <div class="dark"></div>
+                        </div>
+                    </div>
+                    <div class="remove">
+                        <button v-if="currLabel.color === '#babdbe'" class="primary-btn-modal btn-disabled"><span
+                                class="remove-title">Remove
+                                color <span class="x-icon material-symbols-outlined">
+                                    close
+                                </span></span></button>
+
+                        <button v-else @click="removeColor()" class="primary-btn-modal"> <span class="remove-title">
+                                Remove color <span class="x-icon material-symbols-outlined">
+                                    close
+                                </span> </span></button>
+                    </div>
+
+                    <div class="action-btns">
+                        <div v-if="isCreate">
+                            <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
+                                class="btn-disabled">Create</button>
+                            <button v-else @click="saveLabel" class="call-to-action">Create</button>
+                        </div>
+                        <div v-else class="btn-group">
+                            <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
+                                class="btn-disabled">Save</button>
+                            <button v-else @click="saveLabel" class="call-to-action">Save</button>
+                            <button @click="openDeleteModal()" class="btn-danger">Delete</button>
+                        </div>
                     </div>
                 </div>
-                <button v-if="currLabel.color === '#babdbe'" class="primary-btn-modal btn-disabled"> <span
-                        class="material-symbols-outlined">
-                        close
-                    </span>Remove color</button>
-                <button v-else @click="removeColor()" class="primary-btn-modal"> <span
-                        class="material-symbols-outlined">
-                        close
-                    </span>Remove color</button>
-            </div>
-        </section>
-        <section class="modal-footer">
-            <div v-if="isCreate">
-                <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
-                    class="btn-disabled">Create</button>
-                <button v-else @click="saveLabel" class="call-to-action">Create</button>
-            </div>
-            <div v-else class="btn-group">
-                <button v-if="(currLabel.color === '#babdbe' && currLabel.title === '')"
-                    class="btn-disabled">Save</button>
-                <button v-else @click="saveLabel" class="call-to-action">Save</button>
-                <button @click="openDeleteModal()" class="btn-danger">Delete</button>
-            </div>
-        </section>
+            </section>
+        </div>
     </section>
     <section v-if="isDelete" class="modal-container delete-label-modal">
         <section class="modal-header">
-            <h5>Delete label</h5>
+            <h5 class="title-modal-header">Delete label</h5>
             <span @click="goBackFromDelete()" class="back material-symbols-outlined">
                 arrow_back_ios
             </span>
-            <span @click="closeModal()" class="material-symbols-outlined">
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
         </section>
-        <section class="modal-body">
-
-        </section>
-        <section class="modal-footer">
-            <p>This will remove this label from all cards. There is no undo.</p>
-            <button @click="removeLabel()" class="btn-danger">Delete</button>
-        </section>
+        <div class="modal-body-wrapper">
+            <section class="modal-body">
+                <p class="delete-warning">This will remove this label from all cards. There is no undo.</p>
+                <button @click="removeLabel()" class="btn-danger">Delete</button>
+            </section>
+        </div>
     </section>
+
 </template>
 <script>
 import { utilService } from '../../../../../services/util.service';
@@ -172,7 +179,7 @@ export default {
 
             this.titleVis = true
             this.$nextTick(() => {
-                this.focusOnTitle()();
+                this.focusOnTitle()
             });
         },
         closeModal() {
@@ -186,7 +193,7 @@ export default {
 
             this.titleVis = true
             this.$nextTick(() => {
-                this.focusOnTitle()();
+                this.focusOnTitle()
             });
         },
         removeColor() {

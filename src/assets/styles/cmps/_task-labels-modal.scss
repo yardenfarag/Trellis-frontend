@@ -4,8 +4,7 @@
         background-color: var(--t-light-gray);
         display: flex;
         position: relative;
-        padding-bottom: 7px;
-        margin-bottom: 8px;
+        padding-bottom: 5px;
 
         .label-preview {
             width: 240px;
@@ -21,7 +20,7 @@
             height: 16px;
             width: 16px;
             border-radius: 50%;
-            top: 39px;
+            top: 40px;
             left: 40px;
         }
 
@@ -34,25 +33,38 @@
     }
 
     .modal-body {
-        h6 {
-            margin: 14px 0px 8px;
+
+        .title-mt12-mb8 {
+            margin-top: 13px;
+            margin-bottom: 9px;
+            font-size: 12px;
             font-weight: 600;
+            line-height: 16px;
+            color: $color-secondery-text;
+        }
+
+        .filter-labels {
+            .search {
+                margin-top: 11px;
+            }
         }
 
         .lables {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            padding-left: 3px;
-            // margin-bottom: 4px;
+            padding-top: 4px;
+            padding-bottom: 8px;
 
             .label-container {
+                width: 100%;
                 position: relative;
                 display: flex;
                 justify-content: space-between;
-                padding: 0;
-                margin-inline: 1px;
-                gap: 12px;
+                // padding: 0;
+                // margin-right: 8px;
+                // margin-inline: 1px;
+                // gap: 12px;
 
                 input {
                     display: block;
@@ -63,60 +75,57 @@
                 .label {
                     position: relative;
                     cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 4px;
+                    padding-left: 6px;
 
                     &:hover {
                         filter: brightness(75%);
                     }
 
-                    .label-circle {
-                        position: absolute;
-                        top: 8px;
-                        left: 8px;
-                        height: 16px;
-                        width: 16px;
-                        border-radius: 50%;
+                    .label-shrink {
+                        flex-shrink: 1;
+
+                        .label-circle {
+                            position: absolute;
+                            top: 8px;
+                            left: 16px;
+                            height: 16px;
+                            width: 16px;
+                            border-radius: 50%;
+                        }
+
+                        .label-title {
+                            position: absolute;
+                            top: 5px;
+                            left: 38px;
+                            font-size: 14px;
+                        }
+
+                        .label-preview {
+                            width: 212px;
+                            position: relative;
+                            height: 32px;
+                            margin: auto;
+                            margin-left: 2px;
+                            border-radius: 3px;
+                            opacity: 0.43;
+                            cursor: pointer;
+
+                        }
                     }
 
-                    .label-title {
-                        position: absolute;
-                        top: 5px;
-                        left: 32px;
-                        font-size: 14px;
-                    }
-
-                    .label-preview {
-                        position: relative;
-                        min-width: 212px;
-                        height: 32px;
-                        margin: auto;
-                        margin-left: 2px;
-                        border-radius: 3px;
-                        opacity: 0.43;
-                        cursor: pointer;
-
-                    }
-
-                    // .dark {
-                    //     position: absolute;
-                    //     background-color: rgb(0, 0, 0);
-                    //     opacity: 0;
-                    //     height: 100%;
-                    //     width: 100%;
-                    //     border-radius: 3px;
-
-                    //     &:hover {
-                    //         opacity: 0.5;
-                    //     }
-                    // }
                 }
 
                 .edit-btn {
                     margin: auto;
-                    margin-right: 20px;
                     cursor: pointer;
                     width: 32px;
                     height: 32px;
                     background-color: transparent;
+                    margin-bottom: 0;
+                    padding: 8px;
 
                     &:hover {
                         background-color: $color-primary-btn-modal-hover
@@ -125,29 +134,55 @@
             }
         }
 
+        .btn-go-to-create {
+            margin-top: 8px;
+            // margin-bottom: 4px;
+
+        }
+
 
         .label-editor {
-            border-bottom: 1px solid var(--t-gray);
 
-            h6 {
-                margin-block: 8px;
-                font-size: 12px;
-                font-weight: 500;
+
+            .remove {
+                margin-bottom: 24px;
+                // position: relative;
+
+                .remove-title {
+                    position: relative;
+
+                    .x-icon {
+                        position: absolute;
+                        top: 3px;
+                        left: -23px;
+                        font-size: 17px;
+
+                    }
+                }
             }
 
-            input {
-                margin-bottom: 13px;
+            .action-btns {
+                border-top: 1px solid var(--t-gray);
+                padding-top: 16px;
+
+                .btn-group {
+                    display: flex;
+                    justify-content: space-between;
+                }
             }
 
             .colors {
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
                 gap: 8px;
+                margin-bottom: 10px;
+                margin-top: 11px;
                 padding-inline: 2px;
+
 
                 .color {
                     position: relative;
-                    width: 49px;
+                    // width: 49px;
                     height: 28px;
                     border-radius: 3px;
                     cursor: pointer;
@@ -177,49 +212,25 @@
                 }
             }
 
-            button {
-                margin-top: 10px;
-                margin-bottom: 24px;
-                position: relative;
-
-                span {
-                    position: absolute;
-                    font-size: 18px;
-                    left: 75px;
-                }
-            }
         }
     }
 
-    .modal-footer {
-
-        button {
-            margin-top: 16px;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .call-to-action,
-        .btn-danger,
-        .btn-disabled {
-            margin-top: 16px;
-            margin-bottom: 12px;
-        }
-    }
 }
 
 .delete-label-modal {
-    .modal-header {
-        margin-bottom: 8px;
-    }
+    .modal-body {
+        .delete-warning {
+            margin-bottom: 7px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 400;
+            color: $color-primary-text;
+        }
 
-    .modal-footer {
         .btn-danger {
-            width: 100%;
-            margin-bottom: 12px;
+            // width: 100%;
+            // margin-bottom: 12px;
         }
     }
 

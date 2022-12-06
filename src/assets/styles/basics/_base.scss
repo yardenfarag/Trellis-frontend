@@ -39,6 +39,7 @@ textarea {
     resize: none;
 }
 
+
 h1,
 h2,
 h3,
@@ -77,6 +78,10 @@ button {
     transition-property: background-color, border-color, box-shadow;
     transition-duration: 35ms;
     transition-timing-function: ease;
+
+    &.btn-full {
+        width: 100%;
+    }
 
     &.call-to-action {
         background-color: $color-primary;
