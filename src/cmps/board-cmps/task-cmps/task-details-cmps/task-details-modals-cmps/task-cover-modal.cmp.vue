@@ -117,9 +117,9 @@ export default {
         setAsCover(color) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.bg) taskToSave.style.bg = ''
-            if (taskToSave.style.bg === color) taskToSave.style.bg = ''
-            else taskToSave.style.bg = color
+            if (!taskToSave.style.bgc) taskToSave.style.bgc = ''
+            if (taskToSave.style.bgc === color) taskToSave.style.bgc = ''
+            else taskToSave.style.bgc = color
             taskToSave.style.asTop = this.asTop
             taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)
@@ -127,8 +127,8 @@ export default {
         onUploaded(imgUrl, fileName) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.bg) taskToSave.style.bg = ''
-            taskToSave.style.bg = `url(${imgUrl})`
+            if (!taskToSave.style.imgUrl) taskToSave.style.imgUrl = ''
+            taskToSave.style.imgUrl = `url(${imgUrl})`
             taskToSave.style.asTop = this.asTop
             taskToSave.style.textColor = 'black'
 
@@ -140,8 +140,8 @@ export default {
         setPexlesAsCover(imgUrl) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.bg) taskToSave.style.bg = ''
-            taskToSave.style.bg = `url(${imgUrl})`
+            if (!taskToSave.style.imgUrl) taskToSave.style.imgUrl = ''
+            taskToSave.style.imgUrl = `url(${imgUrl})`
             taskToSave.style.asTop = this.asTop
             taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)

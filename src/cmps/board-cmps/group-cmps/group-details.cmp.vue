@@ -38,7 +38,6 @@
     </section>
 </template>
 <script>
-import { utilService } from '../../../services/util.service'
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
 export default {
@@ -102,9 +101,6 @@ export default {
         async removeGroup() {
             this.$store.dispatch({ type: 'removeGroup', groupId: this.group.id })
         },
-        // removeTask(taskId) {
-        //     this.$store.dispatch({ type: 'removeTask', groupId: this.group.id, taskId })
-        // },
     },
     computed: {
         board() {
@@ -122,20 +118,3 @@ export default {
     },
 }
 </script>
-<style>
-.drag-preview {
-    /* transform: rotate(4deg); */
-    /* transform: rotateZ(5deg);
-    transition: transform 0.18s ease; */
-}
-
-.placeholder {
-    background: rgba(33, 33, 33, .08);
-    width: 256px;
-    height: 32px;
-    position: relative;
-    border-radius: 0.04rem;
-    /* transform: scaleY(0.85);
-    transform-origin: 0% 0%; */
-}
-</style>

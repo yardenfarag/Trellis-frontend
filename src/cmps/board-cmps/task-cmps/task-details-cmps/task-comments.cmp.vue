@@ -47,7 +47,6 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch({ type: 'getLoggedinUser' })
     await this.$store.dispatch({ type: 'loadUsers' })
   },
   methods: {
