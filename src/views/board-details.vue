@@ -78,7 +78,9 @@ export default {
         const { boardId } = this.$route.params
 
         // socketService.emit('board room', boardId)
-        // socketService.emit('setMemberJoin', this.$store.getters.loggedinUser?._id || '')
+        // socketService.on(SOCKET_EVENT_CHANGE_BOARD, board => {
+        //     console.log(board);
+        // })
 
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
         this.boardToEdit = JSON.parse(JSON.stringify(this.board))
