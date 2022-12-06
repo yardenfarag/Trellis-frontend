@@ -138,3 +138,64 @@
         height: 408px;
     }
 }
+
+.trello-action {
+
+    >p {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        margin-top: 0px;
+        font-size: 1rem;
+        line-height: 1.25;
+        text-transform: uppercase;
+    }
+
+    h2 {
+        font-family: charlie-semibold;
+        font-weight: 500;
+        padding-bottom: 16px;
+        font-size: 2.25rem;
+        line-height: 1.33333;
+    }
+
+    .action-cards {
+        overflow: hidden;
+        gap: 32px;
+        margin-bottom: 20px;
+
+        .card {
+            border-radius: 0.5rem;
+            box-shadow: rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px;
+            color: inherit;
+            display: block;
+            min-width: 347px;
+            margin: 0px;
+            overflow: hidden;
+            text-align: left;
+            text-decoration: none;
+            user-select: none;
+            white-space: normal;
+            width: auto;
+
+            .action-card-header {
+                width: 100%;
+                height: 47px;
+                margin-bottom: 48px;
+                background-color: rgb(121, 226, 242);
+            }
+
+            .action-card-content{
+                padding: 0 25px;
+
+                h3{
+                    font-size: 1.5rem;
+                    line-height: 1.33333;
+                    font-weight: 500;
+                }
+                p{
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

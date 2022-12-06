@@ -39,7 +39,7 @@
         <div @click.stop="closeModals" class="quick-menu-screen"></div>
         <section class="quick-edit-modal flex">
             <div @click.stop="" class="edit-modal-title flex column">
-                <textarea name="" id="" cols="30" rows="5">{{ task.title }}</textarea>
+                <textarea cols="30" rows="5">{{ task.title }}</textarea>
                 <button class="call-to-action">Save</button>
             </div>
             <div class="edit-modal-btns flex column">
