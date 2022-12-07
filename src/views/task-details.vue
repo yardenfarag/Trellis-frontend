@@ -4,7 +4,7 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)" class="task-cover">
+      <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)" @click="openModal($event, 'cover')" class="task-cover">
         <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
@@ -64,7 +64,7 @@
         <div class="task-info">
           <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
 
-          <task-attachment v-if="task.attachments?.length" @saveAttachment="saveTask" @deleteAttachment="saveTask"
+          <task-attachment v-if="task.attachments?.length" @saveAttachment="saveTask" @deleteAttachment="saveTask" @openAttachmentModal="openModal($event, 'attachment')"
             :task="task" />
 
           <task-checklist :task="task" @updateTask="saveTask" />
@@ -86,7 +86,7 @@
             <button @click="openModal($event, 'attachment')" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button v-if="(!task.style?.bg)" @click="openModal($event, 'cover')"
+            <button v-if="(!task.style.bgc && !task.style.imgUrl)" @click="openModal($event, 'cover')"
               class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
@@ -228,7 +228,7 @@ export default {
     },
 
     async removeTask() {
-      activityTxt = `archived ${this.task.title}`
+      let activityTxt = `archived ${this.task.title}`
       const groupId = this.group.id
       const taskId = this.task.id
       await this.$store.dispatch({ type: 'removeTask', groupId, taskId, activityTxt })
