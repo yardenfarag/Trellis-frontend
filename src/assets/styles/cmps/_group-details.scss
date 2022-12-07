@@ -1,28 +1,21 @@
-// .group-list .group-item {
-//     height: 100vh;
-// }
+.group-list {
+    margin-left: 8px;
+}
 
 .smooth-dnd-container.horizontal {
     display: flex !important;
 }
 
 .group-wrapper {
+    box-sizing: border-box;
     display: inline-block;
-    height: 100vh;
+    height: 100%;
+    margin: 0 4px;
     vertical-align: top;
     white-space: nowrap;
     width: 272px;
-    margin-right: 4px;
-
-    &:first-child {
-        margin-left: 12px;
-    }
 
     .group-details {
-        // font-size: 16px;
-        // background-color: var(--t-light-gray);
-        // border-radius: 3px;
-
         background-color: var(--t-light-gray);
         border-radius: 3px;
         box-sizing: border-box;
@@ -34,8 +27,6 @@
         width: 100% !important;
 
         .group-header {
-            // position: relative;
-            // padding: 10px 8px;
             flex: 0 0 auto;
             min-height: 20px;
             padding: 10px 8px;
@@ -223,6 +214,19 @@
         position: relative;
         z-index: 0;
 
+        &:hover {
+            .pencil-icon {
+                display: block;
+            }
+        }
+
+        .pencil-icon {
+            display: none;
+            position: absolute;
+            top: 6px;
+            right: 4px;
+        }
+
         // &:hover {
         //     background-color: darken(white, 3%);
         // }
@@ -232,161 +236,213 @@
             height: 32px;
         }
 
-        .label-list {
-            .label-preview {
-                width: 40px;
-                height: 8px;
-            }
-        }
+        .task-info {
+            overflow: hidden;
+            padding: 6px 8px 2px;
+            position: relative;
+            // z-index: 10;
 
-        & .pencil-icon {
-            position: absolute;
-            right: -5px;
-            top: -4px;
-            border-radius: 3px;
-            display: none;
-            padding: 6px;
-
-            &:hover {
-                background-color: lighten($color-hover-1, 6%)
-            }
-        }
-
-        &:hover {
-            .pencil-icon {
-                display: block;
-            }
-        }
-
-        .icon-toolbar {
-            height: 26px;
-            display: flex;
-            gap: 7px;
-            margin-top: 2px;
-            margin-right: 2px;
-            color: $color-primary-icon;
-
-            &>* {
-                padding-inline: 3px;
-            }
-
-            span {
-                font-size: 13px;
-                margin-block: auto;
-
-            }
-
-            .due-date-group {
+            .labels-container {
                 display: flex;
+                flex-wrap: wrap;
                 gap: 4px;
-                border-radius: 3px;
+                margin-bottom: 4px;
 
+                .prev-label {
+                    margin-top: 4px;
+                    margin-bottom: 4px;
+                    padding-right: 0;
+                    padding-left: 0;
+                    min-width: 40px;
+                    max-width: 40px;
+                    height: 8px;
+                    color: transparent;
+                    display: inline-block;
+                    position: relative;
+                    border-radius: 4px;
+                    padding: 0 8px;
+                    text-align: left;
 
-                &:hover {
-                    background-color: darken($color-bg-1, 3%);
-
-                    .due-date-box {
-                        display: inherit;
-                    }
-
-                    .due-date-clock {
-                        display: none;
-                    }
                 }
+            }
 
-                .due-date-box {
-                    display: none;
+            .task-title {
+                word-wrap: break-word;
+                clear: both;
+                color: $color-primary-text;
+                display: block;
+                margin: 0 0 4px;
+                overflow: hidden;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 20px;
+            }
+
+            .badges {
+                float: left;
+                margin-left: -2px;
+                max-width: 100%;
+
+                .icon-container {
+                    display: inline-block;
+                    margin: 0 4px 4px 0;
+                    max-width: 100%;
+                    min-height: 20px;
+                    overflow: hidden;
+                    padding: 2px;
+                    position: relative;
+                    text-decoration: none;
+                    text-overflow: ellipsis;
+                    vertical-align: top;
+
+                    .prev-attach {
+
+                        &::before {
+                            font-family: trello;
+                            content: '\E908';
+                            font-size: 15px;
+                        }
+                    }
+
+                    .prev-desc {
+
+                        &::before {
+                            font-family: trello;
+                            content: '\E922';
+                            font-size: 15px;
+                        }
+                    }
+
+                    .prev-checklists {
+
+                        &::before {
+                            font-family: trello;
+                            content: '\E91A';
+                            font-size: 15px;
+                        }
+                    }
+
+                    .prev-date {
+
+                        &::before {
+                            font-family: trello;
+                            content: '\E91B';
+                            font-size: 15px;
+                        }
+                    }
+
+                    .prev-comments {
+
+                        &::before {
+                            font-family: trello;
+                            content: '\E91E';
+                            font-size: 15px;
+                        }
+                    }
+
+                }
+            }
+
+            .member-list {
+                float: right;
+                margin: 0 -2px 0 0;
+
+                .avater {
+                    float: right;
+                    height: 28px;
+                    margin: 0 0 4px 4px;
+                    width: 28px;
                 }
             }
         }
     }
-}
 
-.prev-icons {
-    .icon {
-        display: inline;
+    & img {
+        width: 28px;
+        height: 28px;
+        border-radius: 100%;
+        margin: 0 0 4px 4px;
+        float: right;
     }
 
-    & ul li {
-        display: inline;
 
-        & img {
-            width: 28px;
-            height: 28px;
-            border-radius: 100%;
-        }
+
+    // .prev-attach {
+
+    //     &::before {
+    //         font-family: trello;
+    //         content: '\E908';
+    //         font-size: 15px;
+    //         top: 2px;
+
+    //     }
+    // }
+
+    // .prev-desc {
+
+    //     &::before {
+    //         font-family: trello;
+    //         content: '\E922';
+    //         font-size: 15px;
+    //     }
+    // }
+
+    // .prev-checklists {
+
+    //     &::before {
+    //         font-family: trello;
+    //         content: '\E91A';
+    //         font-size: 15px;
+    //     }
+    // }
+
+    // .prev-date {
+
+    //     &::before {
+    //         font-family: trello;
+    //         content: '\E91B';
+    //         font-size: 15px;
+    //     }
+    // }
+
+    // .prev-comments {
+
+    //     &::before {
+    //         font-family: trello;
+    //         content: '\E91E';
+    //         font-size: 15px;
+    //     }
+    // }
+
+    // .labels-prev-container {
+    //     gap: 5px;
+    //     flex-wrap: wrap;
+
+    //     .prev-label {
+    //         margin-top: 4px;
+    //         margin-bottom: 4px;
+    //         padding-right: 0;
+    //         padding-left: 0;
+    //         min-width: 40px;
+    //         max-width: 40px;
+    //         height: 8px;
+    //         border-radius: 4px;
+    //     }
+    // }
+
+
+
+    .quick-menu-screen {
+        background-color: rgba(0, 0, 0, 0.478);
+        position: fixed;
+        inset: 0;
+        z-index: 10;
     }
-}
 
-.prev-attach {
-
-    &::before {
-        font-family: trello;
-        content: '\E908';
-        font-size: 20px;
+    .quick-edit-modal {
+        position: fixed;
+        z-index: 20;
     }
-}
 
-.prev-desc {
-
-    &::before {
-        font-family: trello;
-        content: '\E922';
-        font-size: 20px;
-    }
-}
-
-.prev-checklists {
-
-    &::before {
-        font-family: trello;
-        content: '\E91A';
-        font-size: 20px;
-    }
-}
-
-.prev-date {
-
-    &::before {
-        font-family: trello;
-        content: '\E91B';
-        font-size: 20px;
-    }
-}
-
-.prev-comments {
-
-    &::before {
-        font-family: trello;
-        content: '\E91E';
-        font-size: 20px;
-    }
-}
-
-.labels-prev-container {
-    gap: 5px;
-    flex-wrap: wrap;
-}
-
-.prev-label {
-    margin-top: 4px;
-    margin-bottom: 4px;
-    padding-right: 0;
-    padding-left: 0;
-    min-width: 40px;
-    max-width: 40px;
-    height: 8px;
-    border-radius: 4px;
-}
-
-.quick-menu-screen {
-    background-color: rgba(0, 0, 0, 0.478);
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-}
-
-.quick-edit-modal {
-    position: fixed;
-    z-index: 20;
 }

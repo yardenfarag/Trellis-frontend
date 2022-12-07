@@ -4,34 +4,40 @@
         <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
             edit
         </span>
-        <div v-if="showLabels" class="labels-prev-container flex">
-            <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label"></div>
-        </div>
-        <h5>{{ task.title }}</h5>
+        <div class="task-info">
+            <div v-if="showLabels" class="labels-container">
+                <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
+                </div>
+            </div>
+            <h5 class="task-title">{{ task.title }}</h5>
 
-        <section v-if="showLabels" class="prev-icons">
+            <section v-if="showLabels" class="badges">
 
-            <div class="icon" title="This card has a description" v-if="(task.dueDate)">
-                <small class="prev-date"> {{ dueDate }}</small>
-            </div>
-            <div class="icon" title="This card has a description" v-if="(task.description)">
-                <small class="prev-desc"> </small>
-            </div>
-            <div class="icon" title="Comments" v-if="(task.comments?.length > 0)">
-                <small class="prev-comments"> {{ task.comments?.length }}</small>
-            </div>
-            <div class="icon" title="Attachments" v-if="(task.attachments?.length > 0)">
-                <small class="prev-attach"> {{ task.attachments?.length }}</small>
-            </div>
-            <div :style="checklistDoneStyle" class="icon" title="Checklist items" v-if="(task.checklists?.length > 0)">
-                <small class="prev-checklists"> {{ checklistSum }}</small>
-            </div>
-            <ul v-if="taskMembers.length" class="clean-list flex">
-                <li v-for="taskMember in taskMembers" class="avatar flex">
+                <div class="icon-container" v-if="(task.dueDate)">
+                    <small class="prev-date">{{ dueDate }}</small>
+                </div>
+                <div class="icon-container" title="This card has a description" v-if="(task.description)">
+                    <small class="prev-desc"> </small>
+                </div>
+                <div class="icon-container" title="Comments" v-if="(task.comments?.length > 0)">
+                    <small class="prev-comments"> {{ task.comments?.length }}</small>
+                </div>
+                <div class="icon-container" title="Attachments" v-if="(task.attachments?.length > 0)">
+                    <small class="prev-attach"> {{ task.attachments?.length }}</small>
+                </div>
+                <div :style="checklistDoneStyle" class="icon-container" title="Checklist items"
+                    v-if="(task.checklists?.length > 0)">
+                    <small class="prev-checklists"> {{ checklistSum }}</small>
+                </div>
+            </section>
+
+            <ul v-if="taskMembers.length" class="clean-list member-list">
+                <li v-for="taskMember in taskMembers" class="avatar">
                     <img :src="taskMember.imgUrl">
                 </li>
             </ul>
-        </section>
+
+        </div>
 
     </section>
 

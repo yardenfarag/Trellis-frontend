@@ -291,7 +291,7 @@ export default {
     },
     taskMembers() {
       let members = this.users?.filter(user => {
-        return this.boardToShow?.memberIds?.includes(user._id)
+        return this.board?.memberIds?.includes(user._id)
       })
       let taskMembers = members?.filter(member => {
         return this.task?.memberIds?.includes(member._id)
