@@ -167,6 +167,10 @@
         position: relative;
         z-index: 0;
 
+        &:hover {
+            background-color: rgb(246, 246, 253);
+        }
+
         .full-color-container {
             display: flex;
             flex-direction: row;

@@ -1,5 +1,6 @@
 <template>
-    <section v-if="(!editLabel && !isDelete)" class="modal-container task-label-modal">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(!editLabel && !isDelete)"
+        class="modal-container task-label-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Labels</h5>
             <span @click="closeModal()" class="close material-symbols-outlined">
@@ -36,7 +37,8 @@
             </section>
         </div>
     </section>
-    <section v-if="(editLabel && !isDelete)" class="modal-container task-label-modal">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(editLabel && !isDelete)"
+        class="modal-container task-label-modal">
         <section class="modal-header">
 
             <span @click="goBack()" class="back material-symbols-outlined">
@@ -123,7 +125,8 @@ import { utilService } from '../../../../../services/util.service';
 export default {
     props: {
         board: Object,
-        task: Object
+        task: Object,
+        pos: Object
     },
     emits: ['closeModal', 'updateTask'],
     name: 'task-label-modal',

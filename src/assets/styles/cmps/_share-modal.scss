@@ -1,5 +1,231 @@
-.users-container {
-    border: 1px solid black;
-    max-height: 100px;
-    overflow: scroll;
+.share-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    border-radius: 3px;
+
+    max-width: calc(100vw - 24px);
+    min-height: 200px;
+    padding: 20px 0px 0px 24px;
+    background-color: white;
+
+    .share-modal-header {
+        margin: 0px 24px 16px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 32px;
+
+        .share-title {
+            font-size: 20px;
+        }
+    }
+
+    .input-container {
+        margin-top: 0px;
+        margin-right: 24px;
+        margin-bottom: 20px;
+        margin-left: 0px;
+        position: relative;
+
+        .controler-container {
+            display: flex;
+            align-items: flex-start;
+
+            .share-input {
+                background-color: lighten($color-primary-btn-modal, 60%);
+                display: block;
+                margin: auto;
+                height: 32px;
+                border-radius: 1px;
+                outline: 2px solid var(--t-gray);
+                transition: 0.15s;
+                margin: 0 8px 0 0;
+                padding: 6px 4px 6px 12px;
+                width: 100%;
+
+                &:hover {
+                    background-color: $color-primary-btn-modal-hover;
+                }
+
+                &:focus {
+                    background-color: white;
+                    outline: 2px solid var(--t-blue);
+                }
+            }
+        }
+
+        .member-select-section {
+            position: absolute;
+            background-color: white;
+            border-radius: 3px;
+            left: 0;
+            margin: 4px 0 0;
+            overflow-y: visible;
+            top: 105%;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 0px 1px 1px $color-primary-text;
+
+            .member-select-list {
+                overflow-y: auto;
+                margin: 4px;
+                max-height: 256px;
+                padding: 4px;
+                // -webkit-transform: translateZ(0);
+                width: calc(100% - 8px);
+
+                .autocomplete-option {
+                    border-radius: 3px;
+                    margin-top: 6px;
+
+                    .member-select-container {
+                        align-items: center;
+                        display: flex;
+                        padding: 8px 0;
+
+                        .icon-select-container {
+                            margin-right: 12px;
+                            width: 32px;
+                            z-index: 0;
+                            text-decoration: none;
+                            border-radius: 25em;
+                            cursor: pointer;
+                            display: block;
+                            float: left;
+                            height: 32px;
+                            flex-shrink: 0;
+                            margin: 0 8px 0 0;
+                            position: relative;
+                            line-height: 10px;
+                            overflow: hidden;
+                            white-space: nowrap;
+
+                            img {
+                                height: 100%;
+                                width: 100%;
+                            }
+                        }
+
+                        .info-select-container {
+                            width: 100%;
+                            overflow: hidden;
+
+                            .member-select-name {
+                                text-overflow: ellipsis;
+                                max-width: 75%;
+                            }
+
+                            span {
+                                font-size: 12px;
+                                line-height: 16px;
+                                margin: 0;
+                                display: block;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .memebr-list-container {
+        max-height: 488px;
+        padding-right: 20px;
+        margin-right: 4px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+
+        .share-link-container {
+            display: flex;
+            flex-direction: row;
+            // justify-content: space-between;
+            padding-top: 4px;
+
+            .share-link-icon-container {
+                height: 32px;
+                width: 32px;
+                padding: 4px;
+                background: $color-primary-btn-modal-hover;
+                border-radius: 4px;
+                flex-shrink: 0;
+                position: relative;
+
+                .share-link-icon {
+                    &::after {
+                        font-family: trello;
+                        content: '\E908';
+                        position: absolute;
+                        top: 6px;
+                        left: 8px;
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .share-link-info-container {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 12px;
+
+                .share-link-text {
+                    margin: 0;
+                    line-height: 16px;
+                    margin-right: 16px;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+
+                .share-link-link {
+                    font-size: 12px;
+                    padding: 0px;
+                    margin: 0px;
+                    text-align: left;
+                }
+            }
+        }
+
+
+
+        .member-container {
+            display: flex;
+            padding-top: 16px;
+            align-items: center;
+
+            .icon-container {
+                position: relative;
+                line-height: 10px;
+                white-space: nowrap;
+                align-self: center;
+
+                img {
+                    height: 32px;
+                    width: 32px;
+                    line-height: 30px;
+                    border-radius: 50%;
+                }
+            }
+
+            .member-info-container {
+                flex-grow: 1;
+                margin-left: 12px;
+                word-break: break-word;
+                padding-right: 12px;
+                font-size: 14px;
+
+                .member-name {
+                    font-size: 14px;
+                }
+
+                .member-info {
+                    font-size: 12px;
+                }
+
+            }
+        }
+    }
 }

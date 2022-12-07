@@ -9,7 +9,7 @@
     width: 768px;
     // max-width: 768px;
     // background-color: $color-bg-2;
-    background-color: rgb(236, 237, 246);
+    background-color: rgb(240, 240, 246);
     position: absolute;
     right: 50%;
     left: 50%;
@@ -100,7 +100,7 @@
 
         .task-title-container {
             min-height: 32px;
-            padding: 12px 40px 8px 56px;
+            padding: 12px 40px 8px 57px;
             position: relative;
             z-index: 1;
             // display: flex;
@@ -115,7 +115,7 @@
                 font-size: 24px;
                 position: absolute;
                 top: 20px;
-                left: 16px;
+                left: 19px;
                 line-height: 32px
             }
 
@@ -153,6 +153,7 @@
     .task-main {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 24px;
 
         .task-content {
             width: 576px;
@@ -300,7 +301,8 @@
                         font-family: trello;
                         font-size: 24px;
                         position: absolute;
-                        left: -37px;
+                        left: -36px;
+                        color: $color-primary-icon-hover;
                     }
                 }
             }
@@ -350,6 +352,8 @@
                     }
 
                     .title-container {
+                        margin-top: 15px;
+                        margin-bottom: 9px;
                         position: relative;
                         align-items: center;
                         display: flex;
@@ -368,6 +372,24 @@
                     .pre-text-area {
                         p {
                             margin: 0;
+                        }
+
+                        .no-desc-style {
+                            background-color: $color-primary-btn-modal;
+                            border: none;
+                            border-radius: 3px;
+                            display: block;
+                            min-height: 56px;
+                            padding: 8px 12px;
+                            text-decoration: none;
+                            font-size: 14px;
+                            font-weight: 400;
+                            line-height: 22px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: $color-primary-btn-modal-hover;
+                            }
                         }
                     }
 
@@ -484,7 +506,7 @@
 
                         &::before {
                             content: '\E91A';
-                            top: 15px;
+                            top: 18px;
 
                         }
                     }
@@ -654,7 +676,7 @@
 
                     span {
                         position: absolute;
-                        left: 35px;
+                        left: 32px;
                         top: 7px;
                     }
 
@@ -662,7 +684,7 @@
                         font-family: trello;
                         position: absolute;
                         font-size: 16px;
-                        left: 10px;
+                        left: 8px;
                     }
 
                     &.members {

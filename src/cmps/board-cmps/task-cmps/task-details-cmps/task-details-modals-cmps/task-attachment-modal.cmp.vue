@@ -1,7 +1,7 @@
 <template>
-    <section class="modal-container task-attachment-modal">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container task-attachment-modal">
         <section class="modal-header">
-            <span @click="$emit('closeAttachmentModal')" class="close material-symbols-outlined">
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
             <h5 class="title-modal-header">Attach from...</h5>
@@ -31,10 +31,12 @@
 import { utilService } from '../../../../../services/util.service';
 import imgUploader from '../../../../img-uploader.vue'
 export default {
+    emits: ['closeModal'],
     name: 'task-attachment-modal',
     // emits: ['closeAttachmentModal', 'saveTask'],
     props: {
         task: Object,
+        pos: Object
     },
     components: {
         imgUploader,
@@ -48,6 +50,9 @@ export default {
     },
     created() { },
     methods: {
+        closeModal() {
+            this.$emit('closeModal')
+        },
         focusOnLink() {
             this.$refs.link.focus()
         },

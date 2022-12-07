@@ -20,10 +20,10 @@
     <section class="task-main">
       <section class="task-content">
         <section class="members-and-labels">
-          <section class="members-container small-container">
+          <section v-if="taskMembers.length" class="members-container small-container">
             <h5 class="small-title-margin">Members</h5>
             <div class="member-list-container">
-              <ul v-if="taskMembers.length" v-for="taskMember in taskMembers" class="clean-list">
+              <ul v-for="taskMember in taskMembers" class="clean-list">
                 <li class="avatar">
                   <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 100 + '%' }">
                 </li>
@@ -33,9 +33,9 @@
           </section>
 
 
-          <section class="labels-container small-container">
+          <section v-if="task.labels.length" class="labels-container small-container">
             <h5 class="small-title-margin">Labels</h5>
-            <div v-if="task.labels.length" class="labels-list-container">
+            <div class="labels-list-container">
 
               <div v-for="label in task.labels" :key="label.id" class="label">
                 <div class="label-bg" :style="{ backgroundColor: label.color }">
@@ -78,14 +78,15 @@
         <div class="add-to-card-container">
           <h5 class="small-title add-to-card-title">Add to card</h5>
           <div class="btn-container">
-            <button @click="toggleMembersModal()" class="task-detail-btn members"><span>Members</span> </button>
-            <button @click="toggleLabelsModal()" class="task-detail-btn labels"><span>Labels</span> </button>
-            <button @click="toggleChecklistModal()" class="task-detail-btn checklist"><span>Checklist</span> </button>
-            <button @click="toggleDateModal()" class="task-detail-btn dates"><span>Dates</span> </button>
-            <button @click="toggleAttachmentModal()" class="task-detail-btn attachment"><span>Attachment</span>
+            <button @click="openModal($event, 'members')" class="task-detail-btn members"><span>Members</span> </button>
+            <button @click="openModal($event, 'labels')" class="task-detail-btn labels"><span>Labels</span> </button>
+            <button @click="openModal($event, 'checklist')" class="task-detail-btn checklist"><span>Checklist</span>
+            </button>
+            <button @click="openModal($event, 'dates')" class="task-detail-btn dates"><span>Dates</span> </button>
+            <button @click="openModal($event, 'attachment')" class="task-detail-btn attachment"><span>Attachment</span>
             </button>
             <button class="task-detail-btn location"><span>Location</span> </button>
-            <button v-if="(!task.style?.bg)" @click="toggleCoverModal()"
+            <button v-if="(!task.style?.bg)" @click="openModal($event, 'cover')"
               class="task-detail-btn cover"><span>Cover</span> </button>
           </div>
         </div>
@@ -102,15 +103,15 @@
     </section>
   </section>
 
-  <taskChecklistModal v-if="isChecklistModal" @closeCheckListModal="toggleChecklistModal" :task="task" :gruop="group"
+  <taskChecklistModal v-if="isChecklistModal" @closeModal="closeModals" :task="task" :gruop="group" :pos="modalPos"
     @updateTask="saveTask" />
-  <taskLabelsModal @closeModal="toggleLabelsModal" @updateTask="saveTask" v-if="isLabelsModalOpen" :board="board"
-    :task="task" />
-  <taskDatesModal :task="task" v-if="isDateModal" @closeDateModal="toggleDateModal" @saveTask="saveTask" />
-  <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeAttachmentModal="toggleAttachmentModal"
-    @saveTask="saveTask"></taskAttachmentModal>
-  <taskMembersModal @saveTask="saveTask" :task="task" v-if="isMembersModal" @closeMembersModal="toggleMembersModal" />
-  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="saveTask" @toggleCoverModal="toggleCoverModal" />
+  <taskLabelsModal @closeModal="closeModals" @updateTask="saveTask" v-if="isLabelsModal" :board="board" :task="task"
+    :pos="modalPos" />
+  <taskDatesModal :task="task" v-if="isDateModal" @closeModal="closeModals" @saveTask="saveTask" :pos="modalPos" />
+  <taskAttachmentModal :task="task" v-if="isAttachmentModal" @closeModal="closeModals" @saveTask="saveTask"
+    :pos="modalPos" />
+  <taskMembersModal @saveTask="saveTask" :task="task" v-if="isMembersModal" @closeModal="closeModals" :pos="modalPos" />
+  <taskCoverModal :task="task" v-if="isCoverModal" @saveTask="saveTask" @closeModal="closeModals" :pos="modalPos" />
 </template>
 
 <script>
@@ -152,12 +153,14 @@ export default {
       task: null,
       group: null,
       boardId: null,
-      isLabelsModalOpen: false,
+      isLabelsModal: false,
       isChecklistModal: false,
       isDateModal: false,
       isMembersModal: false,
       isAttachmentModal: false,
       isCoverModal: false,
+
+      modalPos: null
     }
   },
 
@@ -190,53 +193,30 @@ export default {
       }
       await this.updateTask(taskToEdit, activityTxt)
     },
-    toggleMembersModal() {
-      this.isLabelsModalOpen = false
+
+    openModal(ev, modal) {
+      this.closeModals()
+
+      console.log(ev.target.getBoundingClientRect())
+      const elPos = ev.target.getBoundingClientRect()
+      const top = elPos.top + elPos.height + 8
+      const left = elPos.left
+      this.modalPos = { top, left }
+      if (modal === 'members') this.isMembersModal = true
+      if (modal === 'labels') this.isLabelsModal = true
+      if (modal === 'checklist') this.isChecklistModal = true
+      if (modal === 'dates') this.isDateModal = true
+      if (modal === 'attachment') this.isAttachmentModal = true
+      if (modal === 'cover') this.isCoverModal = true
+    },
+
+    closeModals() {
+      this.isLabelsModal = false
       this.isChecklistModal = false
       this.isDateModal = false
-      this.isAttachmentModal = false
-      this.taskCoverModal = false
-      this.isMembersModal = !this.isMembersModal
-    },
-    toggleLabelsModal() {
       this.isMembersModal = false
-      this.isChecklistModal = false
-      this.isDateModal = false
       this.isAttachmentModal = false
-      this.taskCoverModal = false
-      this.isLabelsModalOpen = !this.isLabelsModalOpen
-    },
-    toggleChecklistModal() {
-      this.isMembersModal = false
-      this.isLabelsModalOpen = false
-      this.isDateModal = false
-      this.isAttachmentModal = false
-      this.taskCoverModal = false
-      this.isChecklistModal = !this.isChecklistModal
-    },
-    toggleDateModal() {
-      this.isMembersModal = false
-      this.isLabelsModalOpen = false
-      this.isChecklistModal = false
-      this.isAttachmentModal = false
-      this.taskCoverModal = false
-      this.isDateModal = !this.isDateModal
-    },
-    toggleAttachmentModal() {
-      this.isMembersModal = false
-      this.isLabelsModalOpen = false
-      this.isChecklistModal = false
-      this.isDateModal = false
-      this.taskCoverModal = false
-      this.isAttachmentModal = !this.isAttachmentModal
-    },
-    toggleCoverModal() {
-      this.isMembersModal = false
-      this.isLabelsModalOpen = false
-      this.isChecklistModal = false
-      this.isDateModal = false
-      this.isAttachmentModal = false
-      this.isCoverModal = !this.isCoverModal
+      this.isCoverModal = false
     },
 
     async removeTask() {

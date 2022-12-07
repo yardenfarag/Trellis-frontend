@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-container create-board-modal">
+    <div :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container create-board-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Create board</h5>
             <span @click="closeModal()" class="close material-symbols-outlined">
@@ -9,7 +9,7 @@
         <div class="modal-body-wrapper">
             <section class="modal-body">
                 <div class="background-preview-container">
-                    <div v-if="images" :style="{ background: bgc }" class="background-preview">
+                    <div :style="{ background: bgc }" class="background-preview">
                         <!-- <img class="image-preview" :src="images[0].src.small" /> -->
                     </div>
                 </div>
@@ -27,13 +27,13 @@
                         </ul>
                     </div>
                     <ul class="color-picker-list">
-                        <li class="color-li" v-for="color in colors.splice(0, 5)">
+                        <li class="color-li" v-for="color in colorsToShow">
                             <div :style="{ backgroundColor: color }" class="btn-color-holder"
                                 @click="setBackground(color)"></div>
                         </li>
-                        <li class="color-li">
+                        <!-- <li class="color-li">
                             <div class="btn-color-holder more"></div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <form class="add-board-form">
@@ -72,6 +72,9 @@
 import { localService } from '../../../services/board.service.local'
 import { uploadService } from '../../../services/upload.service'
 export default {
+    props: {
+        pos: Object
+    },
     name: 'board-create-modal',
     components: {},
     data() {
@@ -81,13 +84,16 @@ export default {
                 '#5ba4cf', '#29cce5', '#6deca9', '#ff8ed4', '#172b4d'],
             isDisabled: true,
             newBoard: localService.getEmptyBoard(),
-            bgc: ''
+            bgc: '#d3d6d8'
         };
     },
-    created() {
-        this.searchImages('nature')
-    },
+    // created() {
+    //     this.searchImages('nature')
+    // },
     methods: {
+        closeModal() {
+            this.$emit('closeModal')
+        },
         async searchImages(searchTerm) {
             try {
                 const images = await uploadService.getImages(searchTerm)
@@ -107,7 +113,7 @@ export default {
             this.bgc = color
         },
         async saveBoard() {
-            if (!this.bgc) return
+            // if (!this.bgc) return
             if (!this.newBoard.title) return
             this.newBoard.style.bgc = this.bgc
             this.newBoard.style.headerClr = this.bgc
@@ -120,7 +126,9 @@ export default {
         }
     },
     computed: {
-
+        colorsToShow() {
+            return this.colors.splice(0, 6)
+        }
     },
     unmounted() { },
 };

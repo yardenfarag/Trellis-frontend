@@ -24,29 +24,29 @@
                         <img v-if="boardMember.imgUrl" :src="boardMember.imgUrl" alt="" />
                     </div>
                 </section>
-                <button @click="isShareModal = true" class="share-btn">
+                <button @click="openShare" class="share-btn">
                     Share</button><span class="btn-divider">|</span>
                 <button @click="toggleMenu" class="menu-btn opacity-input"></button>
             </section>
         </div>
     </header>
 
-    <section class="header-modals">
+    <!-- <section class="header-modals">
         <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal" />
-    </section>
+    </section> -->
 </template>
 <script>
-import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
+// import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
 export default {
     // props: ['board'],
     name: 'board-header',
-    emits: ['toggleMenu', 'toggleFilter'],
+    emits: ['toggleMenu', 'toggleFilter', 'openShare'],
     components: {
-        shareModal,
+        // shareModal,
     },
     data() {
         return {
-            isShareModal: false,
+
         }
     },
     created() { },
@@ -56,6 +56,9 @@ export default {
         },
         toggleMenu() {
             this.$emit('toggleMenu')
+        },
+        openShare() {
+            this.$emit('openShare')
         },
         ChangeBoardTitle(ev) {
             const board = JSON.parse(JSON.stringify(this.board))

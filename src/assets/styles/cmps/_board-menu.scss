@@ -142,6 +142,29 @@
         }
     }
 
+    .activity-container {
+        .activity-title {
+            margin: 4px 0;
+            padding: 6px 6px 6px 40px;
+            position: relative;
+            font-weight: 600;
+            line-height: 20px;
+            border-radius: 3px;
+            font-size: 14px;
+            color: $color-primary-text;
+
+            &::before {
+                position: absolute;
+                font-family: trello;
+                content: '\E900';
+                font-size: 20px;
+                left: 8px;
+                top: 6px;
+                color: $color-secondery-text;
+            }
+        }
+    }
+
 
     .bg-container {
 

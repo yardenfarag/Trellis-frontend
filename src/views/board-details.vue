@@ -1,6 +1,7 @@
 <template>
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
-        <board-header @toggleFilter="toggleFilter" @toggleMenu="toggleMenu" v-if="board"></board-header>
+        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
+            v-if="board"></board-header>
         <Container :drop-placeholder="{ className: 'task-preview ghost' }" @drop="onGroupDrop" group-name="trello-group"
             drop-class="drop-preview" drag-class="drag-preview" class="clean-list flex group-list"
             orientation="horizontal">
@@ -34,11 +35,13 @@
         </board-menu>
         <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="toggleFilter">
         </task-filter>
+        <share-modal @closeShareModal="isShareOpen = false" v-if="isShareOpen" />
     </section>
     <router-view />
 </template>
 
 <script>
+import shareModal from '../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue'
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 import boardMenu from '../cmps/board-cmps/board-menu-cmps/board-menu.cmp.vue'
@@ -54,6 +57,7 @@ export default {
         taskFilter,
         Container,
         Draggable,
+        shareModal,
     },
     data() {
         return {
@@ -63,6 +67,7 @@ export default {
             titleVis: false,
             isFilterOpen: false,
             isMenuOpen: false,
+            isShareOpen: false,
             isAddGroup: false,
             groupToSave: {
                 title: '',
