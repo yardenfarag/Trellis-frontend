@@ -8,7 +8,8 @@
         </section>
         <div class="modal-body-wrapper">
             <section class="modal-body">
-                <input class="primary-input-modal" v-model="filterBy.txt" type="search" placeholder="Search members">
+                <input ref="search" class="primary-input-modal" v-model="filterBy.txt" type="search"
+                    placeholder="Search members">
                 <h6 class="title-mt16-mb8">Board members</h6>
                 <div v-if="boardMembers" class="board-members">
                     <div @click="toggleMemberToTask(boardMember._id)" v-for="boardMember in boardMembers"
@@ -88,6 +89,11 @@ export default {
             members = members.filter(member => regex.test(member.fullname))
             return members
         },
+    },
+    mounted() {
+        this.$nextTick(() => {
+            this.$refs.search.focus()
+        })
     },
     unmounted() { },
 };

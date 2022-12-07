@@ -267,7 +267,7 @@ export default {
 
             this.titleVis = true
             this.$nextTick(() => {
-                this.focusOnTitle()();
+                this.focusOnTitle()
             });
         },
         toggleLabel(labeltoAdd) {

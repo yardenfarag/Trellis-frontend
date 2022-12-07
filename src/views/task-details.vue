@@ -196,18 +196,26 @@ export default {
 
     openModal(ev, modal) {
       this.closeModals()
-
-      console.log(ev.target.getBoundingClientRect())
       const elPos = ev.target.getBoundingClientRect()
-      const top = elPos.top + elPos.height + 8
-      const left = elPos.left
-      this.modalPos = { top, left }
+
       if (modal === 'members') this.isMembersModal = true
       if (modal === 'labels') this.isLabelsModal = true
       if (modal === 'checklist') this.isChecklistModal = true
       if (modal === 'dates') this.isDateModal = true
       if (modal === 'attachment') this.isAttachmentModal = true
-      if (modal === 'cover') this.isCoverModal = true
+
+      const top = elPos.top + elPos.height + 8
+      const left = elPos.left
+      this.modalPos = { top, left }
+
+      if (modal === 'cover') {
+        this.isCoverModal = true
+
+        const top = elPos.top + elPos.height + 8
+        const left = elPos.left
+        this.modalPos = { top, left }
+      }
+
     },
 
     closeModals() {

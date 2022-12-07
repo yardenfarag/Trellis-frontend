@@ -7,9 +7,10 @@
 
     <div class="add-comments">
       <img :src="loggedinUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
-      <div class="open-txt" v-if="!addComment" @click.stop="addComment = true">Write a comment...</div>
+      <div class="open-txt" v-if="!addComment" @click.stop="openAddComment">Write a comment...</div>
       <div v-if="addComment" class="comment-input">
-        <textarea class="add-txt-input" v-model="comment.txt" type="text" placeholder="Write a comment..."></textarea>
+        <textarea class="add-txt-input" ref="comment" v-model="comment.txt" type="text"
+          placeholder="Write a comment..."></textarea>
         <button class="call-to-action" @click="saveComment(comment)">Save</button>
         <button class="task-content-btn" @click="addComment = false">Cancel</button>
       </div>
@@ -50,6 +51,12 @@ export default {
     await this.$store.dispatch({ type: 'loadUsers' })
   },
   methods: {
+    openAddComment() {
+      this.addComment = true
+      this.$nextTick(() => {
+        this.$refs.comment.focus()
+      })
+    },
     deleteComment(commentId) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       const commentIdx = taskToEdit.comments.findIndex(comment => comment.id === commentId)
@@ -57,6 +64,7 @@ export default {
       this.$emit('saveTask', taskToEdit)
     },
     saveComment(comment) {
+      if (!comment.txt) return
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       const commentToSave = JSON.parse(JSON.stringify(comment))
       commentToSave.byMember = this.loggedinUser

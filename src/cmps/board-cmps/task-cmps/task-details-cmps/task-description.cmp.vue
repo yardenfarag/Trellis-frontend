@@ -3,11 +3,13 @@
         <div class="description-wraper">
             <div class="title-container">
                 <h3> Description</h3>
-                <button v-if="description" class="task-detail-btn" @click="isDescriptionSelected = true">Edit</button>
+                <button v-if="description" class="task-detail-btn" @click="openDescInput">Edit</button>
             </div>
-            <div v-if="!isDescriptionSelected" class="pre-text-area" @click="isDescriptionSelected = true">
-                <p v-if="description">{{ description }}</p>
-                <p class="no-desc-style" v-else>Add a more detailed description…</p>
+            <div>
+                <div v-if="!isDescriptionSelected" ref="desc" class="pre-text-area" @click="openDescInput">
+                    <p v-if="description">{{ description }}</p>
+                    <p class="no-desc-style" v-else>Add a more detailed description…</p>
+                </div>
             </div>
         </div>
         <div class="description-form" v-if="isDescriptionSelected">
@@ -33,6 +35,14 @@ export default {
     },
     created() { },
     methods: {
+        openDescInput() {
+            this.isDescriptionSelected = true
+            // setTimeout(() => {
+            //     this.$nextTick(() => {
+            //         this.$refs.desc.focus()
+            //     })
+            // }, "50")
+        },
         updateTaskDesc() {
             this.$emit('updateTaskDesc', this.description)
             this.isDescriptionSelected = false

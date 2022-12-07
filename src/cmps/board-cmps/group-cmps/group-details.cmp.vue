@@ -78,17 +78,17 @@ export default {
         openTaskForm() {
             this.isAddTask = true
             this.$nextTick(() => {
-                this.focusOnTitle()
+                this.$refs.title.focus()
             })
-
-        },
-        focusOnTitle() {
-            this.$refs.title.focus()
         },
         addTask() {
             if (!this.taskTitle) return
             this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
             this.taskTitle = ''
+            this.isAddTask = true
+            this.$nextTick(() => {
+                this.$refs.title.focus()
+            })
         },
         async updateGroup() {
             const groupToEdit = JSON.parse(JSON.stringify(this.group))

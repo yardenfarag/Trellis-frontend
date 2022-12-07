@@ -126,14 +126,14 @@ export default {
         setFilterBy(filterBy) {
             this.filterBy = filterBy
         },
-        focusOnTitle() {
-            this.$refs.title.focus()
-        },
+        // focusOnTitle() {
+        //     this.$refs.title.focus()
+        // },
         openAddGroup() {
             this.titleVis = true
             this.isAddGroup = true
             this.$nextTick(() => {
-                this.focusOnTitle()
+                this.$refs.title.focus()
             })
         },
         async saveThisBoard(activityTxt) {
@@ -164,6 +164,9 @@ export default {
             if (!this.groupTitle) return
             await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })
             this.groupTitle = ''
+            this.$nextTick(() => {
+                this.$refs.title.focus()
+            })
         },
     },
     computed: {
