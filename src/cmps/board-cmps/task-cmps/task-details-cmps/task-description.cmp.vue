@@ -3,12 +3,11 @@
         <div class="description-wraper">
             <div class="title-container">
                 <h3> Description</h3>
-                <button v-if="!isDescriptionSelected" class="task-detail-btn"
-                    @click="isDescriptionSelected = true">Edit</button>
+                <button v-if="description" class="task-detail-btn" @click="isDescriptionSelected = true">Edit</button>
             </div>
             <div v-if="!isDescriptionSelected" class="pre-text-area" @click="isDescriptionSelected = true">
                 <p v-if="description">{{ description }}</p>
-                <p v-else>Add a more detailed description…</p>
+                <p class="no-desc-style" v-else>Add a more detailed description…</p>
             </div>
         </div>
         <div class="description-form" v-if="isDescriptionSelected">

@@ -1,7 +1,7 @@
 <template>
-    <section class="modal-container task-members-modal">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container task-members-modal">
         <section class="modal-header">
-            <span @click="closeModal" class="close material-symbols-outlined">
+            <span @click="closeModal()" class="close material-symbols-outlined">
                 close
             </span>
             <h5 class="title-modal-header">Members</h5>
@@ -30,10 +30,11 @@
 
 <script>
 export default {
-    emits: ['closeMembersModal', 'saveTask'],
+    emits: ['closeModal', 'saveTask'],
     name: 'members-modal',
     props: {
-        task: Object
+        task: Object,
+        pos: Object
     },
     components: {},
     data() {
@@ -64,7 +65,7 @@ export default {
             this.$emit('saveTask', taskToSave)
         },
         closeModal() {
-            this.$emit('closeMembersModal')
+            this.$emit('closeModal')
         },
         isTaskMember(memberId) {
             if (this.task.memberIds?.includes(memberId)) {

@@ -1,5 +1,5 @@
 <template>
-    <section class="modal-container checklist-modal">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container checklist-modal">
         <section class="modal-header">
             <span @click="closeModal()" class="close material-symbols-outlined">
                 close
@@ -22,10 +22,11 @@
 <script>
 import { localService } from '../../../../../services/board.service.local';
 export default {
-    emits: ['closeCheckListModal', 'updateTask'],
+    emits: ['closeModal', 'updateTask'],
     props: {
         task: Object,
         group: Array,
+        pos: Object
     },
     name: 'task-checklist',
     data() {
@@ -38,7 +39,7 @@ export default {
             this.$refs.title.focus()
         },
         closeModal() {
-            this.$emit('closeCheckListModal', false)
+            this.$emit('closeModal')
         },
         addCheckList() {
             if (!this.listTitle) return

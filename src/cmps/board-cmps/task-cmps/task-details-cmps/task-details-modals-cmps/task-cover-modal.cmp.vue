@@ -1,79 +1,77 @@
 <template>
-    <div class="modal-wrapper">
-        <div class="modal-container cover-modal">
-            <section class="modal-header">
-                <h5 class="title-modal-header">Cover</h5>
-                <span @click="closeModal()" class="close material-symbols-outlined">
-                    close
-                </span>
-            </section>
-            <div>
-                <div class="modal-body-wrapper">
-                    <section class="modal-body">
-                        <div class="size-container">
-                            <h4 class="small-title">Size</h4>
-                            <div class="size-btns-grid-container">
-                                <button @click="setAsTop(true)">as Top</button>
-                                <button @click="setAsTop(false)">as Background</button>
+    <div :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container cover-modal">
+        <section class="modal-header">
+            <h5 class="title-modal-header">Cover</h5>
+            <span @click="closeModal()" class="close material-symbols-outlined">
+                close
+            </span>
+        </section>
+        <div>
+            <div class="modal-body-wrapper">
+                <section class="modal-body">
+                    <div class="size-container">
+                        <h4 class="small-title">Size</h4>
+                        <div class="size-btns-grid-container">
+                            <button @click="setAsTop(true)">as Top</button>
+                            <button @click="setAsTop(false)">as Background</button>
+                        </div>
+                    </div>
+
+                    <button class="primary-btn-modal btn-remove-cover" v-if="(isImgUrl || isBgc)"
+                        @click="removeCover('')">Remove
+                        cover</button>
+
+                    <div v-if="isImgUrl" class="text-color-container">
+                        <h4 class="small-title">Text color</h4>
+                        <div v-if="task" class="text-color-btns-grid-container">
+
+                            <div class="image dark" :style="img" @click="setTextColor('white')">
                             </div>
-                        </div>
-
-                        <button class="primary-btn-modal btn-remove-cover" v-if="(isImgUrl || isBgc)"
-                            @click="removeCover('')">Remove
-                            cover</button>
-
-                        <div v-if="isImgUrl" class="text-color-container">
-                            <h4 class="small-title">Text color</h4>
-                            <div v-if="task" class="text-color-btns-grid-container">
-
-                                <div class="image dark" :style="img" @click="setTextColor('white')">
-                                </div>
-                                <span class="white">{{ task.title }}</span>
+                            <span class="white">{{ task.title }}</span>
 
 
-                                <div class="image bright" :style="img" @click="setTextColor('black')">
-                                </div>
-                                <span class="black">{{ task.title
-                                }}</span>
-
+                            <div class="image bright" :style="img" @click="setTextColor('black')">
                             </div>
-                        </div>
+                            <span class="black">{{ task.title
+                            }}</span>
 
-                        <h4 class="small-title-margin-top">Colors</h4>
-                        <div class="colors-grid-container">
-                            <div v-for="color in colors" class="color-placeholder">
-                                <button @click="setColorAsCover(color)" class="color"
-                                    :style="{ background: color }"></button>
-                            </div>
                         </div>
-                        <h4 class="small-title-margin-top">Attachment</h4>
-                        <div v-if="task.attachments" class="imgs-grid-container">
-                            <div v-for="attachment in task.attachments" @click="setPexlesAsCover(image.src.large)"
-                                class="img-placeholder">
-                                <img :src="attachment.imgUrl">
-                            </div>
-                        </div>
-                        <div class="upload-container">
-                            <button class="primary-btn-modal btn-uploader">
-                                <img-uploader :str="uploadTxt" @uploaded="onUploaded"></img-uploader>
-                            </button>
-                        </div>
+                    </div>
 
-                        <h4 class="small-title-margin-top">Photos from Pixles</h4>
-                        <div class="imgs-grid-container">
-                            <div v-if="images" v-for="image in images.splice(0, 6)"
-                                @click="setPexlesAsCover(image.src.large)" class="img-placeholder">
-                                <img :src="image.src.tiny">
-                            </div>
+                    <h4 class="small-title-margin-top">Colors</h4>
+                    <div class="colors-grid-container">
+                        <div v-for="color in colors" class="color-placeholder">
+                            <button @click="setColorAsCover(color)" class="color"
+                                :style="{ background: color }"></button>
                         </div>
-                        <button class="primary-btn-modal btn-open-search">Search for photos</button>
-                        <div class="terms-container">
-                            <div class="terms">By using images from Pexels, you agree to their <span>license</span> and
-                                <span>terms of service</span>
-                            </div>
+                    </div>
+                    <h4 class="small-title-margin-top">Attachment</h4>
+                    <div v-if="task.attachments" class="imgs-grid-container">
+                        <div v-for="attachment in task.attachments" @click="setPexlesAsCover(image.src.large)"
+                            class="img-placeholder">
+                            <img :src="attachment.imgUrl">
                         </div>
-                    </section>
-                </div>
+                    </div>
+                    <div class="upload-container">
+                        <button class="primary-btn-modal btn-uploader">
+                            <img-uploader :str="uploadTxt" @uploaded="onUploaded"></img-uploader>
+                        </button>
+                    </div>
+
+                    <h4 class="small-title-margin-top">Photos from Pixles</h4>
+                    <div class="imgs-grid-container">
+                        <div v-if="images" v-for="image in imagesToShow" @click="setPexlesAsCover(image.src.large)"
+                            class="img-placeholder">
+                            <img :src="image.src.tiny">
+                        </div>
+                    </div>
+                    <button class="primary-btn-modal btn-open-search">Search for photos</button>
+                    <div class="terms-container">
+                        <div class="terms">By using images from Pexels, you agree to their <span>license</span> and
+                            <span>terms of service</span>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -85,9 +83,10 @@ import { utilService } from '../../../../../services/util.service'
 import { uploadService } from '../../../../../services/upload.service'
 
 export default {
-    emits: ['toggleCoverModal', 'saveTask'],
+    emits: ['closeModal', 'saveTask'],
     props: {
-        task: Object
+        task: Object,
+        pos: Object
     },
     name: 'task-cover-modal',
     components: {
@@ -109,7 +108,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit('toggleCoverModal')
+            this.$emit('closeModal')
         },
         removeCover() {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
@@ -173,6 +172,9 @@ export default {
         },
         img() {
             return { background: this.task.style.imgUrl }
+        },
+        imagesToShow() {
+            return this.images.splice(0, 6)
         }
     },
     mounted() {

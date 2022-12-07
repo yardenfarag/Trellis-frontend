@@ -1,7 +1,7 @@
 <template>
-    <section class="modal-container">
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container">
         <header>
-            <button @click="closeModal">X</button>
+            <button @click="closeModal()">X</button>
             <h5>Dates</h5>
         </header>
         <hr>
@@ -18,10 +18,11 @@
 </template>
 <script>
 export default {
-    emits: ['closeDateModal', 'saveTask'],
+    emits: ['closeModal', 'saveTask'],
     name: 'date-modal',
     props: {
-        task: Object
+        task: Object,
+        pos: Object
     },
     components: {
 
@@ -46,7 +47,7 @@ export default {
             this.closeModal()
         },
         closeModal() {
-            this.$emit('closeDateModal')
+            this.$emit('closeModal')
         },
         focusInput() {
             // this.$refs.datePicker.$el.focus()

@@ -22,7 +22,7 @@
               </span> </button>
           </div>
 
-          <button class="opacity-input" @click="isCreateBoard = !isCreateBoard">Create</button>
+          <button class="opacity-input" @click="openCreateModal($event)">Create</button>
         </div>
 
         <div class="end-section flex align-center">
@@ -35,7 +35,7 @@
       </div>
     </section>
   </header>
-  <boardCreateModal @closeModal="isCreateBoard = false" v-if="isCreateBoard" />
+  <boardCreateModal :pos="modalOpenPos" @closeModal=closeCreateModal v-if="isCreateBoard" />
 </template>
 <script>
 import boardCreateModal from '../board-cmps/board-header-cmps/board-create-modal.cmp.vue';
@@ -46,11 +46,23 @@ export default {
   },
   data() {
     return {
-      isCreateBoard: false
+      isCreateBoard: false,
+      modalOpenPos: null
     };
   },
   created() { },
-  methods: {},
+  methods: {
+    closeCreateModal() {
+      this.isCreateBoard = false
+    },
+    openCreateModal(ev) {
+      const elPos = ev.target.getBoundingClientRect()
+      const top = elPos.top + elPos.height + 8
+      const left = elPos.left
+      this.modalOpenPos = { top, left }
+      this.isCreateBoard = true
+    },
+  },
   computed: {
     board() {
       return this.$store.getters.board

@@ -43,13 +43,11 @@
                         </li>
                     </ul>
 
-                    <section class="activity">
-                        <div class="title">
-                            <h6>Activity</h6>
-                            <div v-if="board.activities" class="activities">
-                                <div v-for="activity in board.activities" class="activity">
-                                    <board-activity :activity="activity"></board-activity>
-                                </div>
+                    <section class="activity-container">
+                        <h6 class="activity-title">Activity</h6>
+                        <div v-if="board.activities" class="activities">
+                            <div v-for="activity in board.activities" class="activity">
+                                <board-activity :activity="activity"></board-activity>
                             </div>
                         </div>
                     </section>

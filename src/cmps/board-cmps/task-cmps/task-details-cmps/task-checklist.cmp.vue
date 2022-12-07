@@ -42,6 +42,7 @@ export default {
     task: Object,
   },
   name: 'task-checklist',
+
   components: {},
   data() {
     return {
