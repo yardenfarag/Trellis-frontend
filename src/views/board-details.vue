@@ -100,8 +100,8 @@ export default {
             await this.boardToEdit.groups.splice(dragIdx, 1)
             await this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            // await this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            this.saveThisBoard()
+            await this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            // this.saveThisBoard()
         },
         async saveTaskDrop({ ev, groupId }) {
             // const board = this.board
@@ -111,8 +111,8 @@ export default {
 
             if (ev.addedIndex !== null) group.tasks.splice(ev.addedIndex, 0, ev.payload)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            this.saveThisBoard()
-            // await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            // this.saveThisBoard()
+            await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
@@ -159,6 +159,7 @@ export default {
     },
     computed: {
         board() {
+            console.log(JSON.parse(JSON.stringify(this.$store.getters.board)));
             const board = JSON.parse(JSON.stringify(this.$store.getters.board))
             const loggedinUser = this.$store.getters.loggedinUser
             if (this.filterBy.txt) {

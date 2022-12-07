@@ -21,11 +21,14 @@
                 Cards assigned to me
             </label>
             <label>
-                <el-select @change="setFilterBy" class="toy-filter" v-model="filterBy.memberIds" multiple collapse-tags
+                <el-select @change="setFilterBy" v-model="filterBy.memberIds" multiple collapse-tags
                     collapse-tags-tooltip placeholder="Select members" style="width: 240px">
-                    <el-option v-for="member in boardMembers" :value="member._id">{{ member.fullname }}</el-option>
+                    <el-option v-for="member in boardMembers" :name="member.fullname" :value="member._id">{{
+                            member.fullname
+                    }}</el-option>
                 </el-select>
             </label>
+            <p>hi</p>
         </div>
     </section>
 </template>

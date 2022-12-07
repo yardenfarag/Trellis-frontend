@@ -83,7 +83,7 @@ async function addGroup(boardId, title) {
         var board = await boardService.getById(boardId)
         board.groups.push(_getEmptyGroup(title))
         let txt = `added ${title} to this board`
-        return await boardService.save(board, txt, task=null)
+        return await boardService.save(board, txt, null)
     } catch (err) {
         throw err
     }
