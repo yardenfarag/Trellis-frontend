@@ -244,6 +244,7 @@ export default {
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
       this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+      let activityTxt = `archived ${taskToEdit.title}`
       await this.$store.dispatch({ type: 'updateTask', groupId: this.group.id, task: taskToEdit, activityTxt })
     },
     async updateTaskDesc(desc) {
