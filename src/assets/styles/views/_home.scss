@@ -259,8 +259,8 @@
     }
 
     img {
-        width: 728px;
-        height: 488px;
+        max-width: 728px;
+        max-height: 488px;
         margin: 16px;
     }
 }
@@ -284,12 +284,43 @@
         line-height: 1.33333;
     }
 
+    .carousel-buttons {
+        justify-content: flex-end;
+        gap: 30px;
+        margin-bottom: 16px;
+
+        button {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+        }
+
+        .right::before {
+            font-family: trello;
+            font-size: 20px;
+            color: #7c8699;
+            content: '\E90A';
+        }
+
+        .left::before {
+            font-family: trello;
+            font-size: 20px;
+            color: #7c8699;
+            content: '\E931';
+        }
+    }
+
     .action-cards {
         overflow: visible;
         gap: 32px;
         margin-bottom: 20px;
         max-width: 80vw;
-        width: 600px;
+        width: 1140px;
+        transition: justify-content 1s ease-in;
+
+        &.left {
+            justify-content: flex-end;
+        }
 
         .card {
             border-radius: 0.5rem;
@@ -338,30 +369,321 @@
             max-width: 823px;
         }
 
-        a {
-            width: 195px;
-            height: 50px;
-            align-self: center;
-            justify-content: center;
-            user-select: none;
-            -webkit-box-align: center;
-            align-items: center;
-            border-radius: 0.3rem;
-            cursor: pointer;
-            display: inline-flex;
-            transition: all 250ms ease-out 0s;
-            background-color: rgb(255, 255, 255);
-            border: 1px solid rgb(0, 101, 255);
-            text-decoration: none;
-            font-size: 16px;
-            padding: 0.7rem 1rem;
-            color: rgb(23, 43, 77);
-            font-weight: 400;
+    }
+}
+
+.home-a {
+    min-width: 196px;
+    height: 50px;
+    align-self: center;
+    justify-content: center;
+    user-select: none;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    display: inline-flex;
+    transition: all 250ms ease-out 0s;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 101, 255);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 0.7rem 1rem;
+    color: rgb(23, 43, 77);
+    font-weight: 400;
+}
+
+.home-a:hover {
+    background-color: #e0ebfe;
+    border-color: rgb(0, 101, 255);
+}
+
+.see-work {
+    background: url(https://images.ctfassets.net/rz1oowkt5gyp/7KgS3XVFhGu3TiclJKloEp/c10aad15fb171a6c245db9cb7910247d/ViewsBackground_Left_Narrow.svg) left center / contain no-repeat scroll padding-box border-box,
+        url(https://images.ctfassets.net/rz1oowkt5gyp/2HisRmboWIdXSYaaUSDzon/dadecff4be8a39bf2cf3cc537bd4d9c1/ViewsBackground_Right_Narrow.svg) right center / contain no-repeat scroll padding-box border-box,
+        linear-gradient(240deg, rgb(0, 184, 217), rgb(0, 101, 255)) 0% 0% / auto repeat scroll padding-box border-box rgb(0, 101, 255);
+    background-blend-mode: normal, normal, normal;
+    max-height: 983px;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    margin-bottom: 250px;
+
+    .see-work-content {
+        text-align: center;
+        padding: 49px 16px;
+        max-width: 760px;
+
+        h2 {
+            font-family: charlie-semibold;
+            margin-bottom: 8px;
+            font-size: 36px;
         }
 
-        a:hover {
-            background-color: #e0ebfe;
-            border-color: rgb(0, 101, 255);
+        p {
+            line-height: 30px;
+            margin-bottom: 24px;
         }
     }
+
+    .callout {
+        background-color: white;
+        color: black;
+        width: 1108px;
+        height: 429px;
+        padding: 32px;
+        border-radius: 8px;
+        box-shadow: rgb(9 30 66 / 15%) 0px 8px 16px 0px;
+        margin-bottom: 64px;
+        gap: 32px;
+
+        .call-out-content {
+            padding: 0 32px;
+        }
+
+        h3 {
+            display: inline;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 1.25;
+            text-transform: uppercase;
+            margin: 0px;
+
+        }
+
+        .callout-title {
+            margin-bottom: 24px;
+            align-content: center;
+            gap: 16px;
+
+            .hit::before {
+                font-family: trello;
+                font-size: 32px;
+                color: rgb(135, 119, 217);
+                content: '\E971';
+
+            }
+
+            .stay::before {
+                font-family: trello;
+                font-size: 32px;
+                color: rgb(0, 199, 229);
+                content: '\E979';
+
+            }
+        }
+
+        p {
+            width: 392px;
+            line-height: 30px;
+        }
+
+        img {
+            border-radius: 8px;
+            width: 555px;
+            height: 300px;
+        }
+    }
+}
+
+footer {
+    height: 200px;
+    background-color: #1c2a4c;
+    color: white;
+    overflow: hidden;
+    padding: 20px;
+
+    .main-footer {
+        width: 1320px;
+
+        .footer-logo {
+            margin-bottom: 20px;
+
+            h2 {
+                color: white;
+            }
+        }
+    }
+
+    .team-member {
+        gap: 10px;
+
+        h3 {
+            font-family: charlie-semibold;
+            font-size: 20px;
+        }
+    }
+
+    img {
+        min-height: 130px;
+        max-height: 130px;
+        min-width: 130px;
+        max-width: 130px;
+        
+        border-radius: 50%;
+    }
+}
+
+@media ((max-width: 1150px)) {
+
+    .main-home {
+        overflow: hidden;
+        max-width: 100%;
+    }
+
+    .main-layout>*:not(full) {
+        padding: 37px;
+        overflow: hidden;
+    }
+
+    .home-hero {
+        background: url(https://images.ctfassets.net/rz1oowkt5gyp/6QeCRDk331YxhjdhUY5ZfR/0f0c9cc5c6f29c493e65c4aa88b9eafd/wave--big-swing-hero.svg) left bottom -0.5px / 100% 29% no-repeat scroll padding-box border-box,
+            linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180)) 0% 0% / auto repeat scroll padding-box border-box rgb(82, 67, 170);
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .trello-101 {
+        max-width: 100%;
+
+        text-align: center;
+        >p {
+            text-align: left;
+            font-size: 20px;
+        }
+
+        .cards-101-section {
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+        }
+
+
+        .cards-101 {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            button {
+                display: block;
+                max-width: 508px;
+            }
+        }
+
+        .imgs-101 {
+            order: -1;
+        }
+
+        img {
+            margin: 0;
+            max-height: 100%;
+            width: 100%;
+        }
+    }
+
+    .trello-action {
+        text-align: center;
+        button {
+            display: none;
+        }
+
+        .action-cards {
+            flex-wrap: wrap;
+            align-self: center;
+            justify-content: space-between;
+
+            &.left {
+                justify-content: center;
+            }
+
+            &.right {
+                justify-content: center;
+            }
+
+            .card {
+                display: flex;
+                flex-direction: column;
+                width: 200px;
+                min-width: 0;
+                max-height: 160px;
+                text-align: center;
+
+                .action-card-header {
+                    margin: 0;
+                }
+
+                .action-card-content {
+                    padding: 2px;
+                }
+
+                h3 {
+                    text-align: center;
+                }
+
+                p {
+                    display: none;
+                }
+                .home-a{
+                    align-self: center;
+                }
+            }
+        }
+
+        .action-bottom {
+            padding: 0;
+            flex-direction: column;
+            align-content: center;
+            .home-a {
+                align-self: center;
+            }
+        }
+    }
+
+    .see-work {
+        max-height: 3000px;
+        margin: 0;
+
+        h2 {
+            line-height: 1.5;
+        }
+
+        .callout {
+            flex-direction: column;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+
+            .call-out-content {
+                order: 0;
+            }
+
+            .callout-img {
+                order: -1;
+                border-radius: 8px 8px 0 0;
+            }
+
+            img {
+                height: 100%;
+                width: 100%;
+                border-radius: 8px 8px 0 0;
+
+            }
+
+            p {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media (max-width:750px) {
+
+    .footer-members {
+        flex-direction: column;
+        gap: 20px;
+    }
+
 }

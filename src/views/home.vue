@@ -1,20 +1,20 @@
 <template>
   <div class="main-home-header">
-  <header class="home-header flex space-between">
+    <header class="home-header flex space-between">
       <div class="logo flex ">
         <router-link class="router-link" to="/board">
           <h2 class="main-logo">Trellis</h2>
         </router-link>
       </div>
       <ul class="header-nav flex clean-list">
-        <li><router-link to="/login">Login / Signup</router-link></li> 
+        <li><router-link to="/login">Login / Signup</router-link></li>
         <li class="demo-li flex"><router-link class="demo" to="/Board">Start Demo</router-link></li>
       </ul>
     </header>
   </div>
 
   <section class="main-home main-layout flex column">
-    
+
 
     <section class="home-hero flex column align-center full">
       <div class="hero-content">
@@ -33,40 +33,49 @@
       <div class="cards-101-section flex">
         <div class="cards-101">
           <button :class="isCard1" @click="cardClicked101(1)" class="card">
-          <div>
-          <h3>Boards</h3>
-          <p>Trello boards keep tasks organized and work moving forward. In a glance, see everything from “things to do”
-            to “aww yeah, we did it!”</p>
-          </div>
-          <div  v-if="isCard1Select" class="side-border"></div>
-        </button>
-        <button :class="isCard2" @click="cardClicked101(2)" class="card">
-          <div>
-          <h3>Lists</h3>
-          <p>The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit to
-            your team’s needs. There’s no wrong way to Trello.</p>
-          </div>
-            <div  v-if="isCard2Select" class="side-border"></div>
-        </button>
-        <button :class="isCard3" @click="cardClicked101(3)" class="card">
+            <div>
+              <h3>Boards</h3>
+              <p>Trello boards keep tasks organized and work moving forward. In a glance, see everything from “things to
+                do”
+                to “aww yeah, we did it!”</p>
+            </div>
+            <div v-if="isCard1Select" class="side-border"></div>
+          </button>
+          <button :class="isCard2" @click="cardClicked101(2)" class="card">
+            <div>
+              <h3>Lists</h3>
+              <p>The different stages of a task. Start as simple as To Do, Doing or Done—or build a workflow custom fit
+                to
+                your team’s needs. There’s no wrong way to Trello.</p>
+            </div>
+            <div v-if="isCard2Select" class="side-border"></div>
+          </button>
+          <button :class="isCard3" @click="cardClicked101(3)" class="card">
             <h3>Cards</h3>
             <p>Cards represent tasks and ideas and hold all the information to get the job done. As you make progress,
               move
               cards across lists to show their status.</p>
-              <div v-if="isCard3Select" class="side-border"></div>
-            </button>
-      </div>
-        <div class="101-imgs">
+            <div v-if="isCard3Select" class="side-border"></div>
+          </button>
+        </div>
+        <div class="imgs-101">
           <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
         </div>
       </div>
     </section>
 
     <section class="trello-action flex column">
-      <p>TRELLO IN ACTION</p>
-      <h2>Workflows for any project, big or small</h2>
+      <div class="action-content flex column">
+        <p>TRELLO IN ACTION</p>
+        <h2>Workflows for any project, big or small</h2>
+      </div>
 
-      <div class="action-cards flex">
+      <div class="carousel-buttons flex">
+        <button @click="setCarouselSide('right')" class="right"></button>
+        <button @click="setCarouselSide('left')" class="left"></button>
+      </div>
+
+      <div :class="carouselSide" class="action-cards flex">
         <div class="card">
           <div class="action-card-header" style="background-color: #f79376"></div>
           <div class="action-card-content">
@@ -85,14 +94,15 @@
           <div class="action-card-header" style="background-color: #88f1c0"></div>
           <div class="action-card-content">
             <h3>Meetings</h3>
-            <p>Empower your team meetings to be    more productive, empowering, and dare we say—fun.</p>
+            <p>Empower your team meetings to be more productive, empowering, and dare we say—fun.</p>
           </div>
         </div>
         <div class="card">
           <div class="action-card-header" style="background-color: #fbe485"></div>
           <div class="action-card-content">
             <h3>Task management</h3>
-            <p>Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make your team’s projects a cohesive success every time.</p>
+            <p>Use Trello to track, manage, complete, and bring tasks together like the pieces of a puzzle, and make
+              your team’s projects a cohesive success every time.</p>
           </div>
         </div>
         <div class="card">
@@ -104,50 +114,91 @@
         </div>
         <div class="card">
           <div class="action-card-header" style="background-color: #8a76d7"></div>
-          <div class="action-card-content">  
+          <div class="action-card-content">
             <h3>Editorial calendar</h3>
-            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
+            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.
+            </p>
           </div>
         </div>
       </div>
 
       <div class="action-bottom flex space-between">
-        <p>No need to start from scratch. Jump-start your workflow with a proven playbook designed for different teams. Customize it to make it yours.</p>
-        <a>Lets Explore this all!</a>
+        <p>No need to start from scratch. Jump-start your workflow with a proven playbook designed for different teams.
+          Customize it to make it yours.</p>
+        <a class="home-a">Lets Explore this all!</a>
       </div>
     </section>
+
+    <section class="see-work flex column align-center full">
+      <div class="see-work-content">
+        <h2>See work in a whole new way</h2>
+        <p>View your team’s projects from every angle and bring a fresh perspective to the task at hand.</p>
+        <a class="home-a">Discover all Trellis views</a>
+      </div>
+
+      <div class="callout flex justify-center">
+        <div class="callout-img">
+          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+        </div>
+        <div class="call-out-content flex column justify-center">
+          <div class="callout-title flex align-center">
+            <span class="hit"></span>
+            <h3>Hit deadlines every time</h3>
+          </div>
+          <p>From weekly sprints to annual planning, Timeline view keeps all tasks on track. Quickly get a glimpse of
+            what’s coming down the pipeline and identify any gaps that might impede your team’s progress.</p>
+        </div>
+      </div>
+
+      <div class="callout flex  space-between">
+        <div class="call-out-content flex column justify-center">
+          <div class="callout-title flex align-center">
+            <span class="stay"></span>
+            <h3>Stay on top of tasks</h3>
+          </div>
+          <p>Start each day without any surprises. Whether scheduling an editorial calendar or staying on top of to-dos,
+            Calendar view is like a crystal ball giving you a clear vision of what work lies ahead.</p>
+        </div>
+        <div class="callout-img"> 
+          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+        </div>
+      </div>
+    </section>
+
+    <footer class="full flex justify-center">
+      <div class="main-footer flex column">
+        <div class="logo footer-logo flex ">
+          <router-link class="router-link" to="/board">
+            <h2 class="main-logo">Trellis</h2>
+          </router-link>
+        </div>
+
+        <div class="footer-members flex space-between">
+          <div class="team-member flex align-center">
+            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <div>
+              <h3>Yarden Farag</h3>
+              <p>Full Stack</p>
+            </div>
+          </div>
+          <div class="team-member flex align-center">
+            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <div>
+              <h3>Omer Mazig</h3>
+              <p>Full Stack</p>
+            </div>
+          </div>
+          <div class="team-member flex align-center">
+            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <div>
+              <h3>Yotam Gross</h3>
+              <p>Full Stack</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </section>
-
-  <el-carousel :interval="4000" type="card" height="200px">
-    <el-carousel-item>
-      <div class="card">
-          <div class="action-card-header" style="background-color: #8a76d7"></div>
-          <div class="action-card-content">  
-            <h3>Editorial calendar</h3>
-            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
-          </div>
-        </div>
-    </el-carousel-item>
-    <el-carousel-item>
-      <div class="card">
-          <div class="action-card-header" style="background-color: #8a76d7"></div>
-          <div class="action-card-content">  
-            <h3>Editorial calendar</h3>
-            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
-          </div>
-        </div>
-    </el-carousel-item>
-    <el-carousel-item>
-      <div class="card">
-          <div class="action-card-header" style="background-color: #8a76d7"></div>
-          <div class="action-card-content">  
-            <h3>Editorial calendar</h3>
-            <p>Use Trello as your team’s go-to command center for content curation, revisions, handoff, and publishing.</p>
-          </div>
-        </div>
-    </el-carousel-item>
-  </el-carousel>
-
 </template>
 
 <script>
@@ -159,58 +210,48 @@ export default {
       isCard1Select: true,
       isCard2Select: false,
       isCard3Select: false,
+      currentCarouselSide: 'right',
     }
   },
   computed: {
-    isCard1(){
-      if(this.isCard1Select) return 'card-selected'
+    isCard1() {
+      if (this.isCard1Select) return 'card-selected'
     },
-    isCard2(){
-      if(this.isCard2Select) return 'card-selected'
+    isCard2() {
+      if (this.isCard2Select) return 'card-selected'
     },
-    isCard3(){
-      if(this.isCard3Select) return 'card-selected'
+    isCard3() {
+      if (this.isCard3Select) return 'card-selected'
     },
+    carouselSide(){
+      if(this.currentCarouselSide === 'right') return
+      if(this.currentCarouselSide === 'left') return 'left'
+    }
   },
   created() {
   },
   methods: {
-    cardClicked101(val){
-      if(val === 1) {
+    cardClicked101(val) {
+      if (val === 1) {
         this.isCard1Select = true
         this.isCard2Select = false
         this.isCard3Select = false
       }
-      if(val === 2) {
+      if (val === 2) {
         this.isCard1Select = false
         this.isCard2Select = true
         this.isCard3Select = false
       }
-      if(val === 3) {
+      if (val === 3) {
         this.isCard1Select = false
         this.isCard2Select = false
         this.isCard3Select = true
       }
+    },
+    setCarouselSide(side){
+      this.currentCarouselSide = side
     }
   }
 
 }
 </script>
-
-<style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
-  text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-</style>

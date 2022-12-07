@@ -77,7 +77,6 @@ export default {
     },
     async created() {
         const { boardId } = this.$route.params
-
         // socketService.emit('board room', boardId)
         // socketService.on(SOCKET_EVENT_CHANGE_BOARD, board => {
         //     console.log(board);
