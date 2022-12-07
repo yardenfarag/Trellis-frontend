@@ -127,7 +127,7 @@
                         </div>
                         <div class="board-backgrounds-list-observer">
                             <div class="board-backgrounds-list">
-                                <div v-for="image in images" @click="setBoardBgImg(image.src.large2x, image.avg_color)"
+                                <div v-for="image in images" @click="setBoardBgImg(image.src.original, image.avg_color)"
                                     class="image">
                                     <img :src="image.src.tiny">
                                 </div>
