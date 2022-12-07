@@ -73,8 +73,8 @@ export default {
     removeChecklist(id) {
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === id)
-      updateTask.checklists.splice(clIdx, 1)
       let activityTxt = `removed ${updateTask.checklists[clIdx].title} from ${updateTask.title}`
+      updateTask.checklists.splice(clIdx, 1)
       this.$emit('updateTask', updateTask, activityTxt)
     },
     addTodo(checklistId) {

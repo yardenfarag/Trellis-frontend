@@ -16,7 +16,9 @@
                 <p class="title-mt12-mb8">Labels</p>
                 <div class="lables">
                     <div v-if="labels" v-for="label in labels" class="label-container">
-                        <input @change="toggleLabel(label)" :key="label.id" type="checkbox">
+                        <input @change="toggleLabel(label)"
+                            :checked="(task.labels.findIndex(labelinTask => labelinTask.id === label.id) >= 0)"
+                            :key="label.id" type="checkbox">
                         <div class="label">
                             <div class="label-shrink">
                                 <div @click="toggleLabel(label)" :style="{ 'background-color': label.color }"
@@ -293,7 +295,12 @@ export default {
         },
         setSelected() {
             return { 'selected': this.isSelected }
-        }
+        },
+        // setChecked(labelToCheck) {
+        //     if (this.task.lables.findIndex(label => label.id === labelToCheck.id) >= 0) {
+        //         return true
+        //     }
+        // }
     },
     mounted() {
         this.filterVis = true

@@ -28,7 +28,7 @@
                   <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 100 + '%' }">
                 </li>
               </ul>
-              <button class="btn-member-modal task-content-btn" @click="toggleMembersModal"></button>
+              <button class="btn-member-modal task-content-btn" @click="openModal($event, 'members')"></button>
             </div>
           </section>
 
@@ -44,7 +44,7 @@
                 <div v-if="label.title" class="label-title">{{ label.title }}</div>
                 <div class="label-circle" :style="{ backgroundColor: label.color }"></div>
               </div>
-              <button class="btn-label-modal task-content-btn" @click="toggleLabelsModal"></button>
+              <button class="btn-label-modal task-content-btn" @click="openModal($event, 'labels')"></button>
             </div>
           </section>
         </section>
@@ -52,7 +52,7 @@
         <div v-if="task.dueDate" class="task-date small-container">
           <h5 class="small-title-margin">Due date</h5>
           <div class="small-container">
-            <input @change="toggleDuedate" type="checkbox">
+            <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
             <button class="task-content-btn" @click="toggleDateModal">
               <span class="date-info">
                 {{ formattedDate }} <span>{{ duedateComplete }}</span>
@@ -269,6 +269,12 @@ export default {
     board() {
       return JSON.parse(JSON.stringify(this.$store.getters.board))
     },
+    // taskActivities() {
+    //   const taskActivities = this.board.activities.filter(activitity => {
+    //     return activity.task.id === this.task.id
+    //   })
+    //   return taskActivities
+    // },
     users() {
       return this.$store.getters.users
     },

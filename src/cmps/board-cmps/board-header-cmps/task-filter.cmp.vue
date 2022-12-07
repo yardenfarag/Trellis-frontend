@@ -23,7 +23,7 @@
             <label>
                 <el-select @change="setFilterBy" v-model="filterBy.memberIds" multiple collapse-tags
                     collapse-tags-tooltip placeholder="Select members" style="width: 240px">
-                    <el-option v-for="member in boardMembers" :name="member.fullname" :value="member._id">{{
+                    <el-option v-for="member in boardMembers" :label="member.fullname" :value="member._id">{{
                             member.fullname
                     }}</el-option>
                 </el-select>
