@@ -70,13 +70,13 @@ export const boardStore = {
     },
     async saveBoard({ commit }, { board }) {
       try {
-        if (board.id) {
-          commit({ type: 'saveBoard', board })
-          await boardService.save(board, activityTxt, null)
-        } else {
+        // if (board.id) {
+        //   commit({ type: 'saveBoard', board })
+        //   await boardService.save(board, activityTxt, null)
+        // } else {
           var board = await boardService.save(board)
           commit({ type: 'saveBoard', board })
-        }
+        // }
         //TODO: if await fails, set before board and send user-msg
         return board
       } catch (err) {

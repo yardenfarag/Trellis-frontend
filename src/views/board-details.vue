@@ -93,11 +93,15 @@ export default {
         // socketService.emit(SOCKET_EVENT_SET_BOARD, this.boardToEdit._id)
     },
     methods: {
+        updateLocalBoard() {
+            this.boardToEdit = this.board
+        },
         updateBoardFromSocket(board) {
             this.boardToEdit = board
             this.saveThisBoard()
         },
         async onGroupDrop(ev) {
+            this.updateLocalBoard()
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
             const dragGroup = this.boardToEdit.groups[ev.removedIndex]
@@ -109,12 +113,12 @@ export default {
             // this.saveThisBoard()
         },
         async saveTaskDrop({ ev, groupId }) {
-            // const board = this.board
+            this.updateLocalBoard()
             const group = this.boardToEdit.groups.find((group) => group.id === groupId)
 
-            if (ev.removedIndex !== null) group.tasks.splice(ev.removedIndex, 1)
+            if (ev.removedIndex !== null) group?.tasks?.splice(ev.removedIndex, 1)
 
-            if (ev.addedIndex !== null) group.tasks.splice(ev.addedIndex, 0, ev.payload)
+            if (ev.addedIndex !== null) group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
             // this.saveThisBoard()
             await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
