@@ -18,6 +18,7 @@ export const boardStore = {
       state.boards = boards
     },
     setCurrBoard(state, { board }) {
+      console.log(board)
       state.currBoard = board
     },
     removeBoard(state, { boardId }) {
@@ -36,9 +37,6 @@ export const boardStore = {
     },
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
-    },
-    addActivity(state, { activity }) {
-      state.currBoard.activities.unshift(activity)
     },
   },
   actions: {
@@ -74,12 +72,11 @@ export const boardStore = {
       try {
         if (board.id) {
           commit({ type: 'saveBoard', board })
-          await boardService.save(board)
+          await boardService.save(board, activityTxt, null)
         } else {
           var board = await boardService.save(board)
           commit({ type: 'saveBoard', board })
         }
-        // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, board)
         //TODO: if await fails, set before board and send user-msg
         return board
       } catch (err) {
@@ -115,18 +112,18 @@ export const boardStore = {
         throw err
       }
     },
-    async removeTask({ commit, state }, { groupId, taskId }) {
+    async removeTask({ commit, state }, { groupId, taskId, activityTxt }) {
       try {
-        const board = await localService.removeTask(state.currBoard._id, groupId, taskId)
+        const board = await localService.removeTask(state.currBoard._id, groupId, taskId, activityTxt)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('There was a problem removing that task, please try again later.', err)
         throw err
       }
     },
-    async updateTask({ commit, state }, { groupId, task }) {
+    async updateTask({ commit, state }, { groupId, task, activityTxt }) {
       try {
-        const board = await localService.updateTask(state.currBoard._id, groupId, task)
+        const board = await localService.updateTask(state.currBoard._id, groupId, task, activityTxt)
         commit({ type: 'saveBoard', board })
       } catch (err) {
         console.log('There was a problem updating that task, please try again later.', err)
@@ -141,25 +138,6 @@ export const boardStore = {
         console.log('There was a problem getting that task, please try again later.', err)
         throw err
       }
-    },
-    async addActivity({ commit, getters, dispatch }, { txt, task }) {
-      const clearAct = getters.currBoard.activities.length > 100
-      const activity = {
-        id: utilService.makeId(),
-        txt: txt,
-        createdAt: Date.now(),
-        byMember: {
-          _id: getters.loggedinUser?._id || null,
-          fullname: getters.loggedinUser?.fullname || 'Guest',
-          imgUrl: getters.loggedinUser?.imgUrl || '',
-        },
-        task: {
-          id: task.id,
-          title: task.title,
-        },
-      }
-      commit({ type: 'addActivity', activity })
-      await dispatch({ type: 'saveBoard', board: getters.currBoard })
     },
   }
 }

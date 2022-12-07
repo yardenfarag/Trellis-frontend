@@ -182,13 +182,13 @@ export default {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
       this.saveTask(taskToEdit)
-      // let newActivity
-      // if (taskToEdit.dueDate.isDone) {
-      //   newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} complete`, taskToEdit)
-      // } else {
-      //   newActivity = utilService.setActivity(`marked the due date on ${taskToEdit.title} incomplete`, taskToEdit)
-      // }
-      // await this.updateTask(taskToEdit, newActivity)
+      let activityTxt
+      if (taskToEdit.dueDate.isDone) {
+        activityTxt = `marked the due date on ${taskToEdit.title} complete`
+      } else {
+        activityTxt = `marked the due date on ${taskToEdit.title} incomplete`
+      }
+      await this.updateTask(taskToEdit, activityTxt)
     },
     toggleMembersModal() {
       this.isLabelsModalOpen = false
@@ -240,11 +240,10 @@ export default {
     },
 
     async removeTask() {
-      // const newActivity = utilService.setActivity(`archived ${this.task.title}`, this.task)
-      // boardToSave.activities.unshift(newActivity)
+      activityTxt = `archived ${this.task.title}`
       const groupId = this.group.id
       const taskId = this.task.id
-      await this.$store.dispatch({ type: 'removeTask', groupId, taskId })
+      await this.$store.dispatch({ type: 'removeTask', groupId, taskId, activityTxt })
       this.closeDetails()
     },
     closeDetails() {
@@ -260,12 +259,12 @@ export default {
         this.saveTask(taskToEdit)
       }
     },
-    async saveTask(taskToEdit) {
+    async saveTask(taskToEdit, activityTxt) {
       this.task = taskToEdit
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
       this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-      await this.$store.dispatch({ type: 'updateTask', groupId: this.group.id, task: taskToEdit })
+      await this.$store.dispatch({ type: 'updateTask', groupId: this.group.id, task: taskToEdit, activityTxt })
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))

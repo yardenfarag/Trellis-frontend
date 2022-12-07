@@ -2,7 +2,6 @@
 import { utilService } from './util.service'
 import { boardService } from './board.service'
 import { userService } from './user.service'
-
 import axios from 'axios'
 import { httpService } from './http.service'
 
@@ -29,32 +28,34 @@ async function addTask(boardId, groupId, title) {
     try {
         var board = await boardService.getById(boardId)
         const groupIdx = board.groups.findIndex((group) => group.id === groupId)
-        board.groups[groupIdx].tasks.push(_getEmptyTask(title))
-        return await boardService.save(board)
+        const newTask = _getEmptyTask(title)
+        board.groups[groupIdx].tasks.push(newTask)
+        let activityTxt = `added ${title} to ${board.groups[groupIdx].title}`
+        return await boardService.save(board, activityTxt, newTask)
     } catch (err) {
         throw err
     }
 }
 
-async function updateTask(boardId, groupId, updatedTask) {
+async function updateTask(boardId, groupId, updatedTask, activityTxt) {
     try {
         const board = await boardService.getById(boardId)
         const groupIdx = board.groups.findIndex((group) => group.id === groupId)
         const idxTask = board.groups[groupIdx].tasks.findIndex((task) => task.id === updatedTask.id)
         board.groups[groupIdx].tasks.splice(idxTask, 1, updatedTask)
-        return await boardService.save(board)
+        return await boardService.save(board, activityTxt, updatedTask)
     } catch (err) {
         throw err
     }
 }
 
-async function removeTask(boardId, groupId, taskId) {
+async function removeTask(boardId, groupId, taskId, activityTxt) {
     try {
         var board = await boardService.getById(boardId)
         const groupIdx = board.groups.findIndex((group) => group.id === groupId)
         const taskIdx = board.groups[groupIdx].tasks.findIndex((task) => task.id === taskId)
         board.groups[groupIdx].tasks.splice(taskIdx, 1)[0]
-        return await boardService.save(board)
+        return await boardService.save(board, activityTxt, null)
     } catch (err) {
         throw err
     }
@@ -81,7 +82,8 @@ async function addGroup(boardId, title) {
     try {
         var board = await boardService.getById(boardId)
         board.groups.push(_getEmptyGroup(title))
-        return await boardService.save(board)
+        let txt = `added ${title} to this board`
+        return await boardService.save(board, txt, task=null)
     } catch (err) {
         throw err
     }
@@ -109,7 +111,6 @@ async function removeGroup(boardId, groupId) {
 }
 
 // get empty stuff
-
 
 function getEmptyChecklist() {
     return {
