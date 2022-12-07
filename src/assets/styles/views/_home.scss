@@ -32,14 +32,14 @@
     max-width: 1320px;
 }
 
-.logo {
+.logo.logo-home {
     gap: 3px;
     text-decoration: none;
     font-size: 20px;
     justify-content: center;
     align-items: center;
 
-    .main-logo {
+    .main-logo.main-logo-home {
         text-decoration: none;
         color: black;
         padding: 0;
@@ -56,7 +56,7 @@
     }
 }
 
-.header-nav {
+.header-nav-home {
 
     justify-items: center;
     text-align: center;
@@ -135,6 +135,7 @@
         font-family: charlie-semibold;
         border-radius: 0.3rem;
         cursor: pointer;
+        transition: all 250ms ease-out 0s;
         background-color: rgb(0, 101, 255);
         font-size: 16px;
         padding: 12px 16px;
@@ -144,12 +145,18 @@
         width: 165px;
         margin-bottom: 60px;
 
+        &:hover {
+            background-color: rgb(7, 71, 166);
+            border-color: rgb(7, 71, 166);
+        }
+
         a {
             color: rgb(255, 255, 255);
             text-decoration: none;
             letter-spacing: 0.5px;
 
         }
+
     }
 
     img {
@@ -316,10 +323,11 @@
         margin-bottom: 20px;
         max-width: 80vw;
         width: 1140px;
-        transition: justify-content 1s ease-in;
+        // transition: justify-content ease-in-out .2s;
 
         &.left {
             justify-content: flex-end;
+            transition: all ease-in-out .2s;
         }
 
         .card {
@@ -518,7 +526,7 @@ footer {
         max-height: 130px;
         min-width: 130px;
         max-width: 130px;
-        
+
         border-radius: 50%;
     }
 }
@@ -549,6 +557,7 @@ footer {
         max-width: 100%;
 
         text-align: center;
+
         >p {
             text-align: left;
             font-size: 20px;
@@ -586,6 +595,7 @@ footer {
 
     .trello-action {
         text-align: center;
+
         button {
             display: none;
         }
@@ -626,7 +636,8 @@ footer {
                 p {
                     display: none;
                 }
-                .home-a{
+
+                .home-a {
                     align-self: center;
                 }
             }
@@ -636,6 +647,7 @@ footer {
             padding: 0;
             flex-direction: column;
             align-content: center;
+
             .home-a {
                 align-self: center;
             }

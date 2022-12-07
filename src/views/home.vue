@@ -1,12 +1,12 @@
 <template>
   <div class="main-home-header">
     <header class="home-header flex space-between">
-      <div class="logo flex ">
+      <div class="logo logo-home flex ">
         <router-link class="router-link" to="/board">
-          <h2 class="main-logo">Trellis</h2>
+          <h2 class="main-logo main-logo-home">Trellis</h2>
         </router-link>
       </div>
-      <ul class="header-nav flex clean-list">
+      <ul class="header-nav-home flex clean-list">
         <li><router-link to="/login">Login / Signup</router-link></li>
         <li class="demo-li flex"><router-link class="demo" to="/Board">Start Demo</router-link></li>
       </ul>
