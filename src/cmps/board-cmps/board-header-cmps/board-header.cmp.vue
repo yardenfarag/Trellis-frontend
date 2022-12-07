@@ -7,8 +7,8 @@
                     <button class="title" contenteditable="true" @blur="ChangeBoardTitle($event)">{{ board.title
                     }}</button>
                 </div>
-                <button v-if="board.isStarred" class="star opacity-input" @click="toggleStarred()"></button>
-                <button v-else class="star active opacity-input" @click="toggleStarred()"></button>
+                <button v-if="board.isStarred" class="star active opacity-input" @click="toggleStarred()"></button>
+                <button v-else class="star  opacity-input" @click="toggleStarred()"></button>
                 <span class="btn-divider">|</span>
                 <button class="board opacity-input">Board</button>
                 <button class="table opacity-input">Table</button>
