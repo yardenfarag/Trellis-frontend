@@ -20,9 +20,9 @@
         <div v-else>
             <div class="task-bg-color" v-if="isColor" :style="color"></div>
             <div class="task-bg-img" v-if="isImg" :style="img"></div>
-            <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+            <!-- <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
                 edit
-            </span>
+            </span> -->
             <section class="task-info">
                 <div v-if="task.labels" class="labels-container">
                     <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">

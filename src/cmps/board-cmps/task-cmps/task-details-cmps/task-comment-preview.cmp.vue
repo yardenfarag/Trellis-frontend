@@ -5,7 +5,7 @@
         <span>{{ isEdited }}</span>
         <div v-if="!isCommentEdit">
             <div class="txt-preview">{{ comment.txt }}</div>
-            <div class="">
+            <div class="edit-and-delete">
                 <span @click="openEdit">Edit</span>-<span @click="deleteComment(comment.id)">Delete</span>
             </div>
         </div>

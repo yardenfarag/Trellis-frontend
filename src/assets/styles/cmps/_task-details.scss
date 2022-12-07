@@ -642,7 +642,15 @@
                                 padding: 8px;
                                 border-radius: 3px;
                             }
+
+                            .edit-and-delete {
+                                span {
+                                    cursor: pointer;
+                                }
+                            }
                         }
+
+
                     }
                 }
             }

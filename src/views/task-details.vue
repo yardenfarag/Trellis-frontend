@@ -4,7 +4,8 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)" @click="openModal($event, 'cover')" class="task-cover">
+      <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)"
+        @click="openModal($event, 'cover')" class="task-cover">
         <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
@@ -24,11 +25,13 @@
             <h5 class="small-title-margin">Members</h5>
             <div class="member-list-container">
               <ul v-for="taskMember in taskMembers" class="clean-list">
-                <li class="avatar">
-                  <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 100 + '%' }">
+                <li>
+                  <div class="avatar">
+                    <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 50 + '%' }">
+                  </div>
                 </li>
               </ul>
-              <button class="btn-member-modal task-content-btn" @click="toggleMembersModal"></button>
+              <button class="btn-member-modal task-content-btn" @click="openModal($event, 'members')"></button>
             </div>
           </section>
 
@@ -37,7 +40,7 @@
             <h5 class="small-title-margin">Labels</h5>
             <div class="labels-list-container">
 
-              <div v-for="label in task.labels" :key="label.id" class="label">
+              <div @click="openModal($event, 'labels')" v-for="label in task.labels" :key="label.id" class="label">
                 <div class="label-bg" :style="{ backgroundColor: label.color }">
                   <div v-if="label.title" class="label-title-place-holder">{{ label.title }}</div>
                 </div>
@@ -64,8 +67,8 @@
         <div class="task-info">
           <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
 
-          <task-attachment v-if="task.attachments?.length" @saveAttachment="saveTask" @deleteAttachment="saveTask" @openAttachmentModal="openModal($event, 'attachment')"
-            :task="task" />
+          <task-attachment v-if="task.attachments?.length" @saveAttachment="saveTask" @deleteAttachment="saveTask"
+            @openAttachmentModal="openModal($event, 'attachment')" :task="task" />
 
           <task-checklist :task="task" @updateTask="saveTask" />
 
