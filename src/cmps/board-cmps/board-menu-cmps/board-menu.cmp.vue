@@ -197,6 +197,7 @@ export default {
     },
     computed: {
         board() {
+            console.log(this.$store.getters.board);
             return this.$store.getters.board
         }
     },

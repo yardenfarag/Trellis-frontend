@@ -1,4 +1,5 @@
 import { httpService } from './http.service'
+import { socketService } from './socket.service'
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
@@ -17,11 +18,6 @@ export const userService = {
 async function getUsers() {
     return await httpService.get('user')
 }
-
-// function onUserUpdate(user) {
-//     showSuccessMsg(`This user ${user.fullname} just got updated from socket, new score: ${user.score}`)
-//     store.dispatch({ type: 'setWatchedUser', user })
-// }
 
 async function getById(userId) {
     const user = await storageService.get('user', userId)
@@ -48,15 +44,20 @@ function remove(userId) {
 
 async function login(userCred) {
     const user = await httpService.post('auth/login', userCred)
-    if (user) return saveLocalUser(user)
+    if (user) {
+        socketService.login(user._id)
+        return saveLocalUser(user)
+    }
 }
 
 async function signup(userCred) {
     const user = await httpService.post('auth/signup', userCred)
+    socketService.login(user._id)
     return saveLocalUser(user)
 }
 async function logout() {
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    socketService.logout()
     return await httpService.post('auth/logout')
 }
 
@@ -67,9 +68,11 @@ function saveLocalUser(user) {
 }
 
 function getLoggedinUser() {
-    const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
-    if (user) return user
-    else return { fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar' }
+    // const user = await httpService.get('auth/loggedinUser')
+    // saveLocalUser(user)
+    const loggedinUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    if (loggedinUser) return loggedinUser
+    else return {_id: 'u103', fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar' }
 }
 
 

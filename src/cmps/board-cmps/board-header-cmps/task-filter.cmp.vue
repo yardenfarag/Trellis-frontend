@@ -13,33 +13,18 @@
         <div class="members-filter flex column">
             <h4>Members</h4>
             <label>
-                <input type="checkbox">
+                <input @change="toggleNoMembers" type="checkbox">
                 No members
             </label>
             <label>
-                <input type="checkbox">
+                <input @change="toggleTaskByMe" type="checkbox">
                 Cards assigned to me
             </label>
             <label>
-                <input type="checkbox">
-                <select multiple size="2">
-                    <option v-for="member in boardMembers" value="member._id">{{ member.fullname }}</option>
-                </select>
-            </label>
-        </div>
-        <div class="dueDate-filter flex column">
-            <h4>Due date</h4>
-            <label>
-                <input type="checkbox">
-                No dates
-            </label>
-            <label>
-                <input type="checkbox">
-                Overdue
-            </label>
-            <label>
-                <input type="checkbox">
-                Due in the next day
+                <el-select @change="setFilterBy" class="toy-filter" v-model="filterBy.memberIds" multiple collapse-tags
+                    collapse-tags-tooltip placeholder="Select members" style="width: 240px">
+                    <el-option v-for="member in boardMembers" :value="member._id">{{ member.fullname }}</el-option>
+                </el-select>
             </label>
         </div>
     </section>
@@ -53,6 +38,9 @@ export default {
         return {
             filterBy: {
                 txt: '',
+                memberIds: [],
+                isMyTask: false,
+                isNoMembers: false,
             }
         };
     },
@@ -61,6 +49,14 @@ export default {
         setFilterBy() {
             let filterBy = JSON.parse(JSON.stringify(this.filterBy))
             this.$emit('setFilterBy', filterBy)
+        },
+        toggleTaskByMe() {
+            this.filterBy.isMyTask = !this.filterBy.isMyTask
+            this.setFilterBy()
+        },
+        toggleNoMembers() {
+            this.filterBy.isNoMembers = !this.filterBy.isNoMembers
+            this.setFilterBy()
         },
         closeModal() {
             this.$emit('closeFilter')
