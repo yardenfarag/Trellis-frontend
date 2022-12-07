@@ -20,7 +20,7 @@
                 <div v-if="isAddTask" class="add-task-container">
                     <div class="textarea-input-margin">
                         <div class="textarea-input-padding">
-                            <textarea v-model="taskTitle" ref="title"
+                            <textarea @blur="closeAddCard" v-model="taskTitle" ref="title"
                                 placeholder="Enter a title for this card..."></textarea>
                         </div>
                     </div>
@@ -70,6 +70,9 @@ export default {
     methods: {
         getChildPayload(index) {
             return this.group.tasks[index]
+        },
+        closeAddCard(){
+            this.isAddTask = false
         },
         async onTaskDrop(ev) {
             const groupId = JSON.parse(JSON.stringify(this.group.id))

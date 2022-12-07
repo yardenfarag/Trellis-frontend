@@ -11,7 +11,7 @@
             <div v-if="isImg">
                 <section :style="img" class="full-img-container">
                     <div class="full-img-title-container">
-                        <h5 class="full-img-title">{{ task.title }}</h5>
+                        <h5 :style="{color: isBlackText}" class="full-img-title">{{ task.title }}</h5>
                     </div>
                 </section>
             </div>
@@ -189,6 +189,10 @@ export default {
         },
         color() {
             return { background: this.task.style.bgc }
+        },
+        isBlackText(){
+            if(this.task.style.textColor === 'white') return 'white'
+            else return 'black'
         },
         img() {
             return { backgroundImage: this.task.style.imgUrl }
