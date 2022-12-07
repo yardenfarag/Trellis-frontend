@@ -1,46 +1,43 @@
-.home-hero {
-    height: calc(100vh - 44px);
-    background: url(//images.ctfassets.net/rz1oowkt5gyp/6kBmKYevSE6afQVs3k7f85/4f95550…/hero-1-left.svg) 0px 124px / auto no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/6QeCRDk331YxhjdhUY5ZfR/0f0c9cc…/wave--big-swing-hero.svg) left bottom -0.5px / 100% 29% no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/2iTmnZoDWa5z5r1XQd1FCw/385920f…/hero-1-right-top-padding.svg) right top / auto no-repeat scroll padding-box border-box, url(//images.ctfassets.net/rz1oowkt5gyp/5NNPHxU4uE3URY8gHqBqsH/aac2280…/white_moire.png) center center / 90% no-repeat scroll padding-box border-box, linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180)) 0% 0% / auto repeat scroll padding-box border-box rgb(82, 67, 170);
-    background-blend-mode: normal, normal, normal, normal, normal;
-    color: rgb(255, 255, 255);
+.main-layout {
+    overflow: hidden;
+    align-items: center;
+    font-size: 16px;
+    position: relative;
+}
 
-    & h1 {
-        font-size: 48px;
-        line-height: 1.25;
-        font-family: charlie-semibold;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        margin-top: 80px;
-        height: 180px;
-        width: 608px;
-        text-align: center;
-    }
-
-    & h3 {
-        text-align: center;
-        width: 608px;
-        font-family: charlie-text-regular;
-        font-size: 20px;
-    }
-
-    & button {
-        margin-top: 30px;
-        text-decoration: none;
-        color: white;
-        background-color: rgb(42 99 246);
-    }
+.main-layout>* {
+    width: 100%;
 
 }
 
+.main-layout>*:not(.full) {
+    max-width: 1140px;
+}
+
+.main-home-header {
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: white;
+    box-shadow: rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px;
+}
+
+
 .home-header {
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
     height: 60px;
+    max-width: 1320px;
 }
 
 .logo {
-    margin-inline: 20px;
     gap: 3px;
     text-decoration: none;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
 
     .main-logo {
         text-decoration: none;
@@ -54,50 +51,146 @@
         margin-block-start: 3px;
         font-family: trello;
         content: '\E90B';
-        font-size: 19px;
+        font-size: 34px;
         color: rgb(0, 82, 204);
-        text-align: center;
-
     }
 }
 
 .header-nav {
 
     justify-items: center;
-    align-items: center;
+    text-align: center;
     gap: 10px;
+    align-items: center;
+    height: 100%;
 
     a {
         text-decoration: none;
+        color: black;
+        font-size: 20px;
+        padding: 0.5rem 1.5rem;
+        font-family: charlie-semibold;
+
+    }
+
+    .demo-li {
+        align-items: center;
+        justify-content: center;
+        width: 210px;
+        height: 100%;
+        background-color: rgb(23, 43, 77);
+
+        &:hover {
+            background-color: rgb(80, 95, 121);
+            cursor: pointer;
+        }
+
+        .demo {
+            color: rgb(255, 255, 255);
+        }
+
+
+    }
+
+}
+
+
+.home-hero {
+
+    background: url(https://images.ctfassets.net/rz1oowkt5gyp/6kBmKYevSE6afQVs3k7f85/4f9555020a455585ac16cdbc90064dc3/hero-1-left.svg) 0px 124px / auto no-repeat scroll padding-box border-box,
+        url(https://images.ctfassets.net/rz1oowkt5gyp/6QeCRDk331YxhjdhUY5ZfR/0f0c9cc5c6f29c493e65c4aa88b9eafd/wave--big-swing-hero.svg) left bottom -0.5px / 100% 29% no-repeat scroll padding-box border-box,
+        url(https://images.ctfassets.net/rz1oowkt5gyp/2iTmnZoDWa5z5r1XQd1FCw/385920f4c0810c358bb58bd72a2571fd/hero-1-right-top-padding.svg) right top / auto no-repeat scroll padding-box border-box,
+        url(https://images.ctfassets.net/rz1oowkt5gyp/5NNPHxU4uE3URY8gHqBqsH/aac2280249309f6ebfcc16db45a795ad/white_moire.png) center center / 90% no-repeat scroll padding-box border-box,
+        linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180)) 0% 0% / auto repeat scroll padding-box border-box rgb(82, 67, 170);
+    background-blend-mode: normal, normal, normal, normal, normal;
+    color: rgb(255, 255, 255);
+    text-align: center;
+
+    .hero-content {
+
+        max-width: 728px;
+    }
+
+    h1 {
+        font-size: 48px;
+        line-height: 1.25;
+        font-family: charlie-semibold;
+        font-weight: 500;
+        margin-bottom: 8px;
+        margin-top: 60px;
+    }
+
+    h3 {
+        font-family: charlie-text-regular;
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+
+    .hero-btn-link {
+        text-decoration: none;
+    }
+
+    button {
+        align-items: center;
+        font-family: charlie-semibold;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        background-color: rgb(0, 101, 255);
+        font-size: 16px;
+        padding: 12px 16px;
+        font-weight: 400;
+        line-height: 20px;
+        height: 50px;
+        width: 165px;
+        margin-bottom: 60px;
+
+        a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+
+        }
+    }
+
+    img {
+        width: 918px;
+        max-height: 517px;
+        margin-bottom: 60px;
     }
 
 }
 
 .trello-101 {
     align-items: center;
+    background: linear-gradient(0deg, rgb(230, 252, 255), rgb(255, 255, 255)) 0% 0% / auto repeat scroll padding-box border-box rgb(178, 212, 255);
+    background-blend-mode: normal;
+    color: rgb(9, 30, 66);
+    padding-bottom: 64px;
+    margin-bottom: 64px;
 
     h4 {
         font-weight: 500;
         margin-bottom: 0.5rem;
         margin-top: 0px;
-        font-size: 20px;
+        font-size: 16px;
         line-height: 1.25;
         text-transform: uppercase;
+        margin-bottom: 8px;
     }
 
     h2 {
         font-family: charlie-semibold;
-        font-size: 2.25rem;
+        font-size: 36px;
         line-height: 1.33333;
         font-weight: 500;
-        margin-bottom: 0.5rem;
+        margin-bottom: 8px;
         margin-top: 0px;
     }
 
     >p {
-        width: 607px;
+        max-width: 720px;
         text-align: center;
-        font-size: 20px;
+        font-size: 22px;
         font-family: charlie-regular;
         font-weight: 400;
         line-height: 1.5;
@@ -109,9 +202,28 @@
         margin-top: 50px;
     }
 
+    .cards-101 {
+        margin: 16px;
+
+    }
+
     .card {
-        width: 288px;
-        height: 181px;
+        background-color: transparent;
+        color: inherit;
+        border-radius: 0.3rem;
+        border: 0px;
+        padding: 1rem 1rem 1rem 1.5rem;
+        position: relative;
+        text-align: left;
+        display: block;
+        width: 348px;
+        height: 157px;
+    }
+
+    .card-selected {
+        display: block;
+        width: 348px;
+        height: 157px;
         background-color: rgb(255, 255, 255);
         color: rgb(9, 30, 66);
         box-shadow: rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px;
@@ -120,6 +232,19 @@
         padding: 1rem 1rem 1rem 1.5rem;
         position: relative;
         text-align: left;
+
+
+    }
+
+    h3 {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        font-family: charlie-regular;
+        letter-spacing: 0.5px;
     }
 
     .side-border {
@@ -134,8 +259,9 @@
     }
 
     img {
-        width: 607px;
-        height: 408px;
+        width: 728px;
+        height: 488px;
+        margin: 16px;
     }
 }
 
@@ -159,9 +285,11 @@
     }
 
     .action-cards {
-        overflow: hidden;
+        overflow: visible;
         gap: 32px;
         margin-bottom: 20px;
+        max-width: 80vw;
+        width: 600px;
 
         .card {
             border-radius: 0.5rem;
@@ -181,21 +309,59 @@
                 width: 100%;
                 height: 47px;
                 margin-bottom: 48px;
-                background-color: rgb(121, 226, 242);
+
             }
 
-            .action-card-content{
+            .action-card-content {
                 padding: 0 25px;
 
-                h3{
+                h3 {
                     font-size: 1.5rem;
                     line-height: 1.33333;
                     font-weight: 500;
                 }
-                p{
+
+                p {
                     font-size: 16px;
                 }
             }
+        }
+    }
+
+    .action-bottom {
+        padding-top: 80px;
+        padding-bottom: 90px;
+
+        p {
+            font-size: 20px;
+            line-height: 1.5;
+            max-width: 823px;
+        }
+
+        a {
+            width: 195px;
+            height: 50px;
+            align-self: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-box-align: center;
+            align-items: center;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            display: inline-flex;
+            transition: all 250ms ease-out 0s;
+            background-color: rgb(255, 255, 255);
+            border: 1px solid rgb(0, 101, 255);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.7rem 1rem;
+            color: rgb(23, 43, 77);
+            font-weight: 400;
+        }
+
+        a:hover {
+            background-color: #e0ebfe;
+            border-color: rgb(0, 101, 255);
         }
     }
 }
