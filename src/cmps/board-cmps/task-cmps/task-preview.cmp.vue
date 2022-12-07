@@ -1,54 +1,67 @@
 <template>
     <section v-if="task" class="task-preview" @click.stop="goToDetails">
-        <div class="task-bg-color" v-if="task.style?.asTop" :style="taskTopBg"></div>
-        <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
-            edit
-        </span>
-        <section v-if="isTaskInfo" class="task-info">
-            <div v-if="showLabels" class="labels-container">
-                <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
-                </div>
+        <div v-if="isFullBg && (isColor || isImg)">
+            <div v-if="isColor">
+                <section :style="color" class="full-color-container">
+                    <div class="full-color-title-container">
+                        <h5 class="full-color-title">{{ task.title }}</h5>
+                    </div>
+                </section>
             </div>
-            <h5 class="task-title">{{ task.title }}</h5>
-            <section class="badges">
+            <div v-if="isImg">
+                <section :style="img" class="full-img-container">
+                    <div class="full-img-title-container">
+                        <h5 class="full-img-title">{{ task.title }}</h5>
+                    </div>
+                </section>
+            </div>
+        </div>
 
-                <div class="icon-container" v-if="(task.dueDate)">
-                    <span class="icon date-icon"></span>
-                    <span class="text text-date">{{ dueDate }}</span>
+        <div v-else>
+            <div class="task-bg-color" v-if="isColor" :style="color"></div>
+            <div class="task-bg-img" v-if="isImg" :style="img"></div>
+            <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+                edit
+            </span>
+            <section class="task-info">
+                <div v-if="task.labels" class="labels-container">
+                    <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
+                    </div>
                 </div>
-                <div class="icon-container" title="This card has a description" v-if="(task.description)">
-                    <span class="icon desc-icon"></span>
-                    <span class="text text-desc"> </span>
-                </div>
-                <div class="icon-container" title="Comments" v-if="(task.comments?.length > 0)">
-                    <span class="icon comments-icon"></span>
-                    <span class="text text-comments"> {{ task.comments?.length }}</span>
-                </div>
-                <div class="icon-container" title="Attachments" v-if="(task.attachments?.length > 0)">
-                    <span class="icon attach-icon"></span>
-                    <span class="text text-attach"> {{ task.attachments?.length }}</span>
-                </div>
-                <div :style="checklistDoneStyle" class="icon-container" title="Checklist items"
-                    v-if="(task.checklists?.length > 0)">
-                    <span class="icon checklists-icon"></span>
-                    <span class="text text-checklists"> {{ checklistSum }}</span>
-                </div>
+                <h5 class="task-title">{{ task.title }}</h5>
+                <section class="badges">
+
+                    <div class="icon-container" v-if="(task.dueDate)">
+                        <span class="icon date-icon"></span>
+                        <span class="text text-date">{{ dueDate }}</span>
+                    </div>
+                    <div class="icon-container" title="This card has a description" v-if="(task.description)">
+                        <span class="icon desc-icon"></span>
+                        <span class="text text-desc"> </span>
+                    </div>
+                    <div class="icon-container" title="Comments" v-if="(task.comments?.length > 0)">
+                        <span class="icon comments-icon"></span>
+                        <span class="text text-comments"> {{ task.comments?.length }}</span>
+                    </div>
+                    <div class="icon-container" title="Attachments" v-if="(task.attachments?.length > 0)">
+                        <span class="icon attach-icon"></span>
+                        <span class="text text-attach"> {{ task.attachments?.length }}</span>
+                    </div>
+                    <div :style="checklistDoneStyle" class="icon-container checklist" title="Checklist items"
+                        v-if="(task.checklists?.length > 0)">
+                        <span class="icon checklists-icon"></span>
+                        <span class="text text-checklists"> {{ checklistSum }}</span>
+                    </div>
+                </section>
+
+                <ul v-if="taskMembers.length" class="clean-list member-list">
+                    <li v-for="taskMember in taskMembers" class="avatar">
+                        <img :src="taskMember.imgUrl">
+                    </li>
+                </ul>
             </section>
+        </div>
 
-            <ul v-if="taskMembers.length" class="clean-list member-list">
-                <li v-for="taskMember in taskMembers" class="avatar">
-                    <img :src="taskMember.imgUrl">
-                </li>
-            </ul>
-        </section>
-        <section v-else>
-            <div :style="{ background: this.task?.style?.bg, color: this.task?.style?.textColor }"
-                class="full-bg-container">
-                <div class="full-bg-title-container">
-                    <h5 class="full-bg-title">{{ task.title }}</h5>
-                </div>
-            </div>
-        </section>
 
     </section>
 
@@ -164,16 +177,21 @@ export default {
         },
     },
     computed: {
-        isTaskInfo() {
-            if (this.task.style.asTop) return true
+        isFullBg() {
+            if (!this.task.style.asTop) return true
             return false
         },
-        taskTopBg() {
-            if (this.task?.style?.asTop) return { background: this.task?.style?.bg }
+        isColor() {
+            if (this.task.style.bgc) return true
         },
-        taskBg() {
-            if (!this.task?.style?.asTop) return { background: this.task?.style?.bg, color: this.task?.style?.textColor }
-            else return { background: 'white' }
+        isImg() {
+            if (this.task.style.imgUrl) return true
+        },
+        color() {
+            return { background: this.task.style.bgc }
+        },
+        img() {
+            return { backgroundImage: this.task.style.imgUrl }
         },
         checklistSum() {
             let total = 0

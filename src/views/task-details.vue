@@ -4,7 +4,7 @@
   <section v-click-outside="closeDetails" v-if="task" class="task-details">
 
     <section class="task-header">
-      <div :style="{ background: task.style?.bg }" v-if="(task.style?.bg)" class="task-cover">
+      <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)" class="task-cover">
         <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
@@ -274,6 +274,10 @@ export default {
     },
   },
   computed: {
+    setBackground() {
+      if (this.task.style.bgc) return this.task.style.bgc
+      if (this.task.style.imgUrl) return this.task.style.imgUrl
+    },
     duedateComplete() {
       if (this.task.dueDate.isDone) {
         return 'completed'

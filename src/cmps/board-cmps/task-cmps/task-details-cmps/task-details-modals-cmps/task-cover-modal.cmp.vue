@@ -18,23 +18,20 @@
                             </div>
                         </div>
 
-                        <button class="primary-btn-modal btn-remove-cover" v-if="task.style?.bg"
-                            @click="setAsCover('')">Remove
+                        <button class="primary-btn-modal btn-remove-cover" v-if="(isImgUrl || isBgc)"
+                            @click="removeCover('')">Remove
                             cover</button>
 
-                        <div class="text-color-container">
+                        <div v-if="isImgUrl" class="text-color-container">
                             <h4 class="small-title">Text color</h4>
                             <div v-if="task" class="text-color-btns-grid-container">
 
-                                <div class="image dark" :style="{ backgroundImage: task.style.bg, }"
-                                    @click="setTextColor('white')">
+                                <div class="image dark" :style="img" @click="setTextColor('white')">
                                 </div>
                                 <span class="white">{{ task.title }}</span>
 
 
-                                <div class="image bright" :style="{
-                                    backgroundImage: task.style.bg,
-                                }" @click="setTextColor('black')">
+                                <div class="image bright" :style="img" @click="setTextColor('black')">
                                 </div>
                                 <span class="black">{{ task.title
                                 }}</span>
@@ -45,7 +42,7 @@
                         <h4 class="small-title-margin-top">Colors</h4>
                         <div class="colors-grid-container">
                             <div v-for="color in colors" class="color-placeholder">
-                                <button @click="setAsCover(color)" class="color"
+                                <button @click="setColorAsCover(color)" class="color"
                                     :style="{ background: color }"></button>
                             </div>
                         </div>
@@ -98,13 +95,13 @@ export default {
     },
     data() {
         return {
-            colors: ['#f4f5f7', '#f5dd29', '#ffaf3f', '#ef7564', '#cd8de5',
+            colors: ['#7bc86c', '#f5dd29', '#ffaf3f', '#ef7564', '#cd8de5',
                 '#5ba4cf', '#29cce5', '#6deca9', '#ff8ed4', '#172b4d'],
             uploadTxt: 'Upload a cover image',
             images: null,
             searchTerm: '',
             asTop: true,
-            textColor: false,
+            isTextColor: false,
         }
     },
     created() {
@@ -114,42 +111,37 @@ export default {
         closeModal() {
             this.$emit('toggleCoverModal')
         },
-        setAsCover(color) {
+        removeCover() {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
-            if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.bgc) taskToSave.style.bgc = ''
-            if (taskToSave.style.bgc === color) taskToSave.style.bgc = ''
-            else taskToSave.style.bgc = color
-            taskToSave.style.asTop = this.asTop
-            taskToSave.style.textColor = 'black'
+            taskToSave.style = {}
+            // taskToSave.style.asTop = true
+            // this.asTop = false
             this.$emit('saveTask', taskToSave)
         },
-        onUploaded(imgUrl, fileName) {
+        setColorAsCover(color) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
-            if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.imgUrl) taskToSave.style.imgUrl = ''
-            taskToSave.style.imgUrl = `url(${imgUrl})`
-            taskToSave.style.asTop = this.asTop
+            taskToSave.style.imgUrl = null
+            taskToSave.style.bgc = color
             taskToSave.style.textColor = 'black'
-
-            const image = { fileName, createdAt: Date.now(), imgUrl, id: utilService.makeId() }
-            if (!taskToSave.attachments) taskToSave.attachments = []
-            taskToSave.attachments.push(image)
             this.$emit('saveTask', taskToSave)
         },
         setPexlesAsCover(imgUrl) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
-            if (!taskToSave.style) taskToSave.style = {}
-            if (!taskToSave.style.imgUrl) taskToSave.style.imgUrl = ''
+            taskToSave.style.bgc = null
             taskToSave.style.imgUrl = `url(${imgUrl})`
-            taskToSave.style.asTop = this.asTop
-            taskToSave.style.textColor = 'black'
             this.$emit('saveTask', taskToSave)
-
+        },
+        onUploaded(imgUrl, fileName) {
+            const taskToSave = JSON.parse(JSON.stringify(this.task))
+            const image = { fileName, createdAt: Date.now(), imgUrl, id: utilService.makeId() }
+            if (!taskToSave.attachments) taskToSave.attachments = []
+            taskToSave.attachments.push(image)
+            this.$emit('saveTask', taskToSave)
+            setPexlesAsCover(imgUrl)
         },
         setAsTop(bool) {
-            if (!bool) this.textColor = true
-            else this.textColor = false
+            if (!bool) this.isTextColor = true
+            else this.isTextColor = false
             this.asTop = bool
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style.asTop = bool
@@ -173,6 +165,15 @@ export default {
         },
     },
     computed: {
+        isImgUrl() {
+            return this.task.style.imgUrl
+        },
+        isBgc() {
+            return this.task.style.bgc
+        },
+        img() {
+            return { background: this.task.style.imgUrl }
+        }
     },
     mounted() {
         console.log(this.task)
