@@ -49,7 +49,8 @@ export default {
             const updateTask = JSON.parse(JSON.stringify(this.task))
             if (updateTask.checklists) updateTask.checklists.push(checklist)
             else updateTask.checklists = [checklist]
-            this.$emit('updateTask', updateTask)
+            let activityTxt = `added ${checklist.title} to ${updateTask.title}`
+            this.$emit('updateTask', updateTask, activityTxt)
             this.listTitle = ''
         },
     },

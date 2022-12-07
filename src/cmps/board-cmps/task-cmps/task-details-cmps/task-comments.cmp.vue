@@ -68,13 +68,13 @@ export default {
         commentToSave.id = utilService.makeId()
         taskToEdit.comments.unshift(commentToSave)
       }
-      // let newActivity
-      // if (commentToSave.isEdited) {
-      //   newActivity = utilService.setActivity(`edited ${commentToSave.txt} on ${taskToEdit.title}`, taskToEdit)
-      // } else {
-      //   newActivity = utilService.setActivity(`commented ${commentToSave.txt} on ${taskToEdit.title}`, taskToEdit)
-      // }
-      this.$emit('saveTask', taskToEdit)
+      let activityTxt
+      if (commentToSave.isEdited) {
+        activityTxt = `edited ${commentToSave.txt} on ${taskToEdit.title}`
+      } else {
+        activityTxt = `commented ${commentToSave.txt} on ${taskToEdit.title}`
+      }
+      this.$emit('saveTask', taskToEdit, activityTxt)
       this.comment = {
         txt: '',
         createdAt: '',

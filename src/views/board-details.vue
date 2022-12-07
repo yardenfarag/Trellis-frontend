@@ -47,7 +47,7 @@ import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
 import boardMenu from '../cmps/board-cmps/board-menu-cmps/board-menu.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
 import taskFilter from '../cmps/board-cmps/board-header-cmps/task-filter.cmp.vue'
-import { socketService } from '../services/socket.service'
+import { socketService, SOCKET_EVENT_CHANGE_BOARD, SOCKET_EVENT_SET_BOARD } from '../services/socket.service'
 export default {
     name: 'board-details',
     components: {
@@ -77,21 +77,26 @@ export default {
             // board: null,
             filterBy: {
                 txt: '',
-            },
+                memberIds: [],
+                isMyTask: false,
+                isNoMembers: false,
+            }
         }
     },
     async created() {
         const { boardId } = this.$route.params
-
-        // socketService.emit('board room', boardId)
-        // socketService.on(SOCKET_EVENT_CHANGE_BOARD, board => {
-        //     console.log(board);
-        // })
-
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
         this.boardToEdit = JSON.parse(JSON.stringify(this.board))
+
+        // socketService.on(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
+
+        // socketService.emit(SOCKET_EVENT_SET_BOARD, this.boardToEdit._id)
     },
     methods: {
+        updateBoardFromSocket(board) {
+            this.boardToEdit = board
+            this.saveThisBoard()
+        },
         async onGroupDrop(ev) {
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
@@ -100,7 +105,8 @@ export default {
             await this.boardToEdit.groups.splice(dragIdx, 1)
             await this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            await this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            // await this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            this.saveThisBoard()
         },
         async saveTaskDrop({ ev, groupId }) {
             // const board = this.board
@@ -110,8 +116,8 @@ export default {
 
             if (ev.addedIndex !== null) group.tasks.splice(ev.addedIndex, 0, ev.payload)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-
-            await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+            this.saveThisBoard()
+            // await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)) })
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
@@ -126,27 +132,23 @@ export default {
                 this.focusOnTitle()
             })
         },
+        async saveThisBoard(activityTxt) {
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit, activityTxt })
+        },
         async changeBackgroundImg(imgUrl, avgColor) {
             this.boardToEdit.style.bgc = `url(${imgUrl})`
             this.boardToEdit.style.headerClr = avgColor
-            // const newActivity = utilService.setActivity(`changed this board cover`, null)
-            // if (this.board.activities) {
-            //     this.board.activities.unshift(newActivity)
-            // } else {
-            //     this.board.activities = [newActivity]
-            // }
-            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit })
+            let activityTxt = `changed this board cover`
+            this.saveThisBoard(activityTxt)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit, activityTxt })
         },
         async changeBackgroundColor(color) {
             this.boardToEdit.style.bgc = color
             this.boardToEdit.style.headerClr = color
-            // const newActivity = utilService.setActivity(`changed this board cover`, null)
-            // if (this.boardToEdit.activities) {
-            //     this.board.activities.unshift(newActivity)
-            // } else {
-            //     this.board.activities = [newActivity]
-            // }
-            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit })
+            let activityTxt = `changed this board cover`
+            this.saveThisBoard(activityTxt)
+            // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, this.boardToEdit)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit, activityTxt })
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
@@ -162,23 +164,46 @@ export default {
     },
     computed: {
         board() {
-            return this.$store.getters.board
-        }
+            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            const loggedinUser = this.$store.getters.loggedinUser
+            if (this.filterBy.txt) {
+                const regex = new RegExp(this.filterBy.txt, 'i')
+                board.groups.forEach(group => {
+                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
+                })
+            }
+            if (this.filterBy.isMyTask)
+                board.groups.forEach(group => {
+                    return group.tasks = group.tasks.filter(task => {
+                        if (task.memberIds.find(memberId => memberId === loggedinUser._id)) {
+                            return task
+                        }
+                    })
+                })
+            if (this.filterBy.isNoMembers) {
+                board.groups.forEach(group => {
+                    return group.tasks = group.tasks.filter(task => !task.memberIds.length)
+                })
+            }
+            if (this.filterBy.memberIds.length) {
+                this.filterBy.memberIds.forEach(memberId => {
+                    board.groups.forEach(group => {
+                        return group.tasks = group.tasks.filter(task => {
+                            return task.memberIds.includes(memberId)
+                        })
+                    })
+                })
+            }
+            return board
+        },
     },
     mounted() {
         document.querySelector('#app').classList.add('board-page')
     },
     unmounted() {
+        // socketService.off(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
         document.querySelector('#app').classList.remove('board-page')
     },
-    // watch: {
-    //     boardFromStore: {
-    //         handler() {
-    //             this.board = this.boardFromStore
-    //         },
-    //         deep: true,
-    //     },
-    // },
 }
 </script>
 <style>

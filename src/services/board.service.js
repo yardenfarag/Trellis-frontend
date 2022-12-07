@@ -1,4 +1,4 @@
-
+import {socketService, SOCKET_EVENT_CHANGE_BOARD} from './socket.service'
 import axios from 'axios'
 import { httpService } from './http.service'
 
@@ -23,9 +23,10 @@ async function remove(boardId) {
     return await httpService.delete(`board/${boardId}`)
 }
 
-async function save(board) {
+async function save(board, activityTxt, task) {
+    // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, board)
     if (board._id) {
-        return await httpService.put(`board/${board._id}`, board)
+        return await httpService.put(`board/${board._id}`, {board, activityTxt, task})
     } else {
         return await httpService.post('board', board)
     }
