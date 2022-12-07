@@ -113,7 +113,6 @@ export default {
         removeCover() {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style = {}
-            // taskToSave.style.asTop = true
             // this.asTop = false
             this.$emit('saveTask', taskToSave)
         },
@@ -122,6 +121,7 @@ export default {
             taskToSave.style.imgUrl = null
             taskToSave.style.bgc = color
             taskToSave.style.textColor = 'black'
+            taskToSave.style.asTop = true
             this.$emit('saveTask', taskToSave)
         },
         setPexlesAsCover(imgUrl) {

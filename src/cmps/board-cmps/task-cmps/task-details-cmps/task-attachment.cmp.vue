@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="attachment-footer">
-      <button class="task-content-btn">Add an attachment</button>
+      <button @click="openModal($event, 'attachment')" class="task-content-btn">Add an attachment</button>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@
 <script>
 import taskAttachmentPreview from './task-attachment-preview.cmp.vue';
 export default {
+  emits: ['openAttachmentModal'],
   props: ['task'],
   name: 'task-attachment',
   components: {
@@ -39,6 +40,9 @@ export default {
       const idx = taskToSave.attachments.findIndex(attachment => attachment.id === attachmentId)
       taskToSave.attachments.splice(idx, 1)
       this.$emit('deleteAttachment', taskToSave)
+    },
+    openModal($event, arg){
+      this.$emit('openAttachmentModal', $event)
     }
   },
   computed: {
