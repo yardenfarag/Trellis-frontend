@@ -2,8 +2,14 @@
     margin-left: 8px;
 }
 
+.smooth-dnd-container {
+    min-width: 100%;
+    min-height: 100%;
+}
+
 .smooth-dnd-container.horizontal {
     display: flex !important;
+
 }
 
 .group-wrapper {
@@ -21,7 +27,7 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        max-height: 100%;
+        max-height: calc(100% - 80px);
         position: relative;
         white-space: normal;
         width: 100% !important;
@@ -32,6 +38,7 @@
             padding: 10px 8px;
             padding-right: 8px;
             position: relative;
+
 
             .editing-target {
                 bottom: 0;
@@ -59,6 +66,7 @@
                 overflow: hidden;
                 overflow-wrap: break-word;
                 height: 28px;
+                cursor: pointer;
             }
 
             .btn-group-actions {
@@ -86,42 +94,51 @@
             }
         }
 
-        .open-add-task-container {
-            max-height: 38px;
-            min-height: 38px;
-            display: flex;
-
-            .btn-open-add-task {
-                display: flex;
-                justify-content: flex-start;
-                padding: 0;
-                margin: 2px 0 8px 8px;
-                padding: 4px 8px;
-
-                &:hover {
-                    background-color: $color-hover-1;
-                    color: $color-primary-text;
-                }
-
-                & span:nth-child(1) {
-                    margin-left: -4px;
-                    padding-right: 2px;
-                    padding-left: 4px;
-                }
-            }
-        }
     }
 
+    .open-add-task-container {
+        display: flex;
+        justify-content: flex-start;
+        max-height: 38px;
+        min-height: 38px;
 
+        .btn-open-add-task {
+            display: flex;
+            max-width: 100%;
+            flex: 1 0 auto;
+            padding: 4px 8px;
+            position: relative;
+            border-radius: 3px;
+            margin-top: 2px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            margin-left: 8px;
+            align-self: center;
+            color: $color-secondery-text;
+            height: 28px;
+            background-color: transparent;
+            transition: 0.05;
+
+            &:hover {
+                background-color: $color-primary-btn-modal-hover;
+            }
+
+            .txt {
+                position: absolute;
+                left: 35px;
+            }
+
+            .x {
+                position: absolute;
+                left: 8px;
+            }
+
+
+        }
+
+    }
 
     .task-list {
-        // padding: 0 4px;
-        // margin: 0 4px;
-        // // margin-top: 6px;
-        // max-height: calc(100vh - 200px);
-        // overflow-y: auto;
-        // overflow-x: hidden;
-
         flex: 1 1 auto;
         margin: 0 4px;
         min-height: 0;
@@ -130,79 +147,15 @@
         padding: 0 4px;
         // z-index: 1;
 
-        //     .add-task-form {
-        //         padding-bottom: 8px;
-
-        //         .add-task-form-controler {
-        //             position: relative;
-        //             height: 32px;
-
-        //             .close-add-task {
-        //                 position: absolute;
-        //                 top: -3px;
-        //                 left: 80px;
-        //                 // border-radius: 3px;
-        //                 padding: 4px;
-        //                 color: rgb(136, 136, 136);
-
-        //                 &:hover {
-        //                     color: darken(rgb(136, 136, 136), 40%);
-        //                     background-color: transparent;
-        //                 }
-        //             }
-
-        //             span:nth-child(3) {
-        //                 position: absolute;
-        //                 // bottom: 2px;
-        //                 right: -1px;
-        //                 border-radius: 3px;
-        //                 padding: 4px;
-        //                 color: rgb(135, 135, 135);
-
-        //                 &:hover {
-        //                     color: darken(rgb(135, 135, 135), 20%);
-        //                 }
-        //             }
-        //         }
-
-        //         span:hover {
-        //             cursor: pointer;
-        //             background-color: $color-hover-1;
-
-        //         }
-
-        //         textarea {
-        //             width: 100%;
-        //             height: 69px;
-        //             padding-left: 9px;
-        //             padding-top: 6px;
-        //             border-radius: 3px;
-        //             margin-block-end: 8px;
-        //             resize: none;
-        //             box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
-
-        //             &:focus {
-        //                 outline: none;
-        //             }
-        //         }
-        //     }
-        // }
-
         // .ghost {
         //     opacity: 0.4;
         //     margin-inline-end: 8px;
+
+
     }
 
-    .task-preview {
-        // position: relative;
-        // background-color: white;
-        // box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
-        // padding-inline: 8px;
-        // margin-block-end: 8px;
-        // padding-block: 6px;
-        // border-radius: 3px;
-        // cursor: pointer;
 
+    .task-preview {
         background-color: white;
         border-radius: 3px;
         box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
@@ -214,6 +167,62 @@
         position: relative;
         z-index: 0;
 
+        .full-color-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 56px;
+            margin-bottom: 8px;
+            max-width: 300px;
+            border-radius: 3px;
+            cursor: pointer;
+
+            .full-color-title-container {
+                overflow: hidden;
+                padding: 6px 8px 2px;
+                position: relative;
+                align-self: flex-end;
+                width: 100%;
+
+                .full-color-title {
+                    word-wrap: break-word;
+                    font-size: 16px;
+                    overflow: hidden;
+                    font-weight: 500;
+                    line-height: 20px;
+                    margin-bottom: 0;
+                    padding-bottom: 8px;
+                }
+            }
+        }
+
+        .full-img-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 56px;
+            margin-bottom: 8px;
+            max-width: 300px;
+            border-radius: 3px;
+            cursor: pointer;
+
+            .full-img-title-container {
+                overflow: hidden;
+                padding: 6px 8px 2px;
+                position: relative;
+                align-self: flex-end;
+                width: 100%;
+
+                .full-img-title {
+                    word-wrap: break-word;
+                    font-size: 16px;
+                    overflow: hidden;
+                    font-weight: 500;
+                    line-height: 20px;
+                    margin-bottom: 0;
+                    padding-bottom: 8px;
+                }
+            }
+        }
+
         &:hover {
             .pencil-icon {
                 display: block;
@@ -223,24 +232,26 @@
         .pencil-icon {
             display: none;
             position: absolute;
-            top: 6px;
-            right: 4px;
-        }
+            top: 8px;
+            right: 6px;
 
-        // &:hover {
-        //     background-color: darken(white, 3%);
-        // }
+        }
 
         .task-bg-color {
             border-radius: 3px 3px 0 0;
             height: 32px;
         }
 
+        .task-bg-img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
         .task-info {
             overflow: hidden;
-            padding: 6px 8px 2px;
+            padding: 2px 8px 2px;
             position: relative;
-            // z-index: 10;
 
             .labels-container {
                 display: flex;
@@ -249,7 +260,7 @@
                 margin-bottom: 4px;
 
                 .prev-label {
-                    margin-top: 4px;
+                    margin-top: 8px;
                     margin-bottom: 4px;
                     padding-right: 0;
                     padding-left: 0;
@@ -284,60 +295,69 @@
                 margin-left: -2px;
                 max-width: 100%;
 
+                .icon-container.checklist {
+                    border-radius: 3px;
+                }
+
                 .icon-container {
                     display: inline-block;
                     margin: 0 4px 4px 0;
                     max-width: 100%;
                     min-height: 20px;
                     overflow: hidden;
-                    padding: 2px;
+                    padding: 1px;
                     position: relative;
                     text-decoration: none;
                     text-overflow: ellipsis;
                     vertical-align: top;
+                    color: $color-secondery-text;
 
-                    .prev-attach {
 
-                        &::before {
-                            font-family: trello;
-                            content: '\E908';
-                            font-size: 15px;
-                        }
+                    .text {
+                        font-size: 12px;
+                        padding: 0 4px 0 2px;
+                        vertical-align: top;
+                        white-space: nowrap;
                     }
 
-                    .prev-desc {
-
+                    .icon {
                         &::before {
                             font-family: trello;
-                            content: '\E922';
-                            font-size: 15px;
+                            font-size: 16px;
                         }
-                    }
 
-                    .prev-checklists {
-
-                        &::before {
-                            font-family: trello;
-                            content: '\E91A';
-                            font-size: 15px;
+                        &.attach-icon {
+                            &::before {
+                                content: '\E908';
+                            }
                         }
-                    }
 
-                    .prev-date {
+                        &.desc-icon {
 
-                        &::before {
-                            font-family: trello;
-                            content: '\E91B';
-                            font-size: 15px;
+                            &::before {
+                                content: '\E922';
+                            }
                         }
-                    }
 
-                    .prev-comments {
+                        &.checklists-icon {
 
-                        &::before {
-                            font-family: trello;
-                            content: '\E91E';
-                            font-size: 15px;
+                            &::before {
+                                content: '\E91A';
+                            }
+                        }
+
+                        &.date-icon {
+
+                            &::before {
+                                content: '\E91B';
+                            }
+                        }
+
+                        &.comments-icon {
+
+                            &::before {
+                                content: '\E91E';
+                            }
                         }
                     }
 
@@ -367,71 +387,86 @@
     }
 
 
+    .add-task-container {
+        padding-bottom: 8px;
 
-    // .prev-attach {
+        .textarea-input-margin {
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            max-width: 300px;
+            min-height: 20px;
+            position: relative;
 
-    //     &::before {
-    //         font-family: trello;
-    //         content: '\E908';
-    //         font-size: 15px;
-    //         top: 2px;
+            .textarea-input-padding {
+                // padding: 6px 8px 2px;
+                position: relative;
 
-    //     }
-    // }
+                textarea {
+                    width: 100%;
+                    overflow: hidden;
+                    overflow-wrap: break-word;
+                    resize: none;
+                    height: 69px;
+                    padding: 6px 8px 2px;
+                    max-height: 162px;
+                    border-radius: 3px;
+                    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.25);
+                    border: none;
+                    outline: none;
+                    color: rgb(150, 150, 150);
 
-    // .prev-desc {
+                }
+            }
+        }
 
-    //     &::before {
-    //         font-family: trello;
-    //         content: '\E922';
-    //         font-size: 15px;
-    //     }
-    // }
+        .controller-container {
+            position: relative;
 
-    // .prev-checklists {
-
-    //     &::before {
-    //         font-family: trello;
-    //         content: '\E91A';
-    //         font-size: 15px;
-    //     }
-    // }
-
-    // .prev-date {
-
-    //     &::before {
-    //         font-family: trello;
-    //         content: '\E91B';
-    //         font-size: 15px;
-    //     }
-    // }
-
-    // .prev-comments {
-
-    //     &::before {
-    //         font-family: trello;
-    //         content: '\E91E';
-    //         font-size: 15px;
-    //     }
-    // }
-
-    // .labels-prev-container {
-    //     gap: 5px;
-    //     flex-wrap: wrap;
-
-    //     .prev-label {
-    //         margin-top: 4px;
-    //         margin-bottom: 4px;
-    //         padding-right: 0;
-    //         padding-left: 0;
-    //         min-width: 40px;
-    //         max-width: 40px;
-    //         height: 8px;
-    //         border-radius: 4px;
-    //     }
-    // }
+            &::after {
+                font-family: trello;
+                content: '\E952';
+                position: absolute;
+                font-size: 24px;
+                color: $color-primary-icon;
+                right: 4px;
+                bottom: 6px;
+                cursor: pointer;
 
 
+            }
+
+            .btn-container {
+                position: relative;
+
+                .close-btn-placeholder {
+                    position: relative;
+
+                    &::after {
+                        font-family: trello;
+                        content: '\E91C';
+                        position: absolute;
+                        font-size: 24px;
+                        color: $color-primary-icon;
+                        left: 8px;
+                        top: 5px;
+                        cursor: pointer;
+                    }
+                }
+
+
+
+                .btn-add-task {
+                    transition: 0.08s;
+                    cursor: pointer;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    vertical-align: top;
+                    position: relative;
+                }
+            }
+        }
+    }
 
     .quick-menu-screen {
         background-color: rgba(0, 0, 0, 0.478);

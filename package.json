@@ -20,6 +20,7 @@
     "vue-click-outside": "^1.1.0",
     "vue-router": "^4.1.2",
     "vue-smooth-dnd": "^0.8.1",
+    "vue3-carousel": "^0.2.8",
     "vue3-dnd": "^2.0.2",
     "vue3-google-map": "^0.15.0",
     "vue3-smooth-dnd": "^0.0.2",

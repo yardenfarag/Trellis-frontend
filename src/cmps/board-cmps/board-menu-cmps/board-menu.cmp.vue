@@ -7,50 +7,54 @@
                     close
                 </span>
             </section>
-            <section class="board-menu-content-frame">
+            <div class="board-menu-wrapper">
 
-                <ul class="board-menu-navigation">
-                    <li class="board-menu-navigation-item">
-                        <span class="about-this-board">
-                            <span class="board-menu-navigation-item-link">
-                                <span class="about-this-board-button-header">About this board</span>
-                            </span>
-                        </span>
-                    </li>
-                    <li class="board-menu-navigation-item">
-                        <span @click="toggleChangeBackground" class="about-this-board">
-                            <span class="board-menu-navigation-item-link">
-                                <span class="about-this-board-button-header">ChangeBackground</span>
-                            </span>
-                        </span>
-                    </li>
-                    <li class="board-menu-navigation-item">
-                        <span class="about-this-board">
-                            <span class="board-menu-navigation-item-link">
-                                <span class="about-this-board-button-header">Stickers</span>
-                            </span>
-                        </span>
-                    </li>
-                    <li class="board-menu-navigation-item">
-                        <span class="about-this-board">
-                            <span class="board-menu-navigation-item-link">
-                                <span class="about-this-board-button-header">More</span>
-                            </span>
-                        </span>
-                    </li>
-                </ul>
+                <section class="board-menu-content-frame">
 
-                <section class="activity">
-                    <div class="title">
-                        <h6>Activity</h6>
-                        <div v-if="board.activities" class="activities">
-                            <div v-for="activity in board.activities" class="activity">
-                                <board-activity :activity="activity"></board-activity>
+                    <ul class="board-menu-navigation">
+                        <li class="board-menu-navigation-item">
+                            <span class="about-this-board for-icon">
+                                <span class="board-menu-navigation-item-link">
+                                    <span class="about-this-board-button-header">About this board</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="board-menu-navigation-item">
+                            <span @click="toggleChangeBackground" class="change-background for-icon">
+                                <span :style="{ background: board.style.bgc }" class="small-bg"></span>
+                                <span class="board-menu-navigation-item-link">
+                                    <span class="about-this-board-button-header">Change Background</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="board-menu-navigation-item">
+                            <span class="stickers for-icon">
+                                <span class="board-menu-navigation-item-link">
+                                    <span class="about-this-board-button-header">Stickers</span>
+                                </span>
+                            </span>
+                        </li>
+                        <li class="board-menu-navigation-item">
+                            <span class="more for-icon">
+                                <span class="board-menu-navigation-item-link">
+                                    <span class="about-this-board-button-header">More</span>
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <section class="activity">
+                        <div class="title">
+                            <h6>Activity</h6>
+                            <div v-if="board.activities" class="activities">
+                                <div v-for="activity in board.activities" class="activity">
+                                    <board-activity :activity="activity"></board-activity>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </section>
-            </section>
+            </div>
         </section>
         <section v-if="isChangeBackground" class="bg-container">
             <section class="menu-header">
@@ -58,30 +62,32 @@
                     arrow_back_ios
                 </span>
                 <h5>Change Background</h5>
-                <span @click="closeModal()" class="close  material-symbols-outlined ">
+                <span @click="closeModal()" class="close material-symbols-outlined ">
                     close
                 </span>
             </section>
-            <section class="board-menu-content-frame">
-                <section class="board-backgrounds-section-tiles">
-                    <div class="board-backgrounds-photos-tile" @click="toggleImages">
-                        <img src="https://i.ibb.co/tKphwfp/photos.jpg" />
-                        <h6 class="title">Photos</h6>
-                    </div>
+            <div class="board-menu-wrapper">
+                <section class="board-menu-content-frame">
+                    <section class="board-backgrounds-section-tiles">
+                        <div class="board-backgrounds-photos-tile" @click="toggleImages">
+                            <img src="https://i.ibb.co/tKphwfp/photos.jpg" />
+                            <h6 class="title">Photos</h6>
+                        </div>
 
-                    <div class="board-backgrounds-colors-tile" @click="toggleColors">
-                        <img src="https://i.ibb.co/GF3jN08/colors.jpg" />
-                        <h6 class="title">Colors</h6>
+                        <div class="board-backgrounds-colors-tile" @click="toggleColors">
+                            <img src="https://i.ibb.co/GF3jN08/colors.jpg" />
+                            <h6 class="title">Colors</h6>
+                        </div>
+                    </section>
+                    <!-- <hr class="board-menu-divider"> -->
+                    <div class="custom">
+                        <h6>Custom</h6>
+                        <button>
+                            <img-uploader :str="plus" @uploaded="onUploaded"></img-uploader>
+                        </button>
                     </div>
                 </section>
-                <!-- <hr class="board-menu-divider"> -->
-                <div class="custom">
-                    <h6>Custom</h6>
-                    <button>
-                        <img-uploader :str="plus" @uploaded="onUploaded"></img-uploader>
-                    </button>
-                </div>
-            </section>
+            </div>
         </section>
         <section v-if="isColors" class="color-container">
             <section class="menu-header">
@@ -93,13 +99,16 @@
                     close
                 </span>
             </section>
-            <section class="board-menu-content-frame">
-                <section class="board-backgrounds-colors flex wrap">
-                    <div @click="setBoardBgColor(color)"
-                        :style="{ backgroundColor: color, borderRadius: 3 + 'px', width: 140 + 'px', height: 90 + 'px' }"
-                        v-for="color in colors" class="color"></div>
+            <div class="board-menu-wrapper">
+                <section class="board-menu-content-frame">
+                    <div class="board-backgrounds-list-observer">
+                        <section class="board-backgrounds-colors">
+                            <div @click="setBoardBgColor(color)" :style="{ backgroundColor: color }"
+                                v-for="color in colors" class="color"></div>
+                        </section>
+                    </div>
                 </section>
-            </section>
+            </div>
         </section>
         <section v-if="isImages" class="img-container">
             <section class="menu-header">
@@ -111,23 +120,24 @@
                     close
                 </span>
             </section>
-            <section class="board-menu-content-frame">
-                <section class="board-backgrounds-photos">
-                    <div class="img-search">
-                        <input type="search" placeholder="🔍Photos" v-model="searchTerm"
-                            @input="searchImages(searchTerm)">
-                    </div>
-                    <div class="board-backgrounds-list-observer">
-                        <div class="board-backgrounds-list flex wrap">
-                            <div v-for="image in images" @click="setBoardBgImg(image.src.large2x, image.avg_color)"
-                                :style="{ borderRadius: 3 + 'px', width: 140 + 'px', height: 90 + 'px' }" class="image">
-                                <img :style="{ width: 100 + '%', height: 100 + '%', objectFit: 'cover' }"
-                                    :src="image.src.tiny">
+            <div class="board-menu-wrapper">
+                <section class="board-menu-content-frame">
+                    <section class="board-backgrounds-photos">
+                        <div class="img-search">
+                            <input class="primary-input-menu" type="search" placeholder="Photos" v-model="searchTerm"
+                                @input="searchImages(searchTerm)">
+                        </div>
+                        <div class="board-backgrounds-list-observer">
+                            <div class="board-backgrounds-list">
+                                <div v-for="image in images" @click="setBoardBgImg(image.src.large2x, image.avg_color)"
+                                    class="image">
+                                    <img :src="image.src.tiny">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </section>
-            </section>
+            </div>
         </section>
     </section>
 </template>

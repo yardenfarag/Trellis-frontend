@@ -7,31 +7,39 @@
                     @blur="updateGroup()">{{ group.title }}</textarea>
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>
-            <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
-                @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list task-list"
-                drag-class="drag-preview">
-                <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
-                    <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
-                </Draggable>
-            </Container>
-            <form v-if="isAddTask" @submit.prevent="addTask" class="add-task-form">
-                <textarea ref="title" v-model="taskTitle" type="text"
-                    placeholder="Enter a title for this card..."></textarea>
-                <div class="add-task-form-controler">
-                    <button class="call-to-action">Add card</button>
-                    <span style="font-size:32px;" @click="isAddTask = false"
-                        class="close-add-task material-symbols-outlined">
-                        close
-                    </span>
-                    <span style="font-size:28px;" class="add-task-options material-symbols-outlined">
-                        more_horiz
-                    </span>
+            <div class="task-list">
+                <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
+                    @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list"
+                    drag-class="drag-preview">
+                    <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
+                        <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
+                    </Draggable>
+                </Container>
+
+
+                <div v-if="isAddTask" class="add-task-container">
+                    <div class="textarea-input-margin">
+                        <div class="textarea-input-padding">
+                            <textarea v-model="taskTitle" ref="title"
+                                placeholder="Enter a title for this card..."></textarea>
+                        </div>
+                    </div>
+                    <div class="controller-container">
+                        <div class="btn-container">
+                            <button @click="addTask" class="btn-add-task call-to-action">Add card</button>
+                            <span @click="(isAddTask = false)" class="close-btn-placeholder"></span>
+                        </div>
+                    </div>
                 </div>
-            </form>
-            <button v-if="!isAddTask" @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
-                    class="material-symbols-outlined">
-                    add
-                </span><span>Add a card</span></button>
+
+
+            </div>
+            <div v-if="!isAddTask" class="open-add-task-container">
+                <button @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
+                        class="x material-symbols-outlined">
+                        add
+                    </span><span class="txt">Add a card</span></button>
+            </div>
         </section>
     </section>
 </template>

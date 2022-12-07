@@ -18,7 +18,8 @@
                     </div>
                 </div>
                 <section v-if="isAddGroup" class="add-group-open">
-                    <input v-if="titleVis" ref="title" v-model="groupTitle" type="text" placeholder="Enter list title">
+                    <input v-if="titleVis" ref="title" v-model="groupTitle" type="text"
+                        placeholder="Enter list title...">
                     <div class="add-group-controler">
                         <button @click="addGroup" class="call-to-action">Add List</button>
                         <span @click="isAddGroup = false" class="close-add-group material-symbols-outlined">

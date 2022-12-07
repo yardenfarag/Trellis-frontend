@@ -1,9 +1,124 @@
+.board-list-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 830px;
+    margin-top: 60px;
+
+    .board-prev-title {
+        display: inline-block;
+        flex: 1;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        margin: 3px 0 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: relative;
+
+        &.recently {
+
+            &::before {
+                font-family: trello;
+                content: '\E91B';
+                font-size: 20px;
+            }
+        }
+
+        &.starred {
+
+            &::before {
+                font-family: trello;
+                content: '\E966';
+                font-size: 20px;
+
+            }
+        }
+    }
+}
+
 .board-list {
-    width: 800px;
     display: flex;
-    align-items: center;
-    padding: 100px;
     flex-wrap: wrap;
     gap: 15px;
-    // overflow: hidden;
+    margin-bottom: 60px;
 }
+
+.mini-board {
+    width: 194px;
+    min-width: 143px;
+    height: 95px;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        filter: brightness(80%);
+    }
+
+    h1 {
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding-block-start: 8px;
+        padding-inline-start: 5px;
+    }
+
+    .board-prev-star {
+        display: none;
+        background: none;
+        display: block;
+        right: 6px;
+        opacity: 1;
+        position: absolute;
+        bottom: 6px;
+        padding: 0;
+
+        &.stared {
+            &::before {
+                font-family: trello;
+                content: '\E967';
+                font-size: 14px;
+                color: #f2d600;
+
+                &:hover{
+                    &::before{
+                        content: '\E967';
+                    }
+                }
+            }
+         
+        }
+        &.not-stared{
+            &::before {
+                font-family: trello;
+                content: '\E966';
+                font-size: 14px;
+                color: white;
+            } 
+        }
+    }
+
+}
+
+.mini-board {
+    overflow: hidden;
+        .not-stared{
+            transition: all ease-in-out .2s;
+            right: -20px;
+        }
+        &:hover {
+            .not-stared{
+                right: 6px;
+            }
+            
+        }        
+        .stared{
+            &:hover{
+                &::before{
+                    content: '\E967';
+                }
+            }
+        }
+
+    }

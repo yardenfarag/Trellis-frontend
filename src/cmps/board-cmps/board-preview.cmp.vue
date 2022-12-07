@@ -3,8 +3,9 @@
         <div @click="goToDetails()" :style="{ background: board.style.bgc, backgroundSize: 'cover' }"
             class="mini-board">
             <h1>{{ board.title }}</h1>
+            <button v-if="board.isStarred" class="stared board-prev-star" @click.stop="toggleStarred()"></button>
+            <button v-else class="not-stared board-prev-star" @click.stop="toggleStarred()"></button>
         </div>
-        <!-- <button @click="removeBoard">X</button> -->
     </section>
 </template>
 <script>
@@ -19,6 +20,11 @@ export default {
     },
     created() { },
     methods: {
+        toggleStarred() {
+            const board = JSON.parse(JSON.stringify(this.board))
+            board.isStarred = !board.isStarred
+            this.$store.dispatch({ type: 'saveBoard', board })
+        },
         async goToDetails() {
             await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
             this.$router.push('/board/' + this.board._id)
