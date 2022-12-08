@@ -207,6 +207,7 @@ export default {
                 })
             })
             if (total - done <= 0 && total !== 0) this.isTodosDone = true
+            else this.isTodosDone = false
             return `${done}/${total}`
         },
         checklistDoneStyle() {

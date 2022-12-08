@@ -3,7 +3,7 @@
         <section class="group-details">
             <div class="group-header">
                 <div class="editing-target"></div>
-                <textarea rows="1" class="group-title" v-model="newTitle"
+                <textarea rows="1" class="group-title drag-disabled" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
                 <span @click="removeGroup" class="btn-group-actions"></span>
             </div>

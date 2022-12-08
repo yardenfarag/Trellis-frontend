@@ -5,7 +5,7 @@
 
     <section class="task-header">
       <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)"
-        @click="openModal($event, 'cover')" class="task-cover">
+        @click="openModal($event, 'cover', 'fromTop')" class="task-cover">
         <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
       </div>
       <div class="task-title-container">
@@ -27,7 +27,7 @@
               <ul v-for="taskMember in taskMembers" class="clean-list">
                 <li>
                   <div class="avatar">
-                    <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 50 + '%' }">
+                    <img :src="taskMember.imgUrl">
                   </div>
                 </li>
               </ul>
@@ -58,7 +58,8 @@
             <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
             <button class="task-content-btn" @click="toggleDateModal">
               <span class="date-info">
-                {{ formattedDate }} <span>{{ duedateComplete }}</span>
+                {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{ duedateComplete
+                }}</span>
               </span>
               <span class="arrow-down"></span>
             </button>
@@ -194,12 +195,13 @@ export default {
       } else {
         activityTxt = `marked the due date on ${taskToEdit.title} incomplete`
       }
-      await this.updateTask(taskToEdit, activityTxt)
+      await this.saveTask(taskToEdit, activityTxt)
     },
 
-    openModal(ev, modal) {
+    openModal(ev, modal, dir) {
       this.closeModals()
       const elPos = ev.target.getBoundingClientRect()
+      console.log(elPos)
 
       if (modal === 'members') this.isMembersModal = true
       if (modal === 'labels') this.isLabelsModal = true
@@ -207,14 +209,15 @@ export default {
       if (modal === 'dates') this.isDateModal = true
       if (modal === 'attachment') this.isAttachmentModal = true
 
+      if (modal === 'cover' && dir === 'fromTop') this.isCoverModal = true
+
       const top = elPos.top + elPos.height + 8
       const left = elPos.left
       this.modalPos = { top, left }
 
-      if (modal === 'cover') {
+      if (modal === 'cover' && dir !== 'fromTop') {
         this.isCoverModal = true
-
-        const top = elPos.top + elPos.height + 8
+        const top = elPos.top + elPos.height - 200
         const left = elPos.left
         this.modalPos = { top, left }
       }
@@ -270,7 +273,7 @@ export default {
     },
     duedateComplete() {
       if (this.task.dueDate.isDone) {
-        return 'completed'
+        return 'complete'
       }
       return ''
     },

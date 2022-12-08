@@ -28,7 +28,7 @@
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="notifications"></button>
-          <img :src="loggedinUser.imgUrl"
+          <img v-if="loggedinUser" :src="loggedinUser.imgUrl"
             :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
         </div>
 
@@ -42,7 +42,7 @@ import boardCreateModal from '../board-cmps/board-header-cmps/board-create-modal
 export default {
   name: 'app-header',
   components: {
-    boardCreateModal
+    boardCreateModal,
   },
   data() {
     return {

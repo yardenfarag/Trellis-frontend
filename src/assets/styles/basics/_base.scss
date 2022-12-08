@@ -67,7 +67,7 @@ h6 {
 //     background: $color-primary-icon;
 // }
 
-button {
+button:not(.clean) {
     border-radius: 3px;
     cursor: pointer;
     padding-inline: 14px;

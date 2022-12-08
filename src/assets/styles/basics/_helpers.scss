@@ -72,12 +72,12 @@
 
 
 .modal-container {
-    position: fixed;
+    position: absolute;
     width: 304px;
     background-color: $color-bg-1;
     box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
-    top: 10% !important; // just for dev
-    left: 25% !important; // just for dev
+    // top: 10% !important; // just for dev
+    // left: 25% !important; // just for dev
     z-index: 300;
     border-radius: 3px;
     font-size: 16px;
