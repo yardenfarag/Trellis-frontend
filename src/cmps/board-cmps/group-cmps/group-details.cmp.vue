@@ -2,7 +2,6 @@
     <section class="group-wrapper">
         <section class="group-details">
             <div class="group-header">
-                <div class="editing-target"></div>
                 <textarea rows="1" class="group-title drag-disabled" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
                 <span @click="removeGroup" class="btn-group-actions"></span>
@@ -44,6 +43,7 @@
 <script>
 import taskPreview from '../task-cmps/task-preview.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
+import { utilService } from '../../../services/util.service.js'
 export default {
     props: {
         group: Object,
@@ -64,7 +64,7 @@ export default {
             isAddTask: false,
         }
     },
-    async created() { },
+    created() { },
     methods: {
         // onEnter() {
         //     if (this.taskTitle === '') return
@@ -86,7 +86,7 @@ export default {
         closeAddCard() {
             this.isAddTask = false
         },
-        async onTaskDrop(ev) {
+        onTaskDrop(ev) {
             const groupId = JSON.parse(JSON.stringify(this.group.id))
             this.$emit('saveTaskDrop', { ev, groupId })
         },
@@ -98,15 +98,20 @@ export default {
             // this.scrollToElement()
         },
         addTask() {
-            if (this.taskTitle === '') return
-            this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
+            if (!this.taskTitle) return
+            // this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
+            const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
+            const newTask = utilService.getEmptyTask(this.taskTitle)
+            this.board.groups[groupIdx].tasks.push(newTask)
+            let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
+            this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
             this.taskTitle = ''
             this.isAddTask = true
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
         },
-        async updateGroup() {
+        updateGroup() {
             const groupToEdit = JSON.parse(JSON.stringify(this.group))
             if (!this.newTitle) {
                 this.newTitle = this.group.title
@@ -115,25 +120,22 @@ export default {
                 groupToEdit.title = this.newTitle
                 const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
                 this.board.groups.splice(groupIdx, 1, groupToEdit)
-                await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+                this.$store.dispatch({ type: 'saveBoard', board: this.board })
             }
 
 
         },
-        async removeGroup() {
-            this.$store.dispatch({ type: 'removeGroup', groupId: this.group.id })
+        removeGroup() {
+            const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+            this.board.groups.splice(groupIdx, 1)
+            this.$store.dispatch({ type: 'saveBoard', board: this.board })
         },
     },
     computed: {
         board() {
-            return JSON.parse(JSON.stringify(this.$store.getters.board))
+            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            return board
         },
-        groupTasksCount() {
-            const board = this.$store.getters.board
-            const group = board.groups.find(group => group.id === this.group.id)
-            const groupTasks = group.tasks
-            return groupTasks.length
-        }
     },
     unmounted() {
 

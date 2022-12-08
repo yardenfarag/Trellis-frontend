@@ -8,8 +8,10 @@
         <button class="task-content-btn danger" @click="removeChecklist(checklist.id)">Delete</button>
       </div>
       <div class="flex relative">
-        <span  class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id] + '%' : 0 + '%'}}</span>
-         <progress  class="progress-bar" :value=progressCount(checklist)></progress>
+        <span class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id] + '%' : 0 +
+            '%'
+        }}</span>
+        <progress class="progress-bar" :value=progressCount(checklist)></progress>
       </div>
 
       <div class="list">
@@ -38,7 +40,6 @@
 </template>
 
 <script>
-import { localService } from '../../../../services/board.service.local';
 import { utilService } from '../../../../services/util.service';
 export default {
   emits: ['closeCheckListModal', 'updateTask'],
@@ -62,19 +63,6 @@ export default {
     writeTodo(checklist) {
       this.currChecklist = checklist
     },
-    // closeModal() {
-    //   this.$emit('closeCheckListModal', false)
-    // },
-    // addCheckList() {
-    //   this.closeModal()
-    //   const checklist = boardService.getEmptyChecklist()
-    //   checklist.title = this.listTitle
-    //   const updateTask = JSON.parse(JSON.stringify(this.task))
-    //   if (updateTask.checklists) updateTask.checklists.push(checklist)
-    //   else updateTask.checklists = [checklist]
-    //   this.$emit('updateTask', updateTask)
-    //   this.listTitle = ''
-    // },
     removeChecklist(id) {
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === id)
@@ -84,7 +72,7 @@ export default {
     },
     addTodo(checklistId) {
       this.addItem = false
-      const todo = localService.getEmptyTodo()
+      const todo = utilService.getEmptyTodo()
       todo.title = this.todoTitle
       const updateTask = JSON.parse(JSON.stringify(this.task))
       const clIdx = updateTask.checklists.findIndex(cl => cl.id === checklistId)
@@ -120,7 +108,6 @@ export default {
         if (!todos) return 0
         const doneTodos = checklist.todos.filter((todo) => todo.isDone).length
         this.listsStatus[checklist.id] = doneTodos / todos * 100
-        console.log(this.listsStatus)
         return doneTodos / todos
       }
     },
