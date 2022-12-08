@@ -546,13 +546,24 @@
                     }
 
                     .progress-bar {
-                        // background-color: #e2e4e9;
+                        background-color: #e2e4e9;
                         width: 100%;
                         border-radius: 4px;
                         height: 10px;
                         overflow: hidden;
                         position: relative;
                     }
+                    progress::-webkit-progress-value {
+                        background: #69bc52;
+                    }
+
+                    .progressbar-counter{
+                        font-size: 11px;
+                        position: absolute;
+                        left: -32px;
+                        top: -6px;
+                    }
+                  
 
                     .checklist-todos {
                         padding-block: 10px;
