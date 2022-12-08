@@ -2,7 +2,7 @@
   <section class="activity-container">
     <div class="title-container flex space-between">
       <h3>Activity</h3>
-      <button class="task-content-btn ">Show details</button>
+      <button title="Coming soon" class="task-content-btn ">Show details</button>
     </div>
 
     <div class="add-comments">

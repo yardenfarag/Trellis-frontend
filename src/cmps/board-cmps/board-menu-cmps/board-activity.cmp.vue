@@ -1,10 +1,18 @@
 <template>
-    <div v-if="activity" class="activity-info flex align-center">
-        <img :src="activity.byMember?.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
-        <h3>{{ activity.byMember.fullname }}</h3>
-        <h4>{{ activity.txt }}</h4>
-        <div class="time">
-            <h6>{{ formattedTime }}</h6>
+    <div v-if="activity" class="activity-info">
+        <div class="img-grabber">
+            <div class="img-container">
+                <img :src="activity.byMember?.imgUrl" :style="{ width: 32 + 'px', 'border-radius': 50 + '%' }">
+            </div>
+        </div>
+        <div class="info">
+            <div class="name-and-act">
+                <span class="name">{{ activity.byMember.fullname }} <span> </span></span>
+                <span class="act"> {{ activity.txt }} </span>
+            </div>
+            <div class="time">
+                <span>{{ formattedTime }}</span>
+            </div>
         </div>
     </div>
 </template>

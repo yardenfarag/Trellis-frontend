@@ -1,5 +1,5 @@
 <template>
-    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container">
+    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container">
         <header>
             <button @click="closeModal()">X</button>
             <h5>Dates</h5>

@@ -32,9 +32,10 @@
 }
 
 // flex helpers
-.relative{
+.relative {
     position: relative;
 }
+
 .flex {
 
     display: flex;
@@ -72,7 +73,7 @@
 
 
 .modal-container {
-    position: absolute;
+    position: fixed;
     width: 304px;
     background-color: $color-bg-1;
     box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
@@ -81,14 +82,9 @@
     z-index: 300;
     border-radius: 3px;
     font-size: 16px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    // overflow-y: auto;
+    // overflow-x: hidden;
 
-    .modal-body-wrapper {
-        // overflow-x: hidden;
-        // overflow-y: auto;
-        // max-height: 846px;
-    }
 
     .primary-btn-modal {
         background-color: $color-primary-btn-modal;
@@ -173,8 +169,18 @@
 
     }
 
+    .modal-body-wrapper {
+        // overflow-x: hidden;
+        // overflow-y: auto;
+        // max-height: 846px;
+        // max-height: 100%;
+    }
+
     .modal-body {
         padding: 0 12px 12px;
+        // height: 100%;
+        // overflow-x: hidden;
+        // overflow-y: auto;
 
         // overflow-x: hidden;
         // overflow-y: auto;
