@@ -63,6 +63,7 @@ export default {
     },
     data() {
         return {
+            dndActivity: '',
             boardToEdit: null,
             editTitle: false,
             groupTitle: '',
@@ -114,7 +115,6 @@ export default {
             this.isFilterOpen = true
         },
         updateBoardFromSocket(board) {
-            // console.log('from socket', board._id);
             this.$store.commit({ type: 'saveBoard', board })
         },
         onGroupDrop(ev) {
@@ -122,28 +122,22 @@ export default {
             const dropIdx = ev.addedIndex
             const dragGroup = ev.payload
             console.log(ev, dragIdx, dropIdx, dragGroup)
-            // const dropGroup = this.board.groups[ev.addedIndex]
             this.boardToEdit.groups.splice(dragIdx, 1)
             this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
-            // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.board)) })
             this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            // this.saveThisBoard()
         },
         async saveTaskDrop({ ev, groupId }) {
             const group = this.board.groups.find((group) => group.id === groupId)
-            // let activityTxt = ''
             if (ev.removedIndex !== null) {
                 group?.tasks?.splice(ev.removedIndex, 1)
-                // activityTxt += `moved ${ev.payload.title} from ${group.title}`
+                this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
             }
             if (ev.addedIndex !== null) {
+                this.dndActivity += ` to ${group.title}`
                 group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
-                // activityTxt += `to ${group.title}`
-                // await this.$store.dispatch({ type: "saveBoard", board: JSON.parse(JSON.stringify(this.boardToEdit)), activityTxt })
             }
-            await this.$store.dispatch({ type: "saveBoard", board: this.board })
-            // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
-            // this.saveThisBoard()
+            await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
+
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
@@ -161,20 +155,18 @@ export default {
         async saveThisBoard(activityTxt) {
             await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
         },
-        async changeBackgroundImg(imgUrl, avgColor) {
+        async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
             this.board.style.bgc = `url(${imgUrl})`
             this.board.style.headerClr = avgColor
+            this.board.style.preview = `url(${tinyImgUrl})`
             let activityTxt = `changed this board cover`
             this.saveThisBoard(activityTxt)
-            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
         },
         async changeBackgroundColor(color) {
             this.board.style.bgc = color
             this.board.style.headerClr = color
             let activityTxt = `changed this board cover`
             this.saveThisBoard(activityTxt)
-
-            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
@@ -184,7 +176,6 @@ export default {
         },
         addGroup() {
             if (!this.groupTitle) return
-            // await this.$store.dispatch({ type: 'addGroup', title: this.groupTitle })
             this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
             let activityTxt = `added ${this.groupTitle} to this board`
             this.saveThisBoard(activityTxt)
@@ -196,7 +187,6 @@ export default {
     },
     computed: {
         board() {
-            // console.log(JSON.parse(JSON.stringify(this.$store.getters.board)));
             const board = JSON.parse(JSON.stringify(this.$store.getters.board))
             const loggedinUser = this.$store.getters.loggedinUser
             if (this.filterBy.txt) {
