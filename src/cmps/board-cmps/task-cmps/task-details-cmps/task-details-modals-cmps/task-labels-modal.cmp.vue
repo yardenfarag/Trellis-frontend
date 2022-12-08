@@ -1,5 +1,5 @@
 <template>
-    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(!editLabel && !isDelete)"
+    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(!editLabel && !isDelete)"
         class="modal-container task-label-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Labels</h5>
@@ -39,7 +39,7 @@
             </section>
         </div>
     </section>
-    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(editLabel && !isDelete)"
+    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="(editLabel && !isDelete)"
         class="modal-container task-label-modal">
         <section class="modal-header">
 
@@ -102,7 +102,7 @@
             </section>
         </div>
     </section>
-    <section v-if="isDelete" class="modal-container delete-label-modal">
+    <section @click.stop="" v-if="isDelete" class="modal-container delete-label-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Delete label</h5>
             <span @click="goBackFromDelete()" class="back material-symbols-outlined">
