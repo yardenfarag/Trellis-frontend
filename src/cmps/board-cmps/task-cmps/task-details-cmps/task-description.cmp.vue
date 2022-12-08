@@ -7,7 +7,7 @@
             </div>
             <div>
                 <div v-if="!isDescriptionSelected" ref="desc" class="pre-text-area" @click="openDescInput">
-                    <p v-if="description">{{ description }}</p>
+                    <pre @blur="onCancel" class="task-desc-pre" v-if="description">{{ description }}</pre>
                     <p class="no-desc-style" v-else>Add a more detailed description…</p>
                 </div>
             </div>
