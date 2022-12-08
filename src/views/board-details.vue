@@ -3,8 +3,8 @@
         <board-header @openShare="(isShareOpen = true)" @openFilter="openFilter" @closeFilter="closeFilter"
             @toggleMenu="toggleMenu" v-if="board"></board-header>
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
-            @drop="onGroupDrop" group-name="trello-group" drop-class="drop-preview" drag-class="drag-preview"
-            class="clean-list flex group-list" orientation="horizontal">
+            @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
+            drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
             <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </Draggable>
@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return {
-            // boardToEdit: null,
+            boardToEdit: null,
             editTitle: false,
             groupTitle: '',
             titleVis: false,
@@ -89,13 +89,16 @@ export default {
     async created() {
         const { boardId } = this.$route.params
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-        // this.boardToEdit = JSON.parse(JSON.stringify(this.board))
+        this.boardToEdit = JSON.parse(JSON.stringify(this.board))
 
         socketService.on(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
 
         socketService.emit(SOCKET_EVENT_SET_BOARD, this.board._id)
     },
     methods: {
+        getChildPayload(index) {
+            return this.boardToEdit.groups[index]
+        },
         closeFilter() {
             this.isFilterOpen = false
         },
@@ -117,12 +120,13 @@ export default {
         onGroupDrop(ev) {
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
-            const dragGroup = this.board.groups[ev.removedIndex]
-            const dropGroup = this.board.groups[ev.addedIndex]
-            this.board.groups.splice(dragIdx, 1)
-            this.board.groups.splice(dropIdx, 0, dragGroup)
+            const dragGroup = ev.payload
+            console.log(ev, dragIdx, dropIdx, dragGroup)
+            // const dropGroup = this.board.groups[ev.addedIndex]
+            this.boardToEdit.groups.splice(dragIdx, 1)
+            this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
             // this.$store.commit({ type: 'setCurrBoard', board: JSON.parse(JSON.stringify(this.board)) })
-            this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
             // this.saveThisBoard()
         },
         async saveTaskDrop({ ev, groupId }) {
