@@ -1,5 +1,8 @@
 <template>
   <section class="flex column align-center">
+    <div class="logo">
+      <h1> <span></span> Trellis</h1>
+    </div>
     <section v-if="user">
       <h1>Hello, {{ user.fullname }}</h1>
       <h1>Welcome to Trellis</h1>
@@ -25,6 +28,7 @@
           <input type="text" v-model="signupInfo.username" placeholder="username" />
           <input type="password" v-model="signupInfo.password" placeholder="password" />
           <input type="text" v-model="signupInfo.imgUrl" placeholder="image URL">
+          <imgUploader :str="uploadTxt"></imgUploader>
           <button>Sign up</button>
         </form>
         <router-link to="/board">Continue in guest mode</router-link>
@@ -33,11 +37,15 @@
   </section>
 </template>
 <script>
+import imgUploader from '../cmps/img-uploader.vue'
 export default {
   name: 'login-signup',
-  components: {},
+  components: {
+    imgUploader
+  },
   data() {
     return {
+      uploadTxt: 'Upload image',
       credentials: {
         username: '',
         password: '',
@@ -58,9 +66,19 @@ export default {
     },
     login() {
       this.$store.dispatch({ type: 'login', userCred: this.credentials })
+      this.credentials = {
+        username: '',
+        password: '',
+      }
     },
     signup() {
       this.$store.dispatch({ type: 'signup', userCred: this.signupInfo })
+      this.signupInfo = {
+        fullname: '',
+        username: '',
+        password: '',
+        imgUrl: '',
+      }
     },
   },
   computed: {

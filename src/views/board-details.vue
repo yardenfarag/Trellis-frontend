@@ -2,9 +2,9 @@
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
         <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
             v-if="board"></board-header>
-        <Container :drop-placeholder="{ className: 'task-preview ghost' }" @drop="onGroupDrop" group-name="trello-group"
-            drop-class="drop-preview" drag-class="drag-preview" class="clean-list flex group-list"
-            orientation="horizontal">
+        <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
+            @drop="onGroupDrop" group-name="trello-group" drop-class="drop-preview" drag-class="drag-preview"
+            class="clean-list flex group-list" orientation="horizontal">
             <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </Draggable>

@@ -72,7 +72,7 @@ function getLoggedinUser() {
     // saveLocalUser(user)
     const loggedinUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
     if (loggedinUser) return loggedinUser
-    else return {_id: 'u103', fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar' }
+    else return { fullname: 'Guest', imgUrl: 'https://api-private.atlassian.com/users/b7723e87cdacea8bf9bf6b36952f6a06/avatar' }
 }
 
 

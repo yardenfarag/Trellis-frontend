@@ -27,7 +27,7 @@
               <ul v-for="taskMember in taskMembers" class="clean-list">
                 <li>
                   <div class="avatar">
-                    <img :src="taskMember.imgUrl" :style="{ width: 100 + '%', borderRadius: 50 + '%' }">
+                    <img :src="taskMember.imgUrl">
                   </div>
                 </li>
               </ul>
@@ -58,7 +58,8 @@
             <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
             <button class="task-content-btn" @click="toggleDateModal">
               <span class="date-info">
-                {{ formattedDate }} <span>{{ duedateComplete }}</span>
+                {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{ duedateComplete
+                }}</span>
               </span>
               <span class="arrow-down"></span>
             </button>
@@ -194,7 +195,7 @@ export default {
       } else {
         activityTxt = `marked the due date on ${taskToEdit.title} incomplete`
       }
-      await this.updateTask(taskToEdit, activityTxt)
+      await this.saveTask(taskToEdit, activityTxt)
     },
 
     openModal(ev, modal) {
@@ -270,7 +271,7 @@ export default {
     },
     duedateComplete() {
       if (this.task.dueDate.isDone) {
-        return 'completed'
+        return 'complete'
       }
       return ''
     },

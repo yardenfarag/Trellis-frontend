@@ -17,7 +17,20 @@
     margin-bottom: 80px;
     transform: translate(-50%);
 
+    .task-date {
+        .date-info {
+            .duedate-complete {
+                background-color: #61bd4f;
+                color: white;
+                font-size: 12px;
+                padding: 0 4px;
+                border-radius: 2px;
+                line-height: 16px;
+                margin: auto 0 auto 5px;
 
+            }
+        }
+    }
 
     .task-content-btn {
         background-color: $color-primary-btn-modal;
@@ -193,9 +206,12 @@
                         gap: 4px;
 
                         .avatar {
-                            width: 32px;
-                            height: 32px;
-                            border-radius: 50%;
+                            img {
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                object-fit: fill;
+                            }
                         }
 
                         .btn-member-modal {
