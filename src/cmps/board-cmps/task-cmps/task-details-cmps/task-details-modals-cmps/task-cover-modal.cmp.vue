@@ -148,7 +148,6 @@ export default {
         },
         setTextColor(color) {
             if (color === this.task.style.textColor) return
-            console.log(color, this.task)
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style.textColor = color
             this.$emit('saveTask', taskToSave)
@@ -179,7 +178,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.task)
     },
     unmounted() {
 

@@ -12,7 +12,13 @@ export const utilService = {
     dueDateFormat,
     setActivity,
     dueDateShortFormat,
-    makeAvatar
+    makeAvatar,
+    getEmptyBoard,
+    getEmptyTask,
+    getEmptyGroup,
+    getEmptyTodo,
+    getEmptyChecklist,
+
 }
 
 function makeId(length = 6) {
@@ -130,3 +136,100 @@ function makeAvatar(fullname) {
     var short = (fullname.split(' ')[0].split('')[0] + fullname.split(' ')[1].split('')[0]).toUpperCases()
     return short.toUpperCases()
   }
+
+  
+function getEmptyChecklist() {
+    return {
+        id: makeId(),
+        title: '',
+        todos: []
+    }
+}
+
+function getEmptyTodo() {
+    return {
+        id: makeId(),
+        title: '',
+        isDone: false
+    }
+}
+
+function getEmptyGroup(title) {
+    return {
+      id: makeId(),
+      title,
+      tasks: [],
+    }
+  }
+
+  function getEmptyTask(title) {
+    return {
+      id: makeId(),
+      title,
+      description: '',
+      dueDate: null,
+      createdAt: Date.now(),
+      attachments: [],
+      checklists: [],
+      comments: [],
+      memberIds: [],
+      labels: [],
+      createdBy: userService.getLoggedinUser(),
+      stickers: [],
+      style: {},
+    }
+  }
+
+function getEmptyBoard() {
+    return {
+        title: '',
+        recentlyViewed: Date.now(),
+        isStarred: false,
+        createdBy: userService.getLoggedinUser() || {}, //add logged in user
+        style: {
+            bgImUrl: '',
+            bgColor: '',
+            bgHeader: ''
+        },
+        labels: _getLabels(),
+        memberIds: [userService.getLoggedinUser()._id],
+        groups: [getEmptyGroup('Todo'), getEmptyGroup('Doing'), getEmptyGroup('Done')],
+        activities: [],
+    }
+}
+
+function _getLabels() {
+    return [
+        {
+            id: 'l101',
+            title: '',
+            color: '#7bc86c'
+        },
+        {
+            id: 'l102',
+            title: '',
+            color: '#f5dd29'
+        },
+        {
+            id: 'l103',
+            title: '',
+            color: '#ffaf3f'
+        },
+        {
+            id: 'l104',
+            title: '',
+            color: '#ef7564'
+        },
+        {
+            id: 'l105',
+            title: '',
+            color: '#cd8de5'
+        },
+        {
+            id: 'l106',
+            title: '',
+            color: '#5ba4cf'
+        },
+
+    ]
+}

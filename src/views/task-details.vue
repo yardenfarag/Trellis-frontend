@@ -134,7 +134,6 @@ import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
 import taskCoverModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
-
 export default {
   name: 'task-details',
   components: {
@@ -188,7 +187,6 @@ export default {
     async toggleDuedate() {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
-      this.saveTask(taskToEdit)
       let activityTxt
       if (taskToEdit.dueDate.isDone) {
         activityTxt = `marked the due date on ${taskToEdit.title} complete`
@@ -201,7 +199,7 @@ export default {
     openModal(ev, modal, dir) {
       this.closeModals()
       const elPos = ev.target.getBoundingClientRect()
-      console.log(elPos)
+      // console.log(elPos)
 
       if (modal === 'members') this.isMembersModal = true
       if (modal === 'labels') this.isLabelsModal = true
@@ -234,10 +232,12 @@ export default {
     },
 
     async removeTask() {
+      const board = JSON.parse(JSON.stringify(this.board))
+      const groupIdx = board.groups.findIndex(group => group.id === this.group.id)
+      const taskIdx = this.group.tasks.findIndex(task => task.id === this.task.id)
+      board.groups[groupIdx].tasks.splice(taskIdx, 1)
       let activityTxt = `archived ${this.task.title}`
-      const groupId = this.group.id
-      const taskId = this.task.id
-      await this.$store.dispatch({ type: 'removeTask', groupId, taskId, activityTxt })
+      await this.$store.dispatch({ type: 'saveBoard', board, activityTxt })
       this.closeDetails()
     },
     closeDetails() {
@@ -255,10 +255,11 @@ export default {
     },
     async saveTask(taskToEdit, activityTxt) {
       this.task = taskToEdit
-      const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-      const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
-      this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-      await this.$store.dispatch({ type: 'updateTask', groupId: this.group.id, task: taskToEdit, activityTxt })
+      const board = JSON.parse(JSON.stringify(this.board))
+      const groupIdx = board.groups.findIndex(group => group.id === this.group.id)
+      const taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
+      board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+      await this.$store.dispatch({ type: 'saveBoard', board, activityTxt })
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
@@ -283,12 +284,6 @@ export default {
     board() {
       return JSON.parse(JSON.stringify(this.$store.getters.board))
     },
-    // taskActivities() {
-    //   const taskActivities = this.board.activities.filter(activitity => {
-    //     return activity.task.id === this.task.id
-    //   })
-    //   return taskActivities
-    // },
     users() {
       return this.$store.getters.users
     },
@@ -303,7 +298,13 @@ export default {
     },
     loggedinUser() {
       this.$store.getters.loggedinUser
-    }
+    },
+    // taskActivities() {
+    //   let taskActivities = this.board.activities.filter(activity => {
+    //     return activity.task.id === this.task.id
+    //   })
+    //   return taskActivities
+    // }
   },
   directives: {
     ClickOutside

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { localService } from '../../../../../services/board.service.local';
+import { utilService } from '../../../../../services/util.service.js';
 export default {
     emits: ['closeModal', 'updateTask'],
     props: {
@@ -44,7 +44,7 @@ export default {
         addCheckList() {
             if (!this.listTitle) return
             this.closeModal()
-            const checklist = localService.getEmptyChecklist()
+            const checklist = utilService.getEmptyChecklist()
             checklist.title = this.listTitle
             const updateTask = JSON.parse(JSON.stringify(this.task))
             if (updateTask.checklists) updateTask.checklists.push(checklist)

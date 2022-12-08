@@ -25,20 +25,37 @@
       </div>
     </div>
   </section>
+
+  <!-- <section v-if="showActivities" class="task-activity-log">
+    <div v-for="activity in taskActivities" class="activity-info flex align-center">
+      <img :src="activity.byMember?.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
+      <h3>{{ activity.byMember.fullname }}</h3>
+      <h4>{{ activity.txt }}</h4>
+      <div class="time">
+        <h6>{{ formattedTime }}</h6>
+      </div>
+    </div>
+  </section> -->
 </template>
 
 <script>
 import { utilService } from '../../../../services/util.service';
 import taskCommentPreview from './task-comment-preview.cmp.vue';
+// import taskActivities from './task-details-modals-cmps/task-activities.cmp.vue';
 export default {
   emits: ['saveTask'],
-  props: ['task'],
+  props: {
+    task: Object,
+    // taskActivities: Array,
+  },
   name: 'task-comments',
   components: {
-    taskCommentPreview
+    taskCommentPreview,
+    // taskActivities
   },
   data() {
     return {
+      showActivities: false,
       addComment: false,
       comment: {
         txt: '',
@@ -51,6 +68,9 @@ export default {
     await this.$store.dispatch({ type: 'loadUsers' })
   },
   methods: {
+    toggleActivityLog() {
+      this.showActivities = !this.showActivities
+    },
     openAddComment() {
       this.addComment = true
       this.$nextTick(() => {
@@ -96,6 +116,9 @@ export default {
     loggedinUser() {
       return this.$store.getters.loggedinUser
     },
+    formattedTime(activity) {
+      return utilService.timeAgo(activity.createdAt)
+    }
   },
   unmounted() { },
 };

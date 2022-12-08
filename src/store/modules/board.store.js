@@ -1,7 +1,6 @@
-import { localService } from '../../services/board.service.local'
+
 import { boardService } from '../../services/board.service'
-import { socketService, SOCKET_EVENT_CHANGE_BOARD } from '../../services/socket.service'
-import { utilService } from '../../services/util.service'
+
 
 
 export const boardStore = {
@@ -18,7 +17,6 @@ export const boardStore = {
       state.boards = boards
     },
     setCurrBoard(state, { board }) {
-      console.log(board)
       state.currBoard = board
     },
     removeBoard(state, { boardId }) {
@@ -55,7 +53,7 @@ export const boardStore = {
         commit({ type: 'setCurrBoard', board })
         return board
       } catch (err) {
-        console.log('There was a problem finding that board, please try again later.', err)
+        console.error('There was a problem finding that board, please try again later.', err)
         throw err
       }
     },
@@ -68,74 +66,19 @@ export const boardStore = {
         throw err
       }
     },
-    async saveBoard({ commit }, { board }) {
+    async saveBoard({ commit }, { board, activityTxt }) {
       try {
-        // if (board.id) {
-        //   commit({ type: 'saveBoard', board })
-        //   await boardService.save(board, activityTxt, null)
-        // } else {
-          var board = await boardService.save(board)
+        if (board.id) {
           commit({ type: 'saveBoard', board })
-        // }
+          boardService.save(board, activityTxt, null)
+        } else {
+          await boardService.save(board, activityTxt, null )
+          commit({ type: 'saveBoard', board})
+        }
         //TODO: if await fails, set before board and send user-msg
         return board
       } catch (err) {
         console.error('There was a problem saving that board, please try again later.', err)
-        throw err
-      }
-    },
-    async addGroup({ commit, state }, { title }) {
-      try {
-        const board = await localService.addGroup(state.currBoard._id, title)
-        console.log('store addGroup board', board)
-        commit({ type: 'saveBoard', board })
-      } catch (err) {
-        console.log('There was a problem adding that group, please try again later.', err)
-        throw err
-      }
-    },
-    async addTask({ commit, state }, { groupId, title }) {
-      try {
-        const board = await localService.addTask(state.currBoard._id, groupId, title)
-        commit({ type: 'saveBoard', board })
-      } catch (err) {
-        console.log('There was a problem adding that task, please try again later.', err)
-        throw err
-      }
-    },
-    async removeGroup({ commit, state }, { groupId }) {
-      try {
-        const board = await localService.removeGroup(state.currBoard._id, groupId)
-        commit({ type: 'saveBoard', board })
-      } catch (err) {
-        console.log('There was a problem removing that group, please try again later.', err)
-        throw err
-      }
-    },
-    async removeTask({ commit, state }, { groupId, taskId, activityTxt }) {
-      try {
-        const board = await localService.removeTask(state.currBoard._id, groupId, taskId, activityTxt)
-        commit({ type: 'saveBoard', board })
-      } catch (err) {
-        console.log('There was a problem removing that task, please try again later.', err)
-        throw err
-      }
-    },
-    async updateTask({ commit, state }, { groupId, task, activityTxt }) {
-      try {
-        const board = await localService.updateTask(state.currBoard._id, groupId, task, activityTxt)
-        commit({ type: 'saveBoard', board })
-      } catch (err) {
-        console.log('There was a problem updating that task, please try again later.', err)
-        throw err
-      }
-    },
-    async getTaskById({ commit }, { boardId, taskId }) {
-      try {
-        const task = await localService.getTaskById(boardId, taskId)
-        return task
-      } catch (err) {
-        console.log('There was a problem getting that task, please try again later.', err)
         throw err
       }
     },
