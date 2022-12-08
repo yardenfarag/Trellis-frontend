@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container cover-modal">
+    <div @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container cover-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Cover</h5>
             <span @click="closeModal()" class="close material-symbols-outlined">

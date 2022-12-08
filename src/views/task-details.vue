@@ -7,8 +7,8 @@
 
       <section class="task-header">
         <div :style="{ background: setBackground }" v-if="(task.style.bgc || task.style.imgUrl)"
-          @click.stop="openModal($event, 'cover', 'fromTop')" class="task-cover">
-          <button @click.stop="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
+          @click="openModal($event, 'cover', 'fromTop')" class="task-cover">
+          <button @click="toggleCoverModal" class="btn-cover opacity-input">Cover</button>
         </div>
         <div class="task-title-container">
           <div class="task-title">
@@ -17,7 +17,7 @@
           </div>
           <p class="in-group" v-if="group">in list: {{ group.title }}</p>
         </div>
-        <button class="close-details opacity-input" @click.stop="closeDetails"></button>
+        <button class="close-details opacity-input" @click="closeDetails"></button>
       </section>
 
       <section class="task-main">
