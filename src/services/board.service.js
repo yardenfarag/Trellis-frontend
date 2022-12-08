@@ -24,10 +24,10 @@ async function remove(boardId) {
 }
 
 async function save(board, activityTxt, task) {
-    // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, board)
     if (board._id) {
-        return await httpService.put(`board/${board._id}`, {board, activityTxt, task})
+        await httpService.put(`board/${board._id}`, {board, activityTxt, task})
+        // socketService.emit(SOCKET_EVENT_CHANGE_BOARD, board)
     } else {
-        return await httpService.post('board', board)
+        await httpService.post('board', board)
     }
 }

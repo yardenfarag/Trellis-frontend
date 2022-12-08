@@ -596,6 +596,9 @@
                     progress::-webkit-progress-value {
                         background: #69bc52;
                     }
+                    progress::-webkit-progress-bar {
+                        background: #e2e4e9;
+                    }
 
                     .progressbar-counter {
                         font-size: 11px;
