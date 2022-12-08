@@ -7,7 +7,11 @@
         <h3>{{ checklist.title }}</h3>
         <button class="task-content-btn danger" @click="removeChecklist(checklist.id)">Delete</button>
       </div>
-      <progress class="progress-bar" :value=progressCount(checklist)></progress>
+      <div class="flex relative">
+        <span  class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id] + '%' : 0 + '%'}}</span>
+         <progress  class="progress-bar" :value=progressCount(checklist)></progress>
+      </div>
+
       <div class="list">
         <div v-for="todo in checklist.todos" class="checklist-todos">
           <div class="todo">
@@ -50,6 +54,7 @@ export default {
       listTitle: '',
       todoTitle: '',
       currChecklist: null,
+      listsStatus: {},
     };
   },
   created() { },
@@ -114,9 +119,11 @@ export default {
         const todos = checklist.todos?.length
         if (!todos) return 0
         const doneTodos = checklist.todos.filter((todo) => todo.isDone).length
+        this.listsStatus[checklist.id] = doneTodos / todos * 100
+        console.log(this.listsStatus)
         return doneTodos / todos
       }
-    }
+    },
   },
   unmounted() { },
 }

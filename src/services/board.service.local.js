@@ -166,7 +166,7 @@ function getEmptyBoard() {
             bgHeader: ''
         },
         labels: _getLabels(),
-        memberIds: [],
+        memberIds: [userService.getLoggedinUser()._id],
         groups: [_getEmptyGroup('Todo'), _getEmptyGroup('Doing'), _getEmptyGroup('Done')],
         activities: [],
     }
