@@ -1,18 +1,10 @@
 <template>
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
-<<<<<<< HEAD
         <board-header @openShare="(isShareOpen = true)" @openFilter="openFilter" @closeFilter="closeFilter"
             @toggleMenu="toggleMenu" v-if="board"></board-header>
-        <Container :drop-placeholder="{ className: 'task-preview ghost' }" @drop="onGroupDrop" group-name="trello-group"
-            drop-class="drop-preview" drag-class="drag-preview" class="clean-list flex group-list"
-            orientation="horizontal">
-=======
-        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
-            v-if="board"></board-header>
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" group-name="trello-group" drop-class="drop-preview" drag-class="drag-preview"
             class="clean-list flex group-list" orientation="horizontal">
->>>>>>> f220645d4717b0727c3258b8b6d1decff8c28979
             <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
                 <group-details @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group" :boardId="board._id" />
             </Draggable>
