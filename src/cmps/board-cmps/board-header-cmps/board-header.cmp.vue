@@ -15,7 +15,7 @@
             </section>
 
             <section class="end-section">
-                <button @click="toggleFilter" class="filter-btn opacity-input">
+                <button @click="openFilter($event)" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
                     </span>Filter</button> <span class="btn-divider">|</span>
@@ -40,7 +40,7 @@
 export default {
     // props: ['board'],
     name: 'board-header',
-    emits: ['toggleMenu', 'toggleFilter', 'openShare'],
+    emits: ['toggleMenu', 'openFilter', 'openShare'],
     components: {
         // shareModal,
     },
@@ -51,8 +51,8 @@ export default {
     },
     created() { },
     methods: {
-        toggleFilter() {
-            this.$emit('toggleFilter')
+        openFilter(ev) {
+            this.$emit('openFilter', ev)
         },
         toggleMenu() {
             this.$emit('toggleMenu')

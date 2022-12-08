@@ -1,7 +1,7 @@
 <template>
     <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
-        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
-            v-if="board"></board-header>
+        <board-header @openShare="(isShareOpen = true)" @openFilter="openFilter" @closeFilter="closeFilter"
+            @toggleMenu="toggleMenu" v-if="board"></board-header>
         <Container :drop-placeholder="{ className: 'task-preview ghost' }" @drop="onGroupDrop" group-name="trello-group"
             drop-class="drop-preview" drag-class="drag-preview" class="clean-list flex group-list"
             orientation="horizontal">
@@ -33,7 +33,8 @@
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
-        <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="toggleFilter">
+        <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="(isFilterOpen = false)"
+            :pos="modalPos">
         </task-filter>
         <share-modal @closeShareModal="isShareOpen = false" v-if="isShareOpen" />
     </section>
@@ -69,6 +70,7 @@ export default {
             isMenuOpen: false,
             isShareOpen: false,
             isAddGroup: false,
+            modalPos: null,
             groupToSave: {
                 title: '',
                 style: {},
@@ -93,6 +95,20 @@ export default {
         // socketService.emit(SOCKET_EVENT_SET_BOARD, this.boardToEdit._id)
     },
     methods: {
+        closeFilter() {
+            this.isFilterOpen = false
+        },
+        openFilter(ev) {
+            console.log(ev.target.getBoundingClientRect())
+
+            const elPos = ev.target.getBoundingClientRect()
+            const top = elPos.top + elPos.height + 8
+            const right = elPos.right
+            this.modalPos = { top, right }
+
+            this.isFilterOpen = true
+
+        },
         updateLocalBoard() {
             this.boardToEdit = this.board
         },

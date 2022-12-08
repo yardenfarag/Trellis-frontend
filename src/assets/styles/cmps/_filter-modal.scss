@@ -1,0 +1,194 @@
+.task-filter {
+    position: fixed;
+    width: 384px;
+    will-change: top, left;
+    top: 92px;
+    left: 896px;
+    background-color: white;
+
+    .header {
+        margin-bottom: 8px;
+        padding: 0 12px;
+        position: relative;
+        text-align: center;
+        display: grid;
+        align-items: center;
+        grid-template-columns: 12px 1fr 12px;
+
+        span {
+            position: absolute;
+            top: -10px;
+            left: -4px;
+            font-size: 20px;
+        }
+
+        .filter-title-header {
+            font-size: 14px;
+            font-weight: 400;
+            border-bottom: 1px solid var(--t-gray);
+            color: $color-secondery-text;
+            height: 40px;
+            display: block;
+            line-height: 40px;
+            margin: 0;
+            overflow: hidden;
+            padding: 0 32px;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            grid-column: 1 / span 3;
+            grid-row: 1;
+        }
+
+        .btn-close {
+            border-radius: 3px;
+            line-height: 20px;
+            position: relative;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            color: $color-secondery-text;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            z-index: 2;
+            outline: none;
+            grid-column: 3;
+            grid-row: 1;
+
+            span {
+                line-height: 1;
+                display: inline-block;
+                height: auto;
+                width: 10px;
+            }
+        }
+    }
+
+    .filter-body {
+        padding: 12px;
+        padding-top: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+
+        .filter-title-content {
+            display: block;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            margin: 0 0 8px;
+            color: $color-secondery-text;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+            margin-top: 16px;
+            margin-bottom: 8px;
+
+            &.small {
+                font-size: 11px;
+                line-height: 14px;
+                margin-top: 8px;
+                margin-bottom: 4px;
+            }
+        }
+
+        .keyword-input {
+            background-color: lighten($color-primary-btn-modal, 60%);
+            width: 100%;
+            display: block;
+            margin: auto;
+            height: 32px;
+            padding-inline: 8px;
+            padding-bottom: 2px;
+            border-radius: 1px;
+            outline: 2px solid var(--t-gray);
+            transition: 0.15s;
+
+            &:hover {
+                background-color: $color-primary-btn-modal-hover;
+            }
+
+            &:focus {
+                background-color: white;
+                outline: 2px solid var(--t-blue);
+            }
+        }
+
+        .member-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            .members-label {
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 16px;
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                margin: 0;
+                padding: 8px;
+                padding-right: 0;
+                cursor: pointer;
+                width: 100%;
+
+                .li-container {
+                    display: flex;
+                    flex-grow: 1;
+                    margin-left: 16px;
+                    min-width: 0;
+                    align-items: center;
+                    font-size: 12px;
+                    font-weight: 700;
+                    line-height: 16px;
+
+                    .icon-container {
+                        margin-right: 8px;
+                        flex-shrink: 0;
+
+                        .icon-holder {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border-radius: 50%;
+                            width: 24px;
+                            height: 24px;
+                            background-color: #EBECF0;
+
+                            .icon {
+                                &::before {
+                                    font-family: trello;
+                                    content: '\E946';
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+
+                    .text {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        color: $color-secondery-text;
+                        font-size: 14px;
+                        font-weight: normal;
+                        line-height: 20px;
+                        flex-grow: 1;
+
+                        &.to-me {
+                            color: $color-primary-text;
+                        }
+                    }
+                }
+            }
+        }
+
+        .select-input {
+            width: 100%;
+        }
+    }
+}
