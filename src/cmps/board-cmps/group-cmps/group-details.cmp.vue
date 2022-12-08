@@ -20,13 +20,13 @@
                 <div v-if="isAddTask" class="add-task-container">
                     <div class="textarea-input-margin">
                         <div class="textarea-input-padding">
-                            <textarea @blur="closeAddCard" v-model="taskTitle" ref="title"
+                            <textarea v-model="taskTitle" ref="title"
                                 placeholder="Enter a title for this card..."></textarea>
                         </div>
                     </div>
                     <div class="controller-container">
                         <div class="btn-container">
-                            <button @click="addTask" class="btn-add-task call-to-action">Add card</button>
+                            <button @click.stop="addTask" class="btn-add-task call-to-action">Add card</button>
                             <span @click="(isAddTask = false)" class="close-btn-placeholder"></span>
                         </div>
                     </div>
