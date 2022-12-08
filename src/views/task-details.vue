@@ -254,6 +254,8 @@ export default {
       }
     },
     async saveTask(taskToEdit, activityTxt) {
+      this.isAttachmentModal = false
+
       this.task = taskToEdit
       const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
       const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)

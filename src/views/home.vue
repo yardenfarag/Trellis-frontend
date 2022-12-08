@@ -4,7 +4,7 @@
       <div class="logo logo-home flex ">
         <router-link class="router-link" to="/board">
           <h2 class="main-logo main-logo-home">Trellis</h2>
-        </router-link>
+      </router-link>
       </div>
       <ul class="header-nav-home flex clean-list">
         <li><router-link to="/login">Login / Signup</router-link></li>
@@ -22,7 +22,7 @@
         <h3>Keep everything in the same place — even if your team isn’t.</h3>
         <button><router-link to="/board">Check this out!</router-link></button>
       </div>
-      <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+      <img src="https://res.cloudinary.com/trellis22/image/upload/v1670494972/ipby6adf3dgntlrmszgr.png" alt="">
     </section>
 
     <section class="trello-101 full flex column">
@@ -59,7 +59,7 @@
           </button>
         </div>
         <div class="imgs-101">
-          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+          <img src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
         </div>
       </div>
     </section>
@@ -138,7 +138,7 @@
 
       <div class="callout flex justify-center">
         <div class="callout-img">
-          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+          <img src="https://res.cloudinary.com/trellis22/image/upload/v1670495478/aqvgu8kmaiarhayot8am.png" alt="">
         </div>
         <div class="call-out-content flex column justify-center">
           <div class="callout-title flex align-center">
@@ -167,29 +167,29 @@
 
     <footer class="full flex justify-center">
       <div class="main-footer flex column">
-        <div class="logo footer-logo flex ">
+        <div class="logo logo-home footer-logo flex ">
           <router-link class="router-link" to="/board">
-            <h2 class="main-logo">Trellis</h2>
+            <h2 style="color: white" class="main-logo  main-logo-home">Trellis</h2>
           </router-link>
         </div>
 
         <div class="footer-members flex space-between">
           <div class="team-member flex align-center">
-            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <img src="https://res.cloudinary.com/trellis22/image/upload/v1670483306/klnvwv9pzfe7hiue3pjn.jpg" alt="">
             <div>
               <h3>Yarden Farag</h3>
               <p>Full Stack</p>
             </div>
           </div>
           <div class="team-member flex align-center">
-            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <img src="https://res.cloudinary.com/trellis22/image/upload/v1670484170/xjoaitrdmbp63amfy2kw.jpg" alt="">
             <div>
               <h3>Omer Mazig</h3>
               <p>Full Stack</p>
             </div>
           </div>
           <div class="team-member flex align-center">
-            <img src="../assets/styles/Imgs/team-member.jpeg" alt="">
+            <img src="https://res.cloudinary.com/trellis22/image/upload/v1670482998/e1245f8zfamjjdgbvhsa.png" alt="">
             <div>
               <h3>Yotam Gross</h3>
               <p>Full Stack</p>

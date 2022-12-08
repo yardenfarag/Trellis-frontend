@@ -1,8 +1,9 @@
 .board-list-container {
     margin-left: auto;
     margin-right: auto;
-    width: 830px;
+    width: 840px;
     margin-top: 60px;
+
 
     .board-prev-title {
         display: inline-block;
@@ -40,17 +41,21 @@
 .board-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    // gap: 15px;
     margin-bottom: 60px;
+    justify-content: flex-start;
 }
 
 .mini-board {
-    width: 194px;
+    width: 195px;
     min-width: 143px;
     height: 95px;
     border-radius: 3px;
     cursor: pointer;
     position: relative;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    filter: brightness(95%);
 
     &:hover {
         filter: brightness(80%);
@@ -122,3 +127,12 @@
         }
 
     }
+
+
+    //SKELETONES
+
+    //list
+    .skeleton-pr15qsgku0q:empty {position: relative; height: 170px; background-color: #ffffff; border-radius: 0px 0px 0px 0px; background-image: linear-gradient( #cccccc 95px, transparent 0 ),linear-gradient( #cccccc 95px, transparent 0 ),linear-gradient( #cccccc 95px, transparent 0 ),linear-gradient( #cccccc 95px, transparent 0 );background-repeat: repeat-y;background-size: 195px 170px,195px 170px,195px 170px,195px 170px;background-position: 630px 25px,420px 25px,210px 25px,0px 25px;}.skeleton-pr15qsgku0q:empty:before {content: ' '; position: absolute; z-index: 1000; width: 100%; height: 170px;-webkit-mask-image: linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ); -webkit-mask-repeat : repeat-y; -webkit-mask-size : 50px 170px; -webkit-mask-position: -20% 0;background-image: linear-gradient( rgba(102,102,102,1) 95px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 95px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 95px, transparent 0 ),linear-gradient( rgba(102,102,102,1) 95px, transparent 0 );background-repeat: repeat-y;background-size: 195px 170px,195px 170px,195px 170px,195px 170px;background-position: 630px 25px,420px 25px,210px 25px,0px 25px;animation: shineForSkeleton-pr15qsgku0q 2s infinite;}@keyframes shineForSkeleton-pr15qsgku0q {to {-webkit-mask-position: 120% 0}}
+
+    //mini board
+    .skeleton-zn7bn3ybral:empty {position: relative; height: 95px; background-color: #ffffff; border-radius: 0px 0px 0px 0px; background-image: linear-gradient( #cccccc 95px, transparent 0 );background-repeat: repeat-y;background-size: 195px 133px;background-position: 0px 0px;}.skeleton-zn7bn3ybral:empty:before {content: ' '; position: absolute; z-index: 1000; width: 100%; height: 95px;-webkit-mask-image: linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ); -webkit-mask-repeat : repeat-y; -webkit-mask-size : 50px 95px; -webkit-mask-position: -20% 0;background-image: linear-gradient( rgba(102,102,102,1) 95px, transparent 0 );background-repeat: repeat-y;background-size: 195px 133px;background-position: 0px 0px;animation: shineForSkeleton-zn7bn3ybral 2s infinite;}@keyframes shineForSkeleton-zn7bn3ybral {to {-webkit-mask-position: 120% 0}}

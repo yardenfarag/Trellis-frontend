@@ -47,7 +47,7 @@
                     </div>
                     <h4 class="small-title-margin-top">Attachment</h4>
                     <div v-if="task.attachments" class="imgs-grid-container">
-                        <div v-for="attachment in task.attachments" @click="setPexlesAsCover(image.src.large)"
+                        <div v-for="attachment in task.attachments" @click="setPexlesAsCover(attachment.imgUrl)"
                             class="img-placeholder">
                             <img :src="attachment.imgUrl">
                         </div>
