@@ -26,7 +26,7 @@
                     <div class="controller-container">
                         <div class="btn-container">
                             <button @click.stop="addTask" class="btn-add-task call-to-action">Add card</button>
-                            <span @click="(isAddTask = false)" class="close-btn-placeholder"></span>
+                            <span @click.stop="closeTaskForm" class="close-btn-placeholder"></span>
                         </div>
                     </div>
                 </div>
@@ -83,8 +83,9 @@ export default {
         getChildPayload(index) {
             return this.group.tasks[index]
         },
-        closeAddCard() {
+        closeTaskForm() {
             this.isAddTask = false
+            this.taskTitle = ''
         },
         onTaskDrop(ev) {
             const groupId = JSON.parse(JSON.stringify(this.group.id))
