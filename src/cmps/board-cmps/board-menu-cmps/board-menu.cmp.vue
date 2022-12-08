@@ -127,7 +127,8 @@
                         </div>
                         <div class="board-backgrounds-list-observer">
                             <div class="board-backgrounds-list">
-                                <div v-for="image in images" @click="setBoardBgImg(image.src.original, image.avg_color)"
+                                <div v-for="image in images"
+                                    @click="setBoardBgImg(image.src.original, image.src.tiny, image.avg_color)"
                                     class="image">
                                     <img :src="image.src.tiny">
                                 </div>
@@ -180,8 +181,8 @@ export default {
                 throw err
             }
         },
-        setBoardBgImg(imgUrl, avgColor) {
-            this.$emit('changeBackgroundImg', imgUrl, avgColor)
+        setBoardBgImg(imgUrl, tinyImgUrl, avgColor) {
+            this.$emit('changeBackgroundImg', imgUrl, tinyImgUrl, avgColor)
         },
         setBoardBgColor(color) {
             this.$emit('changeBackgroundColor', color)

@@ -77,7 +77,7 @@
             <task-checklist :task="task" @updateTask="saveTask" />
 
             <task-map :task="task" />
-            <task-comments @saveTask="saveTask" :task="task" />
+            <task-comments :taskActivities="taskActivities" @saveTask="saveTask" :task="task" />
           </div>
         </section>
 
@@ -311,12 +311,12 @@ export default {
     loggedinUser() {
       this.$store.getters.loggedinUser
     },
-    // taskActivities() {
-    //   let taskActivities = this.board.activities.filter(activity => {
-    //     return activity.task.id === this.task.id
-    //   })
-    //   return taskActivities
-    // }
+    taskActivities() {
+      let taskActivities = this.board.activities.filter(activity => {
+        return activity.task?.id === this.task.id
+      })
+      return taskActivities
+    }
   },
   directives: {
     ClickOutside

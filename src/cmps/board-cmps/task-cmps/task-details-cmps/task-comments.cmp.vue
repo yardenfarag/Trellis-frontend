@@ -2,7 +2,7 @@
   <section class="activity-container">
     <div class="title-container flex space-between">
       <h3>Activity</h3>
-      <button title="Coming soon" class="task-content-btn ">Show details</button>
+      <button @click="toggleActivityLog" title="Coming soon" class="task-content-btn ">Show details</button>
     </div>
 
     <div class="add-comments">
@@ -26,32 +26,26 @@
     </div>
   </section>
 
-  <!-- <section v-if="showActivities" class="task-activity-log">
-    <div v-for="activity in taskActivities" class="activity-info flex align-center">
-      <img :src="activity.byMember?.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }">
-      <h3>{{ activity.byMember.fullname }}</h3>
-      <h4>{{ activity.txt }}</h4>
-      <div class="time">
-        <h6>{{ formattedTime }}</h6>
-      </div>
-    </div>
-  </section> -->
+  <section v-for="activity in taskActivities" v-if="showActivities" class="task-activity-log">
+    <taskActivityPreview :activity="activity"></taskActivityPreview>
+  </section>
 </template>
 
 <script>
-import { utilService } from '../../../../services/util.service';
-import taskCommentPreview from './task-comment-preview.cmp.vue';
-// import taskActivities from './task-details-modals-cmps/task-activities.cmp.vue';
+import { utilService } from '../../../../services/util.service.js'
+import taskCommentPreview from './task-comment-preview.cmp.vue'
+// import taskActivities from './task-details-modals-cmps/task-activities.cmp.vue'
+import taskActivityPreview from './task-activity-preview.cmp.vue';
 export default {
   emits: ['saveTask'],
   props: {
     task: Object,
-    // taskActivities: Array,
+    taskActivities: Array,
   },
   name: 'task-comments',
   components: {
     taskCommentPreview,
-    // taskActivities
+    taskActivityPreview
   },
   data() {
     return {
@@ -116,9 +110,6 @@ export default {
     loggedinUser() {
       return this.$store.getters.loggedinUser
     },
-    formattedTime(activity) {
-      return utilService.timeAgo(activity.createdAt)
-    }
   },
   unmounted() { },
 };

@@ -1,6 +1,7 @@
 <template>
     <section class="board-preview flex">
-        <div @click="goToDetails()" :style="{ background: board.style.bgc, backgroundSize: 'cover' }"
+        <div @click="goToDetails()"
+            :style="{ background: this.board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }"
             class="mini-board">
             <h1>{{ board.title }}</h1>
             <button v-if="board.isStarred" class="stared board-prev-star" @click.stop="toggleStarred()"></button>
