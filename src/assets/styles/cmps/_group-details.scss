@@ -3,8 +3,8 @@
 }
 
 .smooth-dnd-container {
-    min-width: 100%;
-    min-height: 100%;
+    // min-width: 100%;
+    // min-height: 100%;
 }
 
 .smooth-dnd-container.horizontal {
@@ -27,7 +27,8 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        max-height: calc(100% - 80px);
+        // max-height: calc(100% - 80px);
+        max-height: calc(100% - 50px);
         position: relative;
         white-space: normal;
         width: 100% !important;
@@ -254,7 +255,8 @@
 
         .task-info {
             overflow: hidden;
-            padding: 2px 8px 2px;
+            // padding: 2px 8px 2px;
+            padding: 6px 8px 2px;
             position: relative;
 
             .labels-container {
@@ -264,7 +266,7 @@
                 margin-bottom: 4px;
 
                 .prev-label {
-                    margin-top: 8px;
+                    margin-top: 4px;
                     margin-bottom: 4px;
                     padding-right: 0;
                     padding-left: 0;
@@ -278,6 +280,10 @@
                     padding: 0 8px;
                     text-align: left;
 
+                    &:nth-child(n+6) {
+                        margin-top: 0;
+                        margin-bottom: 0;
+                    }
                 }
             }
 
@@ -398,7 +404,8 @@
         .textarea-input-margin {
             border-radius: 3px;
             cursor: pointer;
-            margin-bottom: 8px;
+            // margin-bottom: 8px;
+            margin-bottom: 3px;
             max-width: 300px;
             min-height: 20px;
             position: relative;
@@ -454,12 +461,10 @@
                         font-size: 24px;
                         color: $color-primary-icon;
                         left: 8px;
-                        top: 5px;
+                        top: 7px;
                         cursor: pointer;
                     }
                 }
-
-
 
                 .btn-add-task {
                     transition: 0.08s;

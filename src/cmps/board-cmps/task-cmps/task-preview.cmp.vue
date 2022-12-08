@@ -24,7 +24,7 @@
                 edit
             </span> -->
             <section class="task-info">
-                <div v-if="task.labels" class="labels-container">
+                <div v-if="task.labels?.length" class="labels-container">
                     <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
                     </div>
                 </div>
