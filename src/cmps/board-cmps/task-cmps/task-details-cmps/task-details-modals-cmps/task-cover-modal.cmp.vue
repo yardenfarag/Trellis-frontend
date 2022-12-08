@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container cover-modal">
+    <div @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container cover-modal">
         <section class="modal-header">
             <h5 class="title-modal-header">Cover</h5>
             <span @click="closeModal()" class="close material-symbols-outlined">
@@ -47,7 +47,7 @@
                     </div>
                     <h4 class="small-title-margin-top">Attachment</h4>
                     <div v-if="task.attachments" class="imgs-grid-container">
-                        <div v-for="attachment in task.attachments" @click="setPexlesAsCover(image.src.large)"
+                        <div v-for="attachment in task.attachments" @click="setPexlesAsCover(attachment.imgUrl)"
                             class="img-placeholder">
                             <img :src="attachment.imgUrl">
                         </div>

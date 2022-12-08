@@ -173,6 +173,33 @@
                 color: $color-secondery-text;
             }
         }
+
+        .activity-info {
+            position: relative;
+            display: flex;
+            padding-block: 8px;
+            font-size: 14px;
+            color: $color-primary-text;
+
+            .img-grabbper {
+                position: absolute;
+                left: -40px;
+                top: 14px;
+            }
+
+            .info {
+                margin-left: 10px;
+
+                .name {
+                    font-weight: 700;
+                }
+
+                .time {
+                    font-size: 12px;
+                    color: $color-secondery-text;
+                }
+            }
+        }
     }
 
 

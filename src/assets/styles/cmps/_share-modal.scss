@@ -21,6 +21,9 @@
         .share-title {
             font-size: 20px;
         }
+        .close{
+            cursor: pointer;
+        }
     }
 
     .input-container {
@@ -68,6 +71,7 @@
             width: 100%;
             z-index: 10;
             box-shadow: 0 0px 1px 1px $color-primary-text;
+    
 
             .member-select-list {
                 overflow-y: auto;
@@ -78,13 +82,18 @@
                 width: calc(100% - 8px);
 
                 .autocomplete-option {
-                    border-radius: 3px;
+                    border-radius: 8px;
                     margin-top: 6px;
+                    :hover{
+                        background-color: rgb(226, 226, 226);
+                    }
 
                     .member-select-container {
                         align-items: center;
                         display: flex;
                         padding: 8px 0;
+                        cursor: pointer;
+                       
 
                         .icon-select-container {
                             margin-right: 12px;
@@ -106,6 +115,7 @@
                             img {
                                 height: 100%;
                                 width: 100%;
+                                background: none;
                             }
                         }
 

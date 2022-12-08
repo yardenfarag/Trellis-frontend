@@ -1,5 +1,6 @@
 <template>
-    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container task-attachment-modal">
+    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }"
+        class="modal-container task-attachment-modal">
         <section class="modal-header">
             <span @click="closeModal()" class="close material-symbols-outlined">
                 close

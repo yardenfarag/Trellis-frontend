@@ -31,8 +31,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div v-if="!isAddTask" class="open-add-task-container">
                 <button @click="openTaskForm" class="btn-open-add-task"><span style="font-size:20px;"
@@ -69,6 +67,20 @@ export default {
     },
     created() { },
     methods: {
+        // onEnter() {
+        //     if (this.taskTitle === '') return
+        //     setTimeout(() => {
+        //         this.addTask()
+        //     }, "50")
+        // },
+        // scrollToElement() {
+        //     const el = this.$refs.scrollToMe
+
+        //     if (el) {
+        //         // Use el.scrollIntoView() to instantly scroll to the element
+        //         el.scrollIntoView({ behavior: 'smooth' })
+        //     }
+        // },
         getChildPayload(index) {
             return this.group.tasks[index]
         },
@@ -84,6 +96,7 @@ export default {
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
+            // this.scrollToElement()
         },
         addTask() {
             if (!this.taskTitle) return
