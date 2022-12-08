@@ -30,8 +30,8 @@
                 </section>
             </li>
         </Container>
-        <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
-            @toggleMenu="toggleMenu" v-if="isMenuOpen">
+        <board-menu @openTask="openTask" @changeBackgroundImg="changeBackgroundImg"
+            @changeBackgroundColor="changeBackgroundColor" @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
         <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="(isFilterOpen = false)"
             :pos="modalPos">
@@ -96,6 +96,10 @@ export default {
         socketService.emit(SOCKET_EVENT_SET_BOARD, this.board._id)
     },
     methods: {
+        openTask(task) {
+            const taskId = task.id
+            // this.$router.push('/board/' + this.boardId + '/' + this.groupId + '/' + taskId)
+        },
         getChildPayload(index) {
             return this.boardToEdit.groups[index]
         },
@@ -103,15 +107,11 @@ export default {
             this.isFilterOpen = false
         },
         openFilter(ev) {
-            // console.log(ev.target.getBoundingClientRect())
-
             const elPos = ev.target.getBoundingClientRect()
             const top = elPos.top + elPos.height + 8
             const right = elPos.right
             this.modalPos = { top, right }
-
             this.isFilterOpen = true
-
         },
         updateBoardFromSocket(board) {
             // console.log('from socket', board._id);

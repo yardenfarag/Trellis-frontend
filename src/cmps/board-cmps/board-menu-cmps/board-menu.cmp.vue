@@ -47,7 +47,7 @@
                         <h6 class="activity-title">Activity</h6>
                         <div v-if="board.activities" class="activities">
                             <div v-for="activity in board.activities" class="activity">
-                                <board-activity :activity="activity"></board-activity>
+                                <board-activity @openTask="openTask" :activity="activity"></board-activity>
                             </div>
                         </div>
                     </section>
@@ -144,7 +144,7 @@ import { uploadService } from '../../../services/upload.service'
 import imgUploader from '../../img-uploader.vue'
 import boardActivity from './board-activity.cmp.vue'
 export default {
-    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg'],
+    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg', 'openTask'],
     name: 'board-menu',
     components: {
         imgUploader,
@@ -179,6 +179,9 @@ export default {
                 console.log('Cannot get images')
                 throw err
             }
+        },
+        openTask(task) {
+            this.$emit('openTask', task)
         },
         setBoardBgImg(imgUrl, avgColor) {
             this.$emit('changeBackgroundImg', imgUrl, avgColor)

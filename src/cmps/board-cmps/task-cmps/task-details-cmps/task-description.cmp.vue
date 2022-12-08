@@ -3,7 +3,8 @@
         <div class="description-wraper">
             <div class="title-container">
                 <h3> Description</h3>
-                <button v-if="description" class="task-detail-btn" @click="openDescInput">Edit</button>
+                <button v-if="(!isDescriptionSelected && description)" class="task-detail-btn"
+                    @click="openDescInput">Edit</button>
             </div>
             <div>
                 <div v-if="!isDescriptionSelected" ref="desc" class="pre-text-area" @click="openDescInput">
@@ -13,8 +14,10 @@
             </div>
         </div>
         <div class="description-form" v-if="isDescriptionSelected">
-            <textarea class="description-input" placeholder="Add a more detailed description…" v-model="description"
-                rows="3"></textarea>
+            <div class="description-input-container">
+                <textarea ref="textarea" class="description-input" placeholder="Add a more detailed description…"
+                    v-model="description"></textarea>
+            </div>
             <button class="call-to-action" @click="updateTaskDesc()">Save</button>
             <button class="task-detail-btn" @click="onCancel()">Cancel</button>
         </div>
@@ -35,13 +38,18 @@ export default {
     },
     created() { },
     methods: {
+        resize() {
+            this.$nextTick(() => {
+                const { textarea } = this.$refs;
+                textarea.style.height = textarea.scrollHeight - 4 + 'px';
+                textarea.focus()
+            })
+
+        },
+
         openDescInput() {
             this.isDescriptionSelected = true
-            // setTimeout(() => {
-            //     this.$nextTick(() => {
-            //         this.$refs.desc.focus()
-            //     })
-            // }, "50")
+            this.resize()
         },
         updateTaskDesc() {
             this.$emit('updateTaskDesc', this.description)
@@ -53,6 +61,9 @@ export default {
         }
     },
     computed: {}, // add getters to get curr task desc
+    mounted() {
+
+    },
     unmounted() { },
 };
 </script>

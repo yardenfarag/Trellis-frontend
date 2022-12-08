@@ -1,0 +1,16 @@
+.task-date-modal {
+    .date-picker {
+        width: 100%;
+    }
+
+    .btns-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 8px;
+
+        button {
+            margin-bottom: 8px;
+        }
+    }
+}
