@@ -6,16 +6,18 @@
 
 
     .board-prev-title {
-        display: inline-block;
+        display: flex;
         flex: 1;
+        gap: 8px;
         font-size: 16px;
         font-weight: 700;
         line-height: 24px;
-        margin: 3px 0 0;
+        margin: 0 0 3px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         position: relative;
+        margin-inline-start: 8px;
 
         &.recently {
 
@@ -31,6 +33,15 @@
             &::before {
                 font-family: trello;
                 content: '\E966';
+                font-size: 20px;
+
+            }
+        }
+        &.all {
+
+            &::before {
+                font-family: trello;
+                content: '\E96D';
                 font-size: 20px;
 
             }
@@ -56,6 +67,7 @@
     margin-right: 15px;
     margin-bottom: 15px;
     filter: brightness(95%);
+    padding: 8px;
 
     &:hover {
         filter: brightness(80%);
@@ -65,8 +77,7 @@
         color: white;
         font-weight: bold;
         font-size: 1.1rem;
-        padding-block-start: 8px;
-        padding-inline-start: 5px;
+
     }
 
     .board-prev-star {

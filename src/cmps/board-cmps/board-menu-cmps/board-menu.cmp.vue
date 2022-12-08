@@ -12,13 +12,13 @@
                 <section class="board-menu-content-frame">
 
                     <ul class="board-menu-navigation">
-                        <li class="board-menu-navigation-item">
+                        <!-- <li class="board-menu-navigation-item">
                             <span class="about-this-board for-icon">
                                 <span class="board-menu-navigation-item-link">
                                     <span class="about-this-board-button-header">About this board</span>
                                 </span>
                             </span>
-                        </li>
+                        </li> -->
                         <li class="board-menu-navigation-item">
                             <span @click="toggleChangeBackground" class="change-background for-icon">
                                 <span :style="{ background: board.style.bgc }" class="small-bg"></span>
@@ -27,7 +27,7 @@
                                 </span>
                             </span>
                         </li>
-                        <li class="board-menu-navigation-item">
+                        <!-- <li class="board-menu-navigation-item">
                             <span class="stickers for-icon">
                                 <span class="board-menu-navigation-item-link">
                                     <span class="about-this-board-button-header">Stickers</span>
@@ -40,7 +40,7 @@
                                     <span class="about-this-board-button-header">More</span>
                                 </span>
                             </span>
-                        </li>
+                        </li> -->
                     </ul>
 
                     <section class="activity-container">

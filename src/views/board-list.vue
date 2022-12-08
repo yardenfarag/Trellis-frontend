@@ -10,11 +10,11 @@
             <h3 class="board-prev-title recently"> Recently viewed</h3>
             <section v-if="boards.length" class="board-list">
                 <div v-for="board in boards" :key="board._id">
-                    <board-preview v-if="((board.recentlyViewed / (60*60*1000) + 2) > (Date.now()) / (60*60*1000))" :board="board" />
+                    <board-preview v-if="((board.recentlyViewed / (60*60*1000) + 24) > (Date.now()) / (60*60*1000))" :board="board" />
                 </div>
             </section>
             <div v-else class="skeleton-pr15qsgku0q"></div>
-            <h3 class="board-prev-title"> All Boards</h3>
+            <h3 class="board-prev-title all"> All Boards</h3>
             <section  v-if="boards.length" class="all-boards board-list">
                 <div v-for="board in boards" :key="board._id">
                     <board-preview :board="board" />

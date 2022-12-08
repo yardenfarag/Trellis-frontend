@@ -78,7 +78,7 @@
         justify-content: center;
         width: 210px;
         height: 100%;
-        background-color: rgb(23, 43, 77);
+        background-color: rgb(0, 101, 255);
 
         &:hover {
             background-color: rgb(80, 95, 121);
@@ -116,14 +116,14 @@
         line-height: 1.25;
         font-family: charlie-semibold;
         font-weight: 500;
-        margin-bottom: 8px;
-        margin-top: 60px;
+        margin-bottom: 24px;
+        margin-top: 68px;
     }
 
     h3 {
         font-family: charlie-text-regular;
         font-size: 20px;
-        margin-bottom: 24px;
+        margin-bottom: 33px;
     }
 
     .hero-btn-link {
@@ -162,7 +162,8 @@
     img {
         width: 918px;
         max-height: 517px;
-        margin-bottom: 60px;
+        margin-bottom: 100px;
+        border-radius: 8px;
     }
 
 }

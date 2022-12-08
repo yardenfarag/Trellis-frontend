@@ -20,7 +20,7 @@
       <div class="hero-content">
         <h1>Trellis brings all your tasks, teammates, and tools together</h1>
         <h3>Keep everything in the same place — even if your team isn’t.</h3>
-        <button><router-link to="/board">Check this out!</router-link></button>
+        <button><router-link to="/board">Start Demo</router-link></button>
       </div>
       <img src="https://res.cloudinary.com/trellis22/image/upload/v1670494972/ipby6adf3dgntlrmszgr.png" alt="">
     </section>
@@ -59,7 +59,9 @@
           </button>
         </div>
         <div class="imgs-101">
-          <img src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
+          <img v-if="isCard1Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
+          <img v-if="isCard2Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670498276/afpnu0hcogho9sarj5ut.png" alt="">
+          <img v-if="isCard3Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
         </div>
       </div>
     </section>
