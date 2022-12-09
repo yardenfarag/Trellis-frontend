@@ -5,7 +5,7 @@
 
       <div class="title-container flex space-between ">
         <h3>{{ checklist.title }}</h3>
-        <button class="task-content-btn danger" @click="removeChecklist(checklist.id)">Delete</button>
+        <button class="task-content-btn danger" @click="onRemove($event, checklist.id)">Delete</button>
       </div>
       <div class="flex relative">
         <span class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id] + '%' : 0 +
@@ -37,10 +37,14 @@
       </div>
     </div>
   </section>
+
+  <deleteModal v-if="isDeleteModal" :pos="modalPos" @remove="removeChecklist" @closeModal="closeDeleteModal"
+    :toDelete="'checklist'" />
 </template>
 
 <script>
 import { utilService } from '../../../../services/util.service';
+import deleteModal from '../task-details-cmps/task-details-modals-cmps/delete-modal.cmp.vue'
 export default {
   emits: ['closeCheckListModal', 'updateTask'],
   props: {
@@ -48,9 +52,14 @@ export default {
   },
   name: 'task-checklist',
 
-  components: {},
+  components: {
+    deleteModal
+  },
   data() {
     return {
+      currChecklistId: null,
+      isDeleteModal: false,
+      modalPos: null,
       addItem: false,
       listTitle: '',
       todoTitle: '',
@@ -60,14 +69,30 @@ export default {
   },
   created() { },
   methods: {
+
+    closeDeleteModal() {
+      this.isDeleteModal = false
+      this.currChecklistId = null
+    },
+    onRemove(ev, checklistId) {
+      this.currChecklistId = checklistId
+      const elPos = ev.target.getBoundingClientRect()
+      const top = elPos.top + elPos.height + 8
+      const left = elPos.left
+      this.modalPos = { top, left }
+      this.isDeleteModal = true
+    },
+
     writeTodo(checklist) {
       this.currChecklist = checklist
     },
-    removeChecklist(id) {
+    removeChecklist() {
       const updateTask = JSON.parse(JSON.stringify(this.task))
-      const clIdx = updateTask.checklists.findIndex(cl => cl.id === id)
+      const clIdx = updateTask.checklists.findIndex(cl => cl.id === this.currChecklistId)
       let activityTxt = `removed ${updateTask.checklists[clIdx].title} from ${updateTask.title}`
       updateTask.checklists.splice(clIdx, 1)
+      this.isDeleteModal = false
+      this.currChecklistId = null
       this.$emit('updateTask', updateTask, activityTxt)
     },
     addTodo(checklistId) {

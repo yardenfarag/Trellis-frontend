@@ -93,7 +93,7 @@
             background-color: $color-primary-btn-modal-hover
         }
 
-        &:active:not(.danger) {
+        &:active:not(.btn-danger) {
             background-color: $color-primary-btn-modal-active;
             color: var(--t-blue);
         }
@@ -829,6 +829,12 @@
                     &.archive {
                         &::before {
                             content: '\E907';
+                        }
+                    }
+
+                    &.delete {
+                        &::before {
+                            content: '\E95C';
                         }
                     }
                 }

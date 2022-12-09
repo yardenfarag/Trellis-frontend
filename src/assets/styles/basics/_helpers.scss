@@ -213,14 +213,15 @@
         }
     }
 
-    // .modal-footer {
-    //     min-height: 48px;
+    .delete-warning {
+        margin-bottom: 7px;
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        color: $color-primary-text;
+    }
 
-    //     p {
-    //         font-size: 14px;
-    //         margin: 0 0 8px;
-    //     }
-    // }
 
 }
 
