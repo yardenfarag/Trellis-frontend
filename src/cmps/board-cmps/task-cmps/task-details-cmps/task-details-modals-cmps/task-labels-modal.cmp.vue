@@ -69,7 +69,7 @@
                         <div @click.stop="selectLabel($event, color, idx)" class="color"
                             :class="{ 'selected': idx === idxOfSelectedColor }" v-for="color, idx in colors"
                             :style="{ backgroundColor: color }">
-                            <div class="dark"></div>
+                            <!-- <div class="dark"></div> -->
                         </div>
                     </div>
                     <div class="remove">

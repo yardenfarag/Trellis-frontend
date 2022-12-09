@@ -27,12 +27,12 @@
 
                             <div class="image dark" :style="img" @click="setTextColor('white')">
                             </div>
-                            <span class="white">{{ task.title }}</span>
+                            <span @click="setTextColor('white')" class="white">{{ task.title }}</span>
 
 
                             <div class="image bright" :style="img" @click="setTextColor('black')">
                             </div>
-                            <span class="black">{{ task.title
+                            <span @click="setTextColor('white')" class="black">{{ task.title
                             }}</span>
 
                         </div>
@@ -113,10 +113,9 @@ export default {
         removeCover() {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style = {}
-            // this.asTop = false
             this.$emit('saveTask', taskToSave)
         },
-        setColorAsCover(color) {
+        setColorAsCover(color, idx) {
             const taskToSave = JSON.parse(JSON.stringify(this.task))
             taskToSave.style.imgUrl = null
             taskToSave.style.bgc = color
