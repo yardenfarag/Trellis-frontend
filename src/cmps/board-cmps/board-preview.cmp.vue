@@ -27,7 +27,10 @@ export default {
             this.$store.dispatch({ type: 'saveBoard', board })
         },
         async goToDetails() {
-            await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
+            const currBoard = JSON.parse(JSON.stringify(this.board))
+            currBoard.recentlyViewed = Date.now()
+            await this.$store.dispatch({ type: 'saveBoard', board: currBoard })
+            // await this.$store.dispatch({ type: 'setCurrBoard', boardId: currBoard._id })
             this.$router.push('/board/' + this.board._id)
 
         },
