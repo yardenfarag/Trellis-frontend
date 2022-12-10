@@ -49,13 +49,13 @@ export default {
         group: Object,
         boardId: String,
         txt: String,
+        // isAddTask: Boolean
     },
     name: 'group-details',
     components: {
         taskPreview,
         Draggable,
         Container,
-
     },
     data() {
         return {

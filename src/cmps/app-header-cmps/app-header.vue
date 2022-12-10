@@ -1,6 +1,6 @@
 <!-- :style="{ backgroundColor: board.style.headerClr }" -->
 <template>
-  <header :style="{ backgroundColor: bgColor }" class="app-header flex align-center">
+  <header @click.stop="closeModals" :style="{ backgroundColor: bgColor }" class="app-header flex align-center">
     <div class="dark"></div>
     <section class="header-nav flex align-center">
       <div class="logo flex align-center">
@@ -13,30 +13,30 @@
 
         <div class="start-section flex align-center">
           <div class="btn-dropdown">
-            <button @click="openModal($event, 'recent')" class="recent"><span>Recent</span>
+            <button @click.stop="openModal($event, 'recent')" class="recent"><span>Recent</span>
               <span class="material-symbols-outlined">
                 keyboard_arrow_down
               </span></button>
-            <button @click="openModal($event, 'starred')" class="starred"><span>Starred</span><span
+            <button @click.stop="openModal($event, 'starred')" class="starred"><span>Starred</span><span
                 class="material-symbols-outlined">
                 keyboard_arrow_down
               </span> </button>
           </div>
 
-          <button class="opacity-input" @click="openModal($event, 'create')">Create</button>
+          <button class="opacity-input" @click.stop="openModal($event, 'create')">Create</button>
         </div>
 
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="notifications"></button>
-          <img @click="openModal($event, 'user')" v-if="loggedinUser" :src="loggedinUser.imgUrl"
+          <img @click.stop="openModal($event, 'user')" v-if="loggedinUser" :src="loggedinUser.imgUrl"
             :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
         </div>
 
       </div>
     </section>
   </header>
-  <boardCreateModal :pos="modalOpenPos" @closeModal=closeCreateModal v-if="isCreateBoard" />
+  <boardCreateModal :pos="modalOpenPos" @closeModal=closeModals v-if="isCreateBoard" />
   <recentBoardsModal :pos="modalOpenPos" v-if="isRecentBoards"></recentBoardsModal>
   <starredBoardsModal :pos="modalOpenPos" v-if="isStarredBoards"></starredBoardsModal>
   <userModal v-if="isUserModal" :user="loggedinUser"></userModal>
@@ -65,14 +65,14 @@ export default {
   },
   created() { },
   methods: {
-    closeCreateModal() {
-      this.isCreateBoard = false
-    },
-    openModal(ev, modal) {
+    closeModals() {
       this.isRecentBoards = false
       this.isStarredBoards = false
       this.isCreateBoard = false
       this.isUserModal = false
+    },
+    openModal(ev, modal) {
+      this.closeModals()
 
       const elPos = ev.target.getBoundingClientRect()
       const top = elPos.top + elPos.height + 8

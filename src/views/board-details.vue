@@ -63,6 +63,8 @@ export default {
     },
     data() {
         return {
+            // isAddTask: false,
+
             dndActivity: '',
             boardToEdit: null,
             editTitle: false,
@@ -125,26 +127,38 @@ export default {
             this.boardToEdit.groups.splice(dragIdx, 1)
             this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
             this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+
+            // this.boardToEdit.groups.splice(dragIdx, 1)
+            // this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
+            // this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
         },
         async saveTaskDrop({ ev, groupId }) {
             const group = this.board.groups.find((group) => group.id === groupId)
             if (ev.removedIndex !== null) {
-                group?.tasks?.splice(ev.removedIndex, 1)
+                this.boardToEdit.group?.tasks?.splice(ev.removedIndex, 1)
                 this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
             }
             if (ev.addedIndex !== null) {
                 this.dndActivity += ` to ${group.title}`
-                group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
+                this.boardToEdit.group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
             }
-            await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
+            await this.$store.dispatch({ type: "saveBoard", board: this.boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
+
+            // const group = this.board.groups.find((group) => group.id === groupId)
+            // if (ev.removedIndex !== null) {
+            //     group?.tasks?.splice(ev.removedIndex, 1)
+            //     this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
+            // }
+            // if (ev.addedIndex !== null) {
+            //     this.dndActivity += ` to ${group.title}`
+            //     group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
+            // }
+            // await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
 
         },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
         },
-        // focusOnTitle() {
-        //     this.$refs.title.focus()
-        // },
         openAddGroup() {
             this.titleVis = true
             this.isAddGroup = true
@@ -153,21 +167,32 @@ export default {
             })
         },
         async saveThisBoard(activityTxt) {
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit, activityTxt })
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
         },
         async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
-            this.board.style.bgc = `url(${imgUrl})`
-            this.board.style.headerClr = avgColor
-            this.board.style.preview = `url(${tinyImgUrl})`
+            this.boardToEdit.style.bgc = `url(${imgUrl})`
+            this.boardToEdit.style.headerClr = avgColor
+            this.boardToEdit.style.preview = `url(${tinyImgUrl})`
             let activityTxt = `changed this board cover`
             this.saveThisBoard(activityTxt)
+            // this.board.style.bgc = `url(${imgUrl})`
+            // this.board.style.headerClr = avgColor
+            // this.board.style.preview = `url(${tinyImgUrl})`
+            // let activityTxt = `changed this board cover`
+            // this.saveThisBoard(activityTxt)
         },
         async changeBackgroundColor(color) {
-            this.board.style.bgc = color
-            this.board.style.headerClr = color
-            this.board.style.preview = color
+            this.boardToEdit.style.bgc = color
+            this.boardToEdit.style.headerClr = color
+            this.boardToEdit.style.preview = color
             let activityTxt = `changed this board cover`
             this.saveThisBoard(activityTxt)
+            // this.board.style.bgc = color
+            // this.board.style.headerClr = color
+            // this.board.style.preview = color
+            // let activityTxt = `changed this board cover`
+            // this.saveThisBoard(activityTxt)
         },
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
@@ -177,13 +202,21 @@ export default {
         },
         addGroup() {
             if (!this.groupTitle) return
-            this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
+            this.boardToEdit.groups.push(utilService.getEmptyGroup(this.groupTitle))
             let activityTxt = `added ${this.groupTitle} to this board`
             this.saveThisBoard(activityTxt)
             this.groupTitle = ''
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
+            // if (!this.groupTitle) return
+            // this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
+            // let activityTxt = `added ${this.groupTitle} to this board`
+            // this.saveThisBoard(activityTxt)
+            // this.groupTitle = ''
+            // this.$nextTick(() => {
+            //     this.$refs.title.focus()
+            // })
         },
     },
     computed: {
