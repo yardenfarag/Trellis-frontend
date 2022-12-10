@@ -1,11 +1,17 @@
 <template>
     <section v-if="task" class="task-preview" @click.stop="goToDetails">
+        <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+            edit
+        </span>
         <div v-if="isFullBg && (isColor || isImg)">
             <div v-if="isColor">
                 <section :style="color" class="full-color-container">
                     <div class="full-color-title-container">
                         <h5 class="full-color-title">{{ task.title }}</h5>
                     </div>
+                    <!-- <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+                        edit
+                    </span> -->
                 </section>
             </div>
             <div v-if="isImg">
@@ -13,6 +19,9 @@
                     <div class="full-img-title-container">
                         <h5 :style="{ color: isBlackText }" class="full-img-title">{{ task.title }}</h5>
                     </div>
+                    <!-- <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+                        edit
+                    </span> -->
                 </section>
             </div>
         </div>
@@ -25,7 +34,8 @@
             </span> -->
             <section class="task-info">
                 <div v-if="task.labels?.length" class="labels-container">
-                    <div v-for="label in task.labels" :style="{ backgroundColor: label.color }" class="prev-label">
+                    <div @click.stop="" v-for="label in task.labels" :style="{ backgroundColor: label.color }"
+                        class="prev-label">
                     </div>
                 </div>
                 <h5 class="task-title">{{ task.title }}</h5>
@@ -78,8 +88,6 @@
                 <button @click.stop="toggleLabelModal">Edit labels</button>
                 <button @click.stop="toggleMembersModal">Change members</button>
                 <button @click.stop="toggleCoverModal">Change cover</button>
-                <!-- <button @click.stop="">Move</button>
-                <button @click.stop="">Copy</button> -->
                 <button @click.stop="toggleDateModal">Edit dates</button>
                 <button @click.stop="removeTask">Archive</button>
             </div>
@@ -203,7 +211,7 @@ export default {
             else return 'black'
         },
         img() {
-            return { backgroundImage: this.task.style.imgUrl }
+            return { backgroundImage: this.task.style.imgUrl, borderRadius: 3 + 'px' }
         },
         checklistSum() {
             let total = 0

@@ -40,6 +40,30 @@ textarea {
 }
 
 
+::-webkit-scrollbar {
+    height: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track-piece {
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.154);
+}
+
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.403);
+}
+
+
+::-webkit-scrollbar-button {
+    display: block;
+    height: 4px;
+    width: 24px;
+}
+
 h1,
 h2,
 h3,
@@ -49,24 +73,6 @@ h6 {
     margin: 0;
     font-weight: normal;
     padding: 0;
-}
-
-/* width */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track-piece {
-    border-radius: 10px;
-    // background-color: red;
-}
-
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    // background-color: blue;
 }
 
 

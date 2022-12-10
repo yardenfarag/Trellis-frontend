@@ -6,6 +6,24 @@
     width: 339px;
     background-color: white;
 
+    /* width */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background-color: rgb(232, 232, 232)
+    }
+
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgb(212, 212, 212)
+    }
+
     .board-menu-wrapper {
         box-sizing: border-box;
         display: flex;

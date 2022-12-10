@@ -21,6 +21,24 @@
     white-space: nowrap;
     width: 272px;
 
+    /* width */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track-piece {
+        border-radius: 10px;
+        background-color: rgb(220, 220, 220)
+    }
+
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgb(186, 186, 186)
+    }
+
     .group-details {
         background-color: var(--t-light-gray);
         border-radius: 3px;
@@ -28,7 +46,7 @@
         display: flex;
         flex-direction: column;
         // max-height: calc(100% - 80px);
-        max-height: calc(100% - 50px);
+        max-height: calc(100% - 8px);
         position: relative;
         white-space: normal;
         width: 100% !important;
@@ -151,6 +169,7 @@
         // .ghost {
         //     opacity: 0.4;
         //     margin-inline-end: 8px;
+        // }
 
 
     }
@@ -231,14 +250,25 @@
         &:hover {
             .pencil-icon {
                 display: block;
+                z-index: 10;
             }
         }
 
         .pencil-icon {
             display: none;
             position: absolute;
-            top: 8px;
-            right: 6px;
+            top: 2px;
+            right: 2px;
+            border-radius: 3px;
+            padding: 6px;
+
+            &:hover {
+                background-color: $color-primary-btn-modal;
+            }
+
+            &:active {
+                background-color: $color-primary-btn-modal-hover;
+            }
 
         }
 
@@ -283,6 +313,10 @@
                     &:nth-child(n+6) {
                         margin-top: 0;
                         margin-bottom: 0;
+                    }
+
+                    &:hover {
+                        filter: brightness(80%);
                     }
                 }
             }
@@ -340,7 +374,7 @@
                         max-width: 100%;
                         min-height: 20px;
                         overflow: hidden;
-                        padding: 2px;
+                        padding: 1px;
                         position: relative;
                         text-decoration: none;
                         text-overflow: ellipsis;

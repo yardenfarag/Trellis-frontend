@@ -3,6 +3,8 @@
     // height: 100vh;
     height: calc(100vh - 44px);
 
+    padding-bottom: 8px;
+    padding-bottom: 8px;
     overflow-x: hidden;
     overflow-y: hidden;
 
@@ -13,6 +15,8 @@
         height: calc(100% - 49px);
         // height: 100%;
         width: 100%;
+        margin: 0;
+        padding-left: 8px;
     }
 
 }

@@ -10,6 +10,10 @@
     display: flex;
     align-items: flex-start;
     background-color: rgba(0, 0, 0, 0.618);
+
+    @media (max-width:750px) {
+        position: absolute;
+    }
 }
 
 .screen-black {
@@ -29,16 +33,14 @@
     position: relative;
     width: 768px;
     z-index: 25;
-
-    // line-height: 20px;
-    // width: 768px;
     background-color: rgb(240, 240, 246);
-    // position: absolute;
-    // right: 50%;
-    // left: 50%;
-    // top: 48px;
-    // margin-bottom: 80px;
-    // transform: translate(-50%);
+
+
+    @media (max-width:750px) {
+        display: block;
+        width: auto;
+        margin: 36px 8px;
+    }
 
     .close-details {
         position: absolute;
@@ -47,6 +49,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        z-index: 50;
 
         &::before {
             font-family: trello;
@@ -109,22 +112,6 @@
     .task-header {
         position: relative;
 
-        // .close-details {
-        //     position: fixed;
-        //     right: 4px;
-        //     top: 4px;
-        //     width: 40px;
-        //     height: 40px;
-        //     border-radius: 50%;
-
-        //     &::before {
-        //         font-family: trello;
-        //         content: '\E91C';
-        //         font-size: 20px;
-
-        //     }
-        // }
-
         .task-cover {
             width: 100%;
             min-height: 116px;
@@ -155,24 +142,40 @@
             padding: 12px 40px 8px 57px;
             position: relative;
             z-index: 1;
-            // display: flex;
-            // flex-direction: column;
-            // gap: 6px;
 
+            @media (max-width:750px) {
+                margin: 8px 16px 8px 32px;
+                padding: 8px 0 0 8px;
+            }
 
-            &::before {
-                font-family: trello;
-                content: '\E912';
+            .task-title-icon {
                 color: #42526e;
                 font-size: 24px;
                 position: absolute;
                 top: 20px;
                 left: 19px;
-                line-height: 32px
+                line-height: 32px;
+
+                @media (max-width:750px) {
+                    left: -24px;
+                    top: 4px;
+                }
+
+                &::before {
+                    font-family: trello;
+                    content: '\E912';
+                }
             }
+
+
 
             .task-title {
                 padding: 12px 0 0;
+
+                @media (max-width:750px) {
+                    margin: 0;
+                    padding: 0;
+                }
 
                 .task-title-edit {
                     width: 668px;
@@ -207,6 +210,12 @@
         justify-content: space-between;
         margin-bottom: 24px;
 
+        @media (max-width:750px) {
+            // display: block;
+            flex-direction: column;
+        }
+
+
         .task-content {
             width: 576px;
             padding-top: 0px;
@@ -215,6 +224,15 @@
             padding-left: 16px;
             display: flex;
             flex-direction: column;
+
+            @media (max-width:750px) {
+                float: none;
+                max-height: none;
+                max-width: none;
+                min-width: 0;
+                padding: 8px;
+                width: auto;
+            }
 
             .small-container {
                 margin-right: 8px;
@@ -236,6 +254,10 @@
                 flex-wrap: wrap;
                 gap: 8px;
                 margin-top: 8px;
+
+                @media (max-width:750px) {
+                    margin: 8px;
+                }
 
                 .members-container {
                     max-width: 100%;
@@ -334,23 +356,25 @@
                     }
                 }
 
-                // .small-title {
-                //     margin-top: 0;
-                //     margin-right: 8px;
-                //     margin-bottom: 4px;
-                //     margin-left: 0;
-                //     line-height: 20px;
-                // }
             }
 
             &>* {
                 margin-left: 40px;
+
+                @media (max-width:750px) {
+                    margin-left: 0;
+                }
 
 
                 .title-container {
                     margin-bottom: 4px;
                     padding: 8px 0;
                     position: relative;
+                    // margin-left: 40px;
+
+                    @media (max-width:750px) {
+                        margin-left: 40px;
+                    }
 
                     &::before {
                         font-family: trello;
@@ -543,21 +567,20 @@
                             }
                         }
 
-                        .crud {
-                            // display: flex;
-                            // flex-direction: column;
-
-                            // margin: 0;
-                            // min-height: 80px;
-                            // padding: 8px 8px 8px 128px;
-                            // z-index: 0;
-                        }
                     }
 
 
                 }
 
                 .checklists-container {
+
+
+                    .list {
+                        @media (max-width:750px) {
+                            margin-left: 40px;
+                        }
+                    }
+
                     .task-content-btn {
                         margin-top: 10px;
                     }
@@ -599,6 +622,10 @@
                         height: 10px;
                         overflow: hidden;
                         position: relative;
+
+                        @media (max-width:750px) {
+                            margin-left: 40px;
+                        }
                     }
 
                     progress::-webkit-progress-value {
@@ -614,6 +641,11 @@
                         position: absolute;
                         left: -32px;
                         top: -6px;
+
+                        @media (max-width:750px) {
+                            left: 8px;
+                            top: -6px;
+                        }
                     }
 
 
@@ -652,6 +684,10 @@
                         img {
                             position: absolute;
                             left: -40px;
+
+                            @media (max-width:750px) {
+                                left: 0;
+                            }
                         }
 
                         .open-txt {
@@ -665,6 +701,11 @@
                             padding-left: 12px;
                             border-radius: 3px;
                             transition: 0.12s;
+
+                            @media (max-width:750px) {
+                                margin-left: 40px;
+                                width: calc(100% - 44px);
+                            }
 
                             &:hover {
                                 background-color: rgb(230, 230, 230);
@@ -692,6 +733,10 @@
                             position: relative;
                             // display: flex;
                             padding-block: 10px;
+
+                            @media (max-width:750px) {
+                                margin-left: 40px;
+                            }
 
                             img {
                                 position: absolute;
@@ -740,6 +785,17 @@
             padding-left: 8px;
             width: calc(100% - 576px);
 
+            @media (max-width:750px) {
+                clear: both;
+                float: none;
+                margin: 8px;
+                padding: 0;
+                width: auto
+            }
+
+
+
+
             .add-to-card-title {
                 margin-bottom: -4px;
             }
@@ -747,6 +803,12 @@
             .btn-container {
                 display: flex;
                 flex-direction: column;
+
+                @media (max-width:750px) {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+
+                }
 
                 .task-detail-btn {
                     position: relative;
@@ -758,6 +820,13 @@
                     padding: 6px 12px;
                     padding-left: 0px;
                     padding-right: 30px;
+
+                    @media (max-width:750px) {
+                        // display: inline-block;
+                        // margin-right: 8px;
+                        // width: 50%
+                        width: calc(100% - 8px)
+                    }
 
                     span {
                         position: absolute;

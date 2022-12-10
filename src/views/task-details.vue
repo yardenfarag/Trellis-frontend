@@ -12,6 +12,7 @@
         </div>
         <div class="task-title-container">
           <div class="task-title">
+            <span class="task-title-icon"></span>
             <textarea rows="1" class="task-title-edit" v-model="newTitle"
               @blur="updateTaskTitle($event)">{{ task.title }}</textarea>
           </div>
@@ -53,21 +54,23 @@
                 <button class="btn-label-modal task-content-btn" @click.stop="openModal($event, 'labels')"></button>
               </div>
             </section>
+
+            <div v-if="task.dueDate" class="task-date small-container">
+              <h5 class="small-title-margin">Due date</h5>
+              <div class="small-container">
+                <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
+                <button class="task-content-btn" @click.stop="toggleDateModal">
+                  <span class="date-info">
+                    {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{ duedateComplete
+                    }}</span>
+                  </span>
+                  <span class="arrow-down"></span>
+                </button>
+              </div>
+            </div>
           </section>
 
-          <div v-if="task.dueDate" class="task-date small-container">
-            <h5 class="small-title-margin">Due date</h5>
-            <div class="small-container">
-              <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
-              <button class="task-content-btn" @click.stop="toggleDateModal">
-                <span class="date-info">
-                  {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{ duedateComplete
-                  }}</span>
-                </span>
-                <span class="arrow-down"></span>
-              </button>
-            </div>
-          </div>
+
           <div class="task-info">
             <task-description @updateTaskDesc="updateTaskDesc" :task="task" />
 
