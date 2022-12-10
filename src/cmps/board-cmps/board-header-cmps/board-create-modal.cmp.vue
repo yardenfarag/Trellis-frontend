@@ -118,7 +118,7 @@ export default {
             if (!this.newBoard.title) return
             this.newBoard.style.bgc = this.bgc
             this.newBoard.style.headerClr = this.bgc
-            const board = await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
+            await this.$store.dispatch({ type: 'saveBoard', board: this.newBoard })
             const newBoard = await this.$store.getters.board
             this.newBoard = utilService.getEmptyBoard()
             this.$emit('closeModal')
