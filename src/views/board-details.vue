@@ -165,6 +165,7 @@ export default {
         async changeBackgroundColor(color) {
             this.board.style.bgc = color
             this.board.style.headerClr = color
+            this.board.style.preview = color
             let activityTxt = `changed this board cover`
             this.saveThisBoard(activityTxt)
         },
@@ -192,14 +193,27 @@ export default {
             const regex = new RegExp(this.filterBy.txt, 'i')
 
 
-            // function filterTasks(condition, array, board) {
-            //     board.groups.forEach(group => {
-            //         return group.tasks.filter(task => {
-            //             if (task[array].find(arrItem => arrItem.id === condition)) {
-            //                 return task
-            //             }
+            // function filterTasks(condition, key, board) {
+            //     if (key === 'memberIds' || key === 'labels') {
+
+            //         board.groups.forEach(group => {
+            //             return group.tasks.filter(task => {
+            //                 if (condition.id || condition._id) {
+            //                     if (task[key].find(arrItem => arrItem.id === condition)) {
+            //                         return task
+            //                     }
+            //                 } else {
+            //                     if (!condition.length) {
+            //                         return task
+            //                     } else {
+            //                         condition.forEach(item => {
+            //                             return task[key].includes(item)
+            //                         })
+            //                     }
+            //                 }
+            //             })
             //         })
-            //     })
+            //     }
             //     return board
             // }
 
@@ -212,7 +226,6 @@ export default {
                 })
             }
             if (this.filterBy.isMyTask) {
-                // board = filterTasks(loggedinUser._id, 'memberIds', board)
                 board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => {
                         if (task.memberIds.find(memberId => memberId === loggedinUser._id)) {
