@@ -44,7 +44,7 @@
         </form>
       </section>
     </article>
-    <div class="bg-img">
+    <div class="bg-img flex space-between">
       <img class="left-img" src="../assets/left-loginsignup-hero.svg" />
       <img class="right-img" src="../assets/right-loginsignup-hero.svg" />
     </div>

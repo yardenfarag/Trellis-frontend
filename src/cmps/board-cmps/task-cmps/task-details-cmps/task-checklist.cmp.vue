@@ -8,7 +8,7 @@
         <button class="task-content-btn danger" @click="onRemove($event, checklist.id)">Delete</button>
       </div>
       <div class="flex relative">
-        <span class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id] + '%' : 0 +
+        <span class="progressbar-counter">{{ listsStatus[checklist.id] ? listsStatus[checklist.id].toFixed(0) + '%' : 0 +
             '%'
         }}</span>
         <progress class="progress-bar" :value=progressCount(checklist)></progress>
@@ -141,5 +141,7 @@ export default {
 }
 </script>
 <style>
-
+.checked{
+  text-decoration: line-through;
+}
 </style>
