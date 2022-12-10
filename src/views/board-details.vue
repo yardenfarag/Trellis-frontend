@@ -187,15 +187,32 @@ export default {
     },
     computed: {
         board() {
-            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            let board = JSON.parse(JSON.stringify(this.$store.getters.board))
             const loggedinUser = this.$store.getters.loggedinUser
+            const regex = new RegExp(this.filterBy.txt, 'i')
+
+
+            // function filterTasks(condition, array, board) {
+            //     board.groups.forEach(group => {
+            //         return group.tasks.filter(task => {
+            //             if (task[array].find(arrItem => arrItem.id === condition)) {
+            //                 return task
+            //             }
+            //         })
+            //     })
+            //     return board
+            // }
+
+
+
+
             if (this.filterBy.txt) {
-                const regex = new RegExp(this.filterBy.txt, 'i')
                 board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => regex.test(task.title))
                 })
             }
-            if (this.filterBy.isMyTask)
+            if (this.filterBy.isMyTask) {
+                // board = filterTasks(loggedinUser._id, 'memberIds', board)
                 board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => {
                         if (task.memberIds.find(memberId => memberId === loggedinUser._id)) {
@@ -203,6 +220,8 @@ export default {
                         }
                     })
                 })
+            }
+
             if (this.filterBy.isNoMembers) {
                 board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => !task.memberIds.length)
