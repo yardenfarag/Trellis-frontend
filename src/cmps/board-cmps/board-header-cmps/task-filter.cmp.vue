@@ -84,6 +84,9 @@ export default {
             this.$emit('setFilterBy', filterBy)
         },
         toggleTaskByMe() {
+            if (!this.filterBy.memberIds.length) {
+                this.filterBy.memberIds.push
+            }
             this.filterBy.isMyTask = !this.filterBy.isMyTask
             this.setFilterBy()
         },
@@ -107,7 +110,7 @@ export default {
                 return this.board.memberIds?.includes(user._id)
             })
             return members
-        }
+        },
     },
     unmounted() { },
 };

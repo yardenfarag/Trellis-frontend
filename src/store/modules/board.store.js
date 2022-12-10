@@ -73,7 +73,7 @@ export const boardStore = {
           await boardService.save(board, activityTxt, task)
         } else {
           console.log('hehehehe')
-          await boardService.save(board, activityTxt, task )
+          board = await boardService.save(board, activityTxt, task )
           commit({ type: 'saveBoard', board})
         }
         //TODO: if await fails, set before board and send user-msg
