@@ -233,10 +233,9 @@ export default {
         },
         async addGroup() {
             if (!this.groupTitle) return
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-            boardToEdit.groups.push(utilService.getEmptyGroup(this.groupTitle))
+            this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
             let activityTxt = `added ${this.groupTitle} to this board`
-            await this.saveThisBoard(boardToEdit, activityTxt)
+            await this.saveThisBoard(this.board, activityTxt)
             this.groupTitle = ''
             this.$nextTick(() => {
                 this.$refs.title.focus()

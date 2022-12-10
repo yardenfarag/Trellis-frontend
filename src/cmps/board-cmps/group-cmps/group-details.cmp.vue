@@ -45,7 +45,7 @@ import taskPreview from '../task-cmps/task-preview.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
 import { utilService } from '../../../services/util.service.js'
 export default {
-    emits: ['updateGroup', 'deleteGroup', 'addTask'],
+    emits: ['updateGroup', 'deleteGroup', 'addTask', 'saveBoard', 'saveTaskDrop'],
     props: {
         group: Object,
         boardId: String,
@@ -101,8 +101,7 @@ export default {
         },
         async addTask() {
             if (!this.taskTitle) return
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-
+            const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
             const newTask = utilService.getEmptyTask(this.taskTitle)
             this.board.groups[groupIdx].tasks.push(newTask)
             let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
