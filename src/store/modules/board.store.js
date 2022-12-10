@@ -23,14 +23,19 @@ export const boardStore = {
       const idx = state.boards.findIndex((board) => board._id === boardId)
       state.boards.splice(idx, 1)
     },
-    saveBoard(state, { board }) {
-      const idx = state.boards.findIndex((b) => b._id === board._id)
+    saveBoard(state, { savedBoard }) {
+      if (!savedBoard) return
+      console.log(savedBoard)
+
+      const idx = state.boards.findIndex((b) => b._id === savedBoard._id)
       if (idx !== -1) {
-        if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
-        state.boards.splice(idx, 1, board)
+        // if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
+        // state.boards.splice(idx, 1, board)
+        state.boards.splice(idx, 1, savedBoard)
+        state.currBoard = savedBoard
       } else {
-        state.boards.push(board)
-        state.currBoard = board
+        state.boards.push(savedBoard)
+        state.currBoard = savedBoard
       }
     },
     addGroup(state, { emptyGroup }) {
@@ -67,17 +72,20 @@ export const boardStore = {
       }
     },
     async saveBoard({ commit }, { board, activityTxt, task = null }) {
+      console.log('save from action');
+
+      var savedBoard
       try {
         if (board._id) {
-          commit({ type: 'saveBoard', board })
-          await boardService.save(board, activityTxt, task)
+          savedBoard = await boardService.save(board, activityTxt, task)
+          commit({ type: 'saveBoard', savedBoard })
         } else {
           console.log('hehehehe')
-          board = await boardService.save(board)
-          commit({ type: 'saveBoard', board})
+          savedBoard = await boardService.save(board)
+          commit({ type: 'saveBoard', savedBoard })
         }
         //TODO: if await fails, set before board and send user-msg
-        return board
+        // return board
       } catch (err) {
         console.error('There was a problem saving that board, please try again later.', err)
         throw err

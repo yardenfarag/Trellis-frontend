@@ -1,18 +1,28 @@
 <template>
-    <section v-if="recentBoards" class="modal-container">
-        <div @click="goToDetails(board)" v-for="board in recentBoards" class="recent-boards">
-            <div class="recent-board">
-                <div :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }"
-                    class="board-style">
-                </div>
-                <h6>{{ board.title }}</h6>
-            </div>
-        </div>
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="recentBoards"
+        class="small-modal-container recent">
+        <section class="small-modal-body">
+            <ul class="small-modal-list">
+                <li @click="goToDetails(board)" v-for="board in recentBoards" class="small-modal-li">
+                    <div class="li-content">
+                        <div class="board-cover"
+                            :style="{ background: board.style.preview ? board.style.preview : board.style.bgc }"></div>
+                        <div class="board-info">
+                            <div class="board-info-title">{{ board.title }}</div>
+                            <div class="board-info-team">A Team</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </section>
 </template>
 <script>
 export default {
     name: 'recent-boards-modal',
+    props: {
+        pos: Object
+    },
     components: {},
     data() {
         return {};
@@ -38,7 +48,12 @@ export default {
             })
             return recentBoards
         },
+        style() {
+            // return { background: board.style.preview ? board.style.preview : board.style.bgc }
+            // return { background: board.style.bgc, width: 100 + '%', height: 100 + '%' }
+        },
     },
+
     unmounted() { },
 }
 </script>

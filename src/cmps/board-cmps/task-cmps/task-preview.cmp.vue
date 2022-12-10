@@ -125,6 +125,8 @@ export default {
     },
     data() {
         return {
+            boardToEdit: null,
+
             newTitle: '',
             isTodosDone: false,
             isQuickEdit: false,
@@ -137,6 +139,8 @@ export default {
     async created() {
         this.newTitle = this.task.title
         await this.$store.dispatch({ type: 'loadUsers' })
+
+        this.boardToEdit = JSON.parse(JSON.stringify(this.board))
     },
     methods: {
         toggleDuedate() {
@@ -169,10 +173,16 @@ export default {
         },
         async updateTask(task) {
             const taskToEdit = JSON.parse(JSON.stringify(task))
-            const groupIdx = this.board.groups.findIndex(group => group.id === this.groupId)
-            const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
-            this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-            this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            const groupIdx = this.boardToEdit.groups.findIndex(group => group.id === this.groupId)
+            const taskIdx = this.boardToEdit.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
+            this.boardToEdit.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+            await this.$store.dispatch({ type: 'saveBoard', board: this.boardToEdit })
+
+            // const taskToEdit = JSON.parse(JSON.stringify(task))
+            // const groupIdx = this.board.groups.findIndex(group => group.id === this.groupId)
+            // const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
+            // this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.board })
         },
         async removeTask() {
             const groupId = this.groupId
@@ -187,7 +197,7 @@ export default {
             } else {
                 const taskToEdit = JSON.parse(JSON.stringify(this.task))
                 taskToEdit.title = this.newTitle
-                this.updateTask(taskToEdit)
+                await this.updateTask(taskToEdit)
                 this.closeModals()
             }
         },
