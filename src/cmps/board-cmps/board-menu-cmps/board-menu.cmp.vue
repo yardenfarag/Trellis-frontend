@@ -47,7 +47,7 @@
                         <h6 class="activity-title">Activity</h6>
                         <div v-if="board.activities" class="activities">
                             <div v-for="activity in board.activities" class="activity">
-                                <board-activity @openTask="openTask" :activity="activity"></board-activity>
+                                <board-activity :activity="activity"></board-activity>
                             </div>
                         </div>
                     </section>
@@ -145,7 +145,7 @@ import { uploadService } from '../../../services/upload.service'
 import imgUploader from '../../img-uploader.vue'
 import boardActivity from './board-activity.cmp.vue'
 export default {
-    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg', 'openTask'],
+    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg'],
     name: 'board-menu',
     components: {
         imgUploader,
