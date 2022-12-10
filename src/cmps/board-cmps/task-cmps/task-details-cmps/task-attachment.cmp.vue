@@ -18,7 +18,7 @@
 <script>
 import taskAttachmentPreview from './task-attachment-preview.cmp.vue';
 export default {
-  emits: ['openAttachmentModal'],
+  emits: ['openAttachmentModal', 'deleteAttachment', 'saveAttachment'],
   props: ['task'],
   name: 'task-attachment',
   components: {
@@ -41,7 +41,7 @@ export default {
       taskToSave.attachments.splice(idx, 1)
       this.$emit('deleteAttachment', taskToSave)
     },
-    openModal($event, arg){
+    openModal($event, arg) {
       this.$emit('openAttachmentModal', $event)
     }
   },

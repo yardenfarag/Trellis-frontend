@@ -309,6 +309,7 @@
                     border-radius: 3px;
                 }
 
+
                 .icon-container {
                     display: inline-block;
                     margin: 0 4px 4px 0;
@@ -322,6 +323,34 @@
                     vertical-align: top;
                     color: $color-secondery-text;
 
+                    &.due-date {
+                        &:hover {
+                            background-color: $color-primary-btn-modal-hover;
+                            border-radius: 3px;
+
+                        }
+                    }
+
+                    &.due-date-done {
+                        background-color: #61bd4f;
+                        border-radius: 3px;
+                        color: #fff;
+                        display: inline-block;
+                        margin: 0 4px 4px 0;
+                        max-width: 100%;
+                        min-height: 20px;
+                        overflow: hidden;
+                        padding: 2px;
+                        position: relative;
+                        text-decoration: none;
+                        text-overflow: ellipsis;
+                        vertical-align: top;
+
+                        &:hover {
+                            filter: brightness(80%);
+                            color: white;
+                        }
+                    }
 
                     .text {
                         font-size: 12px;
@@ -360,6 +389,16 @@
 
                             &::before {
                                 content: '\E91B';
+                            }
+
+                            &:hover::before {
+                                content: '\E919'
+                            }
+                        }
+
+                        &.date-isdone-icon {
+                            &::before {
+                                content: '\E918'
                             }
                         }
 

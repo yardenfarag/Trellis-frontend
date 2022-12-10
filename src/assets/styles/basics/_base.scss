@@ -51,21 +51,24 @@ h6 {
     padding: 0;
 }
 
-// /* width */
-// body::-webkit-scrollbar {
-//     height: 12px;
-// }
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
 
-// /* Track */
-// body::-webkit-scrollbar-track {
-//     background: rgba($color-primary-icon, 0.3);
-//     border-radius: 50px;
-// }
+/* Track */
+::-webkit-scrollbar-track-piece {
+    border-radius: 10px;
+    // background-color: red;
+}
 
-// /* Handle */
-// body::-webkit-scrollbar-thumb {
-//     background: $color-primary-icon;
-// }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    // background-color: blue;
+}
+
 
 button:not(.clean) {
     border-radius: 3px;

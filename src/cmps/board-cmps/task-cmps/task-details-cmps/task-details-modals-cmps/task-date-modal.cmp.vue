@@ -1,17 +1,22 @@
 <template>
-    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }" class="modal-container">
-        <header>
-            <button @click="closeModal()">X</button>
-            <h5>Dates</h5>
-        </header>
-        <hr>
-        <section>
+    <section @click.stop="" :style="{ top: pos.top + 'px', left: pos.left + 'px' }"
+        class="modal-container task-date-modal">
+        <section class="modal-header">
+            <h5 class="title-modal-header">Date</h5>
+            <span @click="closeModal()" class="close material-symbols-outlined">
+                close
+            </span>
+        </section>
+
+        <section class="modal-body">
             <div class="block">
-                <el-date-picker ref="datePicker" v-model="dueDate.info" type="datetime"
+                <el-date-picker class="date-picker" ref="datePicker" v-model="dueDate.info" type="datetime"
                     placeholder="Select date and time" :default-time="defaultTime" />
             </div>
-            <button @click="saveDueDate">Save</button>
-            <button @click="closeModal">Remove</button>
+            <div class="btns-container">
+                <button class="save call-to-action" @click="saveDueDate">Save</button>
+                <button class="remove primary-btn-modal" @click="closeModal">Remove</button>
+            </div>
         </section>
 
     </section>

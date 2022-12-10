@@ -65,6 +65,7 @@
             }
 
             span {
+                width: 122px;
                 position: absolute;
                 top: 10px;
                 white-space: nowrap;
@@ -73,6 +74,7 @@
                 font-size: 14px;
                 line-height: 20px;
                 cursor: pointer;
+
 
                 &.white {
                     color: white;
@@ -110,6 +112,15 @@
             width: 50px;
             height: 32px;
             cursor: pointer;
+
+            &.selected {
+                width: 48px;
+                // height: 24px;
+                border: 2px solid white;
+                margin: auto;
+                outline: 2px solid var(--t-blue);
+                border-radius: 1px;
+            }
 
             &:hover {
                 filter: brightness(90%);

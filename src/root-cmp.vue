@@ -1,7 +1,7 @@
 <template>
   <section>
     <user-msg />
-    <app-header v-if="!isHome"/>
+    <app-header v-if="!isHome" />
     <router-view />
   </section>
 </template>
@@ -22,14 +22,14 @@ export default {
     if (user) store.commit({ type: 'setLoggedinUser', user })
   },
   computed: {
-    isHome(){
-      if(this.$route.name === 'home') return true
+    isHome() {
+      if (this.$route.name === 'home' || this.$route.name === 'loginSignup') return true
       return false
     }
-    },
-    components: {
-      appHeader,
-      userMsg
-    },
+  },
+  components: {
+    appHeader,
+    userMsg
+  },
 }
 </script>

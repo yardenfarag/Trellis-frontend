@@ -1,5 +1,5 @@
 <template>
-    <div v-if="activity" class="activity-info">
+    <div class="activity-info">
         <div class="img-grabber">
             <div class="img-container">
                 <img :src="activity.byMember?.imgUrl" :style="{ width: 32 + 'px', 'border-radius': 50 + '%' }">
@@ -7,8 +7,8 @@
         </div>
         <div class="info">
             <div class="name-and-act">
-                <span class="name">{{ activity.byMember.fullname }} <span> </span></span>
-                <span @click="openTask" class="act"> {{ activity.txt }} </span>
+                <span class="name">{{ activity.byMember?.fullname }} <span> </span></span>
+                <span class="act"> {{ activity.txt }} </span>
             </div>
             <div class="time">
                 <span>{{ formattedTime }}</span>
@@ -17,33 +17,23 @@
     </div>
 </template>
 <script>
-import { utilService } from '../../../services/util.service';
+import { utilService } from '../../../../services/util.service.js'
 
 export default {
-    emits: ['openTask'],
     props: {
         activity: Object
     },
-    name: 'board-activity',
+    name: 'task-activity-preview',
     components: {},
     data() {
         return {};
     },
     created() { },
-    methods: {
-        openTask() {
-            if (!this.activity.task) return
-            this.$emit('openTask', this.activity.task)
-        }
-    },
+    methods: {},
     computed: {
         formattedTime() {
             return utilService.timeAgo(this.activity.createdAt)
         }
-    },
-    mounted() {
-        // console.log(this.activity)
-
     },
     unmounted() { },
 };

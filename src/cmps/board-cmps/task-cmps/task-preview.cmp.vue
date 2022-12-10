@@ -31,8 +31,9 @@
                 <h5 class="task-title">{{ task.title }}</h5>
                 <section class="badges">
 
-                    <div class="icon-container" v-if="(task.dueDate)">
-                        <span class="icon date-icon"></span>
+                    <div @click.stop="toggleDuedate" class="icon-container" :class="dueDateClass" v-if="(task.dueDate)">
+                        <span v-if="task.dueDate.isDone" class="icon date-isdone-icon"></span>
+                        <span v-else class="icon date-icon"></span>
                         <span class="text text-date">{{ dueDate }}</span>
                     </div>
                     <div class="icon-container" title="This card has a description" v-if="(task.description)">
@@ -130,6 +131,10 @@ export default {
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {
+        toggleDuedate() {
+            this.task.dueDate.isDone = !this.task.dueDate.isDone
+            this.updateTask(this.task)
+        },
         goToDetails() {
             this.isQuickEdit = false
             const taskId = this.task.id
@@ -156,7 +161,10 @@ export default {
         },
         async updateTask(task) {
             const taskToEdit = JSON.parse(JSON.stringify(task))
-            this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: taskToEdit })
+            const groupIdx = this.board.groups.findIndex(group => group.id === this.groupId)
+            const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
+            this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+            this.$store.dispatch({ type: 'saveBoard', board: this.board })
         },
         async removeTask() {
             const groupId = this.groupId
@@ -230,8 +238,13 @@ export default {
             return taskMembers
         },
         board() {
-            return JSON.parse(JSON.stringify(this.$store.getters.board))
+            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            return board
         },
+        dueDateClass() {
+            if (this.task.dueDate.isDone) return 'due-date-done'
+            return 'due-date'
+        }
 
     },
     unmounted() { },

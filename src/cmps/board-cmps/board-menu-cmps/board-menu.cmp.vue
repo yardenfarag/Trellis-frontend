@@ -47,7 +47,7 @@
                         <h6 class="activity-title">Activity</h6>
                         <div v-if="board.activities" class="activities">
                             <div v-for="activity in board.activities" class="activity">
-                                <board-activity :activity="activity"></board-activity>
+                                <board-activity @openTask="openTask" :activity="activity"></board-activity>
                             </div>
                         </div>
                     </section>
@@ -127,7 +127,8 @@
                         </div>
                         <div class="board-backgrounds-list-observer">
                             <div class="board-backgrounds-list">
-                                <div v-for="image in images" @click="setBoardBgImg(image.src.original, image.avg_color)"
+                                <div v-for="image in images"
+                                    @click="setBoardBgImg(image.src.original, image.src.tiny, image.avg_color)"
                                     class="image">
                                     <img :src="image.src.tiny">
                                 </div>
@@ -144,7 +145,7 @@ import { uploadService } from '../../../services/upload.service'
 import imgUploader from '../../img-uploader.vue'
 import boardActivity from './board-activity.cmp.vue'
 export default {
-    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg'],
+    emits: ['onUploaded', 'toggleMenu', 'changeBackgroundColor', 'changeBackgroundImg', 'openTask'],
     name: 'board-menu',
     components: {
         imgUploader,
@@ -180,8 +181,8 @@ export default {
                 throw err
             }
         },
-        setBoardBgImg(imgUrl, avgColor) {
-            this.$emit('changeBackgroundImg', imgUrl, avgColor)
+        setBoardBgImg(imgUrl, tinyImgUrl, avgColor) {
+            this.$emit('changeBackgroundImg', imgUrl, tinyImgUrl, avgColor)
         },
         setBoardBgColor(color) {
             this.$emit('changeBackgroundColor', color)

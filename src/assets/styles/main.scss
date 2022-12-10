@@ -18,7 +18,7 @@
 @import "views/home";
 // @import "views/board-list";
 @import "views/board-details";
-// @import "views/login-signup";
+@import "views/login-signup";
 // @import "views/task-details";
 // @import "views/user-details";
 // @import "views/home";
@@ -34,6 +34,7 @@
 // @import "cmps/img-uploader";
 // @import "cmps/main-nav";
 // @import "cmps/user-msg";
+@import "cmps/user-preview-modal";
 
 // // app header
 @import "cmps/app-header";
@@ -82,7 +83,7 @@
 @import "cmps/task-checklist-modal";
 // @import "cmps/task-copy-modal";
 @import "cmps/task-cover-modal";
-// @import "cmps/task-date-modal";
+@import "cmps/task-date-modal";
 @import "cmps/task-labels-modal";
 // @import "cmps/task-location-modal";
 @import "cmps/task-member-modal";

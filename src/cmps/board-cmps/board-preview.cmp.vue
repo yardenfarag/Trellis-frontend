@@ -1,6 +1,7 @@
 <template>
     <section class="board-preview flex">
-        <div @click="goToDetails()" :style="{ background: board.style.bgc, backgroundSize: 'cover' }"
+        <div @click="goToDetails()"
+            :style="{ background: this.board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }"
             class="mini-board">
             <h1>{{ board.title }}</h1>
             <button v-if="board.isStarred" class="stared board-prev-star" @click.stop="toggleStarred()"></button>
@@ -26,7 +27,10 @@ export default {
             this.$store.dispatch({ type: 'saveBoard', board })
         },
         async goToDetails() {
-            await this.$store.dispatch({ type: 'setCurrBoard', boardId: this.board._id })
+            const currBoard = JSON.parse(JSON.stringify(this.board))
+            currBoard.recentlyViewed = Date.now()
+            await this.$store.dispatch({ type: 'saveBoard', board: currBoard })
+            // await this.$store.dispatch({ type: 'setCurrBoard', boardId: currBoard._id })
             this.$router.push('/board/' + this.board._id)
 
         },

@@ -77,7 +77,7 @@
             <task-checklist :task="task" @updateTask="saveTask" />
 
             <task-map :task="task" />
-            <task-comments @saveTask="saveTask" :task="task" />
+            <task-comments :taskActivities="taskActivities" @saveTask="saveTask" :task="task" />
           </div>
         </section>
 
@@ -107,14 +107,16 @@
             <div class="btn-container">
               <!-- <button class="task-detail-btn move"><span>Move</span> </button>
             <button class="task-detail-btn copy"><span>Copy</span> </button> -->
-              <button @click.stop="removeTask" class="task-detail-btn archive"><span>Archive</span></button>
+              <button @click.stop="(isDeleteShow = true)" class="task-detail-btn archive"><span>Archive</span></button>
+              <button v-if="isDeleteShow" @click.stop="openModal($event, 'delete')"
+                class="task-detail-btn delete btn-danger"><span>Delete</span></button>
             </div>
           </div>
-
         </section>
       </section>
     </section>
-
+    <deleteModal v-if="isDeleteModal" :pos="modalPos" @remove="removeTask" @closeModal="closeModals"
+      :toDelete="'task'" />
     <taskChecklistModal v-if="isChecklistModal" @closeModal="closeModals" :task="task" :gruop="group" :pos="modalPos"
       @updateTask="saveTask" />
     <taskLabelsModal @closeModal="closeModals" @updateTask="saveTask" v-if="isLabelsModal" :board="board" :task="task"
@@ -138,6 +140,7 @@ import taskMap from '../cmps/board-cmps/task-cmps/task-details-cmps/task-map.cmp
 
 import ClickOutside from 'vue-click-outside'
 
+import deleteModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/delete-modal.cmp.vue'
 import taskChecklistModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-checklist-modal.cmp.vue'
 import taskLabelsModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-labels-modal.cmp.vue'
 import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-date-modal.cmp.vue'
@@ -152,6 +155,7 @@ export default {
     taskChecklist,
     taskComments,
     taskMap,
+    deleteModal,
     taskChecklistModal,
     taskLabelsModal,
     taskDatesModal,
@@ -166,6 +170,7 @@ export default {
       task: null,
       group: null,
       boardId: null,
+      isDeleteModal: false,
       isLabelsModal: false,
       isChecklistModal: false,
       isDateModal: false,
@@ -173,6 +178,7 @@ export default {
       isAttachmentModal: false,
       isCoverModal: false,
 
+      isDeleteShow: false,
       modalPos: null
     }
   },
@@ -194,6 +200,7 @@ export default {
 
 
   methods: {
+
     async toggleDuedate() {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
@@ -211,6 +218,7 @@ export default {
       const elPos = ev.target.getBoundingClientRect()
       // console.log(elPos)
 
+      if (modal === 'delete') this.isDeleteModal = true
       if (modal === 'members') this.isMembersModal = true
       if (modal === 'labels') this.isLabelsModal = true
       if (modal === 'checklist') this.isChecklistModal = true
@@ -239,9 +247,11 @@ export default {
       this.isMembersModal = false
       this.isAttachmentModal = false
       this.isCoverModal = false
+      this.isDeleteModal = false
     },
 
     async removeTask() {
+      this.closeModals()
       const board = JSON.parse(JSON.stringify(this.board))
       const groupIdx = board.groups.findIndex(group => group.id === this.group.id)
       const taskIdx = this.group.tasks.findIndex(task => task.id === this.task.id)
@@ -311,12 +321,12 @@ export default {
     loggedinUser() {
       this.$store.getters.loggedinUser
     },
-    // taskActivities() {
-    //   let taskActivities = this.board.activities.filter(activity => {
-    //     return activity.task.id === this.task.id
-    //   })
-    //   return taskActivities
-    // }
+    taskActivities() {
+      let taskActivities = this.board.activities.filter(activity => {
+        return activity.task?.id === this.task.id
+      })
+      return taskActivities
+    }
   },
   directives: {
     ClickOutside
