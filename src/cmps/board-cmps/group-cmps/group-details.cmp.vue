@@ -45,6 +45,7 @@ import taskPreview from '../task-cmps/task-preview.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
 import { utilService } from '../../../services/util.service.js'
 export default {
+    emits: ['updateGroup', 'deleteGroup', 'addTask'],
     props: {
         group: Object,
         boardId: String,
@@ -59,12 +60,15 @@ export default {
     },
     data() {
         return {
+            // boardToEdit: null,
             taskTitle: '',
             newTitle: this.group.title,
             isAddTask: false,
         }
     },
-    created() { },
+    created() {
+        // this.boardToEdit = JSON.parse(JSON.stringify(this.board))
+    },
     methods: {
         // onEnter() {
         //     if (this.taskTitle === '') return
@@ -100,36 +104,55 @@ export default {
         },
         addTask() {
             if (!this.taskTitle) return
-            // this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
-            const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+
             const newTask = utilService.getEmptyTask(this.taskTitle)
-            this.board.groups[groupIdx].tasks.push(newTask)
-            let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
-            this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+            const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
+            boardToEdit.groups[groupIdx].tasks.push(newTask)
+            const activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
+            this.$emit('addTask', { newTask, groupIdx, activityTxt })
+
             this.taskTitle = ''
             this.isAddTask = true
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
+
+            // if (!this.taskTitle) return
+            // // this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
+            // const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
+            // const newTask = utilService.getEmptyTask(this.taskTitle)
+            // this.board.groups[groupIdx].tasks.push(newTask)
+            // let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+            // this.taskTitle = ''
+            // this.isAddTask = true
+            // this.$nextTick(() => {
+            //     this.$refs.title.focus()
+            // })
         },
         updateGroup() {
-            const groupToEdit = JSON.parse(JSON.stringify(this.group))
+            if (this.newTitle === this.group.title) return
             if (!this.newTitle) {
                 this.newTitle = this.group.title
                 return
             } else {
-                groupToEdit.title = this.newTitle
+                // groupToEdit.title = this.newTitle
+                const title = this.newTitle
                 const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-                this.board.groups.splice(groupIdx, 1, groupToEdit)
-                this.$store.dispatch({ type: 'saveBoard', board: this.board })
+                this.$emit('updateGroup', { title, groupIdx })
+
+                // groupToEdit.title = this.newTitle
+                // const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+                // this.board.groups.splice(groupIdx, 1, groupToEdit)
+                // this.$store.dispatch({ type: 'saveBoard', board: this.board })
             }
-
-
         },
         removeGroup() {
             const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-            this.board.groups.splice(groupIdx, 1)
-            this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            this.$emit('deleteGroup', groupIdx)
+            // this.board.groups.splice(groupIdx, 1)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.board })
         },
     },
     computed: {
@@ -137,6 +160,8 @@ export default {
             const board = JSON.parse(JSON.stringify(this.$store.getters.board))
             return board
         },
+    },
+    mounted() {
     },
     unmounted() {
 
