@@ -1,6 +1,13 @@
+
+
 .login {
     background-color: #f9fafc;
     height: 100vh;
+    position: relative;
+
+    article{
+        // display: none;
+    }
 
     .sign-up {
         .upload-photo {
@@ -23,7 +30,7 @@
 
     .login-signup {
         width: 400px;
-        height: 600px;
+        // height: 600px;
         background-color: #ffffff;
         border-radius: 3px;
         padding: 25px 40px;
@@ -99,8 +106,9 @@
 
 
     .bg-img {
-        width: 500px;
-        top: 100%;
+        width: 100%;
+        position: absolute;
+        bottom: 340px;
 
         .left-img {
             position: absolute;
