@@ -1,18 +1,28 @@
 <template>
-    <section v-if="starredBoards" class="modal-container">
-        <div @click="goToDetails(board)" v-for="board in starredBoards" class="starred-boards">
-            <div class="starred-board">
-                <div :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }"
-                    class="board-style">
-                </div>
-                <h6>{{ board.title }}</h6>
-            </div>
-        </div>
+    <section :style="{ top: pos.top + 'px', left: pos.left + 'px' }" v-if="starredBoards"
+        class="small-modal-container starred">
+        <section class="small-modal-body">
+            <ul class="small-modal-list">
+                <li @click="goToDetails(board)" v-for="board in starredBoards" class="small-modal-li">
+                    <div class="li-content">
+                        <div class="board-cover"
+                            :style="{ background: board.style.preview ? board.style.preview : board.style.bgc }"></div>
+                        <div class="board-info">
+                            <div class="board-info-title">{{ board.title }}</div>
+                            <div class="board-info-team">A Team</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </section>
 </template>
 <script>
 export default {
     name: 'starred-boards-modal',
+    props: {
+        pos: Object
+    },
     components: {},
     data() {
         return {};

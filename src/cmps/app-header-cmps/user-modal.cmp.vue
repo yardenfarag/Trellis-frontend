@@ -1,5 +1,5 @@
 <template>
-    <section class="modal-container">
+    <section :style="{ top: 49 + 'px', right: 3 + 'px' }" class="modal-container">
         <div class="modal-title">
             <h5>Account</h5>
         </div>
