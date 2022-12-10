@@ -6,7 +6,8 @@
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
             <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
-                <group-details @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group" :boardId="board._id" />
+                <group-details @saveBoard="saveBoard" @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group"
+                    :boardId="board._id" :board="board" />
             </Draggable>
 
             <li>
@@ -102,7 +103,7 @@ export default {
             // this.$router.push('/board/' + this.boardId + '/' + this.groupId + '/' + taskId)
         },
         getChildPayload(index) {
-            return this.boardToEdit.groups[index]
+            return this.board.groups[index]
         },
         closeFilter() {
             this.isFilterOpen = false
@@ -117,15 +118,14 @@ export default {
         updateBoardFromSocket(board) {
             this.$store.commit({ type: 'saveBoard', board })
         },
-        onGroupDrop(ev) {
-            // this.boardToEdit = JSON.parse(JSON.stringify(this.board))
-            const dragIdx = ev.removedIndex
-            const dropIdx = ev.addedIndex
-            const dragGroup = ev.payload
-            console.log(ev, dragIdx, dropIdx, dragGroup)
-            this.boardToEdit.groups.splice(dragIdx, 1)
-            this.boardToEdit.groups.splice(dropIdx, 0, dragGroup)
-            this.$store.dispatch({ type: 'saveBoard', board: JSON.parse(JSON.stringify(this.boardToEdit)) })
+        async onGroupDrop(ev) {
+            if (ev.removedIndex !== null) {
+                this.board.groups.splice(ev.removedIndex, 1)
+            }
+            if (ev.addedIndex !== null) {
+                this.board.groups.splice(ev.addedIndex, 0, ev.payload)
+            }
+            await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
         },
         async saveTaskDrop({ ev, groupId }) {
             const group = this.board.groups.find((group) => group.id === groupId)
@@ -152,6 +152,9 @@ export default {
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
+        },
+        async saveBoard(board, activityTxt, task) {
+            await this.$store.dispatch({ type: 'saveBoard', board, activityTxt, task })
         },
         async saveThisBoard(activityTxt) {
             await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })

@@ -48,6 +48,7 @@ export default {
     props: {
         group: Object,
         boardId: String,
+        board: Object,
         txt: String,
     },
     name: 'group-details',
@@ -98,14 +99,15 @@ export default {
             })
             // this.scrollToElement()
         },
-        addTask() {
+        async addTask() {
             if (!this.taskTitle) return
             // this.$store.dispatch({ type: 'addTask', groupId: this.group.id, title: this.taskTitle })
             const groupIdx = this.board.groups.findIndex((group) => group.id === this.group.id)
             const newTask = utilService.getEmptyTask(this.taskTitle)
             this.board.groups[groupIdx].tasks.push(newTask)
             let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
-            this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+            this.$emit('saveBoard', this.board, activityTxt, newTask)
+            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt, task: newTask })
             this.taskTitle = ''
             this.isAddTask = true
             this.$nextTick(() => {
@@ -121,7 +123,8 @@ export default {
                 groupToEdit.title = this.newTitle
                 const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
                 this.board.groups.splice(groupIdx, 1, groupToEdit)
-                this.$store.dispatch({ type: 'saveBoard', board: this.board })
+                this.$emit('saveBoard', this.board)
+                // this.$store.dispatch({ type: 'saveBoard', board: this.board })
             }
 
 
@@ -133,10 +136,10 @@ export default {
         },
     },
     computed: {
-        board() {
-            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
-            return board
-        },
+        // board() {
+        //     const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+        //     return board
+        // },
     },
     unmounted() {
 
