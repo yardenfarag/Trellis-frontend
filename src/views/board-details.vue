@@ -118,6 +118,7 @@ export default {
             this.$store.commit({ type: 'saveBoard', board })
         },
         onGroupDrop(ev) {
+            // this.boardToEdit = JSON.parse(JSON.stringify(this.board))
             const dragIdx = ev.removedIndex
             const dropIdx = ev.addedIndex
             const dragGroup = ev.payload
