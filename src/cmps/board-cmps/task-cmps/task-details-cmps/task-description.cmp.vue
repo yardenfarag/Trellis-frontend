@@ -14,7 +14,8 @@
         </div>
         <div class="description-form" v-if="isDescriptionSelected">
             <textarea class="description-input" placeholder="Add a more detailed description…" v-model="description"
-                rows="3"></textarea>
+                rows="3"> 
+            </textarea>
             <button class="call-to-action" @click="updateTaskDesc()">Save</button>
             <button class="task-detail-btn" @click="onCancel()">Cancel</button>
         </div>
