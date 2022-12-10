@@ -51,7 +51,6 @@ export default {
         boardId: String,
         board: Object,
         txt: String,
-        // isAddTask: Boolean
     },
     name: 'group-details',
     components: {
@@ -61,15 +60,12 @@ export default {
     },
     data() {
         return {
-            // boardToEdit: null,
             taskTitle: '',
             newTitle: this.group.title,
             isAddTask: false,
         }
     },
-    created() {
-        // this.boardToEdit = JSON.parse(JSON.stringify(this.board))
-    },
+    created() { },
     methods: {
         // onEnter() {
         //     if (this.taskTitle === '') return
@@ -134,17 +130,11 @@ export default {
         },
         removeGroup() {
             const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-            this.$emit('deleteGroup', groupIdx)
-            // this.board.groups.splice(groupIdx, 1)
-            // await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            this.board.groups.splice(groupIdx, 1)
+            this.$emit('saveBoard', this.board)
         },
     },
-    computed: {
-        // board() {
-        //     const board = JSON.parse(JSON.stringify(this.$store.getters.board))
-        //     return board
-        // },
-    },
+    computed: {},
     mounted() {
     },
     unmounted() {

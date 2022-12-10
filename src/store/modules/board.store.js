@@ -24,19 +24,13 @@ export const boardStore = {
       state.boards.splice(idx, 1)
     },
     saveBoard(state, { savedBoard }) {
-      if (!savedBoard) return
-      console.log(savedBoard)
-
       const idx = state.boards.findIndex((b) => b._id === savedBoard._id)
       if (idx !== -1) {
-        // if (state.currBoard && board._id === state.currBoard._id) state.currBoard = board
-        // state.boards.splice(idx, 1, board)
         state.boards.splice(idx, 1, savedBoard)
-        state.currBoard = savedBoard
       } else {
         state.boards.push(savedBoard)
-        state.currBoard = savedBoard
       }
+      state.currBoard = savedBoard
     },
     addGroup(state, { emptyGroup }) {
       state.currBoard.groups.push(emptyGroup)
@@ -72,18 +66,14 @@ export const boardStore = {
       }
     },
     async saveBoard({ commit }, { board, activityTxt, task = null }) {
-      console.log('save from action');
-
-      var savedBoard
       try {
-        if (board._id) {
-          savedBoard = await boardService.save(board, activityTxt, task)
-          commit({ type: 'saveBoard', savedBoard })
-        } else {
-          console.log('hehehehe')
-          savedBoard = await boardService.save(board)
-          commit({ type: 'saveBoard', savedBoard })
-        }
+        // if (board._id) {
+        //   savedBoard = await boardService.save(board, activityTxt, task)
+        //   commit({ type: 'saveBoard', savedBoard })
+        // } else {
+          const savedBoard = await boardService.save(board)
+          commit({ type: 'saveBoard', savedBoard, activityTxt, task })
+        // }
         //TODO: if await fails, set before board and send user-msg
         // return board
       } catch (err) {
