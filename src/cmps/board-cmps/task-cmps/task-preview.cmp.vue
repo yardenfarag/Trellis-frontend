@@ -41,7 +41,7 @@
                 <h5 class="task-title">{{ task.title }}</h5>
                 <section class="badges">
 
-                    <div @click.stop="toggleDuedate" class="icon-container" :class="dueDateClass" v-if="(task.dueDate)">
+                    <div :style="checkDuoDateStyle" @click.stop="toggleDuedate" class="icon-container" :class="dueDateClass" v-if="(task.dueDate)">
                         <span v-if="task.dueDate.isDone" class="icon date-isdone-icon"></span>
                         <span v-else class="icon date-icon"></span>
                         <span class="text text-date">{{ dueDate }}</span>
@@ -228,6 +228,10 @@ export default {
         },
         checklistDoneStyle() {
             if (this.isTodosDone) return { backgroundColor: '#61bd4f', color: 'white' }
+        },
+        checkDuoDateStyle() {
+            if ((new Date(this.task?.dueDate?.info) / (60*60*1000) )  < (Date.now()) / (60*60*1000)) return { backgroundColor: '#e2604b', color: 'white' }
+            if ((new Date(this.task?.dueDate?.info) / (60*60*1000) + 10)  < (Date.now()) / (60*60*1000)) return { backgroundColor: '#edd727', color: 'white' }
         },
         dueDate() {
             var date = utilService.dueDateShortFormat(this.task.dueDate.info)
