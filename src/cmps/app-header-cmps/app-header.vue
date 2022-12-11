@@ -101,24 +101,47 @@ export default {
       await this.$router.push('/board/' + board._id)
       location.reload()
     },
-    closeModals() {
+    closeModals(){
       this.isRecentBoards = false
-      this.isStarredBoards = false
-      this.isCreateBoard = false
-      this.isUserModal = false
+        this.isStarredBoards = false
+        this.isCreateBoard = false
+        this.isUserModal = false
     },
     openModal(ev, modal) {
-      this.closeModals()
 
       const elPos = ev.target.getBoundingClientRect()
       const top = elPos.top + elPos.height + 8
       const left = elPos.left
       this.modalOpenPos = { top, left }
-      console.log(modal)
-      if (modal === 'recent') this.isRecentBoards = true
-      if (modal === 'starred') this.isStarredBoards = true
-      if (modal === 'create') this.isCreateBoard = true
-      if (modal === 'user') this.isUserModal = true
+
+      if (modal === 'recent') {
+        if (this.isRecentBoards) return this.isRecentBoards = false
+        this.isRecentBoards = true
+        this.isStarredBoards = false
+        this.isCreateBoard = false
+        this.isUserModal = false
+      }
+      if (modal === 'starred') {
+        if (this.isStarredBoards) return this.isStarredBoards = false 
+        this.isRecentBoards = false
+        this.isStarredBoards = true
+        this.isCreateBoard = false
+        this.isUserModal = false
+      }
+      if (modal === 'create') {
+        if (this.isCreateBoard) return this.isCreateBoard = false
+        this.isRecentBoards = false
+        this.isStarredBoards = false
+        this.isCreateBoard = true
+        this.isUserModal = false
+      }
+      if (modal === 'user') {
+        if (this.isUserModal) return  this.isUserModal = false
+        this.isRecentBoards = false
+        this.isStarredBoards = false
+        this.isCreateBoard = false
+        this.isUserModal = true
+      }
     },
   },
   computed: {

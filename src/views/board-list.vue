@@ -10,7 +10,7 @@
             <h3 class="board-prev-title recently"> Recently viewed</h3>
             <section v-if="boards.length" class="board-list">
                 <div v-for="board in boards" :key="board._id">
-                    <board-preview v-if="((board.recentlyViewed / (60*60*1000) + 24) > (Date.now()) / (60*60*1000))" :board="board" />
+                    <board-preview v-if="((board.recentlyViewed / (60*60*1000) + 5) > (Date.now()) / (60*60*1000))" :board="board" />
                 </div>
             </section>
             <div v-else class="skeleton-pr15qsgku0q"></div>
@@ -20,7 +20,11 @@
                     <board-preview :board="board" />
                 </div>
             </section>
-            <div v-else class="skeleton-pr15qsgku0q"></div>
+            <div v-else>
+                <div class="skeleton-pr15qsgku0q"></div>
+                <div class="skeleton-pr15qsgku0q"></div>
+                <div class="skeleton-pr15qsgku0q"></div>
+            </div>
     </section>
 </template>
 
