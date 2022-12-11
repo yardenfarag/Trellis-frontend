@@ -6,7 +6,8 @@
                 <li @click="goToDetails(board)" v-for="board in starredBoards" class="small-modal-li">
                     <div class="li-content">
                         <div class="board-cover"
-                            :style="{ background: board.style.preview ? board.style.preview : board.style.bgc }"></div>
+                            :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
+                        </div>
                         <div class="board-info">
                             <div class="board-info-title">{{ board.title }}</div>
                             <div class="board-info-team">A Team</div>
