@@ -133,7 +133,8 @@ export default {
             this.isFilterOpen = !this.isFilterOpen
         },
         updateBoardFromSocket(board) {
-            this.$store.commit({ type: 'saveBoard', board })
+            console.log('board from socket', board);
+            this.$store.commit({ type: 'saveBoard', savedBoard: board })
         },
         async onGroupDrop(ev) {
             if (ev.removedIndex !== null) {
