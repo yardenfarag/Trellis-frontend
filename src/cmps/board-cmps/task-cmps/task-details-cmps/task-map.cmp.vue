@@ -5,23 +5,23 @@
     </div>
 
     <div class="map">
-      <GoogleMap api-key="AIzaSyAgIcVfys_vQ4OwhTVIut8RsPboBf17FXA" style="width: 100%; height: 500px" :center="center"
+      <!-- <GoogleMap api-key="AIzaSyAgIcVfys_vQ4OwhTVIut8RsPboBf17FXA" style="width: 100%; height: 500px" :center="center"
         :zoom="7">
         <Marker v-for="m in markers" :options="m" @click="center = m.position" />
-      </GoogleMap>
+      </GoogleMap> -->
     </div>
   </section>
 </template>
 
 <script>
-import { GoogleMap, Marker } from "vue3-google-map"
+// import { GoogleMap, Marker } from "vue3-google-map"
 
 export default {
   props: ['task'],
   name: 'task-map',
-  components: {
-    GoogleMap, Marker
-  },
+  // components: {
+  //   GoogleMap, Marker
+  // },
   data() {
     return {
       center: { lat: 32.085300, lng: 34.781769 },

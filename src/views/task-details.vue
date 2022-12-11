@@ -141,7 +141,6 @@ import taskChecklist from '../cmps/board-cmps/task-cmps/task-details-cmps/task-c
 import taskComments from '../cmps/board-cmps/task-cmps/task-details-cmps/task-comments.cmp.vue'
 import taskMap from '../cmps/board-cmps/task-cmps/task-details-cmps/task-map.cmp.vue'
 
-import ClickOutside from 'vue-click-outside'
 
 import deleteModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/delete-modal.cmp.vue'
 import taskChecklistModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-checklist-modal.cmp.vue'
@@ -330,9 +329,6 @@ export default {
       })
       return taskActivities
     }
-  },
-  directives: {
-    ClickOutside
   },
   unmounted() {
     document.querySelector('#app').classList.add('board-page')
