@@ -1,17 +1,19 @@
 <template>
-    <section :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board" class="board-details">
-        <board-header @openShare="(isShareOpen = true)" @openFilter="openFilter" @closeFilter="closeFilter"
-            @toggleMenu="toggleMenu" v-if="board"></board-header>
+    <section @click="addTaskOnClick" :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board"
+        class="board-details">
+        <board-header @click.stop="" @openShare="(isShareOpen = true)" @openFilter="openFilter"
+            @closeFilter="closeFilter" @toggleMenu="toggleMenu" v-if="board"></board-header>
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
-            <Draggable class="group-item" v-if="board" v-for="group in board.groups" :key="group.id">
-                <group-details @saveBoard="saveBoard" @saveTaskDrop="saveTaskDrop" :txt="filterBy.txt" :group="group"
-                    :boardId="board._id" :board="board" />
+            <Draggable class="group-item" v-if="board" v-for="(group, idx) in board.groups" :key="group.id">
+                <group-details ref="groupDetails" :gTaskTitle="taskTitle" @closeAllAddTask="closeAllAddTask"
+                    @updateTaskTitle="updateTaskTitle" @saveBoard="saveBoard" @saveTaskDrop="saveTaskDrop"
+                    :txt="filterBy.txt" :group="group" :boardId="board._id" :board="board" />
             </Draggable>
 
             <li>
-                <div v-if="!isAddGroup" @click="openAddGroup" class="btn-open-add-group opacity-input">
+                <div v-if="!isAddGroup" @click.stop="openAddGroup" class="btn-open-add-group opacity-input">
                     <div class="cont">
                         <span style="font-size:22px;" class="plus material-symbols-outlined">
                             add
@@ -19,12 +21,12 @@
                         <span class="title">Add another list </span>
                     </div>
                 </div>
-                <section v-if="isAddGroup" class="add-group-open">
+                <section @click.stop="" v-if="isAddGroup" class="add-group-open">
                     <input v-if="titleVis" ref="title" v-model="groupTitle" type="text"
                         placeholder="Enter list title...">
                     <div class="add-group-controler">
                         <button @click="addGroup" class="call-to-action">Add List</button>
-                        <span @click="isAddGroup = false" class="close-add-group material-symbols-outlined">
+                        <span @click="closeAddGroup" class="close-add-group material-symbols-outlined">
                             close
                         </span>
                     </div>
@@ -64,6 +66,8 @@ export default {
     },
     data() {
         return {
+            gTaskTitle: '',
+
             dndActivity: '',
             editTitle: false,
             groupTitle: '',
@@ -98,6 +102,27 @@ export default {
     methods: {
         getChildPayload(index) {
             return this.board.groups[index]
+        },
+        closeAddGroup() {
+            this.isAddGroup = false
+            // this.groupTitle = '' ???
+        },
+        addTaskOnClick() {
+            this.closeAddGroup
+            for (var i = 0; i < this.board.groups.length; i++) {
+                console.log(this.$refs.groupDetails[i])
+                if (this.$refs.groupDetails[i].isAddTask) this.$refs.groupDetails[i].addTask()
+            }
+        },
+        closeAllAddTask() {
+            for (var i = 0; i < this.board.groups.length; i++) {
+                this.$refs.groupDetails[i].closeAddTask()
+            }
+            this.closeAddGroup()
+        },
+        updateTaskTitle(title) {
+            console.log(title)
+            this.gTaskTitle = title
         },
         closeFilter() {
             this.isFilterOpen = false
@@ -182,38 +207,13 @@ export default {
         },
     },
     computed: {
+        taskTitle() {
+            return this.gTaskTitle
+        },
         board() {
             let board = JSON.parse(JSON.stringify(this.$store.getters.board))
             const loggedinUser = this.$store.getters.loggedinUser
             const regex = new RegExp(this.filterBy.txt, 'i')
-
-
-            // function filterTasks(condition, key, board) {
-            //     if (key === 'memberIds' || key === 'labels') {
-
-            //         board.groups.forEach(group => {
-            //             return group.tasks.filter(task => {
-            //                 if (condition.id || condition._id) {
-            //                     if (task[key].find(arrItem => arrItem.id === condition)) {
-            //                         return task
-            //                     }
-            //                 } else {
-            //                     if (!condition.length) {
-            //                         return task
-            //                     } else {
-            //                         condition.forEach(item => {
-            //                             return task[key].includes(item)
-            //                         })
-            //                     }
-            //                 }
-            //             })
-            //         })
-            //     }
-            //     return board
-            // }
-
-
-
 
             if (this.filterBy.txt) {
                 board.groups.forEach(group => {

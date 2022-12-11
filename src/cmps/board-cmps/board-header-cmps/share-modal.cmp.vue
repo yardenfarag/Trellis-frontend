@@ -1,6 +1,6 @@
 <template>
-    <div class="board-invite-modal-overlay">
-        <section class="share-modal">
+    <div @click.stop="closeModal()" class="board-invite-modal-overlay">
+        <section @click.stop="" class="share-modal">
             <section class="share-modal-header">
                 <h1 class="share-title">Share board</h1>
                 <span @click="closeModal()" class="close material-symbols-outlined">
@@ -116,7 +116,7 @@ export default {
         return {
             filterBy: {
                 txt: '',
-            }
+            },
         };
     },
     async created() {

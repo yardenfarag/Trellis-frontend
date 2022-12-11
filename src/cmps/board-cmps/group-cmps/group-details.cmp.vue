@@ -1,6 +1,6 @@
 <template>
     <section class="group-wrapper">
-        <section class="group-details">
+        <section @click.stop="" class="group-details">
             <div class="group-header">
                 <textarea rows="1" class="group-title drag-disabled" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
@@ -19,7 +19,7 @@
                 <div v-if="isAddTask" class="add-task-container">
                     <div class="textarea-input-margin">
                         <div class="textarea-input-padding">
-                            <textarea v-model="taskTitle" ref="title"
+                            <textarea @input="onTaskTitleType" v-model="taskTitle" ref="title"
                                 placeholder="Enter a title for this card..."></textarea>
                         </div>
                     </div>
@@ -45,12 +45,14 @@ import taskPreview from '../task-cmps/task-preview.cmp.vue'
 import { Container, Draggable } from "vue3-smooth-dnd"
 import { utilService } from '../../../services/util.service.js'
 export default {
-    emits: ['updateGroup', 'deleteGroup', 'addTask', 'saveBoard', 'saveTaskDrop'],
+    emits: ['updateGroup', 'deleteGroup', 'addTask', 'saveBoard', 'saveTaskDrop', 'updateTaskTitle', 'closeAllAddTask'],
     props: {
         group: Object,
         boardId: String,
         board: Object,
         txt: String,
+        gTaskTitle: String,
+        // gIsAddTask: Boolean,
     },
     name: 'group-details',
     components: {
@@ -84,8 +86,15 @@ export default {
         getChildPayload(index) {
             return this.group.tasks[index]
         },
+        closeAddTask() {
+            this.isAddTask = false
+        },
+        onTaskTitleType() {
+            this.$emit('updateTaskTitle', this.taskTitle)
+        },
         closeTaskForm() {
             this.isAddTask = false
+            this.$emit('updateTaskTitle', '')
             this.taskTitle = ''
         },
         onTaskDrop(ev) {
@@ -93,6 +102,8 @@ export default {
             this.$emit('saveTaskDrop', { ev, groupId })
         },
         openTaskForm() {
+            this.$emit('closeAllAddTask')
+            this.taskTitle = this.gTaskTitle
             this.isAddTask = true
             this.$nextTick(() => {
                 this.$refs.title.focus()
@@ -106,7 +117,7 @@ export default {
             this.board.groups[groupIdx].tasks.push(newTask)
             let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
             this.$emit('saveBoard', this.board, activityTxt, newTask)
-            // await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt, task: newTask })
+            this.$emit('updateTaskTitle', '')
             this.taskTitle = ''
             this.isAddTask = true
             this.$nextTick(() => {

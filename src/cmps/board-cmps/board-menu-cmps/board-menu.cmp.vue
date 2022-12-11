@@ -1,5 +1,5 @@
 <template>
-    <section class="board-menu-layout">
+    <section @click.stop="" class="board-menu-layout">
         <section v-if="isMenu" class="main-menu-container">
             <section class="menu-header">
                 <h5>Menu</h5>

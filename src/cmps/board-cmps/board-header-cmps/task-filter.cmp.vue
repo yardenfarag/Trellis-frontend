@@ -1,5 +1,5 @@
 <template>
-    <section :style="{ top: pos.top + 'px', right: pos.right + 'px' }" class="task-filter">
+    <section @click.stop="" :style="{ top: pos.top + 'px', right: pos.right + 'px' }" class="task-filter">
         <section class="header">
             <h2 class="filter-title-header">Filter</h2>
             <button class="btn-close clean" @click="closeModal"><span class="material-symbols-outlined">
