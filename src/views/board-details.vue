@@ -145,6 +145,7 @@ export default {
             await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
         },
         async saveTaskDrop({ ev, groupId }) {
+            console.log('drop')
             const group = this.board.groups.find((group) => group.id === groupId)
             if (ev.removedIndex !== null) {
                 group?.tasks?.splice(ev.removedIndex, 1)
@@ -257,12 +258,12 @@ export default {
 <style>
 .drag-preview {
     transition: transform 0.18s ease;
-    transform: rotateZ(5deg)
+    transform: rotateZ(5deg);
 }
 
 .drop-preview {
     transition: transform 0.18s ease-in-out;
-    transform: rotateZ(0deg)
+    transform: rotateZ(0deg);
 }
 
 .placeholder {
@@ -273,5 +274,6 @@ export default {
     border-radius: 0.04rem;
     /* transform: scaleY(0.85);
     transform-origin: 0% 0%; */
+
 }
 </style>

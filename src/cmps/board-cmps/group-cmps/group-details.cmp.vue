@@ -9,7 +9,7 @@
             <div class="task-list">
                 <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
                     @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list"
-                    drag-class="drag-preview">
+                    drag-class="drag-preview" drop-class="drop-preview">
                     <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
                         <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                     </Draggable>
@@ -78,6 +78,7 @@ export default {
             }
         },
         getChildPayload(index) {
+            console.log('drag');
             return this.group.tasks[index]
         },
         closeAddTask() {
@@ -129,8 +130,10 @@ export default {
                 this.newTitle = this.group.title
                 return
             } else {
-                const title = this.newTitle
+                // const title = this.newTitle
                 const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+                const groupToEdit = this.board.groups[groupIdx]
+                groupToEdit.title = this.newTitle
                 this.board.groups.splice(groupIdx, 1, groupToEdit)
                 this.$emit('saveBoard', this.board)
             }

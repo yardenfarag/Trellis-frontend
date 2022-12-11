@@ -5,6 +5,20 @@
 .smooth-dnd-container {
     // min-width: 100%;
     // min-height: 100%;
+    // min-height: 0;
+    // min-height: 32px;
+}
+
+.smooth-dnd-container.vertical.clean-list {
+    // background-color: red;
+    // min-height: 0;
+    // min-width: 100%;
+    // min-height: 100%;
+    // min-height: 0;
+
+    // &:hover {
+    //     min-height: 32px;
+    // }
 }
 
 .smooth-dnd-container.horizontal {
@@ -20,6 +34,12 @@
     vertical-align: top;
     white-space: nowrap;
     width: 272px;
+
+    // &:hover {
+    //     .smooth-dnd-container.vertical.clean-list {
+    //         min-height: 32px;
+    //     }
+    // }
 
     /* width */
     ::-webkit-scrollbar {
@@ -154,7 +174,6 @@
 
 
         }
-
     }
 
     .task-list {
@@ -166,12 +185,10 @@
         padding: 0 4px;
         // z-index: 1;
 
-        // .ghost {
-        //     opacity: 0.4;
-        //     margin-inline-end: 8px;
-        // }
-
-
+        .ghost {
+            opacity: 0.4;
+            // margin-inline-end: 8px;
+        }
     }
 
 
