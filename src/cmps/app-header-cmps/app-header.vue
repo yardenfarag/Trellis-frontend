@@ -23,11 +23,13 @@
               </span> </button>
           </div>
 
-          <button class="opacity-input" @click.stop="openModal($event, 'create')">Create</button>
+          <button class="opacity-input create" @click.stop="openModal($event, 'create')">Create</button>
+          <button class="opacity-input create-small" @click.stop="openModal($event, 'create')"></button>
         </div>
 
         <div class="end-section flex align-center">
           <button class="search">Search</button>
+          <button class="search-small"></button>
           <!-- <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
 
           <section class="modal-container">
@@ -51,7 +53,7 @@
           </section> -->
 
           <button class="notifications"></button>
-          <img @click.stop="openModal($event, 'user')" v-if="loggedinUser" :src="loggedinUser.imgUrl"
+          <img @click.stop="isUserModal = !isUserModal" v-if="loggedinUser" :src="loggedinUser.imgUrl"
             :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
         </div>
 

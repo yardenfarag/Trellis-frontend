@@ -85,6 +85,30 @@
                 & button {
                     height: 33px;
                     padding-block: 8px;
+
+                }
+
+                .create {
+                    display: block;
+
+                    @media(max-width: 750px) {
+                        display: none;
+                    }
+                }
+
+                .create-small {
+                    padding-inline: 6px;
+                    display: none;
+
+                    &::after {
+                        font-family: trello;
+                        content: '\E901';
+                        font-size: 20px;
+                    }
+
+                    @media(max-width: 750px) {
+                        display: inline-flex;
+                    }
                 }
             }
 
@@ -118,6 +142,39 @@
 
                     &:hover {
                         background-color: rgb(255, 255, 255, 0.5);
+                    }
+
+                    @media(max-width: 750px) {
+                        display: none;
+                    }
+                }
+
+                .search-small {
+                    display: none;
+                    position: relative;
+                    background-color: transparent;
+                    border: none;
+                    width: 32px;
+                    height: 32px;
+                    justify-content: center;
+                    align-items: center;
+
+                    &::before {
+                        font-family: trello;
+                        content: '\E960';
+                        position: absolute;
+                        font-size: 20px;
+                        left: 6px;
+                        bottom: 6px;
+                    }
+
+                    &:hover {
+                        background-color: $color-bg-opacity;
+                        transition: 0.15s;
+                    }
+
+                    @media(max-width: 750px) {
+                        display: flex;
                     }
                 }
 

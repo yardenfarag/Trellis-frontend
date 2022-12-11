@@ -1,6 +1,6 @@
 .board-header {
     width: 100%;
-    height: 49px;
+    min-height: 49px;
     position: relative;
     z-index: 0;
     color: white;
@@ -21,8 +21,6 @@
         margin: auto;
     }
 
-
-
     .board-header-actions {
         width: 100%;
 
@@ -39,23 +37,33 @@
                 margin-inline: -4px
             }
 
-            .title {
-                background-color: transparent;
-                margin-block: 0;
-                line-height: 16px;
-                padding-inline: 12px;
-                font-size: 18px;
-                font-weight: 700;
-                border-radius: 3px;
-                margin: auto;
+            .title-container {
+                width: 100%;
+                text-overflow: ellipsis;
+                white-space: nowrap;
 
-                &:hover {
-                    background-color: $color-bg-opacity;
-                }
+                .title {
+                    background-color: transparent;
+                    margin-block: 0;
+                    line-height: 16px;
+                    padding-inline: 12px;
+                    font-size: 18px;
+                    font-weight: 700;
+                    border-radius: 3px;
+                    margin: auto;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    max-width: calc(100% - 24px);
 
-                &:focus {
-                    color: black;
-                    background-color: white;
+                    &:hover {
+                        background-color: $color-bg-opacity;
+                    }
+
+                    &:focus {
+                        color: black;
+                        background-color: white;
+                    }
                 }
             }
 
