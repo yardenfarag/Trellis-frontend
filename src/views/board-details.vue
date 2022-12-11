@@ -211,7 +211,9 @@ export default {
             return this.gTaskTitle
         },
         board() {
+            console.log(this.$store.getters.board);
             let board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            // this.boardToDisplay = board
             const loggedinUser = this.$store.getters.loggedinUser
             const regex = new RegExp(this.filterBy.txt, 'i')
 

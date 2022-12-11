@@ -1,7 +1,7 @@
 export const uploadService = {
   uploadImg,
   // getBgImages,
-  getImages
+  // getImages
 }
 function uploadImg(ev) {
   const CLOUD_NAME = "trellis22"
@@ -33,16 +33,16 @@ function uploadImg(ev) {
 //     throw err
 //   }
 // }
-import { createClient } from 'pexels';
-const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
+// import { createClient } from 'pexels';
+// const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
 
-async function getImages(searchTerm) {
-  try {
-    const query = searchTerm
-    const res = await client.photos.search({ query, per_page: 10 })
-    return res
-  }
-  catch (err) {
-    throw err
-  }
-}
+// async function getImages(searchTerm) {
+//   try {
+//     const query = searchTerm
+//     const res = await client.photos.search({ query, per_page: 10 })
+//     return res
+//   }
+//   catch (err) {
+//     throw err
+//   }
+// }
