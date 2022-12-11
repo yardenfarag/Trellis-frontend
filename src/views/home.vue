@@ -4,11 +4,15 @@
       <div class="logo logo-home flex ">
         <router-link class="router-link" to="/board">
           <h2 class="main-logo main-logo-home">Trellis</h2>
-      </router-link>
+        </router-link>
       </div>
       <ul class="header-nav-home flex clean-list">
-        <li><router-link to="/login">Login / Signup</router-link></li>
-        <li class="demo-li flex"><router-link class="demo" to="/Board">Start Demo</router-link></li>
+        <li>
+          <router-link to="/login">Login / Signup</router-link>
+        </li>
+        <li class="demo-li flex">
+          <router-link class="demo" to="/Board">Start Demo</router-link>
+        </li>
       </ul>
     </header>
   </div>
@@ -20,7 +24,9 @@
       <div class="hero-content">
         <h1>Trellis brings all your tasks, teammates, and tools together</h1>
         <h3>Keep everything in the same place — even if your team isn’t.</h3>
-        <button><router-link to="/board">Start Demo</router-link></button>
+        <button>
+          <router-link to="/board">Start Demo</router-link>
+        </button>
       </div>
       <img src="https://res.cloudinary.com/trellis22/image/upload/v1670494972/ipby6adf3dgntlrmszgr.png" alt="">
     </section>
@@ -59,9 +65,12 @@
           </button>
         </div>
         <div class="imgs-101">
-          <img v-if="isCard1Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
-          <img v-if="isCard2Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670498276/afpnu0hcogho9sarj5ut.png" alt="">
-          <img v-if="isCard3Select" src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
+          <img v-if="isCard1Select"
+            src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
+          <img v-if="isCard2Select"
+            src="https://res.cloudinary.com/trellis22/image/upload/v1670498276/afpnu0hcogho9sarj5ut.png" alt="">
+          <img v-if="isCard3Select"
+            src="https://res.cloudinary.com/trellis22/image/upload/v1670495093/lct3teodje75igsgcgkb.png" alt="">
         </div>
       </div>
     </section>
@@ -161,8 +170,8 @@
           <p>Start each day without any surprises. Whether scheduling an editorial calendar or staying on top of to-dos,
             Calendar view is like a crystal ball giving you a clear vision of what work lies ahead.</p>
         </div>
-        <div class="callout-img"> 
-          <img src="../assets/styles/Imgs/2022-12-04 14_13_23-Trellis _ Trello.png" alt="">
+        <div class="callout-img">
+          <img src="https://res.cloudinary.com/trellis22/image/upload/v1670749077/fd6op2uca87ezwvukd4m.png" alt="">
         </div>
       </div>
     </section>
@@ -225,9 +234,9 @@ export default {
     isCard3() {
       if (this.isCard3Select) return 'card-selected'
     },
-    carouselSide(){
-      if(this.currentCarouselSide === 'right') return
-      if(this.currentCarouselSide === 'left') return 'left'
+    carouselSide() {
+      if (this.currentCarouselSide === 'right') return
+      if (this.currentCarouselSide === 'left') return 'left'
     }
   },
   created() {
@@ -250,7 +259,7 @@ export default {
         this.isCard3Select = true
       }
     },
-    setCarouselSide(side){
+    setCarouselSide(side) {
       this.currentCarouselSide = side
     }
   }

@@ -1,4 +1,4 @@
-<!-- :style="{ backgroundColor: board.style.headerClr }" -->
+
 <template>
   <header @click.stop="closeModals" :style="{ backgroundColor: bgColor }" class="app-header flex align-center">
     <div class="dark"></div>
@@ -28,6 +28,28 @@
 
         <div class="end-section flex align-center">
           <button class="search">Search</button>
+          <!-- <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
+
+          <section class="modal-container">
+            <section v-if="filterBy.txt" class="small-modal-container recent">
+              <section class="small-modal-body">
+                <ul class="small-modal-list">
+                  <li @click="goToDetails(board)" v-for="board in boards" class="small-modal-li">
+                    <div class="li-content">
+                      <div class="board-cover"
+                        :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
+                      </div>
+                      <div class="board-info">
+                        <div class="board-info-title">{{ board.title }}</div>
+                        <div class="board-info-team">A Team</div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+            </section>
+          </section> -->
+
           <button class="notifications"></button>
           <img @click.stop="openModal($event, 'user')" v-if="loggedinUser" :src="loggedinUser.imgUrl"
             :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
@@ -56,6 +78,9 @@ export default {
   },
   data() {
     return {
+      filterBy: {
+        txt: '',
+      },
       isRecentBoards: false,
       isStarredBoards: false,
       isCreateBoard: false,
@@ -63,8 +88,17 @@ export default {
       modalOpenPos: null
     };
   },
-  created() { },
+  created() {
+    this.$store.dispatch({ type: 'loadBoards' })
+  },
   methods: {
+    async goToDetails(board) {
+      const currBoard = JSON.parse(JSON.stringify(board))
+      currBoard.recentlyViewed = Date.now()
+      await this.$store.dispatch({ type: 'saveBoard', board: currBoard })
+      await this.$router.push('/board/' + board._id)
+      location.reload()
+    },
     closeModals() {
       this.isRecentBoards = false
       this.isStarredBoards = false
@@ -86,6 +120,14 @@ export default {
     },
   },
   computed: {
+    boards() {
+      const boards = this.$store.getters.boards
+      if (this.filterBy.txt) {
+        const regex = new RegExp(this.filterBy.txt, 'i')
+        boards.filter(board => regex.test(board.title))
+      }
+      return boards
+    },
     board() {
       return this.$store.getters.board
     },
