@@ -1,8 +1,8 @@
 <template>
-    <section @click="addTaskOnClick" :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board"
+    <section @click="onBoardClick" :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board"
         class="board-details">
-        <board-header @click.stop="" @openShare="(isShareOpen = true)" @openFilter="openFilter"
-            @closeFilter="closeFilter" @toggleMenu="toggleMenu" v-if="board"></board-header>
+        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @closeFilter="closeFilter"
+            @toggleMenu="toggleMenu" v-if="board"></board-header>
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
@@ -107,10 +107,13 @@ export default {
             this.isAddGroup = false
             // this.groupTitle = '' ???
         },
-        addTaskOnClick() {
+        onBoardClick() {
+            this.isFilterOpen = false
             this.closeAddGroup
+            this.addTaskFromBoardClick()
+        },
+        addTaskFromBoardClick() {
             for (var i = 0; i < this.board.groups.length; i++) {
-                console.log(this.$refs.groupDetails[i])
                 if (this.$refs.groupDetails[i].isAddTask) this.$refs.groupDetails[i].addTask()
             }
         },
@@ -121,18 +124,13 @@ export default {
             this.closeAddGroup()
         },
         updateTaskTitle(title) {
-            console.log(title)
             this.gTaskTitle = title
         },
         closeFilter() {
             this.isFilterOpen = false
         },
-        openFilter(ev) {
-            const elPos = ev.target.getBoundingClientRect()
-            const top = elPos.top + elPos.height + 8
-            const right = elPos.right
-            this.modalPos = { top, right }
-            this.isFilterOpen = true
+        toggleFilter() {
+            this.isFilterOpen = !this.isFilterOpen
         },
         updateBoardFromSocket(board) {
             this.$store.commit({ type: 'saveBoard', board })

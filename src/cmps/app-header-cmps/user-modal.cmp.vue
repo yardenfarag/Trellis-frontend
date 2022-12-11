@@ -1,18 +1,18 @@
 <template>
-    <section :style="{ top: 49 + 'px', right: 3 + 'px' }" class="modal-container">
+    <section class="user-modal">
         <div class="modal-title">
-            <h5>Account</h5>
+            <h5 class="title-account">Account</h5>
         </div>
-        <hr>
         <div class="user-info">
-            <div class="user-avatar">
-                <img :src="user.imgUrl"
-                    :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
+            <div class="user-avatar-container">
+                <div class="user-avatar">
+                    <img :src="user.imgUrl"
+                        :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
+                </div>
             </div>
-            <h4>{{ user.fullname }}</h4>
+            <h4 class="user-name">{{ user.fullname }}</h4>
         </div>
-        <hr>
-        <button @click="logout">Log out</button>
+        <button class="btn-logout" @click="logout">Log out</button>
     </section>
 </template>
 <script>

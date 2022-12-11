@@ -15,7 +15,7 @@
             </section>
 
             <section class="end-section">
-                <button @click="openFilter($event)" class="filter-btn opacity-input">
+                <button @click.stop="toggleFilter()" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
                     </span>Filter</button> <span class="btn-divider">|</span>
@@ -24,9 +24,9 @@
                         <img v-if="boardMember.imgUrl" :src="boardMember.imgUrl" alt="" />
                     </div>
                 </section>
-                <button @click="openShare" class="share-btn">
+                <button @click.stop="openShare" class="share-btn">
                     Share</button><span class="btn-divider">|</span>
-                <button @click="toggleMenu" class="menu-btn opacity-input"></button>
+                <button @click.stop="toggleMenu" class="menu-btn opacity-input"></button>
             </section>
         </div>
     </header>
@@ -40,7 +40,7 @@
 export default {
     // props: ['board'],
     name: 'board-header',
-    emits: ['toggleMenu', 'openFilter', 'openShare'],
+    emits: ['toggleMenu', 'toggleFilter', 'openShare'],
     components: {
         // shareModal,
     },
@@ -51,8 +51,8 @@ export default {
     },
     created() { },
     methods: {
-        openFilter(ev) {
-            this.$emit('openFilter', ev)
+        toggleFilter() {
+            this.$emit('toggleFilter')
         },
         toggleMenu() {
             this.$emit('toggleMenu')

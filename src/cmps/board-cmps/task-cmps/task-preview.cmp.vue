@@ -1,8 +1,8 @@
 <template>
     <section v-if="task" class="task-preview" @click.stop="goToDetails">
-        <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+        <!-- <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
             edit
-        </span>
+        </span> -->
         <div v-if="isFullBg && (isColor || isImg)">
             <div v-if="isColor">
                 <section :style="color" class="full-color-container">

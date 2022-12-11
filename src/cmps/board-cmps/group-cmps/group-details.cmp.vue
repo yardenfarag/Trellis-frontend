@@ -19,14 +19,15 @@
                 <div v-if="isAddTask" class="add-task-container">
                     <div class="textarea-input-margin">
                         <div class="textarea-input-padding">
-                            <textarea @input="onTaskTitleType" v-model="taskTitle" ref="title"
+                            <textarea @keyup.enter="addTask" @input="onTaskTitleType" v-model="taskTitle" ref="title"
                                 placeholder="Enter a title for this card..."></textarea>
                         </div>
                     </div>
                     <div class="controller-container">
                         <div class="btn-container">
-                            <button @click.stop="addTask" class="btn-add-task call-to-action">Add card</button>
-                            <span @click.stop="closeTaskForm" class="close-btn-placeholder"></span>
+                            <button @click.stop="addTask" class="btn-add-task call-to-action">Add
+                                card</button>
+                            <span @click.stop="closeAddTaskAndClear" class="close-btn-placeholder"></span>
                         </div>
                     </div>
                 </div>
@@ -52,7 +53,6 @@ export default {
         board: Object,
         txt: String,
         gTaskTitle: String,
-        // gIsAddTask: Boolean,
     },
     name: 'group-details',
     components: {
@@ -69,20 +69,14 @@ export default {
     },
     created() { },
     methods: {
-        // onEnter() {
-        //     if (this.taskTitle === '') return
-        //     setTimeout(() => {
-        //         this.addTask()
-        //     }, "50")
-        // },
-        // scrollToElement() {
-        //     const el = this.$refs.scrollToMe
+        scrollToAddTask() {
+            const el = this.$refs.title
 
-        //     if (el) {
-        //         // Use el.scrollIntoView() to instantly scroll to the element
-        //         el.scrollIntoView({ behavior: 'smooth' })
-        //     }
-        // },
+            if (el) {
+                // Use el.scrollIntoView() to instantly scroll to the element
+                el.scrollIntoView({ behavior: 'smooth' })
+            }
+        },
         getChildPayload(index) {
             return this.group.tasks[index]
         },
@@ -92,7 +86,7 @@ export default {
         onTaskTitleType() {
             this.$emit('updateTaskTitle', this.taskTitle)
         },
-        closeTaskForm() {
+        closeAddTaskAndClear() {
             this.isAddTask = false
             this.$emit('updateTaskTitle', '')
             this.taskTitle = ''
@@ -106,12 +100,16 @@ export default {
             this.taskTitle = this.gTaskTitle
             this.isAddTask = true
             this.$nextTick(() => {
+                this.scrollToAddTask()
                 this.$refs.title.focus()
             })
-            // this.scrollToElement()
+
         },
         async addTask() {
+            this.taskTitle.trim()
+            if (!this.taskTitle.replace(/\s/g, '').length) return
             if (!this.taskTitle) return
+
             const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
             const newTask = utilService.getEmptyTask(this.taskTitle)
             this.board.groups[groupIdx].tasks.push(newTask)
@@ -121,6 +119,7 @@ export default {
             this.taskTitle = ''
             this.isAddTask = true
             this.$nextTick(() => {
+                this.scrollToAddTask()
                 this.$refs.title.focus()
             })
         },
@@ -130,15 +129,14 @@ export default {
                 this.newTitle = this.group.title
                 return
             } else {
-                // groupToEdit.title = this.newTitle
                 const title = this.newTitle
                 const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
                 this.board.groups.splice(groupIdx, 1, groupToEdit)
                 this.$emit('saveBoard', this.board)
-                // this.$store.dispatch({ type: 'saveBoard', board: this.board })
             }
         },
         removeGroup() {
+            this.closeAddTaskAndClear()
             const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
             this.board.groups.splice(groupIdx, 1)
             this.$emit('saveBoard', this.board)

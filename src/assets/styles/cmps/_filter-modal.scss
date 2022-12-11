@@ -1,10 +1,10 @@
 .task-filter {
     position: fixed;
     width: 384px;
-    will-change: top, left;
-    top: 92px;
-    left: 896px;
+    top: 93px;
+    right: 3px;
     background-color: white;
+    border-radius: 3px;
 
     .header {
         margin-bottom: 8px;
@@ -159,12 +159,19 @@
                             height: 24px;
                             background-color: #EBECF0;
 
-                            .icon {
+                            .icon-no-members {
                                 &::before {
                                     font-family: trello;
                                     content: '\E946';
                                     font-size: 14px;
                                 }
+                            }
+
+                            .img.icon-to-me {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: 50%;
                             }
                         }
                     }
