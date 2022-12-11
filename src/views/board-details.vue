@@ -229,7 +229,6 @@ export default {
                     })
                 })
             }
-
             if (this.filterBy.isNoMembers) {
                 board.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => !task.memberIds.length)

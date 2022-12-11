@@ -24,6 +24,7 @@ export const boardStore = {
       state.boards.splice(idx, 1)
     },
     saveBoard(state, { savedBoard }) {
+      console.log(savedBoard)
       if (!savedBoard) return
       const idx = state.boards.findIndex((b) => b._id === savedBoard._id)
       if (idx !== -1) {

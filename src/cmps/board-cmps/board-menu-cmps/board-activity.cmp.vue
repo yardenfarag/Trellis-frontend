@@ -8,7 +8,7 @@
         <div class="info">
             <div class="name-and-act">
                 <span class="name">{{ activity.byMember.fullname }} <span> </span></span>
-                <span @click="openTask" class="act"> {{ activity.txt }} </span>
+                <span class="act"> {{ activity.txt }} </span>
             </div>
             <div class="time">
                 <span>{{ formattedTime }}</span>
@@ -20,7 +20,6 @@
 import { utilService } from '../../../services/util.service';
 
 export default {
-    emits: ['openTask'],
     props: {
         activity: Object
     },
@@ -31,10 +30,10 @@ export default {
     },
     created() { },
     methods: {
-        openTask() {
-            if (!this.activity.task) return
-            this.$emit('openTask', this.activity.task)
-        }
+        // openTask() {
+        //     if (!this.activity.task) return
+        //     this.$emit('openTask', this.activity.task)
+        // }
     },
     computed: {
         formattedTime() {
