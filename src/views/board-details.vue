@@ -1,8 +1,8 @@
 <template>
     <section @click="onBoardClick" :style="{ background: board.style.bgc, backgroundSize: 'cover' }" v-if="board"
         class="board-details">
-        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @closeFilter="closeFilter"
-            @toggleMenu="toggleMenu" v-if="board"></board-header>
+        <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
+            v-if="board"></board-header>
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
@@ -37,8 +37,7 @@
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
-        <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="(isFilterOpen = false)"
-            :pos="modalPos">
+        <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="closeFilter" :pos="modalPos">
         </task-filter>
         <share-modal @closeShareModal="isShareOpen = false" v-if="isShareOpen" />
     </section>

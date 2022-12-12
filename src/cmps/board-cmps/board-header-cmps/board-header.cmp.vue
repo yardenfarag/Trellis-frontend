@@ -10,7 +10,7 @@
                 <button v-if="board.isStarred" class="star active opacity-input" @click="toggleStarred()"></button>
                 <button v-else class="star  opacity-input" @click="toggleStarred()"></button>
                 <span class="btn-divider">|</span>
-                <button @click="isDashboard = true" class="board opacity-input">DashBoard</button>
+                <!-- <button @click="isDashboard = true" class="board opacity-input">DashBoard</button> -->
                 <!-- <button class="table opacity-input">Table</button> -->
             </section>
 
@@ -34,7 +34,7 @@
 
     </header>
 
-    <dashboard v-if="isDashboard" @closeDashboard="isDashboard = false"/>
+    <dashboard v-if="isDashboard" @closeDashboard="isDashboard = false" />
     <!-- <section class="header-modals">
         <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal" />
     </section> -->
