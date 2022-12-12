@@ -9,9 +9,9 @@
                 </div>
                 <button v-if="board.isStarred" class="star active opacity-input" @click="toggleStarred()"></button>
                 <button v-else class="star  opacity-input" @click="toggleStarred()"></button>
-                <!-- <span class="btn-divider">|</span> -->
-                <!-- <button class="board opacity-input">Board</button>
-                <button class="table opacity-input">Table</button> -->
+                <span class="btn-divider">|</span>
+                <button @click="isDashboard = true" class="board opacity-input">DashBoard</button>
+                <!-- <button class="table opacity-input">Table</button> -->
             </section>
 
             <section class="end-section">
@@ -24,18 +24,23 @@
                         <img v-if="boardMember.imgUrl" :src="boardMember.imgUrl" alt="" />
                     </div>
                 </section>
+
                 <button @click.stop="openShare" class="share-btn">
                     Share</button><span class="btn-divider">|</span>
                 <button @click.stop="toggleMenu" class="menu-btn opacity-input"></button>
+
             </section>
         </div>
+
     </header>
 
+    <dashboard v-if="isDashboard" @closeDashboard="isDashboard = false"/>
     <!-- <section class="header-modals">
         <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal" />
     </section> -->
 </template>
 <script>
+import dashboard from '../dashboard.cmp.vue'
 // import shareModal from '../../../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
 export default {
     // props: ['board'],
@@ -43,10 +48,11 @@ export default {
     emits: ['toggleMenu', 'toggleFilter', 'openShare'],
     components: {
         // shareModal,
+        dashboard,
     },
     data() {
         return {
-
+            isDashboard: false,
         }
     },
     created() { },

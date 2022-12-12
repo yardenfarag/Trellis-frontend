@@ -1,0 +1,34 @@
+.dashboard-screen{
+    background-color: rgba(0, 0, 0, 0.769);
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+.main-dashboard{
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    padding: 20px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-main-grid{
+    display: flex;
+    flex-wrap: wrap;
+
+
+    .dashboard-number{
+        min-height: 200px;
+        min-width: 200px;
+    }
+    
+    .dashboard-chart{
+        min-height: 200px;
+        min-width: 200px;
+
+    }
+
+}
