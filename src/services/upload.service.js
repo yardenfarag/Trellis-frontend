@@ -1,6 +1,5 @@
 export const uploadService = {
   uploadImg,
-  // getBgImages,
   getImgs
 }
 function uploadImg(ev) {
@@ -23,19 +22,6 @@ function uploadImg(ev) {
     .catch(err => console.error(err))
 }
 
-// async function getBgImages(search) {
-//   try {
-//     const apiKey = 'wUWEzu8rt2t-exlLjtpXhpe8P8_fxGWyzRmd-dtB0x8'
-//     const res = await fetch(`https://api.pexels.com/search?query=${search}&client_id=${apiKey}`, { method: 'GET' })
-//     return res.json()
-//   } catch (err) {
-//     console.log('Cannot get images')
-//     throw err
-//   }
-// }
-// import { createClient } from 'pexels';
-// const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
-
 async function getImgs(searchTerm) {
   try {
     const key = "563492ad6f9170000100000184261325f845484f9e96f25b9ed85744" 
@@ -55,19 +41,4 @@ async function getImgs(searchTerm) {
   }
 }
 
-
-// const ACCESS_KEY ='wUWEzu8rt2t-exlLjtpXhpe8P8_fxGWyzRmd-dtB0x8'
-// async function getImgs(searchTerm, perPage) {
-//   const url = `https://api.unsplash.com/search/photos?page=1&query=${searchTerm}&per_page=${perPage}?client_id=${ACCESS_KEY}`
-//   // const api=createApi({accessKey:ACCESS_KEY})
-//   fetch(url)
-//   .then((res) => {
-//     console.log(res)
-//   })
-//   .catch(err => console.log('error', err))
-//   //  const res=await api.search.getPhotos({query:value, page: 1, perPage: 10})
-//   //  console.log(`res.response.results = `, res.response.results)
-//   // return res.response.results
- 
-// }
 

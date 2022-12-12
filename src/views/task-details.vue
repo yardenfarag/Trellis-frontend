@@ -198,7 +198,6 @@ export default {
     this.task = this.group.tasks.find(task => task.id === taskId)
 
     this.newTitle = this.task.title
-    // document.querySelector('#app').classList.remove('board-page')
 
     socketService.on(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
   },
@@ -211,7 +210,6 @@ export default {
     openModal(ev, modal, dir) {
       this.closeModals()
       const elPos = ev.target.getBoundingClientRect()
-      // console.log(elPos)
 
       if (modal === 'delete') this.isDeleteModal = true
       if (modal === 'members') this.isMembersModal = true
@@ -298,7 +296,6 @@ export default {
   computed: {
     board() {
       return this.$store.getters.board
-      // return JSON.parse(JSON.stringify(this.$store.getters.board))
     },
     users() {
       return this.$store.getters.users

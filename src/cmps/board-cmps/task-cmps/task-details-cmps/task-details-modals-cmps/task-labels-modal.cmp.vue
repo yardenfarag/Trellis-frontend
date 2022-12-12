@@ -213,11 +213,11 @@ export default {
             this.currLabel.color = color
         },
         async removeLabel() {
-            // let board = JSON.parse(JSON.stringify(this.board))
+            let boardToSave = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             let labelIdx
             if (labelToSave.id) {
-                this.board.groups.forEach(group => {
+                boardToSave.groups.forEach(group => {
                     group.tasks.forEach(task => {
                         labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
                         if (labelIdx >= 0) {
@@ -227,9 +227,9 @@ export default {
                     })
                 })
             }
-            const idx = this.board.labels.findIndex(label => label.id === this.currLabel.id)
-            this.board.labels.splice(idx, 1)
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            const idx = boardToSave.labels.findIndex(label => label.id === this.currLabel.id)
+            boardToSave.labels.splice(idx, 1)
+            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
             this.goBack()
         },
         async saveLabel() {
@@ -237,11 +237,11 @@ export default {
                 this.goBack()
                 return
             }
-            // let board = JSON.parse(JSON.stringify(this.board))
+            let boardToSave = JSON.parse(JSON.stringify(this.board))
             const labelToSave = JSON.parse(JSON.stringify(this.currLabel))
             let labelIdx
             if (labelToSave.id) {
-                this.board.groups.forEach(group => {
+                boardToSave.groups.forEach(group => {
                     group.tasks.forEach(task => {
                         labelIdx = task.labels.findIndex(label => label.id === labelToSave.id)
                         if (labelIdx >= 0) {
@@ -250,14 +250,14 @@ export default {
                         }
                     })
                 })
-                const idx = this.board.labels.findIndex(label => label.id === labelToSave.id)
-                this.board.labels.splice(idx, 1, labelToSave)
+                const idx = boardToSave.labels.findIndex(label => label.id === labelToSave.id)
+                boardToSave.labels.splice(idx, 1, labelToSave)
             }
             else {
                 labelToSave.id = utilService.makeId()
-                this.board.labels.push(labelToSave)
+                boardToSave.labels.push(labelToSave)
             }
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+            await this.$store.dispatch({ type: 'saveBoard', board: boardToSave })
             this.goBack()
         },
         labelEditor(label) {
