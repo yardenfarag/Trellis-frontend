@@ -166,7 +166,7 @@ export default {
         },
         async toggleDuedate() {
             const taskToEdit = JSON.parse(JSON.stringify(this.task))
-            taskToEdit.dueDate.isDone = taskToEdit.dueDate.isDone
+            taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
             await this.updateTask(taskToEdit)
         },
         // toggleDuedate() {

@@ -3,6 +3,7 @@
         class="board-details">
         <board-header @openShare="(isShareOpen = true)" @toggleFilter="toggleFilter" @toggleMenu="toggleMenu"
             v-if="board"></board-header>
+
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
@@ -34,6 +35,7 @@
                 </section>
             </li>
         </Container>
+
         <board-menu @changeBackgroundImg="changeBackgroundImg" @changeBackgroundColor="changeBackgroundColor"
             @toggleMenu="toggleMenu" v-if="isMenuOpen">
         </board-menu>
