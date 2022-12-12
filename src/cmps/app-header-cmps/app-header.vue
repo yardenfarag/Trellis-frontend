@@ -54,7 +54,7 @@
 
           <button class="notifications"></button>
           <img @click.stop="isUserModal = !isUserModal" v-if="loggedinUser" :src="loggedinUser.imgUrl"
-            :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
+            :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover', cursor: 'pointer' }">
         </div>
 
       </div>
