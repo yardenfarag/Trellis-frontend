@@ -41,7 +41,8 @@
                 <h5 class="task-title">{{ task.title }}</h5>
                 <section class="badges">
 
-                    <div :style="checkDuoDateStyle" @click.stop="toggleDuedate" class="icon-container" :class="dueDateClass" v-if="(task.dueDate)">
+                    <div :style="checkDuoDateStyle" @click.stop="toggleDuedate" class="icon-container"
+                        :class="dueDateClass" v-if="(task.dueDate)">
                         <span v-if="task.dueDate.isDone" class="icon date-isdone-icon"></span>
                         <span v-else class="icon date-icon"></span>
                         <span class="text text-date">{{ dueDate }}</span>
@@ -139,10 +140,6 @@ export default {
         await this.$store.dispatch({ type: 'loadUsers' })
     },
     methods: {
-        toggleDuedate() {
-            this.task.dueDate.isDone = !this.task.dueDate.isDone
-            this.updateTask(this.task)
-        },
         goToDetails() {
             this.isQuickEdit = false
             const taskId = this.task.id
@@ -167,13 +164,29 @@ export default {
         toggleDateModal() {
             this.isDateModal = !this.isDateModal
         },
-        async updateTask(task) {
-            const taskToEdit = JSON.parse(JSON.stringify(task))
-            const groupIdx = this.board.groups.findIndex(group => group.id === this.groupId)
-            const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
-            this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+        async toggleDuedate() {
+            const taskToEdit = JSON.parse(JSON.stringify(this.task))
+            taskToEdit.dueDate.isDone = taskToEdit.dueDate.isDone
+            await this.updateTask(taskToEdit)
         },
+        // toggleDuedate() {
+        //     this.task.dueDate.isDone = !this.task.dueDate.isDone
+        //     this.updateTask(this.task)
+        // },
+        async updateTask(taskToEdit) {
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.groupId)
+            const taskIdx = boardToEdit.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
+            boardToEdit.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+            await this.$store.dispatch({ type: 'saveBoard', board: boardToEdit })
+        },
+        // async updateTask(task) {
+        //     const taskToEdit = JSON.parse(JSON.stringify(task))
+        //     const groupIdx = this.board.groups.findIndex(group => group.id === this.groupId)
+        //     const taskIdx = this.board.groups[groupIdx].tasks.findIndex(task => task.id === taskToEdit.id)
+        //     this.board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+        //     await this.$store.dispatch({ type: 'saveBoard', board: this.board })
+        // },
         async removeTask() {
             const groupId = this.groupId
             const taskId = this.task.id
@@ -193,6 +206,10 @@ export default {
         },
     },
     computed: {
+        board() {
+            const board = this.$store.getters.board
+            return board
+        },
         isFullBg() {
             if (!this.task.style.asTop) return true
             return false
@@ -230,8 +247,8 @@ export default {
             if (this.isTodosDone) return { backgroundColor: '#61bd4f', color: 'white' }
         },
         checkDuoDateStyle() {
-            if ((new Date(this.task?.dueDate?.info) / (60*60*1000) )  < (Date.now()) / (60*60*1000)) return { backgroundColor: '#e2604b', color: 'white' }
-            if ((new Date(this.task?.dueDate?.info) / (60*60*1000) + 10)  < (Date.now()) / (60*60*1000)) return { backgroundColor: '#edd727', color: 'white' }
+            if ((new Date(this.task?.dueDate?.info) / (60 * 60 * 1000)) < (Date.now()) / (60 * 60 * 1000)) return { backgroundColor: '#e2604b', color: 'white' }
+            if ((new Date(this.task?.dueDate?.info) / (60 * 60 * 1000) + 10) < (Date.now()) / (60 * 60 * 1000)) return { backgroundColor: '#edd727', color: 'white' }
         },
         dueDate() {
             var date = utilService.dueDateShortFormat(this.task.dueDate.info)
@@ -248,10 +265,6 @@ export default {
                 return this.task?.memberIds?.includes(member._id)
             })
             return taskMembers
-        },
-        board() {
-            const board = JSON.parse(JSON.stringify(this.$store.getters.board))
-            return board
         },
         dueDateClass() {
             if (this.task.dueDate.isDone) return 'due-date-done'

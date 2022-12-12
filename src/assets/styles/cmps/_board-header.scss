@@ -152,12 +152,22 @@
                 padding-top: 3px;
                 margin-right: 3px;
 
-                .member img {
-                    border-radius: 50%;
-                    width: 28px;
-                    height: 28px;
-                    object-fit: cover;
+                .member {
+                    margin-left: -2px;
+
+                    img {
+                        border-radius: 50%;
+                        width: 28px;
+                        height: 28px;
+                        object-fit: cover;
+
+                        &:hover {
+                            filter: brightness(110%);
+                        }
+                    }
                 }
+
+
             }
 
 

@@ -197,24 +197,11 @@ export default {
     this.task = this.group.tasks.find(task => task.id === taskId)
 
     this.newTitle = this.task.title
-    document.querySelector('#app').classList.remove('board-page')
+    // document.querySelector('#app').classList.remove('board-page')
   },
 
 
   methods: {
-
-    async toggleDuedate() {
-      const taskToEdit = JSON.parse(JSON.stringify(this.task))
-      taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
-      let activityTxt
-      if (taskToEdit.dueDate.isDone) {
-        activityTxt = `marked the due date on ${taskToEdit.title} complete`
-      } else {
-        activityTxt = `marked the due date on ${taskToEdit.title} incomplete`
-      }
-      await this.saveTask(taskToEdit, activityTxt)
-    },
-
     openModal(ev, modal, dir) {
       this.closeModals()
       const elPos = ev.target.getBoundingClientRect()
@@ -252,14 +239,26 @@ export default {
       this.isDeleteModal = false
     },
 
+    async toggleDuedate() {
+      const taskToEdit = JSON.parse(JSON.stringify(this.task))
+      taskToEdit.dueDate.isDone = !taskToEdit.dueDate.isDone
+      let activityTxt
+      if (taskToEdit.dueDate.isDone) {
+        activityTxt = `marked the due date on ${taskToEdit.title} complete`
+      } else {
+        activityTxt = `marked the due date on ${taskToEdit.title} incomplete`
+      }
+      await this.saveTask(taskToEdit, activityTxt)
+    },
+
     async removeTask() {
       this.closeModals()
-      const board = JSON.parse(JSON.stringify(this.board))
-      const groupIdx = board.groups.findIndex(group => group.id === this.group.id)
+      const boardToEdit = JSON.parse(JSON.stringify(this.board))
+      const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
       const taskIdx = this.group.tasks.findIndex(task => task.id === this.task.id)
-      board.groups[groupIdx].tasks.splice(taskIdx, 1)
+      boardToEdit.groups[groupIdx].tasks.splice(taskIdx, 1)
       let activityTxt = `archived ${this.task.title}`
-      await this.$store.dispatch({ type: 'saveBoard', board, activityTxt })
+      await this.$store.dispatch({ type: 'saveBoard', board: boardToEdit, activityTxt })
       this.closeDetails()
     },
     closeDetails() {
@@ -279,19 +278,26 @@ export default {
       this.isAttachmentModal = false
 
       this.task = taskToEdit
-      const board = JSON.parse(JSON.stringify(this.board))
-      const groupIdx = board.groups.findIndex(group => group.id === this.group.id)
-      const taskIdx = board.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
-      board.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
-      await this.$store.dispatch({ type: 'saveBoard', board, activityTxt })
+      const boardToEdit = JSON.parse(JSON.stringify(this.board))
+      const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
+      const taskIdx = boardToEdit.groups[groupIdx].tasks.findIndex(task => task.id === this.task.id)
+      boardToEdit.groups[groupIdx].tasks.splice(taskIdx, 1, taskToEdit)
+      await this.$store.dispatch({ type: 'saveBoard', board: boardToEdit, activityTxt })
     },
     async updateTaskDesc(desc) {
       const taskToEdit = JSON.parse(JSON.stringify(this.task))
       taskToEdit.description = desc
-      this.saveTask(taskToEdit)
+      await this.saveTask(taskToEdit)
     },
   },
   computed: {
+    board() {
+      return this.$store.getters.board
+      // return JSON.parse(JSON.stringify(this.$store.getters.board))
+    },
+    users() {
+      return this.$store.getters.users
+    },
     setBackground() {
       if (this.task.style.bgc) return this.task.style.bgc
       if (this.task.style.imgUrl) return this.task.style.imgUrl
@@ -304,12 +310,6 @@ export default {
     },
     formattedDate() {
       return utilService.dueDateFormat(this.task.dueDate?.info)
-    },
-    board() {
-      return JSON.parse(JSON.stringify(this.$store.getters.board))
-    },
-    users() {
-      return this.$store.getters.users
     },
     taskMembers() {
       let members = this.users?.filter(user => {

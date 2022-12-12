@@ -52,7 +52,7 @@
             </section>
           </section> -->
 
-          <button class="notifications"></button>
+          <!-- <button class="notifications"></button> -->
           <img @click.stop="isUserModal = !isUserModal" v-if="loggedinUser" :src="loggedinUser.imgUrl"
             :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px', objectFit: 'cover' }">
         </div>
@@ -101,11 +101,11 @@ export default {
       await this.$router.push('/board/' + board._id)
       location.reload()
     },
-    closeModals(){
+    closeModals() {
       this.isRecentBoards = false
-        this.isStarredBoards = false
-        this.isCreateBoard = false
-        this.isUserModal = false
+      this.isStarredBoards = false
+      this.isCreateBoard = false
+      this.isUserModal = false
     },
     openModal(ev, modal) {
 
@@ -122,7 +122,7 @@ export default {
         this.isUserModal = false
       }
       if (modal === 'starred') {
-        if (this.isStarredBoards) return this.isStarredBoards = false 
+        if (this.isStarredBoards) return this.isStarredBoards = false
         this.isRecentBoards = false
         this.isStarredBoards = true
         this.isCreateBoard = false
@@ -136,7 +136,7 @@ export default {
         this.isUserModal = false
       }
       if (modal === 'user') {
-        if (this.isUserModal) return  this.isUserModal = false
+        if (this.isUserModal) return this.isUserModal = false
         this.isRecentBoards = false
         this.isStarredBoards = false
         this.isCreateBoard = false

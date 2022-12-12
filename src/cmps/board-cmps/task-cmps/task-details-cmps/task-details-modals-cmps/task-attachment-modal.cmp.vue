@@ -32,9 +32,8 @@
 import { utilService } from '../../../../../services/util.service';
 import imgUploader from '../../../../img-uploader.vue'
 export default {
-    emits: ['closeModal'],
+    emits: ['closeModal', 'saveTask', 'closeAttachmentModal'],
     name: 'task-attachment-modal',
-    // emits: ['closeAttachmentModal', 'saveTask'],
     props: {
         task: Object,
         pos: Object

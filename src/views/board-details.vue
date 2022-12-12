@@ -6,7 +6,8 @@
         <Container non-drag-area-selector="drag-disabled" :drop-placeholder="{ className: 'task-preview ghost' }"
             @drop="onGroupDrop" :get-child-payload="getChildPayload" group-name="trello-group" drop-class="drop-preview"
             drag-class="drag-preview" class="clean-list flex group-list" orientation="horizontal">
-            <Draggable class="group-item" v-if="board" v-for="(group, idx) in board.groups" :key="group.id">
+            <Draggable class="group-item" v-if="boardToDisplay.groups.length"
+                v-for="(group, idx) in boardToDisplay.groups" :key="group.id">
                 <group-details ref="groupDetails" :gTaskTitle="taskTitle" @closeAllAddTask="closeAllAddTask"
                     @updateTaskTitle="updateTaskTitle" @saveBoard="saveBoard" @saveTaskDrop="saveTaskDrop"
                     :txt="filterBy.txt" :group="group" :boardId="board._id" :board="board" />
@@ -101,11 +102,11 @@ export default {
     },
     methods: {
         getChildPayload(index) {
-            return this.board.groups[index]
+            const boardToEdit = JSON.parse(JSON.stringify(this.board)) // ???
+            return boardToEdit.groups[index]
         },
         closeAddGroup() {
             this.isAddGroup = false
-            // this.groupTitle = '' ???
         },
         onBoardClick() {
             this.isFilterOpen = false
@@ -132,34 +133,14 @@ export default {
         toggleFilter() {
             this.isFilterOpen = !this.isFilterOpen
         },
-        updateBoardFromSocket(board) {
-            console.log('board from socket', board);
-            this.$store.commit({ type: 'saveBoard', savedBoard: board })
-        },
-        async onGroupDrop(ev) {
-            if (ev.removedIndex !== null) {
-                this.board.groups.splice(ev.removedIndex, 1)
-            }
-            if (ev.addedIndex !== null) {
-                this.board.groups.splice(ev.addedIndex, 0, ev.payload)
-            }
-            await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
-        },
-        async saveTaskDrop({ ev, groupId }) {
-            console.log('drop')
-            const group = this.board.groups.find((group) => group.id === groupId)
-            if (ev.removedIndex !== null) {
-                group?.tasks?.splice(ev.removedIndex, 1)
-                this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
-            }
-            if (ev.addedIndex !== null) {
-                this.dndActivity += ` to ${group.title}`
-                group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
-            }
-            await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
-        },
         setFilterBy(filterBy) {
             this.filterBy = filterBy
+        },
+        toggleFilter() {
+            this.isFilterOpen = !this.isFilterOpen
+        },
+        toggleMenu() {
+            this.isMenuOpen = !this.isMenuOpen
         },
         openAddGroup() {
             this.titleVis = true
@@ -168,60 +149,137 @@ export default {
                 this.$refs.title.focus()
             })
         },
+        updateBoardFromSocket(board) {
+            this.$store.commit({ type: 'saveBoard', savedBoard: board })
+        },
+        async onGroupDrop(ev) {
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            if (ev.removedIndex !== null) {
+                boardToEdit.groups.splice(ev.removedIndex, 1)
+            }
+            if (ev.addedIndex !== null) {
+                boardToEdit.groups.splice(ev.addedIndex, 0, ev.payload)
+            }
+            await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
+        },
+        // async onGroupDrop(ev) {
+        //     if (ev.removedIndex !== null) {
+        //         this.board.groups.splice(ev.removedIndex, 1)
+        //     }
+        //     if (ev.addedIndex !== null) {
+        //         this.board.groups.splice(ev.addedIndex, 0, ev.payload)
+        //     }
+        //     await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
+        // },
+        async saveTaskDrop({ ev, groupId }) {
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            const group = boardToEdit.groups.find((group) => group.id === groupId)
+            if (ev.removedIndex !== null) {
+                group?.tasks?.splice(ev.removedIndex, 1)
+                this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
+            }
+            if (ev.addedIndex !== null) {
+                this.dndActivity += ` to ${group.title}`
+                group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
+            }
+            await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
+        },
+        // async saveTaskDrop({ ev, groupId }) {
+        //     console.log('drop')
+        //     const group = this.board.groups.find((group) => group.id === groupId)
+        //     if (ev.removedIndex !== null) {
+        //         group?.tasks?.splice(ev.removedIndex, 1)
+        //         this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
+        //     }
+        //     if (ev.addedIndex !== null) {
+        //         this.dndActivity += ` to ${group.title}`
+        //         group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
+        //     }
+        //     await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
+        // },
         async saveBoard(board, activityTxt, task) {
             await this.$store.dispatch({ type: 'saveBoard', board, activityTxt, task })
         },
-        async saveThisBoard(activityTxt) {
-            await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+        async saveThisBoard(board, activityTxt) {
+            await this.$store.dispatch({ type: 'saveBoard', board: board, activityTxt })
         },
-
+        // async saveThisBoard(activityTxt) {
+        //     await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
+        // },
         async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
-            this.board.style.bgc = `url(${imgUrl})`
-            this.board.style.headerClr = avgColor
-            this.board.style.preview = `url(${tinyImgUrl})`
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            boardToEdit.style.bgc = `url(${imgUrl})`
+            boardToEdit.style.headerClr = avgColor
+            boardToEdit.style.preview = `url(${tinyImgUrl})`
             let activityTxt = `changed this board cover`
-            await this.saveThisBoard(this.board, activityTxt)
+            await this.saveThisBoard(boardToEdit, activityTxt)
         },
+        // async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
+        //     this.board.style.bgc = `url(${imgUrl})`
+        //     this.board.style.headerClr = avgColor
+        //     this.board.style.preview = `url(${tinyImgUrl})`
+        //     let activityTxt = `changed this board cover`
+        //     await this.saveThisBoard(this.board, activityTxt)
+        // },
         async changeBackgroundColor(color) {
-            this.board.style.bgc = color
-            this.board.style.headerClr = color
-            this.board.style.preview = color
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            boardToEdit.style.bgc = color
+            boardToEdit.style.headerClr = color
+            boardToEdit.style.preview = color
             let activityTxt = `changed this board cover`
-            await this.saveThisBoard(this.board, activityTxt)
+            await this.saveThisBoard(boardToEdit, activityTxt)
         },
-        toggleFilter() {
-            this.isFilterOpen = !this.isFilterOpen
-        },
-        toggleMenu() {
-            this.isMenuOpen = !this.isMenuOpen
-        },
+        // async changeBackgroundColor(color) {
+        //     this.board.style.bgc = color
+        //     this.board.style.headerClr = color
+        //     this.board.style.preview = color
+        //     let activityTxt = `changed this board cover`
+        //     await this.saveThisBoard(this.board, activityTxt)
+        // },
         async addGroup() {
             if (!this.groupTitle) return
-            this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            boardToEdit.groups.push(utilService.getEmptyGroup(this.groupTitle))
             let activityTxt = `added ${this.groupTitle} to this board`
-            await this.saveThisBoard(this.board, activityTxt)
+            await this.saveThisBoard(boardToEdit, activityTxt)
             this.groupTitle = ''
             this.$nextTick(() => {
                 this.$refs.title.focus()
             })
         },
+        // async addGroup() {
+        //     if (!this.groupTitle) return
+        //     this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
+        //     let activityTxt = `added ${this.groupTitle} to this board`
+        //     await this.saveThisBoard(this.board, activityTxt)
+        //     this.groupTitle = ''
+        //     this.$nextTick(() => {
+        //         this.$refs.title.focus()
+        //     })
+        // },
     },
     computed: {
         taskTitle() {
             return this.gTaskTitle
         },
         board() {
-            let board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            const board = this.$store.getters.board
+            return board
+            // const board = JSON.parse(JSON.stringify(this.$store.getters.board))
+            // return board
+        },
+        boardToDisplay() {
+            let boardToDisplay = JSON.parse(JSON.stringify(this.$store.getters.board))
             const loggedinUser = this.$store.getters.loggedinUser
             const regex = new RegExp(this.filterBy.txt, 'i')
 
             if (this.filterBy.txt) {
-                board.groups.forEach(group => {
+                boardToDisplay.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => regex.test(task.title))
                 })
             }
             if (this.filterBy.isMyTask) {
-                board.groups.forEach(group => {
+                boardToDisplay.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => {
                         if (task.memberIds.find(memberId => memberId === loggedinUser._id)) {
                             return task
@@ -230,28 +288,28 @@ export default {
                 })
             }
             if (this.filterBy.isNoMembers) {
-                board.groups.forEach(group => {
+                boardToDisplay.groups.forEach(group => {
                     return group.tasks = group.tasks.filter(task => !task.memberIds.length)
                 })
             }
             if (this.filterBy.memberIds.length) {
                 this.filterBy.memberIds.forEach(memberId => {
-                    board.groups.forEach(group => {
+                    boardToDisplay.groups.forEach(group => {
                         return group.tasks = group.tasks.filter(task => {
                             return task.memberIds.includes(memberId)
                         })
                     })
                 })
             }
-            return board
+            return boardToDisplay
         },
     },
     mounted() {
-        document.querySelector('#app').classList.add('board-page')
+        // document.querySelector('#app').classList.add('board-page')
     },
     unmounted() {
         socketService.off(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
-        document.querySelector('#app').classList.remove('board-page')
+        // document.querySelector('#app').classList.remove('board-page')
     },
 }
 </script>

@@ -714,6 +714,11 @@
                     }
 
                     .comment-input {
+
+                        .save {
+                            margin-right: 8px;
+                        }
+
                         .add-txt-input {
                             margin-block: 8px;
                             display: block;
@@ -748,10 +753,12 @@
                                 font-weight: 700;
                                 line-height: 28px;
 
-                                .time {
+                                .time,
+                                .edited {
                                     line-height: 14px;
                                     font-size: 12px;
                                     font-weight: 400;
+                                    color: $color-secondery-text;
                                 }
                             }
 
@@ -766,14 +773,45 @@
                             }
 
                             .edit-and-delete {
+                                line-height: 24px;
+                                margin-top: 4px;
+
                                 span {
+                                    color: $color-secondery-text;
+                                    text-decoration: underline;
+                                    font-size: 12px;
                                     cursor: pointer;
                                 }
                             }
                         }
-
-
                     }
+                }
+            }
+        }
+
+        .activity-info {
+            position: relative;
+            display: flex;
+            padding-block: 8px;
+            font-size: 14px;
+            color: $color-primary-text;
+
+            .img-grabbper {
+                position: absolute;
+                left: -40px;
+                top: 14px;
+            }
+
+            .info {
+                margin-left: 10px;
+
+                .name {
+                    font-weight: 700;
+                }
+
+                .time {
+                    font-size: 12px;
+                    color: $color-secondery-text;
                 }
             }
         }
