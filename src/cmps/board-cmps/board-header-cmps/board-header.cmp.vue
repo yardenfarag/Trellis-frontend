@@ -18,7 +18,13 @@
                 <button @click.stop="toggleFilter()" class="filter-btn opacity-input">
                     <span style="font-size:15px;" class="material-symbols-outlined">
                         filter_list
-                    </span>Filter</button> <span class="btn-divider">|</span>
+                    </span>Filter</button>
+                <!-- <span class="btn-divider">|</span> -->
+                <button @click.stop="toggleFilter()" class="filter-btn only-icon opacity-input">
+                    <span style="font-size:15px;" class="material-symbols-outlined">
+                        filter_list
+                    </span></button>
+                <span class="btn-divider">|</span>
                 <section class="members">
                     <div v-if="boardMembers" v-for="boardMember in boardMembers" class="member">
                         <img v-if="boardMember.imgUrl" :src="boardMember.imgUrl" alt="" />

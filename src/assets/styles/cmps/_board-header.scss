@@ -28,19 +28,27 @@
             margin-inline-start: 20px;
             gap: 10px;
 
+
             .btn-divider {
                 height: 100%;
                 font-size: 20px;
                 line-height: 27px;
                 font-weight: 300;
                 opacity: 0.2;
-                margin-inline: -4px
+                margin-inline: -4px;
+
+                @media (max-width: 500px) {
+                    display: none;
+                }
+
             }
 
             .title-container {
                 width: 100%;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+
 
                 .title {
                     background-color: transparent;
@@ -144,6 +152,10 @@
                 font-weight: 300;
                 opacity: 0.2;
                 margin-inline: 2px;
+
+                @media (max-width: 500px) {
+                    display: none;
+                }
             }
 
             .members {
@@ -166,10 +178,6 @@
                         }
                     }
 
-                    @media (max-width: 500px) {
-                        display: none;
-                    }
-
                     .member img {
                         border-radius: 50%;
                         width: 28px;
@@ -177,6 +185,10 @@
                         object-fit: cover;
 
                     }
+                }
+
+                @media (max-width: 710px) {
+                    display: none;
                 }
             }
 
@@ -214,11 +226,30 @@
                 }
             }
 
-            & .filter-btn span {
-                padding-right: 7px;
-                margin-top: 17px;
+            & .filter-btn {
+                span {
+                    padding-right: 7px;
+                    margin-top: 17px;
+                }
+
+                @media (max-width: 500px) {
+                    display: none;
+                }
             }
 
+            & .filter-btn.only-icon {
+                width: 32px;
+                display: none;
+
+                span {
+                    padding-inline: 0px;
+                    margin-top: 17px;
+                }
+
+                @media (max-width: 500px) {
+                    display: inline-flex;
+                }
+            }
 
         }
     }
