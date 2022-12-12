@@ -11,7 +11,7 @@
       <div v-if="addComment" class="comment-input">
         <textarea class="add-txt-input" ref="comment" v-model="comment.txt" type="text"
           placeholder="Write a comment..."></textarea>
-        <button class="call-to-action" @click="saveComment(comment)">Save</button>
+        <button class="save call-to-action" @click="saveComment(comment)">Save</button>
         <button class="task-content-btn" @click="addComment = false">Cancel</button>
       </div>
 
@@ -24,10 +24,11 @@
         </div>
       </div>
     </div>
-  </section>
 
-  <section v-for="activity in taskActivities" v-if="showActivities" class="task-activity-log">
-    <taskActivityPreview :activity="activity"></taskActivityPreview>
+
+    <section v-for="activity in taskActivities" v-if="showActivities" class="task-activity-log">
+      <taskActivityPreview :activity="activity"></taskActivityPreview>
+    </section>
   </section>
 </template>
 

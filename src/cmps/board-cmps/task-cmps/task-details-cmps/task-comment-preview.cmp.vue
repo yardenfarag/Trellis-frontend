@@ -1,20 +1,22 @@
 <template>
     <div class="comment-details">
         <img :src="commentUser.imgUrl" :style="{ borderRadius: 50 + '%', width: 30 + 'px', height: 30 + 'px' }">
-        <h4 class="name">{{ commentUser.fullname }} <span class="time">{{ formattedTime }}</span></h4>
-        <span>{{ isEdited }}</span>
+        <h4 class="name">{{ commentUser.fullname }}
+            <span class="time">{{ formattedTime }}</span> <span class="edited">{{ isEdited }}</span>
+        </h4>
+
         <div v-if="!isCommentEdit">
             <div class="txt-preview">{{ comment.txt }}</div>
             <div class="edit-and-delete">
-                <span @click="openEdit">Edit</span>-<span @click="deleteComment(comment.id)">Delete</span>
+                <span @click="openEdit">Edit</span> - <span @click="deleteComment(comment.id)">Delete</span>
             </div>
         </div>
     </div>
 
     <section v-if="isCommentEdit" class="comment-edit">
         <input v-model="txt" type="text">
-        <button @click="saveComment" class="call-to-action">Save</button>
-        <button @click="closeEdit">X</button>
+        <button class="call-to-action" @click="saveComment">Save</button>
+        <button class="cancel" @click="closeEdit">X</button>
     </section>
 </template>
 <script>

@@ -10,7 +10,7 @@
                 <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
                     @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list"
                     drag-class="drag-preview" drop-class="drop-preview">
-                    <Draggable v-if="group.tasks" v-for="task in group.tasks" :key="task.id">
+                    <Draggable v-if="group.tasks.length" v-for="task in group.tasks" :key="task.id">
                         <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                     </Draggable>
                 </Container>
@@ -79,8 +79,15 @@ export default {
         },
         getChildPayload(index) {
             console.log('drag');
-            return this.group.tasks[index]
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
+            const groupToEdit = boardToEdit.groups[groupIdx]
+            return groupToEdit.tasks[index]
         },
+        // getChildPayload(index) {
+        //     console.log('drag');
+        //     return this.group.tasks[index]
+        // },
         closeAddTask() {
             this.isAddTask = false
         },
@@ -111,11 +118,13 @@ export default {
             if (!this.taskTitle.replace(/\s/g, '').length) return
             if (!this.taskTitle) return
 
-            const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+
+            const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
             const newTask = utilService.getEmptyTask(this.taskTitle)
-            this.board.groups[groupIdx].tasks.push(newTask)
-            let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
-            this.$emit('saveBoard', this.board, activityTxt, newTask)
+            boardToEdit.groups[groupIdx].tasks.push(newTask)
+            let activityTxt = `added ${this.taskTitle} to ${boardToEdit.groups[groupIdx].title}`
+            this.$emit('saveBoard', boardToEdit, activityTxt, newTask)
             this.$emit('updateTaskTitle', '')
             this.taskTitle = ''
             this.isAddTask = true
@@ -124,26 +133,65 @@ export default {
                 this.$refs.title.focus()
             })
         },
+        // async addTask() {
+        //     this.taskTitle.trim()
+        //     if (!this.taskTitle.replace(/\s/g, '').length) return
+        //     if (!this.taskTitle) return
+
+        //     const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+        //     const newTask = utilService.getEmptyTask(this.taskTitle)
+        //     this.board.groups[groupIdx].tasks.push(newTask)
+        //     let activityTxt = `added ${this.taskTitle} to ${this.board.groups[groupIdx].title}`
+        //     this.$emit('saveBoard', this.board, activityTxt, newTask)
+        //     this.$emit('updateTaskTitle', '')
+        //     this.taskTitle = ''
+        //     this.isAddTask = true
+        //     this.$nextTick(() => {
+        //         this.scrollToAddTask()
+        //         this.$refs.title.focus()
+        //     })
+        // },
         updateGroup() {
             if (this.newTitle === this.group.title) return
             if (!this.newTitle) {
                 this.newTitle = this.group.title
                 return
             } else {
-                // const title = this.newTitle
-                const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-                const groupToEdit = this.board.groups[groupIdx]
+                const boardToEdit = JSON.parse(JSON.stringify(this.board))
+                const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
+                const groupToEdit = boardToEdit.groups[groupIdx]
                 groupToEdit.title = this.newTitle
-                this.board.groups.splice(groupIdx, 1, groupToEdit)
-                this.$emit('saveBoard', this.board)
+                boardToEdit.groups.splice(groupIdx, 1, groupToEdit)
+                this.$emit('saveBoard', boardToEdit)
             }
         },
+        // updateGroup() {
+        //     if (this.newTitle === this.group.title) return
+        //     if (!this.newTitle) {
+        //         this.newTitle = this.group.title
+        //         return
+        //     } else {
+        //         // const title = this.newTitle
+        //         const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+        //         const groupToEdit = this.board.groups[groupIdx]
+        //         groupToEdit.title = this.newTitle
+        //         this.board.groups.splice(groupIdx, 1, groupToEdit)
+        //         this.$emit('saveBoard', this.board)
+        //     }
+        // },
         removeGroup() {
+            const boardToEdit = JSON.parse(JSON.stringify(this.board))
             this.closeAddTaskAndClear()
-            const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
-            this.board.groups.splice(groupIdx, 1)
-            this.$emit('saveBoard', this.board)
+            const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
+            boardToEdit.groups.splice(groupIdx, 1)
+            this.$emit('saveBoard', boardToEdit)
         },
+        // removeGroup() {
+        //     this.closeAddTaskAndClear()
+        //     const groupIdx = this.board.groups.findIndex(group => group.id === this.group.id)
+        //     this.board.groups.splice(groupIdx, 1)
+        //     this.$emit('saveBoard', this.board)
+        // },
     },
     computed: {},
     mounted() {

@@ -67,6 +67,12 @@
                 gap: 6px;
                 position: relative;
 
+                @media (max-width: 500px) {
+                    .recent {
+                        display: none;
+                    }
+                }
+
                 .recent,
                 .starred {
                     background-color: transparent;
@@ -83,13 +89,13 @@
                 }
 
                 & button {
-                    height: 33px;
+                    height: 32px;
                     padding-block: 8px;
 
                 }
 
                 .create {
-                    display: block;
+                    display: inline-flex;
 
                     @media(max-width: 750px) {
                         display: none;
@@ -121,6 +127,7 @@
                 }
 
                 .search {
+                    margin-right: 8px;
                     position: relative;
                     background-color: rgb(255, 255, 255, 0.25);
                     border: 1px solid rgb(255, 255, 255, 0.3);
