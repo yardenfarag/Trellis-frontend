@@ -26,6 +26,11 @@ export const boardStore = {
       const idx = state.boards.findIndex((board) => board._id === boardId)
       state.boards.splice(idx, 1)
     },
+    saveBoardFromMoveList(state, {savedBoard}) {
+      if (!savedBoard) return
+      const idx = state.boards.findIndex((b) => b._id === savedBoard._id)
+      state.boards.splice(idx, 1, savedBoard)
+    },
     saveBoard(state, { savedBoard }) {
       if (!savedBoard) return
       const idx = state.boards.findIndex((b) => b._id === savedBoard._id)
@@ -66,6 +71,15 @@ export const boardStore = {
         commit({ type: 'removeBoard', boardId })
       } catch (err) {
         console.error('There was a problem removing that board, please try again later.', err)
+        throw err
+      }
+    },
+    async saveBoardFromMoveList({commit}, {board}) {
+      try {
+        const savedBoard = await boardService.save(board)
+        commit({ type: 'saveBoardFromMoveList', savedBoard })
+      }catch (err) {
+        console.error('There was a problem saving that board, please try again later.', err)
         throw err
       }
     },
