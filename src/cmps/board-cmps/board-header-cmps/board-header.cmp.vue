@@ -34,7 +34,7 @@
 
     </header>
 
-    <dashboard v-if="isDashboard" @closeDashboard="isDashboard = false"/>
+    <dashboard :board="board" v-if="isDashboard" @closeDashboard="isDashboard = false"/>
     <!-- <section class="header-modals">
         <share-modal @closeShareModal="isShareModal = false" v-if="isShareModal" />
     </section> -->
