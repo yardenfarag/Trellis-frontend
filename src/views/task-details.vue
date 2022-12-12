@@ -149,6 +149,7 @@ import taskDatesModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-
 import taskMembersModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-members-modal.cmp.vue'
 import taskAttachmentModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-attachment-modal.cmp.vue'
 import taskCoverModal from '../cmps/board-cmps/task-cmps/task-details-cmps/task-details-modals-cmps/task-cover-modal.cmp.vue'
+import { socketService, SOCKET_EVENT_CHANGE_BOARD } from '../services/socket.service.js'
 export default {
   name: 'task-details',
   components: {
@@ -198,10 +199,15 @@ export default {
 
     this.newTitle = this.task.title
     // document.querySelector('#app').classList.remove('board-page')
+
+    socketService.on(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
   },
 
 
   methods: {
+    updateBoardFromSocket(board) {
+      this.$store.commit({ type: 'saveBoard', savedBoard: board })
+    },
     openModal(ev, modal, dir) {
       this.closeModals()
       const elPos = ev.target.getBoundingClientRect()

@@ -13,6 +13,9 @@ export const boardStore = {
     board({ currBoard }) { return currBoard },
   },
   mutations: {
+    clearCurrBoard(state) {
+      state.currBoard = null
+    },
     setBoards(state, { boards }) {
       state.boards = boards
     },
