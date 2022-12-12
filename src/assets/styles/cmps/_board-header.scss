@@ -165,52 +165,64 @@
                             filter: brightness(110%);
                         }
                     }
+
+                    @media (max-width: 500px) {
+                        display: none;
+                    }
+
+                    .member img {
+                        border-radius: 50%;
+                        width: 28px;
+                        height: 28px;
+                        object-fit: cover;
+
+                    }
+
+
                 }
 
 
-            }
 
+                button {
+                    &.share-btn {
+                        position: relative;
+                        color: black;
+                        background-color: white;
+                        padding-inline: 12px;
+                        padding-left: 28px;
 
+                        &::before {
+                            position: absolute;
+                            font-family: trello;
+                            content: '\E902';
+                            font-size: 16px;
+                            left: 8px;
+                            bottom: 7px;
+                        }
 
-            button {
-                &.share-btn {
-                    position: relative;
-                    color: black;
-                    background-color: white;
-                    padding-inline: 12px;
-                    padding-left: 28px;
-
-                    &::before {
-                        position: absolute;
-                        font-family: trello;
-                        content: '\E902';
-                        font-size: 16px;
-                        left: 8px;
-                        bottom: 7px;
+                        &:hover {
+                            opacity: 0.9;
+                        }
                     }
 
-                    &:hover {
-                        opacity: 0.9;
+                    &.menu-btn {
+                        padding: 6px;
+
+                        &::after {
+                            font-family: trello;
+                            content: '\E952';
+                            font-size: 20px;
+                        }
+
                     }
                 }
 
-                &.menu-btn {
-                    padding: 6px;
-
-                    &::after {
-                        font-family: trello;
-                        content: '\E952';
-                        font-size: 20px;
-                    }
-
+                & .filter-btn span {
+                    padding-right: 7px;
+                    margin-top: 17px;
                 }
-            }
 
-            & .filter-btn span {
-                padding-right: 7px;
-                margin-top: 17px;
             }
-
         }
     }
 }

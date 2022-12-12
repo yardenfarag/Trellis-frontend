@@ -1,7 +1,7 @@
 export const uploadService = {
   uploadImg,
   // getBgImages,
-  getImages
+  getImgs
 }
 function uploadImg(ev) {
   const CLOUD_NAME = "trellis22"
@@ -33,16 +33,41 @@ function uploadImg(ev) {
 //     throw err
 //   }
 // }
-import { createClient } from 'pexels';
-const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
+// import { createClient } from 'pexels';
+// const client = createClient('563492ad6f9170000100000184261325f845484f9e96f25b9ed85744')
 
-async function getImages(searchTerm) {
+async function getImgs(searchTerm) {
   try {
-    const query = searchTerm
-    const res = await client.photos.search({ query, per_page: 10 })
-    return res
+    const key = "563492ad6f9170000100000184261325f845484f9e96f25b9ed85744" 
+    const url = `https://api.pexels.com/v1/search?query=${searchTerm}&per_page=10&page=1`
+    // const res = await client.photos.search({ query, per_page: 10 })
+    const res = await fetch(url, {
+      // method: 'GET', 
+      headers: new Headers({
+        accept: 'application/json',
+        Authorization: key, 
+    }), 
+    })
+    return res.json()
   }
   catch (err) {
     throw err
   }
 }
+
+
+// const ACCESS_KEY ='wUWEzu8rt2t-exlLjtpXhpe8P8_fxGWyzRmd-dtB0x8'
+// async function getImgs(searchTerm, perPage) {
+//   const url = `https://api.unsplash.com/search/photos?page=1&query=${searchTerm}&per_page=${perPage}?client_id=${ACCESS_KEY}`
+//   // const api=createApi({accessKey:ACCESS_KEY})
+//   fetch(url)
+//   .then((res) => {
+//     console.log(res)
+//   })
+//   .catch(err => console.log('error', err))
+//   //  const res=await api.search.getPhotos({query:value, page: 1, perPage: 10})
+//   //  console.log(`res.response.results = `, res.response.results)
+//   // return res.response.results
+ 
+// }
+
