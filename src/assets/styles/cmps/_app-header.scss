@@ -67,6 +67,12 @@
                 gap: 6px;
                 position: relative;
 
+                @media (max-width: 500px) {
+                    .recent {
+                        display: none;
+                    }
+                }
+
                 .recent,
                 .starred {
                     background-color: transparent;

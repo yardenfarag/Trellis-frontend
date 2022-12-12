@@ -152,11 +152,16 @@
                 padding-top: 3px;
                 margin-right: 3px;
 
+                @media (max-width: 500px) {
+                        display: none;
+                }
+
                 .member img {
                     border-radius: 50%;
                     width: 28px;
                     height: 28px;
                     object-fit: cover;
+
                 }
             }
 
@@ -204,3 +209,21 @@
         }
     }
 }
+
+// @media (max-width: 500px) {
+//     .board-header {
+
+//         .board-header-actions {
+
+//             .end-section {
+
+//                 .members {
+//                     display: none;
+//                     .member-img {
+//                         display: none;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
