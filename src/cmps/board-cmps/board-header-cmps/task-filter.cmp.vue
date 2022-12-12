@@ -11,7 +11,7 @@
 
             <p class="filter-title-content">Keyword</p>
             <div class="keyword-input-continer">
-                <input class="keyword-input" @input="setFilterBy" v-model="filterBy.txt" type="text"
+                <input ref="keyword" class="keyword-input" @input="setFilterBy" v-model="filterBy.txt" type="text"
                     placeholder="Enter a keyword...">
             </div>
             <p class="filter-title-content small">Search cards, members, labels, and more.</p>
@@ -78,15 +78,22 @@ export default {
             }
         };
     },
-    created() { },
+    created() {
+    },
     methods: {
+        focusOnSearch() {
+            this.$nextTick(() => {
+                this.$refs.keyword.focus()
+            });
+        },
+
         setFilterBy() {
             let filterBy = JSON.parse(JSON.stringify(this.filterBy))
             this.$emit('setFilterBy', filterBy)
         },
         toggleTaskByMe() {
             if (!this.filterBy.memberIds.length) {
-                this.filterBy.memberIds.push
+                this.filterBy.memberIds.push //??
             }
             this.filterBy.isMyTask = !this.filterBy.isMyTask
             this.setFilterBy()
@@ -116,7 +123,9 @@ export default {
             return members
         },
     },
-    unmounted() { },
+    mounted() {
+        this.focusOnSearch()
+    },
 };
 </script>
 <style>

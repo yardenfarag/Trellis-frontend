@@ -30,27 +30,26 @@
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="search-small"></button>
-          <!-- <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
+          <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
 
-          <section class="modal-container">
-            <section v-if="filterBy.txt" class="small-modal-container recent">
-              <section class="small-modal-body">
-                <ul class="small-modal-list">
-                  <li @click="goToDetails(board)" v-for="board in boards" class="small-modal-li">
-                    <div class="li-content">
-                      <div class="board-cover"
-                        :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
-                      </div>
-                      <div class="board-info">
-                        <div class="board-info-title">{{ board.title }}</div>
-                        <div class="board-info-team">A Team</div>
-                      </div>
+          <section v-if="filterBy.txt" class="small-modal-container search-boards">
+            <section class="small-modal-body">
+              <ul class="small-modal-list">
+                <li @click="goToDetails(board)" v-for="board in boards" class="small-modal-li">
+                  <div class="li-content">
+                    <div class="board-cover"
+                      :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
                     </div>
-                  </li>
-                </ul>
-              </section>
+                    <div class="board-info">
+                      <div class="board-info-title">{{ board.title }}</div>
+                      <div class="board-info-team">A Team</div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </section>
-          </section> -->
+          </section>
+
 
           <!-- <button class="notifications"></button> -->
           <img @click.stop="isUserModal = !isUserModal" v-if="loggedinUser" :src="loggedinUser.imgUrl"

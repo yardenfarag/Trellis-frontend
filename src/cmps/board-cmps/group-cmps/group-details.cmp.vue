@@ -8,8 +8,9 @@
             </div>
             <div class="task-list">
                 <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
-                    @drop="onTaskDrop" group-name="task" orientation="vertical" class="clean-list"
-                    drag-class="drag-preview" drop-class="drop-preview">
+                    @drag-start="dragStart" @drag-end="dragEnd" @drop="onTaskDrop" group-name="task"
+                    orientation="vertical" class="task-dnd clean-list" :class="taskDrag" drag-class="drag-preview"
+                    drop-class="drop-preview">
                     <Draggable v-if="group.tasks.length" v-for="task in group.tasks" :key="task.id">
                         <task-preview :task="task" :boardId="boardId" :groupId="group.id" />
                     </Draggable>
@@ -65,10 +66,19 @@ export default {
             taskTitle: '',
             newTitle: this.group.title,
             isAddTask: false,
+            isTaskDrag: false,
         }
     },
     created() { },
     methods: {
+        dragStart(ev) {
+            console.log('start drag', ev)
+            this.isTaskDrag = true
+        },
+        dragEnd(ev) {
+            console.log('end drag', ev)
+            this.isTaskDrag = false
+        },
         scrollToAddTask() {
             const el = this.$refs.title
 
@@ -193,7 +203,14 @@ export default {
         //     this.$emit('saveBoard', this.board)
         // },
     },
-    computed: {},
+    computed: {
+        taskDrag() {
+            return {
+                'hover': this.isTaskDrag,
+                '': !this.isTaskDrag
+            }
+        }
+    },
     mounted() {
     },
     unmounted() {

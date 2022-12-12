@@ -70,6 +70,9 @@ export default {
         return {
             gTaskTitle: '',
 
+            groupCount: 0,
+            boardToEdit: null,
+
             dndActivity: '',
             editTitle: false,
             groupTitle: '',
@@ -84,7 +87,6 @@ export default {
                 style: {},
                 tasks: [],
             },
-            // board: null,
             filterBy: {
                 txt: '',
                 memberIds: [],
@@ -163,18 +165,12 @@ export default {
             }
             await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
         },
-        // async onGroupDrop(ev) {
-        //     if (ev.removedIndex !== null) {
-        //         this.board.groups.splice(ev.removedIndex, 1)
-        //     }
-        //     if (ev.addedIndex !== null) {
-        //         this.board.groups.splice(ev.addedIndex, 0, ev.payload)
-        //     }
-        //     await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
-        // },
+
         async saveTaskDrop({ ev, groupId }) {
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-            const group = boardToEdit.groups.find((group) => group.id === groupId)
+            this.groupCount++
+            if (!this.boardToEdit) this.boardToEdit = JSON.parse(JSON.stringify(this.board))
+            const group = this.boardToEdit.groups.find((group) => group.id === groupId)
+
             if (ev.removedIndex !== null) {
                 group?.tasks?.splice(ev.removedIndex, 1)
                 this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
@@ -183,11 +179,15 @@ export default {
                 this.dndActivity += ` to ${group.title}`
                 group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
             }
-            await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
+            if (this.groupCount < this.board.groups.length) return
+            await this.$store.dispatch({ type: "saveBoard", board: this.boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
+            this.groupCount = 0
+            this.boardToEdit = null
+            console.log('ss');
         },
         // async saveTaskDrop({ ev, groupId }) {
-        //     console.log('drop')
-        //     const group = this.board.groups.find((group) => group.id === groupId)
+        //     const boardToEdit = JSON.parse(JSON.stringify(this.board))
+        //     const group = boardToEdit.groups.find((group) => group.id === groupId)
         //     if (ev.removedIndex !== null) {
         //         group?.tasks?.splice(ev.removedIndex, 1)
         //         this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
@@ -196,17 +196,15 @@ export default {
         //         this.dndActivity += ` to ${group.title}`
         //         group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
         //     }
-        //     await this.$store.dispatch({ type: "saveBoard", board: this.board, activityTxt: this.dndActivity, task: ev.payload })
+        //     await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
         // },
+
         async saveBoard(board, activityTxt, task) {
             await this.$store.dispatch({ type: 'saveBoard', board, activityTxt, task })
         },
         async saveThisBoard(board, activityTxt) {
             await this.$store.dispatch({ type: 'saveBoard', board: board, activityTxt })
         },
-        // async saveThisBoard(activityTxt) {
-        //     await this.$store.dispatch({ type: 'saveBoard', board: this.board, activityTxt })
-        // },
         async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
             const boardToEdit = JSON.parse(JSON.stringify(this.board))
             boardToEdit.style.bgc = `url(${imgUrl})`
@@ -215,13 +213,7 @@ export default {
             let activityTxt = `changed this board cover`
             await this.saveThisBoard(boardToEdit, activityTxt)
         },
-        // async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
-        //     this.board.style.bgc = `url(${imgUrl})`
-        //     this.board.style.headerClr = avgColor
-        //     this.board.style.preview = `url(${tinyImgUrl})`
-        //     let activityTxt = `changed this board cover`
-        //     await this.saveThisBoard(this.board, activityTxt)
-        // },
+
         async changeBackgroundColor(color) {
             const boardToEdit = JSON.parse(JSON.stringify(this.board))
             boardToEdit.style.bgc = color
@@ -230,13 +222,7 @@ export default {
             let activityTxt = `changed this board cover`
             await this.saveThisBoard(boardToEdit, activityTxt)
         },
-        // async changeBackgroundColor(color) {
-        //     this.board.style.bgc = color
-        //     this.board.style.headerClr = color
-        //     this.board.style.preview = color
-        //     let activityTxt = `changed this board cover`
-        //     await this.saveThisBoard(this.board, activityTxt)
-        // },
+
         async addGroup() {
             if (!this.groupTitle) return
             const boardToEdit = JSON.parse(JSON.stringify(this.board))
@@ -248,16 +234,7 @@ export default {
                 this.$refs.title.focus()
             })
         },
-        // async addGroup() {
-        //     if (!this.groupTitle) return
-        //     this.board.groups.push(utilService.getEmptyGroup(this.groupTitle))
-        //     let activityTxt = `added ${this.groupTitle} to this board`
-        //     await this.saveThisBoard(this.board, activityTxt)
-        //     this.groupTitle = ''
-        //     this.$nextTick(() => {
-        //         this.$refs.title.focus()
-        //     })
-        // },
+
     },
     computed: {
         taskTitle() {
@@ -266,8 +243,6 @@ export default {
         board() {
             const board = this.$store.getters.board
             return board
-            // const board = JSON.parse(JSON.stringify(this.$store.getters.board))
-            // return board
         },
         boardToDisplay() {
             let boardToDisplay = JSON.parse(JSON.stringify(this.$store.getters.board))
@@ -325,14 +300,11 @@ export default {
     transform: rotateZ(0deg);
 }
 
-.placeholder {
+/* .placeholder {
     background: rgba(33, 33, 33, .08);
     width: 256px;
     height: 32px;
     position: relative;
     border-radius: 0.04rem;
-    /* transform: scaleY(0.85);
-    transform-origin: 0% 0%; */
-
-}
+} */
 </style>

@@ -108,8 +108,8 @@
           <div class="action-container">
             <h5 class="small-title">Actions</h5>
             <div class="btn-container">
-              <!-- <button class="task-detail-btn move"><span>Move</span> </button>
-            <button class="task-detail-btn copy"><span>Copy</span> </button> -->
+              <button class="task-detail-btn move"><span>Move</span> </button>
+              <button class="task-detail-btn copy"><span>Copy</span> </button>
               <button @click.stop="(isDeleteShow = true)" class="task-detail-btn archive"><span>Archive</span></button>
               <button v-if="isDeleteShow" @click.stop="openModal($event, 'delete')"
                 class="task-detail-btn delete btn-danger"><span>Delete</span></button>
@@ -232,7 +232,6 @@ export default {
         const left = elPos.left
         this.modalPos = { top, left }
       }
-
     },
 
     closeModals() {

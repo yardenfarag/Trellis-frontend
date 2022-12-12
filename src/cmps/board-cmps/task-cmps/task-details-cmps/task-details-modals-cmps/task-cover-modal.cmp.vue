@@ -153,7 +153,7 @@ export default {
         },
         async searchImages(searchTerm) {
             try {
-                const images = await uploadService.getImages(searchTerm)
+                const images = await uploadService.getImgs(searchTerm)
                 this.images = images.photos
             }
             catch (err) {
