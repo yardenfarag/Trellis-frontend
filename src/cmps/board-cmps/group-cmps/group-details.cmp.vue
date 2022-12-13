@@ -4,64 +4,74 @@
             <div class="group-header">
                 <textarea rows="1" class="group-title drag-disabled" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
-                <span @click="openGroupActions" class="btn-group-actions"></span>
-                <section v-if="isGroupActions" class="group-actions modal-container">
-                    <div class="modal-title">
-                        <button @click="closeGroupActions">X</button>
-                        <h5>List actions</h5>
-                    </div>
-                    <hr>
-                    <div class="group-actions-btns">
-                        <h6>Add card...</h6>
-                        <h6 @click="openCopyList">Copy list...</h6>
-                        <h6 @click="openMoveList">Move list...</h6>
-                    </div>
-                    <hr>
-                    <div class="archive-list">
-                        <h6 @click="removeGroup">Archive this list</h6>
+                <!-- <span @click="openGroupActions" class="btn-group-actions"></span> -->
+
+                <section class="group-actions">
+                    <section v-if="isGroupActions" class="group-actions-menu modal-container">
+                        <section class="modal-header">
+                            <h5 class="title-modal-header">List actions</h5>
+                            <span @click="closeGroupActions()" class="close material-symbols-outlined">
+                                close
+                            </span>
+                        </section>
+                        <section class="modal-body">
+                            <div class="group-actions-btns">
+                                <h6>Add card...</h6>
+                                <h6 @click="openCopyList">Copy list...</h6>
+                                <h6 @click="openMoveList">Move list...</h6>
+                                <div class="archive-list">
+                                    <h6 @click="removeGroup">Archive this list</h6>
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+
+
+
+                    <section v-if="isCopyList" class="copy-list modal-container">
+                        <section class="modal-header">
+                            <span @click="closeCopyList()" class="back material-symbols-outlined">
+                                arrow_back_ios
+                            </span>
+                            <h5 class="title-modal-header">Copy list</h5>
+                            <span @click="closeGroupActions()" class="close material-symbols-outlined">
+                                close
+                            </span>
+                        </section>
+
+                        <div class="modal-body">
+                            <h5 class="copy-list-name">Name</h5>
+                            <textarea class="copy-input" v-model="copyGroupTitle" cols="30" rows="4"></textarea>
+                            <button @click="copyGroup" class="call-to-action btn-copy">Create list</button>
+                        </div>
+                    </section>
+
+                    <div v-if="isMoveList" class="move-list modal-container">
+                        <div class="modal-title">
+                            <button @click="closeMoveList">←</button>
+                            <button @click="closeGroupActions">X</button>
+                            <h5>Move list</h5>
+                        </div>
+
+                        <div class="move-list-body">
+                            <label class="boards">
+                                <h6>Boards</h6>
+                                <select @change="changeSelectedBoard" v-model="selectedBoardId">
+                                    <option v-for="board in boards" :value="board._id">{{ board.title }}</option>
+                                </select>
+                                <h6>Position</h6>
+                                <select v-model="selectedIdx">
+                                    <option v-for="group in selectedBoard.groups" :value="selectedBoard.groups.findIndex(g => g.id ===
+                                    group.id)">{{
+                                    selectedBoard.groups.findIndex(g => g.id ===
+                                    group.id) + 1
+                                    }}</option>
+                                </select>
+                            </label>
+                            <button @click="moveGroup" class="call-to-action">Move</button>
+                        </div>
                     </div>
                 </section>
-
-                <div v-if="isCopyList" class="copy-list modal-container">
-                    <div class="modal-title">
-                        <button @click="closeCopyList">←</button>
-                        <button @click="closeGroupActions">X</button>
-                        <h5>Copy list</h5>
-                    </div>
-                    <hr>
-                    <div class="copy-list-body">
-                        <h6>Name</h6>
-                        <textarea v-model="copyGroupTitle" cols="30" rows="4"></textarea>
-                        <button @click="copyGroup" class="call-to-action">Create list</button>
-                    </div>
-                </div>
-
-                <div v-if="isMoveList" class="move-list modal-container">
-                    <div class="modal-title">
-                        <button @click="closeMoveList">←</button>
-                        <button @click="closeGroupActions">X</button>
-                        <h5>Move list</h5>
-                    </div>
-                    <hr>
-                    <div class="move-list-body">
-                        <label class="boards">
-                            <h6>Boards</h6>
-                            <select @change="changeSelectedBoard" v-model="selectedBoardId">
-                                <option v-for="board in boards" :value="board._id">{{ board.title }}</option>
-                            </select>
-                            <h6>Position</h6>
-                            <select v-model="selectedIdx">
-                                <option v-for="group in selectedBoard.groups" :value="selectedBoard.groups.findIndex(g => g.id ===
-                                group.id)">{{
-            selectedBoard.groups.findIndex(g => g.id ===
-                group.id) + 1
-    }}</option>
-                            </select>
-                        </label>
-                        <button @click="moveGroup" class="call-to-action">Move</button>
-                    </div>
-                </div>
-
             </div>
             <div class="task-list">
                 <Container :drop-placeholder="{ className: 'task-preview ghost' }" :get-child-payload="getChildPayload"
@@ -77,7 +87,7 @@
                 <div v-if="isAddTask" class="add-task-container">
                     <div class="textarea-input-margin">
                         <div class="textarea-input-padding">
-                            p <textarea @keyup.enter="addTask" @input="onTaskTitleType" v-model="taskTitle" ref="title"
+                            <textarea @keyup.enter="addTask" @input="onTaskTitleType" v-model="taskTitle" ref="title"
                                 placeholder="Enter a title for this card..."></textarea>
                         </div>
                     </div>

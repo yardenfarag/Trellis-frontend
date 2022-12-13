@@ -4,7 +4,7 @@
 
 .task-dnd.clean-list {
     min-height: 0px;
-
+    position: relative; //??
 }
 
 
@@ -580,6 +580,7 @@
         .quick-edit-modal-card {
             background-color: #fff;
             border-radius: 3px;
+            margin-bottom: 20px;
 
             .edit-modal-title {
                 width: 100%;

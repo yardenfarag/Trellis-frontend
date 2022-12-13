@@ -1,0 +1,72 @@
+.group-actions {
+    position: absolute;
+    right: 30px;
+    top: 40px;
+
+    .group-actions-menu {
+        .group-actions-btns {
+            h6 {
+                color: $color-primary-text;
+                cursor: pointer;
+                display: block;
+                font-weight: 400;
+                margin: 0 -12px;
+                padding: 6px 12px;
+                position: relative;
+                text-decoration: none;
+                line-height: 20px;
+                font-size: 14px;
+
+                &:hover {
+                    background-color: $color-primary-btn-modal-hover;
+                }
+            }
+
+            .archive-list {
+                margin-top: 8px;
+                padding-top: 8px;
+                border-top: 1px solid var(--t-gray);
+            }
+        }
+    }
+
+    .copy-list {
+        .copy-list-name {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 16px;
+            margin-bottom: 4px;
+            margin-top: 4px;
+            color: $color-secondery-text;
+        }
+
+        .copy-input {
+            margin: 4px 0 12px;
+            width: 100%;
+            resize: vertical;
+            display: block;
+            line-height: 20px;
+            outline: none;
+            padding: 8px 12px;
+            border-radius: 3px;
+            background-color: lighten($color-primary-btn-modal, 60%);
+            outline: 2px solid var(--t-gray);
+            transition: 0.15s;
+
+            &:hover {
+                background-color: $color-primary-btn-modal-hover;
+            }
+
+            &:focus {
+                background-color: white;
+                outline: 2px solid var(--t-blue);
+            }
+        }
+
+        .btn-copy {
+            padding-left: 24px;
+            padding-right: 24px;
+            width: auto;
+        }
+    }
+}

@@ -1,8 +1,9 @@
 <template>
-    <section v-if="task" class="task-preview" @click.stop="goToDetails">
-        <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
+
+    <section v-if="task && !isQuickEdit" class="task-preview" @click.stop="goToDetails">
+        <!-- <span @click.stop="openQuickEdit" class="pencil-icon material-symbols-outlined">
             edit
-        </span>
+        </span> -->
         <div v-if="isFullBg && (isColor || isImg)">
             <div v-if="isColor">
                 <section :style="color" class="full-color-container">
@@ -75,7 +76,7 @@
         </div>
     </section>
     <section v-if="isQuickEdit" class="quick-edit-main">
-        <div @click.stop="closeQuickEdit" class="quick-menu-screen"></div>
+        <div @mousedown="closeQuickEdit" class="quick-menu-screen"></div>
         <section class="quick-edit-modal">
             <section class="quick-edit-modal-card">
                 <div class="task-bg-color" v-if="isColor" :style="color"></div>
@@ -125,14 +126,14 @@
                 </section>
             </section>
             <button @click="updateTaskTitle" class="call-to-action">Save</button>
-            <!-- <div class="edit-modal-btns">
+            <div class="edit-modal-btns">
                 <button @click.stop="goToDetails">Open card</button>
                 <button @click.stop="openModal($event, 'labels')">Edit labels</button>
                 <button @click.stop="openModal($event, 'members')">Change members</button>
                 <button @click.stop="openModal($event, 'cover')">Change cover</button>
                 <button @click.stop="openModal($event, 'dates')">Edit dates</button>
                 <button @click.stop="openModal($event, 'delete')">Archive</button>
-            </div> -->
+            </div>
         </section>
         <taskLabelsModalCmpVue v-if="isLabelsModal" :pos="modalPos" :task="task" @updateTask="updateTask"
             @closeModal="closeModals" :board="board" />
@@ -145,7 +146,6 @@
         <deleteModal v-if="isDeleteModal" :pos="modalPos" @remove="removeTask" @closeModal="closeModals"
             :toDelete="'task'" />
     </section>
-
 </template>
 <script>
 import { utilService } from '../../../services/util.service'

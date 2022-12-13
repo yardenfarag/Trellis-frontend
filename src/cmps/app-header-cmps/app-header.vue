@@ -30,7 +30,7 @@
         <div class="end-section flex align-center">
           <button class="search">Search</button>
           <button class="search-small"></button>
-          <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
+          <!-- <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
 
           <section v-if="filterBy.txt" class="small-modal-container search-boards">
             <section class="small-modal-body">
@@ -48,7 +48,7 @@
                 </li>
               </ul>
             </section>
-          </section>
+          </section> -->
 
 
           <!-- <button class="notifications"></button> -->
