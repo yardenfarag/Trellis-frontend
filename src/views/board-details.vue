@@ -42,11 +42,13 @@
         <task-filter v-if="isFilterOpen" @setFilterBy="setFilterBy" @closeFilter="closeFilter" :pos="modalPos">
         </task-filter>
         <share-modal @closeShareModal="isShareOpen = false" v-if="isShareOpen" />
+        <!-- <group-actions :pos="modalPos" v-if="isGroupActions, pos" @closeGroupActions="closeGroupActions" /> -->
     </section>
     <router-view />
 </template>
 
 <script>
+// import groupActions from '../cmps/board-cmps/group-cmps/group-actions.cmp.vue'
 import shareModal from '../cmps/board-cmps/board-header-cmps/share-modal.cmp.vue'
 import boardHeader from '../cmps/board-cmps/board-header-cmps/board-header.cmp.vue'
 import groupDetails from '../cmps/board-cmps/group-cmps/group-details.cmp.vue'
@@ -65,14 +67,14 @@ export default {
         Container,
         Draggable,
         shareModal,
+        // groupActions,
     },
     data() {
         return {
+            // isGroupActions: false,
             gTaskTitle: '',
-
             groupCount: 0,
             boardToEdit: null,
-
             dndActivity: '',
             editTitle: false,
             groupTitle: '',
@@ -104,6 +106,18 @@ export default {
         socketService.emit(SOCKET_EVENT_SET_BOARD, this.board._id)
     },
     methods: {
+        // openGroupActions(ev) {
+        //     const elPos = ev.target.getBoundingClientRect()
+        //     const top = elPos.top + elPos.height + 8
+        //     const left = elPos.left
+        //     this.modalPos = { top, left }
+        //     this.isGroupActions = true
+        // },
+        // closeGroupActions() {
+        //     // this.isMoveList = false
+        //     this.isGroupActions = false
+        //     // this.isCopyList = false
+        // },
         getChildPayload(index) {
             const boardToEdit = JSON.parse(JSON.stringify(this.board)) // ???
             return boardToEdit.groups[index]
@@ -153,6 +167,7 @@ export default {
             })
         },
         updateBoardFromSocket(board) {
+            if (board._id !== this.board._id) return
             this.$store.commit({ type: 'saveBoard', savedBoard: board })
         },
         async onGroupDrop(ev) {

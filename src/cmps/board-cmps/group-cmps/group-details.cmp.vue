@@ -4,9 +4,9 @@
             <div class="group-header">
                 <textarea rows="1" class="group-title drag-disabled" v-model="newTitle"
                     @blur="updateGroup()">{{ group.title }}</textarea>
-                <!-- <span @click="openGroupActions" class="btn-group-actions"></span> -->
+                <span @click.stop="openGroupActions" class="btn-group-actions"></span>
 
-                <section class="group-actions">
+                <section class="group-actions drag-disabled">
                     <section v-if="isGroupActions" class="group-actions-menu modal-container">
                         <section class="modal-header">
                             <h5 class="title-modal-header">List actions</h5>
@@ -63,9 +63,9 @@
                                 <select v-model="selectedIdx">
                                     <option v-for="group in selectedBoard.groups" :value="selectedBoard.groups.findIndex(g => g.id ===
                                     group.id)">{{
-                                    selectedBoard.groups.findIndex(g => g.id ===
-                                    group.id) + 1
-                                    }}</option>
+            selectedBoard.groups.findIndex(g => g.id ===
+                group.id) + 1
+    }}</option>
                                 </select>
                             </label>
                             <button @click="moveGroup" class="call-to-action">Move</button>
@@ -148,11 +148,9 @@ export default {
     },
     methods: {
         dragStart(ev) {
-            console.log('start drag', ev)
             this.isTaskDrag = true
         },
         dragEnd(ev) {
-            console.log('end drag', ev)
             this.isTaskDrag = false
         },
         openMoveList() {
@@ -171,8 +169,9 @@ export default {
             this.isCopyList = false
             this.isGroupActions = true
         },
-        openGroupActions() {
+        openGroupActions(ev) {
             this.isGroupActions = true
+            // this.$emit('openGroupActions', ev)
         },
         closeGroupActions() {
             this.isMoveList = false

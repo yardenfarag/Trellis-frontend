@@ -76,9 +76,13 @@
     .demo-li {
         align-items: center;
         justify-content: center;
-        width: 210px;
+        max-width: 210px;
         height: 100%;
         background-color: rgb(0, 101, 255);
+
+        @media (max-width: 360px) {
+            display: none;
+        }
 
         &:hover {
             background-color: rgb(80, 95, 121);

@@ -28,28 +28,10 @@
         </div>
 
         <div class="end-section flex align-center">
-          <button class="search">Search</button>
-          <button class="search-small"></button>
-          <!-- <input v-model="filterBy.txt" type="search" placeholder="Serach Trellis">
-
-          <section v-if="filterBy.txt" class="small-modal-container search-boards">
-            <section class="small-modal-body">
-              <ul class="small-modal-list">
-                <li @click="goToDetails(board)" v-for="board in boards" class="small-modal-li">
-                  <div class="li-content">
-                    <div class="board-cover"
-                      :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
-                    </div>
-                    <div class="board-info">
-                      <div class="board-info-title">{{ board.title }}</div>
-                      <div class="board-info-team">A Team</div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </section>
-          </section> -->
-
+          <button @click.stop="showSearchBoards" v-if="!isSearchBoards" class="search">Search</button>
+          <button @click.stop="showSearchBoards" v-if="!isSearchBoards" class="search-small"></button>
+          <input class="search-boards-input" ref="search" v-if="isSearchBoards" v-model="filterBy.txt" type="search"
+            placeholder="Search Trellis">
 
           <!-- <button class="notifications"></button> -->
           <img @click.stop="isUserModal = !isUserModal" v-if="loggedinUser" :src="loggedinUser.imgUrl"
@@ -59,6 +41,23 @@
       </div>
     </section>
   </header>
+  <section v-if="boards.length" class="small-modal-container search-boards">
+    <section class="small-modal-body">
+      <ul class="small-modal-list">
+        <li @click="goToDetails(board)" v-for="board in boards" class="small-modal-li">
+          <div class="li-content">
+            <div class="board-cover"
+              :style="{ background: board.style.preview ? board.style.preview : board.style.bgc, backgroundSize: 'cover' }">
+            </div>
+            <div class="board-info">
+              <div class="board-info-title">{{ board.title }}</div>
+              <div class="board-info-team">A Team</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </section>
   <boardCreateModal :pos="modalOpenPos" @closeModal=closeModals v-if="isCreateBoard" />
   <recentBoardsModal :pos="modalOpenPos" v-if="isRecentBoards"></recentBoardsModal>
   <starredBoardsModal :pos="modalOpenPos" v-if="isStarredBoards"></starredBoardsModal>
@@ -82,6 +81,7 @@ export default {
       filterBy: {
         txt: '',
       },
+      isSearchBoards: false,
       isRecentBoards: false,
       isStarredBoards: false,
       isCreateBoard: false,
@@ -93,6 +93,16 @@ export default {
     this.$store.dispatch({ type: 'loadBoards' })
   },
   methods: {
+    showSearchBoards() {
+      this.isSearchBoards = true
+      this.isRecentBoards = false
+      this.isStarredBoards = false
+      this.isCreateBoard = false
+      this.isUserModal = false
+      this.$nextTick(() => {
+        this.$refs.search.focus()
+      })
+    },
     async goToDetails(board) {
       const currBoard = JSON.parse(JSON.stringify(board))
       currBoard.recentlyViewed = Date.now()
@@ -101,6 +111,8 @@ export default {
       location.reload()
     },
     closeModals() {
+      this.filterBy.txt = ''
+      this.isSearchBoards = false
       this.isRecentBoards = false
       this.isStarredBoards = false
       this.isCreateBoard = false
@@ -119,6 +131,7 @@ export default {
         this.isStarredBoards = false
         this.isCreateBoard = false
         this.isUserModal = false
+        this.isSearchBoards = false
       }
       if (modal === 'starred') {
         if (this.isStarredBoards) return this.isStarredBoards = false
@@ -126,6 +139,7 @@ export default {
         this.isStarredBoards = true
         this.isCreateBoard = false
         this.isUserModal = false
+        this.isSearchBoards = false
       }
       if (modal === 'create') {
         if (this.isCreateBoard) return this.isCreateBoard = false
@@ -133,6 +147,7 @@ export default {
         this.isStarredBoards = false
         this.isCreateBoard = true
         this.isUserModal = false
+        this.isSearchBoards = false
       }
       if (modal === 'user') {
         if (this.isUserModal) return this.isUserModal = false
@@ -140,17 +155,20 @@ export default {
         this.isStarredBoards = false
         this.isCreateBoard = false
         this.isUserModal = true
+        this.isSearchBoards = false
       }
     },
   },
   computed: {
     boards() {
-      const boards = this.$store.getters.boards
+      let boards = JSON.parse(JSON.stringify(this.$store.getters.boards))
+      let filteredBoards
       if (this.filterBy.txt) {
         const regex = new RegExp(this.filterBy.txt, 'i')
-        boards.filter(board => regex.test(board.title))
+        filteredBoards = boards.filter(board => regex.test(board.title))
       }
-      return boards
+      if (filteredBoards) return filteredBoards
+      return []
     },
     board() {
       return this.$store.getters.board

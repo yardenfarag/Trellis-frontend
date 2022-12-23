@@ -1,3 +1,10 @@
+.small-modal-container {
+
+    &.search-boards {
+        right: 0;
+    }
+}
+
 .app-header {
     position: sticky;
     min-height: 44px;
@@ -121,6 +128,17 @@
             .end-section {
                 gap: 4px;
                 // margin-inline-end: 8px;
+
+                .search-boards-input {
+                    border-radius: 5px;
+                    outline: 0;
+                    border: 2px solid $color-primary;
+                    font-size: 14px;
+                    line-height: 20px;
+                    padding-inline: 8px;
+                    padding-block: 5px;
+                }
+
 
                 & button {
                     height: 33px;
