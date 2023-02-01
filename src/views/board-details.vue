@@ -100,24 +100,10 @@ export default {
     async created() {
         const { boardId } = this.$route.params
         await this.$store.dispatch({ type: 'setCurrBoard', boardId })
-
         socketService.on(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
-
         socketService.emit(SOCKET_EVENT_SET_BOARD, this.board._id)
     },
     methods: {
-        // openGroupActions(ev) {
-        //     const elPos = ev.target.getBoundingClientRect()
-        //     const top = elPos.top + elPos.height + 8
-        //     const left = elPos.left
-        //     this.modalPos = { top, left }
-        //     this.isGroupActions = true
-        // },
-        // closeGroupActions() {
-        //     // this.isMoveList = false
-        //     this.isGroupActions = false
-        //     // this.isCopyList = false
-        // },
         getChildPayload(index) {
             const boardToEdit = JSON.parse(JSON.stringify(this.board)) // ???
             return boardToEdit.groups[index]
@@ -198,22 +184,7 @@ export default {
             await this.$store.dispatch({ type: "saveBoard", board: this.boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
             this.groupCount = 0
             this.boardToEdit = null
-            console.log('ss');
         },
-        // async saveTaskDrop({ ev, groupId }) {
-        //     const boardToEdit = JSON.parse(JSON.stringify(this.board))
-        //     const group = boardToEdit.groups.find((group) => group.id === groupId)
-        //     if (ev.removedIndex !== null) {
-        //         group?.tasks?.splice(ev.removedIndex, 1)
-        //         this.dndActivity = `moved ${ev.payload.title} from ${group.title}`
-        //     }
-        //     if (ev.addedIndex !== null) {
-        //         this.dndActivity += ` to ${group.title}`
-        //         group?.tasks?.splice(ev.addedIndex, 0, ev.payload)
-        //     }
-        //     await this.$store.dispatch({ type: "saveBoard", board: boardToEdit, activityTxt: this.dndActivity, task: ev.payload })
-        // },
-
         async saveBoard(board, activityTxt, task) {
             await this.$store.dispatch({ type: 'saveBoard', board, activityTxt, task })
         },
@@ -221,34 +192,43 @@ export default {
             await this.$store.dispatch({ type: 'saveBoard', board: board, activityTxt })
         },
         async changeBackgroundImg(imgUrl, tinyImgUrl, avgColor) {
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-            boardToEdit.style.bgc = `url(${imgUrl})`
-            boardToEdit.style.headerClr = avgColor
-            boardToEdit.style.preview = `url(${tinyImgUrl})`
-            let activityTxt = `changed this board cover`
+            const boardToEdit = { ...this.board }
+            boardToEdit.style = {
+                ...boardToEdit.style,
+                bgc: `url(${imgUrl})`,
+                headerClr: avgColor,
+                preview: `url(${tinyImgUrl})`
+            }
+            const activityTxt = `changed this board cover to ${imgUrl}`
             await this.saveThisBoard(boardToEdit, activityTxt)
         },
 
         async changeBackgroundColor(color) {
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-            boardToEdit.style.bgc = color
-            boardToEdit.style.headerClr = color
-            boardToEdit.style.preview = color
-            let activityTxt = `changed this board cover`
+            const boardToEdit = { ...this.board }
+            boardToEdit.style = {
+                ...boardToEdit.style,
+                bgc: color,
+                headerClr: color,
+                preview: color
+            }
+            const activityTxt = `changed this board cover to ${color}`
             await this.saveThisBoard(boardToEdit, activityTxt)
+        },
+        async addGroup() {
+            if (!this.groupTitle) return;
+
+            const newGroup = utilService.getEmptyGroup(this.groupTitle);
+            const boardToEdit = { ...this.board, groups: [...this.board.groups, newGroup] };
+            const activityTxt = `added ${this.groupTitle} to this board`;
+
+            await this.saveThisBoard(boardToEdit, activityTxt);
+
+            this.groupTitle = '';
+            this.$nextTick(() => {
+                this.$refs.title.focus();
+            });
         },
 
-        async addGroup() {
-            if (!this.groupTitle) return
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
-            boardToEdit.groups.push(utilService.getEmptyGroup(this.groupTitle))
-            let activityTxt = `added ${this.groupTitle} to this board`
-            await this.saveThisBoard(boardToEdit, activityTxt)
-            this.groupTitle = ''
-            this.$nextTick(() => {
-                this.$refs.title.focus()
-            })
-        },
 
     },
     computed: {
@@ -260,47 +240,25 @@ export default {
             return board
         },
         boardToDisplay() {
-            let boardToDisplay = JSON.parse(JSON.stringify(this.$store.getters.board))
-            const loggedinUser = this.$store.getters.loggedinUser
-            const regex = new RegExp(this.filterBy.txt, 'i')
+            let boardToDisplay = JSON.parse(JSON.stringify(this.$store.getters.board));
+            const loggedinUser = this.$store.getters.loggedinUser;
+            const regex = new RegExp(this.filterBy.txt, 'i');
 
-            if (this.filterBy.txt) {
-                boardToDisplay.groups.forEach(group => {
-                    return group.tasks = group.tasks.filter(task => regex.test(task.title))
-                })
-            }
-            if (this.filterBy.isMyTask) {
-                boardToDisplay.groups.forEach(group => {
-                    return group.tasks = group.tasks.filter(task => {
-                        if (task.memberIds.find(memberId => memberId === loggedinUser._id)) {
-                            return task
-                        }
-                    })
-                })
-            }
-            if (this.filterBy.isNoMembers) {
-                boardToDisplay.groups.forEach(group => {
-                    return group.tasks = group.tasks.filter(task => !task.memberIds.length)
-                })
-            }
-            if (this.filterBy.memberIds.length) {
-                this.filterBy.memberIds.forEach(memberId => {
-                    boardToDisplay.groups.forEach(group => {
-                        return group.tasks = group.tasks.filter(task => {
-                            return task.memberIds.includes(memberId)
-                        })
-                    })
-                })
-            }
-            return boardToDisplay
+            boardToDisplay.groups = boardToDisplay.groups.map(group => {
+                group.tasks = group.tasks.filter(task => {
+                    if (this.filterBy.txt && !regex.test(task.title)) return false;
+                    if (this.filterBy.isMyTask && !task.memberIds.includes(loggedinUser._id)) return false;
+                    if (this.filterBy.isNoMembers && task.memberIds.length) return false;
+                    if (this.filterBy.memberIds.length && !this.filterBy.memberIds.some(memberId => task.memberIds.includes(memberId))) return false;
+                    return true;
+                });
+                return group;
+            });
+            return boardToDisplay;
         },
-    },
-    mounted() {
-        // document.querySelector('#app').classList.add('board-page')
     },
     unmounted() {
         socketService.off(SOCKET_EVENT_CHANGE_BOARD, this.updateBoardFromSocket)
-        // document.querySelector('#app').classList.remove('board-page')
     },
 }
 </script>
@@ -314,12 +272,4 @@ export default {
     transition: transform 0.18s ease-in-out;
     transform: rotateZ(0deg);
 }
-
-/* .placeholder {
-    background: rgba(33, 33, 33, .08);
-    width: 256px;
-    height: 32px;
-    position: relative;
-    border-radius: 0.04rem;
-} */
 </style>

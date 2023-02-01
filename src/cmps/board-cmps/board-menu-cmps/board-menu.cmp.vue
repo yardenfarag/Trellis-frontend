@@ -68,12 +68,14 @@
                 <section class="board-menu-content-frame">
                     <section class="board-backgrounds-section-tiles">
                         <div class="board-backgrounds-photos-tile" @click="toggleImages">
-                            <img src="https://i.ibb.co/tKphwfp/photos.jpg" />
+                            <img
+                                src="https://res.cloudinary.com/trellis22/image/upload/v1670515593/photos_nlns3z.jpg" />
                             <h6 class="title">Photos</h6>
                         </div>
 
                         <div class="board-backgrounds-colors-tile" @click="toggleColors">
-                            <img src="https://i.ibb.co/GF3jN08/colors.jpg" />
+                            <img
+                                src="https://res.cloudinary.com/trellis22/image/upload/v1670584431/colors_fwextw.jpg" />
                             <h6 class="title">Colors</h6>
                         </div>
                     </section>

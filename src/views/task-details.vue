@@ -61,7 +61,8 @@
                 <input @change="toggleDuedate" :checked="task.dueDate.isDone" type="checkbox">
                 <button class="task-content-btn" @click.stop="toggleDateModal">
                   <span class="date-info">
-                    {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{ duedateComplete
+                    {{ formattedDate }} <span v-if="task.dueDate.isDone" class="duedate-complete">{{
+                      duedateComplete
                     }}</span>
                   </span>
                   <span class="arrow-down"></span>
@@ -205,6 +206,7 @@ export default {
 
   methods: {
     updateBoardFromSocket(board) {
+      if (board._id !== this.board._id) return
       this.$store.commit({ type: 'saveBoard', savedBoard: board })
     },
     openModal(ev, modal, dir) {

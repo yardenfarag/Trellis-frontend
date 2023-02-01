@@ -12,7 +12,7 @@
             </div>
             <h4 class="user-name">{{ user.fullname }}</h4>
         </div>
-        <button class="btn-logout" @click="logout">Log out</button>
+        <button class="btn-logout" @click="logout">{{ user._id ? 'Log out' : 'Log in' }}</button>
     </section>
 </template>
 <script>

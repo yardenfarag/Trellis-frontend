@@ -13,28 +13,6 @@
                     <input class="share-input" v-model="filterBy.txt" type="text" placeholder="Search for a user">
                     <button class="btn-share call-to-action">Share</button>
                 </div>
-
-                <!-- <div v-if="filterBy.txt" class="users-container">
-                    <div class="users">
-                        <div @click="addUserToBoard(user._id)" v-for="user in usersToShow" :key="user._id"
-                            class="user flex align-center">
-                            <div class="user-avatar">
-                                <img v-if="user.imgUrl" :style="{ width: 40 + 'px', 'border-radius': 50 + '%' }"
-                                    :src="user.imgUrl" alt="">
-                                <p :style="{ textAlign: 'center', backgroundColor: 'lightgray', width: 21 + 'px', 'border-radius': 50 + '%' }"
-                                    v-else>{{
-                                            user.fullname.charAt(0)
-                                    }}</p>
-                            </div>
-                            <div class="user-info">
-                                <h6>{{ user.fullname }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-
-
                 <section v-if="filterBy.txt" class="member-select-section">
                     <div class="member-select-list">
                         <div class="autocomplete-option" @click="addUserToBoard(user._id)" v-for="user in usersToShow"
@@ -60,13 +38,13 @@
 
             <section class="memebr-list-container">
                 <div class="share-link-container">
-                    <div class="share-link-icon-container">
+                    <!-- <div class="share-link-icon-container">
                         <span class="share-link-icon"></span>
-                    </div>
-                    <div class="share-link-info-container">
+                    </div> -->
+                    <!-- <div class="share-link-info-container">
                         <p class="share-link-text">Share this board with a link</p>
                         <span class="share-link-link">Create link</span>
-                    </div>
+                    </div> -->
                 </div>
                 <div v-if="boardMembers">
                     <div class="member-list" v-for="boardMember in boardMembers">
@@ -76,7 +54,7 @@
                             </div>
                             <div class="member-info-container">
                                 <div class="member-name">{{ boardMember.fullname }}</div>
-                                <div class="member-info">@omazig931 - Workspace admin</div>
+                                <div class="member-info">@{{ boardMember.username }} - Workspace admin</div>
                             </div>
                         </div>
                         <!-- <div class="member-container">

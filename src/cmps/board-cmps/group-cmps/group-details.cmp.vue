@@ -16,18 +16,15 @@
                         </section>
                         <section class="modal-body">
                             <div class="group-actions-btns">
-                                <h6>Add card...</h6>
+                                <!-- <h6>Add card...</h6> -->
                                 <h6 @click="openCopyList">Copy list...</h6>
-                                <h6 @click="openMoveList">Move list...</h6>
+                                <!-- <h6 @click="openMoveList">Move list...</h6> -->
                                 <div class="archive-list">
                                     <h6 @click="removeGroup">Archive this list</h6>
                                 </div>
                             </div>
                         </section>
                     </section>
-
-
-
                     <section v-if="isCopyList" class="copy-list modal-container">
                         <section class="modal-header">
                             <span @click="closeCopyList()" class="back material-symbols-outlined">
@@ -46,11 +43,15 @@
                         </div>
                     </section>
 
-                    <div v-if="isMoveList" class="move-list modal-container">
+                    <!-- <div v-if="isMoveList" class="move-list modal-container">
                         <div class="modal-title">
-                            <button @click="closeMoveList">←</button>
-                            <button @click="closeGroupActions">X</button>
-                            <h5>Move list</h5>
+                            <span @click="closeMoveList()" class="back material-symbols-outlined">
+                                arrow_back_ios
+                            </span>
+                            <h5 class="title-modal-header">Move list</h5>
+                            <span @click="closeGroupActions()" class="close material-symbols-outlined">
+                                close
+                            </span>
                         </div>
 
                         <div class="move-list-body">
@@ -62,15 +63,12 @@
                                 <h6>Position</h6>
                                 <select v-model="selectedIdx">
                                     <option v-for="group in selectedBoard.groups" :value="selectedBoard.groups.findIndex(g => g.id ===
-                                    group.id)">{{
-            selectedBoard.groups.findIndex(g => g.id ===
-                group.id) + 1
-    }}</option>
+                                    group.id)">{{ selectedBoard.groups.findIndex(g => g.id === group.id) + 1 }}</option>
                                 </select>
                             </label>
                             <button @click="moveGroup" class="call-to-action">Move</button>
                         </div>
-                    </div>
+                    </div> -->
                 </section>
             </div>
             <div class="task-list">
@@ -244,7 +242,7 @@ export default {
         },
         copyGroup() {
             if (!this.copyGroupTitle) return
-            const boardToEdit = JSON.parse(JSON.stringify(this.board))
+            const boardToEdit = { ...this.board }
             const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
             let copyGroup = utilService.getEmptyGroup(this.copyGroupTitle)
             copyGroup.tasks = this.group.tasks
@@ -279,14 +277,11 @@ export default {
             if (!this.newTitle) {
                 this.newTitle = this.group.title
                 return
-            } else {
-                const boardToEdit = JSON.parse(JSON.stringify(this.board))
-                const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id)
-                const groupToEdit = boardToEdit.groups[groupIdx]
-                groupToEdit.title = this.newTitle
-                boardToEdit.groups.splice(groupIdx, 1, groupToEdit)
-                this.$emit('saveBoard', boardToEdit)
             }
+            const boardToEdit = JSON.parse(JSON.stringify(this.board));
+            const groupIdx = boardToEdit.groups.findIndex(group => group.id === this.group.id);
+            boardToEdit.groups[groupIdx].title = this.newTitle;
+            this.$emit('saveBoard', boardToEdit)
         },
         removeGroup() {
             const boardToEdit = JSON.parse(JSON.stringify(this.board))
